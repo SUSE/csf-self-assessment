@@ -1,0 +1,29 @@
+Cloud Sovereignty Self-Assessment
+Copyright 2026 SUSE LLC
+
+Source code is licensed under the Apache License, Version 2.0 (see LICENSE.md).
+Workbooks, sample data and documentation under samples/ and docs/ are
+licensed under the Creative Commons Attribution 4.0 International licence,
+https://creativecommons.org/licenses/by/4.0/.
+
+This project contains material adapted from the European Commission's
+Cloud Sovereignty Framework:
+  - Cloud Sovereignty Framework v1.2.1, tender annex (October 2025)
+  - Cloud Sovereignty Framework - Implementation guidance (June 2026)
+  - Sovereignty assessment calculator (June 2026)
+Source: https://commission.europa.eu/news-and-media/news/sovereign-cloud-framework-explained-2026-06-01_en
+(c) European Union, 2025-2026. Reused under the Creative Commons
+Attribution 4.0 International licence in accordance with Commission
+Decision 2011/833/EU. The material is provided as is, without warranties
+of any kind, as stated in that licence.
+
+Changes made: the calculator's criteria, rationales and answer texts were
+converted into JSON workbooks (samples/ec-guidance-*); seven answer rows
+with no readable text were dropped; five criteria were set to score
+without gating the SEAL level. The samples/recommendations workbook
+restructures the criteria into 35 paraphrased self-assessment questions
+with rescaled points and rewritten SEAL descriptions.
+
+This project is not endorsed by the European Commission and its results
+are not a Commission assessment. The names and emblems of the European
+Union are excluded from the Commission's reuse policy and are not used.

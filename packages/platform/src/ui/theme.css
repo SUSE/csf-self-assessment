@@ -1,0 +1,1454 @@
+/* Themeable design-token system (Tailwind v4), shared by every app.
+ *
+ * How it works
+ * ------------
+ * Semantic tokens (`--background`, `--primary`, …) are declared as CSS custom
+ * properties on `:root` — that IS the light/default theme. A theme is any
+ * selector block that re-declares the same tokens; `@theme inline` maps each
+ * token to a Tailwind colour utility, so components only ever write
+ * `bg-background`, `text-primary`, etc. and never touch raw values.
+ *
+ * Switching themes
+ * ----------------
+ * Themes switch by class on <html> (shadcn convention), along TWO independent
+ * axes owned by ui/theme's controller:
+ *
+ *   mode    — `dark` present or absent. Light is the bare selector.
+ *   palette — `theme-<name>` present, or absent for the default SUSE palette.
+ *
+ * So <html class="theme-claymorphism dark"> is clay-dark. A palette is a pair of
+ * blocks: `.theme-<name>` (its light tokens) and `.theme-<name>.dark` (the dark
+ * overrides). Both sit AFTER `.dark` below, which is what makes the cascade come
+ * out right — `.theme-<name>` ties `:root`/`.dark` on specificity and wins on
+ * source order, while `.theme-<name>.dark` (0,2,0) outranks `.dark` (0,1,0).
+ *
+ * Adding a palette is therefore: one pair of blocks here, one entry in the
+ * `Palette` union in ui/theme/theme.svelte.ts. No component or mapping changes.
+ *
+ * A palette need only re-declare what it changes. Tokens it omits fall through
+ * to `:root`/`.dark` — deliberately, for the tokens that are semantic rather
+ * than decorative: the whole `--destructive` / `--destructive-foreground` pair
+ * is inherited by every imported palette so that "danger" never becomes
+ * palette-dependent.
+ *
+ * `--warning` (amber "act here", invariant #3) is the one semantic token that
+ * does move with the palette, and it moves along ONE axis. Every palette gets
+ * the same amber HUE — a reader who switches palette must not have to relearn
+ * which colour means a decision is owed — but its lightness and chroma are
+ * derived from that palette's own `--primary`, so the amber sits on that
+ * palette's surfaces instead of being SUSE's amber pasted onto Supabase's
+ * greys. The imported blocks below each carry the derivation; see the note at
+ * `--warning` in `:root` for why SUSE itself stays authored.
+ *
+ * `--destructive` is stripped from the imported blocks rather than merely absent
+ * from them. A preset picks its danger red against ITS OWN surfaces, and one of
+ * them got it wrong: Supabase's dark red (L 0.31) on its near-black background
+ * measured ~1.5:1, so the issue badge, the delete icons and every validation
+ * message vanished under that palette alone. Danger is a legibility contract, not
+ * a decorative choice — there is nothing for a palette to express here, so it is
+ * declared once, in the two root blocks, and inherited.
+ *
+ * Consumed by an app via its Tailwind entry CSS:
+ *     @import 'tailwindcss';
+ *     @import '@csf/platform/theme.css';
+ *
+ * Fonts
+ * -----
+ * SUSE (proportional) and SUSE Mono, the SIL OFL-licensed open-source brand
+ * typefaces (https://github.com/SUSE/suse-font). We vendor the subsetted
+ * variable woff2 (latin + latin-ext, covering EN/FR/DE) in ./fonts and embed
+ * them via @font-face url() — no CDN, no @import from a remote. The single-file
+ * build inlines every url() asset as a base64 data: URI (vite-plugin-singlefile
+ * sets assetsInlineLimit → inline-all), so the fonts ship *inside* the one HTML
+ * file and load with zero network requests. This is the "subsetted embedded
+ * woff2" branch of the spec §3 build discipline and satisfies invariant #7
+ * ("Offline is absolute"). Licence: ./fonts/LICENSE-OFL.txt.
+ */
+
+@custom-variant dark (&:is(.dark *));
+
+/* ---- Fonts (vendored, subsetted variable woff2 — see header) -------------- */
+/* SUSE — proportional, weight axis 100–900. */
+@font-face {
+  font-family: 'SUSE';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('./fonts/suse-latin-wght-normal.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'SUSE';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('./fonts/suse-latin-ext-wght-normal.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+    U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
+    U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* SUSE Mono — monospace, weight axis 100–800. */
+@font-face {
+  font-family: 'SUSE Mono';
+  font-style: normal;
+  font-weight: 100 800;
+  font-display: swap;
+  src: url('./fonts/suse-mono-latin-wght-normal.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'SUSE Mono';
+  font-style: normal;
+  font-weight: 100 800;
+  font-display: swap;
+  src: url('./fonts/suse-mono-latin-ext-wght-normal.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+    U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
+    U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+/* Font-family design tokens → Tailwind `font-sans` / `font-mono` utilities and
+ * the document default (`--default-font-family`). SUSE first, system stack as
+ * the offline fallback for any glyph outside the subset. */
+@theme {
+  --font-sans:
+    'SUSE', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono:
+    'SUSE Mono', ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas,
+    'Liberation Mono', monospace;
+  /* Type-scale registers DESIGN.md names but Tailwind's default scale has no
+   * step for: the Reading half-step, and the two dense-mark steps below the
+   * Caption floor. Spec docs/specs/quality.md §2.5. The `--<token>--line-height`
+   * suffix is Tailwind v4's font-size/line-height pairing. */
+  --text-reading: 0.9375rem;
+  --text-reading--line-height: 1.625;
+  --text-2xs: 0.6875rem;
+  --text-2xs--line-height: 1rem;
+  --text-3xs: 0.625rem;
+  --text-3xs--line-height: 0.875rem;
+}
+
+/* ---- Palette ---------------------------------------------------------------
+ * The SUSE brand palette, straight from the brand guide. It is authored here
+ * rather than adapted from a preset, because the guide names the surfaces:
+ *
+ *   Pine    #0c322c  oklch(0.28851368 0.04373181 180.67524) canvas / ink
+ *   White   #ffffff  oklch(1 0 0)                         cards, fields
+ *   Fog     #efefef  oklch(0.95213084 0 0)                light canvas / dark ink
+ *   Jungle  #30ba78  oklch(0.700846 0.151227 157.20318)   action / focus / positive
+ *   Mint    #90ebcd  oklch(0.875 0.098 170.9)             approved accent on Pine
+ *
+ * The guide's approved background/foreground pairings are what fix the token
+ * assignments: Jungle is "graphics only" on White and on Fog, so it is never
+ * body text — `--primary` is a filled action with Pine ink. Readable interaction
+ * text uses Waterhole via `--link`; affirmative text uses a dark Jungle step via
+ * `--positive`. Persimmon likewise separates solid `--destructive` fills from
+ * readable `--destructive-ink` on subtle surfaces. Pine on White/Fog is the
+ * default ink. On Pine, Fog, Jungle, Waterhole and Persimmon provide the required
+ * readable or graphical contrast according to the role each token carries.
+ *
+ * Surfaces that need a step between two brand colours (the lifted Pine cards,
+ * the muted greys) are shades of those colours — the guide's "shades of primary
+ * colors to create depth" — never a new hue. Neutrals come from the brand
+ * neutral ramp (#dcdbdc borders, #525252 muted text).
+ *
+ * Radius stays 0.5rem, and shadows stay Tailwind's defaults (see the ramp
+ * below). Font tokens are the vendored SUSE faces declared above.
+ * ------------------------------------------------------------------------- */
+
+/* ---- Light theme (default) ------------------------------------------------
+ * `.theme-suse` is an ALIAS, not a second copy: the controller never puts it on
+ * <html> (SUSE is still the absence of a palette class), but the palette picker
+ * scopes `theme-<id>` onto a preview row, and without a selector to match, the
+ * SUSE row would inherit whichever palette is active and preview the wrong
+ * colours. Declaring both selectors on the one block keeps a single source.
+ * ------------------------------------------------------------------------- */
+:root,
+.theme-suse {
+  --radius: 0.5rem;
+
+  --background: oklch(0.95213084 0 0); /* Fog #efefef */
+  --foreground: oklch(0.28851368 0.04373181 180.67524); /* Pine #0c322c */
+  --card: oklch(1 0 0); /* White #ffffff, lifted off Fog */
+  --card-foreground: oklch(0.28851368 0.04373181 180.67524); /* Pine */
+  --popover: oklch(1 0 0); /* White */
+  --popover-foreground: oklch(0.28851368 0.04373181 180.67524); /* Pine */
+  --primary: oklch(0.700846 0.151227 157.20318); /* Jungle #30ba78 */
+  --primary-foreground: oklch(0.28851368 0.04373181 180.67524); /* Pine on Jungle — 5.6:1 */
+  --link: oklch(0.53543403 0.25756394 265.4549); /* Waterhole #2453ff */
+  --positive: oklch(0.40940947 0.09335825 158.94241); /* Jungle shade #025937 */
+  --secondary: oklch(0.95213084 0 0); /* Fog */
+  --secondary-foreground: oklch(0.28851368 0.04373181 180.67524); /* Pine */
+  --muted: oklch(0.95213084 0 0); /* Fog */
+  --muted-foreground: oklch(0.43860476 0 0); /* Fog ramp #525252 — 7.8:1 on White */
+  --accent: oklch(0.97273408 0.0170041 187.90294); /* Mint ramp #eafaf8 */
+  --accent-foreground: oklch(0.28851368 0.04373181 180.67524); /* Pine */
+  --destructive: oklch(0.6830686 0.20889486 35.94168); /* Persimmon ramp #ff5a2b solid fill */
+  --destructive-foreground: oklch(1 0 0); /* White on solid destructive — 3.1:1 */
+  --destructive-ink: oklch(0.53014669 0.17943217 33.58875); /* Persimmon ramp #bd3314 */
+  /* Warning/attention amber — the "act here" accent. NOT the SEAL hue (which is
+   * green under this palette and carries the whole SEAL ramp — see the SEAL
+   * section below) and NOT destructive-red. Used for the placement
+   * tray, the critical-claim evidence nudge, and the active answer-hatch. Fills
+   * carry dark `--warning-foreground` text; tints/borders read as amber.
+   *
+   * AUTHORED here, DERIVED in the imported palettes. Hue 70 is the contract and
+   * every palette keeps it; only L and C move, and under SUSE they are a brand
+   * decision measured against Pine and Fog (see scripts/suse-brand-policy) rather
+   * than a function of `--primary`. Deriving here would pull the amber to L 0.70
+   * to chase Jungle, which is a change to the brand's attention colour bought for
+   * nothing — SUSE is the palette whose values are already right. */
+  --warning: oklch(0.7600 0.1500 70);
+  --warning-foreground: oklch(0.2700 0.0500 70);
+  --border: oklch(0.89249842 0.00172608 325.59167); /* Fog ramp #dcdbdc */
+  --input: oklch(1 0 0); /* White field on the Fog canvas */
+  --ring: oklch(0.700846 0.151227 157.20318); /* Jungle */
+
+  /* Fixed non-green categorical series. Waterhole is canonical SUSE; the other
+   * slots are a validated product data-viz palette, not claimed as named SUSE
+   * colours. Yellow and magenta require visible labels or a table on White/Fog. */
+  --chart-1: oklch(0.53543403 0.25756394 265.4549); /* Waterhole #2453ff */
+  --chart-2: oklch(0.76442484 0.1611805 75.11594); /* product yellow #eda100 */
+  --chart-3: oklch(0.71630244 0.14117304 357.38882); /* product magenta #e87ba4 */
+  --chart-4: oklch(0.43314506 0.16713562 283.62447); /* product violet #4a3aa7 */
+  --chart-5: oklch(0.62256529 0.19091315 24.91243); /* product red #e34948 */
+
+  /* ---- Vendor plane: the recommender's colours, not the reader's ------------
+   * The Recommendations page is authored vendor content (specs/recommendations.md
+   * §2.4) and it is the one surface in this product that may be loud. It cannot
+   * borrow the palette's accent — that is spoken for by SEAL — and it cannot
+   * borrow `--chart-1..5` either, because an imported palette re-hues those slots
+   * to five steps of one violet, and a catalogue of offers would read as a ramp.
+   *
+   * So this plane is FIXED: the same validated non-green product series as the
+   * brand chart slots, declared once here and inherited by every palette block
+   * below, so the vendor's plane looks the same under all sixteen combinations.
+   * Rotating hues off `--primary` was the alternative, rejected for the reason the
+   * axis-ink note gives — +60° off a green and off a violet are not one decision.
+   *
+   * THREE ramps, as with SEAL. `--vendor-N` is the fill/mark, and at L 0.43–0.77
+   * yellow and magenta are unreadable as text; `--vendor-ink-N` is that hue pulled
+   * onto the text plane; `--vendor-wash-N` is the surface it sits on. The derived
+   * two are declared once and mix against `--card`/`--foreground`, so each mode
+   * gets its own for free (the `--warning-ink` precedent). */
+  --vendor-1: oklch(0.53543403 0.25756394 265.4549); /* Waterhole #2453ff */
+  --vendor-2: oklch(0.76442484 0.1611805 75.11594); /* product yellow #eda100 */
+  --vendor-3: oklch(0.71630244 0.14117304 357.38882); /* product magenta #e87ba4 */
+  --vendor-4: oklch(0.43314506 0.16713562 283.62447); /* product violet #4a3aa7 */
+  --vendor-5: oklch(0.62256529 0.19091315 24.91243); /* product red #e34948 */
+
+  --vendor-ink-1: color-mix(in oklab, var(--vendor-1) 62%, var(--foreground));
+  --vendor-ink-2: color-mix(in oklab, var(--vendor-2) 62%, var(--foreground));
+  --vendor-ink-3: color-mix(in oklab, var(--vendor-3) 62%, var(--foreground));
+  --vendor-ink-4: color-mix(in oklab, var(--vendor-4) 62%, var(--foreground));
+  --vendor-ink-5: color-mix(in oklab, var(--vendor-5) 62%, var(--foreground));
+
+  --vendor-wash-1: color-mix(in oklab, var(--vendor-1) 12%, var(--card));
+  --vendor-wash-2: color-mix(in oklab, var(--vendor-2) 12%, var(--card));
+  --vendor-wash-3: color-mix(in oklab, var(--vendor-3) 12%, var(--card));
+  --vendor-wash-4: color-mix(in oklab, var(--vendor-4) 12%, var(--card));
+  --vendor-wash-5: color-mix(in oklab, var(--vendor-5) 12%, var(--card));
+
+  /* ---- Tag plane: the reader's wayfinding marks ----------------------------
+   * The Report's printed cross-reference (report/tags.ts). Paper has no links, so
+   * a badge in a truncated list and the badges in the appendix have to be matched
+   * by eye and by search — which makes the tag families a CATEGORICAL set, the one
+   * other place in this product that needs one.
+   *
+   * It cannot borrow SEAL (ordinal, one hue, and a `#CLIMB-n` tag correctly wears
+   * it), nor `--chart-1..5` (an imported palette re-hues those to one ramp), nor
+   * the vendor plane — a reader's wayfinding mark that wears the recommender's
+   * colours reads as an advert inside the transcript.
+   *
+   * FIXED like the vendor plane, and inherited by every palette block below, so a
+   * tag looks the same under all sixteen combinations — a cross-reference that
+   * changed hue with the theme would be a different mark on every export.
+   *
+   * QUIET on purpose. These are furniture, not data, so each slot is a documented
+   * brand colour pulled most of the way to the fog ramp — far enough apart to tell
+   * at a glance, never loud enough to compete with the seal ramp beside them. The
+   * mixes name documented inputs rather than sampling a hue by eye, which is the
+   * brand-purity contract (scripts/suse-brand-policy).
+   *
+   * Green is excluded outright — that is SEAL's under SUSE — and the third slot is
+   * hue-free by choice: a consistency check is a STRUCTURAL reading, and structural
+   * marks in this product carry no hue. THREE slots, one per seal-less family;
+   * `#CLIMB-n` takes the SEAL ramp and needs none. */
+  --tag-1: color-mix(in oklab, #0b41b7 45%, #6f6f6f); /* waterhole → fog: the evidence list */
+  --tag-2: color-mix(in oklab, #8e2810 45%, #6f6f6f); /* persimmon → fog: the don't-know list */
+  --tag-3: #525252; /* fog ramp: a consistency check */
+
+  --tag-ink-1: color-mix(in oklab, var(--tag-1) 70%, var(--foreground));
+  --tag-ink-2: color-mix(in oklab, var(--tag-2) 70%, var(--foreground));
+  --tag-ink-3: color-mix(in oklab, var(--tag-3) 70%, var(--foreground));
+
+  --tag-wash-1: color-mix(in oklab, var(--tag-1) 14%, var(--card));
+  --tag-wash-2: color-mix(in oklab, var(--tag-2) 14%, var(--card));
+  --tag-wash-3: color-mix(in oklab, var(--tag-3) 14%, var(--card));
+
+  --sidebar: oklch(1 0 0); /* White rail on the Fog canvas */
+  --sidebar-foreground: oklch(0.28851368 0.04373181 180.67524); /* Pine */
+  --sidebar-primary: oklch(0.700846 0.151227 157.20318); /* Jungle */
+  --sidebar-primary-foreground: oklch(0.28851368 0.04373181 180.67524); /* Pine */
+  --sidebar-accent: oklch(0.91455356 0.05359901 171.04391); /* Mint ramp #c0efde */
+  --sidebar-accent-foreground: oklch(0.28851368 0.04373181 180.67524); /* Pine */
+  --sidebar-border: oklch(0.89249842 0.00172608 325.59167); /* #dcdbdc */
+  --sidebar-ring: oklch(0.700846 0.151227 157.20318); /* Jungle */
+
+  /* Nesting ramp — ONE token, declared ONCE, correct in all sixteen mode × palette
+   * combinations. It is the surface a container recesses to when it sits INSIDE
+   * a card: the well a group of cards is dropped into, the slot a value sits in
+   * within a card. See ui/depth.ts for the four-step vocabulary that uses it.
+   *
+   * Derived, not authored, and derived from `--foreground` rather than by a
+   * fixed lightness offset, because that is what makes one declaration hold
+   * everywhere:
+   *
+   *   - The DIRECTION follows the ink. In light mode `--foreground` is dark, so
+   *     the mix darkens the card and the well recesses. In dark mode it is pale,
+   *     so the same mix lightens the card — which is the correct dark-mode
+   *     elevation direction, where lifted means lighter. One expression, two
+   *     opposite and both-correct behaviours.
+   *   - The STEP is guaranteed. `--muted` was the obvious candidate and it fails
+   *     here: under Modern Minimal light it is 1.5% off `--card`, and under three
+   *     palettes `--card` is not even distinct from `--background`. A mix toward
+   *     the foreground is 6% of the palette's own full ink contrast every time.
+   *   - The HUE is the palette's. It borrows 6% of the foreground's chroma, so a
+   *     well under SUSE picks up a trace of Pine and one under Clean Slate a
+   *     trace of its blue — never a new hue, and never a grey laid over a tinted
+   *     surface.
+   *
+   * One declaration covers the palettes because custom-property substitution is
+   * resolved on the element that declares it: `:root` IS `<html>`, which is also
+   * where the `dark`/`theme-*` classes live, so `var(--card)` here reads whichever
+   * palette block won the cascade. An imported palette that redeclares `--card`
+   * and `--foreground` therefore gets its own well for free — nothing to add. */
+  --well: color-mix(in oklab, var(--card) 94%, var(--foreground));
+
+  /* Elevation ramp. These are Tailwind v4's own default shadow values, restated
+   * as tokens so that `@theme inline` can map them and an imported palette can
+   * re-declare them (claymorphism's wide diffuse clay shadows are the whole
+   * point of that palette). Restating the defaults is what keeps the SUSE
+   * palette pixel-identical now that `shadow-*` resolves through a token. */
+  --shadow-2xs: 0 1px rgb(0 0 0 / 0.05);
+  --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+
+  /* ---- SEAL ramp -----------------------------------------------------------
+   * SEAL 0→4 is ORDINAL — each rung is strictly more sovereignty — so the ramp
+   * shows its order in the colour: one hue, stepping pale/low-chroma at SEAL-0
+   * to vivid at SEAL-4. There is no neutral midpoint; SEAL-2 is simply rung two.
+   *
+   * A palette contributes ONE line — `--seal-hue`. The ten steps below are
+   * written once and pick that hue up through `var(--seal-hue)`: custom-property
+   * substitution happens where the property is USED, so an element under
+   * `.theme-claymorphism` resolves these against clay's hue without the palette
+   * restating a single step. Adding a palette therefore cannot desynchronise the
+   * ramp, and there is no per-palette ramp to keep in step.
+   *
+   * TWO ramps, not one. `--seal-N` is INK (text, and `currentColor` for the SVG
+   * wheels); `--seal-fill-N` is the heat/badge FILL, which carries `--foreground`
+   * text. The fill is NOT derived from the ink: a percentage mix of the ink
+   * compresses each step's lightness by ~78%, which for a single-hue ramp (where
+   * lightness is the only channel) collapsed adjacent steps to ΔL ≈ 0.02, well
+   * under the 0.06 an ordinal ramp needs to stay readable. Measured light-mode
+   * fill gaps are 0.064 / 0.064 / 0.077 / 0.085.
+   *
+   * SEAL-0's fill is held BELOW the Fog canvas (L 0.952) as well as below the
+   * white card, so the lowest rung reads as a fill on either surface — on the old
+   * near-white background it could afford to be lighter.
+   * ---------------------------------------------------------------------- */
+  --seal-hue: 157.20318; /* exact Jungle #30ba78 hue */
+
+  --seal-0: oklch(0.86 0.04 var(--seal-hue));
+  --seal-1: oklch(0.78 0.08 var(--seal-hue));
+  --seal-2: oklch(0.7 0.12 var(--seal-hue));
+  --seal-3: oklch(0.61 0.16 var(--seal-hue));
+  --seal-4: oklch(0.52 0.2 var(--seal-hue));
+
+  --seal-fill-0: oklch(0.94 0.018 var(--seal-hue));
+  --seal-fill-1: oklch(0.876 0.045 var(--seal-hue));
+  --seal-fill-2: oklch(0.812 0.075 var(--seal-hue));
+  --seal-fill-3: oklch(0.735 0.105 var(--seal-hue));
+  --seal-fill-4: oklch(0.65 0.14 var(--seal-hue));
+
+  /* ---- Axis ink: the structural views' MARK plane ---------------------------
+   * The ink a hand-drawn radial view draws its SPOKES in, at two emphasis steps,
+   * instead of `--foreground`. Adopted by the instrument wheel; the question and
+   * merge wheels still use the text ink and should move to this when they are next
+   * touched.
+   *
+   * The problem it fixes: a 9px data slab is not text, and on the dark canvas
+   * `--foreground` is Fog at L 0.952 — the brightest value the palette owns. Seven
+   * of eleven spokes rendered at maximum is glare, not hierarchy, so the wheel read
+   * as a default plot.
+   *
+   * WHY THIS IS TONAL AND NOT A HUE. Every palette pins its `--seal-hue` to its own
+   * `--chart-1`, so the palette's single accent is spoken for by SEAL semantics and
+   * cannot be borrowed. Deriving one by rotating the ramp was tried and abandoned:
+   * a fixed rotation is mathematically uniform but perceptually is not. +60° off a
+   * green gives a technical cyan; +60° off a violet gives bubblegum pink. And it
+   * cannot be rescued by depth, because sRGB headroom diverges 2.7× across the
+   * set — at L 0.62 a magenta has C 0.30 available while a cyan caps at C 0.11, so
+   * no single (L, C) pair makes both halves of the palette set look considered.
+   * A pinned hue was the alternative and would not follow the theme at all.
+   *
+   * So the mark plane speaks in TONE, mixed from the palette's own ink toward its
+   * own card. That is not a retreat: it is in-family under every palette by
+   * construction (a Pine trace under SUSE, navy under Clean Slate, warm grey under
+   * Claymorphism), it can never be white and can never be a wrong hue, and it
+   * leaves the one accent the system owns entirely to SEAL — which is what this
+   * product reserves it for. Direction is handled for free, exactly as with
+   * `--well`: in light mode the mix lightens off the dark ink, in dark mode it
+   * darkens off the pale ink. Both recede from the text plane, which is the point.
+   *
+   *   --axis-ink       the emphasised mark: a dimension that GATES the floor, the
+   *                    whole-estate axis, the assessed party. 9.5–15.7:1 light,
+   *                    6.3–7.9:1 dark, measured against card AND background in every
+   *                    palette.
+   *   --axis-ink-soft  the secondary mark: scores-only dimensions, third parties.
+   *                    3.0–4.6:1 light, 3.1–3.2:1 dark — clears the 3:1 a graphical
+   *                    object needs. MARKS ONLY: it does not reach the 4.5:1 that
+   *                    13px text needs, so spoke LABELS stay on the app's text
+   *                    ladder (`--foreground` / `--muted-foreground`) rather than
+   *                    borrowing these. That separation is the hierarchy — the mark
+   *                    plane sits deliberately below the text plane.
+   *
+   * ΔL between the two steps is 0.265–0.308 light and 0.194–0.226 dark in every
+   * palette, so the order survives greyscale and any colour-vision deficiency. The
+   * binding palettes are SUSE dark and Pine & Mint dark, whose cards are the
+   * lightest of the set (L 0.325 — both are Pine lifted 6% toward white) and
+   * therefore leave the least room beneath the soft step. */
+  --axis-ink: color-mix(in oklab, var(--foreground) 94%, var(--card));
+  --axis-ink-soft: color-mix(in oklab, var(--foreground) 55%, var(--card));
+
+  /* Amber INK, for the rare case where the attention accent must be read as text
+   * rather than as a fill or a border. `--warning` itself is a fill colour: at
+   * L 0.76 it measures 1.95:1 on a light well, so amber text is unreadable in
+   * light mode however large it is set. Mixing it halfway to the ink lands it at
+   * 4.80:1 light / 7.20:1 dark — AA body in both.
+   *
+   * ONE declaration, like `--well` and for the same reason: it is derived from
+   * `--foreground`, which flips per mode, so the mix darkens the amber in light
+   * and lightens it in dark without a second block. It needs no palette twin
+   * either — it mixes whatever `--warning` resolves to on the element, so a
+   * palette that derives its own amber gets its own ink for free. */
+  --warning-ink: color-mix(in oklab, var(--warning) 50%, var(--foreground));
+}
+
+/* ---- Dark theme -----------------------------------------------------------
+ * Pine (#0c322c) IS the dark canvas — the guide lists it as a primary background,
+ * so dark mode is Pine rather than a neutral near-black. Every surface above it
+ * is a shade of Pine along its own hue (180.7) at low chroma, so the depth ramp
+ * stays one colour; text is Fog (12.1:1 on Pine), and the accents are the
+ * guide's approved on-Pine set (Jungle, Mint, Persimmon).
+ *
+ * `.theme-suse.dark` is the same alias as above, for the picker's dark preview.
+ * ------------------------------------------------------------------------- */
+.dark,
+.theme-suse.dark {
+  --background: oklch(0.28851368 0.04373181 180.67524); /* exact Pine #0c322c */
+  --foreground: oklch(0.95213084 0 0); /* exact Fog #efefef — 12.1:1 */
+  --card: color-mix(in oklab, #0c322c 94%, white); /* Pine lifted one step */
+  --card-foreground: oklch(0.95213084 0 0); /* Fog */
+  --popover: color-mix(in oklab, #0c322c 92%, white); /* Pine lifted above card */
+  --popover-foreground: oklch(0.95213084 0 0); /* Fog */
+  --primary: oklch(0.700846 0.151227 157.20318); /* Jungle on Pine — 5.6:1 */
+  --primary-foreground: oklch(0.28851368 0.04373181 180.67524); /* Pine */
+  --link: oklch(0.75029774 0.12331759 260.96522); /* Waterhole ramp #81aefc */
+  --positive: oklch(0.700846 0.151227 157.20318); /* Jungle */
+  --secondary: color-mix(in oklab, #0c322c 88%, white);
+  --secondary-foreground: oklch(0.95213084 0 0); /* Fog */
+  --muted: color-mix(in oklab, #0c322c 88%, white);
+  --muted-foreground: oklch(0.6829534 0 0); /* Fog ramp #999999 — 4.9:1 on Pine */
+  --accent: color-mix(in oklab, #0c322c 82%, white);
+  --accent-foreground: oklch(0.95213084 0 0); /* Fog */
+  --destructive: oklch(0.6830686 0.20889486 35.94168); /* Persimmon ramp #ff5a2b */
+  --destructive-foreground: oklch(0.28851368 0.04373181 180.67524); /* Pine */
+  --destructive-ink: oklch(0.727514 0.17499188 43.72148); /* canonical Persimmon #fe7c3f */
+  /* Brighter amber on the Pine canvas; same dark foreground for fills. */
+  --warning: oklch(0.8000 0.1400 78);
+  --warning-foreground: oklch(0.2600 0.0400 70);
+  --border: color-mix(in oklab, #0c322c 72%, white);
+  --input: color-mix(in oklab, #0c322c 90%, white);
+  --ring: oklch(0.700846 0.151227 157.20318); /* Jungle */
+
+  /* Same fixed hue order, individually stepped and validated against Pine and
+   * the lifted card surface. All five slots clear the hard gates and 3:1 contrast. */
+  --chart-1: oklch(0.64435952 0.16555395 254.71981); /* Waterhole shade #3c8eef */
+  --chart-2: oklch(0.66992689 0.1425276 73.22688); /* product yellow #c98500 */
+  --chart-3: oklch(0.62244702 0.17121982 0.83781); /* product magenta #d55181 */
+  --chart-4: oklch(0.66962743 0.14516802 286.82733); /* product violet #9085e9 */
+  --chart-5: oklch(0.66928661 0.15856851 22.30678); /* product red #e66767 */
+
+  /* Vendor plane, dark. Same fixed series, stepped against Pine — the ink and wash
+   * mixes above need no dark twin, being relative to `--foreground`/`--card`. */
+  --vendor-1: oklch(0.64435952 0.16555395 254.71981); /* Waterhole shade #3c8eef */
+  --vendor-2: oklch(0.66992689 0.1425276 73.22688); /* product yellow #c98500 */
+  --vendor-3: oklch(0.62244702 0.17121982 0.83781); /* product magenta #d55181 */
+  --vendor-4: oklch(0.66962743 0.14516802 286.82733); /* product violet #9085e9 */
+  --vendor-5: oklch(0.66928661 0.15856851 22.30678); /* product red #e66767 */
+
+  /* Tag plane, dark. The same three readings taken from the light end of each
+   * documented ramp, so they lift off Pine; the ink and wash mixes need no dark
+   * twin, being relative to `--foreground`/`--card`. */
+  --tag-1: color-mix(in oklab, #81aefc 60%, #bababa); /* waterhole light → fog */
+  --tag-2: color-mix(in oklab, #ffb184 60%, #bababa); /* persimmon light → fog */
+  --tag-3: #bababa; /* fog ramp */
+
+  --sidebar: color-mix(in oklab, #0c322c 96%, black); /* Pine, recessed rail */
+  --sidebar-foreground: oklch(0.95213084 0 0); /* Fog */
+  --sidebar-primary: oklch(0.700846 0.151227 157.20318); /* Jungle */
+  --sidebar-primary-foreground: oklch(0.28851368 0.04373181 180.67524); /* Pine */
+  --sidebar-accent: color-mix(in oklab, #0c322c 82%, white);
+  --sidebar-accent-foreground: oklch(0.95213084 0 0); /* Fog */
+  --sidebar-border: color-mix(in oklab, #0c322c 72%, white);
+  --sidebar-ring: oklch(0.700846 0.151227 157.20318); /* Jungle */
+
+  /* SEAL ramp, dark. Same hue (inherited from the palette's `--seal-hue`), run
+   * the other way against the dark surface: dim at SEAL-0 → bright at SEAL-4.
+   * Not a flip of the light steps — each mode is stepped against its own
+   * surface, and that surface is now Pine (L 0.288) / lifted Pine (L 0.325)
+   * rather than a near-black, so BOTH ramps start higher than they used to:
+   *
+   *   ink   0.52→0.79. SEAL-0 keeps the ~2.2:1 it had against the old darker
+   *         card; dropping to 0.45 on a Pine card would fall to 1.7:1.
+   *   fill  0.34→0.545, i.e. entirely ABOVE the card, so a heat cell always
+   *         reads as added heat rather than a hole. The band is narrower than
+   *         the old 0.22→0.565, so chroma does more of the stepping (0.03→0.16);
+   *         ΔL is 0.05/0.05/0.05/0.055 and Fog text on SEAL-4 fill is 4.3:1. */
+  --seal-0: oklch(0.52 0.06 var(--seal-hue));
+  --seal-1: oklch(0.59 0.1 var(--seal-hue));
+  --seal-2: oklch(0.66 0.13 var(--seal-hue));
+  --seal-3: oklch(0.73 0.16 var(--seal-hue));
+  --seal-4: oklch(0.8 0.18 var(--seal-hue));
+
+  --seal-fill-0: oklch(0.34 0.03 var(--seal-hue));
+  --seal-fill-1: oklch(0.39 0.07 var(--seal-hue));
+  --seal-fill-2: oklch(0.44 0.1 var(--seal-hue));
+  --seal-fill-3: oklch(0.49 0.13 var(--seal-hue));
+  --seal-fill-4: oklch(0.545 0.16 var(--seal-hue));
+
+  /* Axis ink, dark. Same construction, re-composed rather than inverted: dark mode
+   * needs a MUCH bigger step off the ink than light does, because the ink is the
+   * bright end here. 74% / 43% puts the emphasised mark at L 0.74–0.79 against
+   * Fog's 0.952 — the whole glare fix — and the secondary at L 0.51–0.60. Light
+   * mode's 94% / 55% would leave the emphasised mark at L 0.92 and change nothing,
+   * which is why the ratios are per mode and not shared. */
+  --axis-ink: color-mix(in oklab, var(--foreground) 74%, var(--card));
+  --axis-ink-soft: color-mix(in oklab, var(--foreground) 43%, var(--card));
+}
+
+/* ---- Imported palettes (shadcnblocks / tweakcn) ---------------------------
+ * Registry output and tweakcn exports are candidate input to the palette bridge,
+ * never content to paste over this hand-maintained file. Use
+ * `pnpm theme:tweakcn:export` → tweakcn → `pnpm theme:tweakcn:apply`; the bridge
+ * updates only allowlisted values in one canonical selector pair and preserves
+ * fonts, warning/destructive contracts, --well, the SEAL ramp, Tailwind mappings,
+ * comments and base rules. The shadcn CLI remains intentionally unused because it
+ * would overwrite this file. Imported font vars are dropped: SUSE is the vendored
+ * brand face and remote font loading is barred (invariant #7).
+ * ------------------------------------------------------------------------- */
+
+/* ---- Claymorphism (.theme-claymorphism) ------------------------------------
+ * tweakcn — soft clay: 1.25rem radius, wide diffuse shadows, violet primary. Fonts intentionally not adopted (SUSE stays). */
+.theme-claymorphism {
+  --seal-hue: 277.12; /* drives the whole SEAL ramp — ADR-0014 */
+  /* Attention amber, DERIVED — hue 70 is the contract, L and C are this
+   * palette's. `oklch(from …)` reads `--primary`'s own lightness and chroma and
+   * re-lands them on the amber hue, so "act here" is recognisably the same accent
+   * in every palette while sitting on THIS palette's surfaces rather than on
+   * SUSE's. Before this, every imported palette inherited SUSE's amber unchanged
+   * and the attention colour was the one thing the palette switch did not move.
+   *
+   * ONE declaration per palette, in the light block only — the same trick
+   * `--well` and `--seal-hue` use. `.theme-x` and `.theme-x.dark` match the same
+   * element, and a custom property is substituted where it is USED, so the dark
+   * block's own `--primary` flows through this expression without a second line.
+   *
+   * The clamps are legibility floors, not taste. Supabase's dark primary is
+   * L 0.44, which at hue 70 is a brown that disappears on its near-black card;
+   * its light primary is L 0.83, which washes out on white. Held to
+   * L 0.62–0.78 / C 0.11–0.20 the measured fills are 2.0–3.8:1 on the card in
+   * light and 4.1–5.9:1 in dark, and every one of them carries the derived ink
+   * below at ≥4.6:1. The light-mode floor is Supabase at 2.0:1, which is the
+   * band SUSE's own authored amber already sits in (2.2:1 on White) — an amber
+   * fill on a white card is a hue signal, not a luminance one, which is why the
+   * text-weight case is `--warning-ink` and not this token.
+   *
+   * `--warning-ink` needs no palette twin: it mixes whatever `--warning`
+   * resolves to here. */
+  --warning: oklch(from var(--primary) clamp(0.62, l, 0.78) clamp(0.11, c, 0.2) 70);
+  --warning-foreground: oklch(from var(--warning) 0.22 0.05 h);
+  --radius: 1.25rem;
+  --background: oklch(0.9067 0 0);
+  --foreground: oklch(0.28 0.04 260.03);
+  --card: oklch(0.9851 0 0);
+  --card-foreground: oklch(0.28 0.04 260.03);
+  --popover: oklch(0.97 0.00 106.42);
+  --popover-foreground: oklch(0.28 0.04 260.03);
+  --primary: oklch(0.59 0.20 277.12);
+  --primary-foreground: oklch(1.00 0 0);
+  --secondary: oklch(0.87 0.00 56.37);
+  --secondary-foreground: oklch(0.45 0.03 256.80);
+  --muted: oklch(0.9461 0 0);
+  --muted-foreground: oklch(0.55 0.02 264.36);
+  --accent: oklch(0.648 0.2027 304.397);
+  --accent-foreground: oklch(0.909 0.0537 308.375);  --border: oklch(0.87 0.00 56.37);
+  --input: oklch(0.87 0.00 56.37);
+  --ring: oklch(0.59 0.20 277.12);
+  --chart-1: oklch(0.59 0.20 277.12);
+  --chart-2: oklch(0.51 0.23 276.97);
+  --chart-3: oklch(0.46 0.21 277.02);
+  --chart-4: oklch(0.40 0.18 277.37);
+  --chart-5: oklch(0.36 0.14 278.70);
+  --sidebar: oklch(0.87 0.00 56.37);
+  --sidebar-foreground: oklch(0.28 0.04 260.03);
+  --sidebar-primary: oklch(0.59 0.20 277.12);
+  --sidebar-primary-foreground: oklch(1.00 0 0);
+  --sidebar-accent: oklch(0.94 0.03 321.94);
+  --sidebar-accent-foreground: oklch(0.37 0.03 259.73);
+  --sidebar-border: oklch(0.87 0.00 56.37);
+  --sidebar-ring: oklch(0.59 0.20 277.12);
+
+  --shadow-2xs: 2px 2px 10px 4px hsl(240 4% 60% / 0.09);
+  --shadow-xs: 2px 2px 10px 4px hsl(240 4% 60% / 0.09);
+  --shadow-sm: 2px 2px 10px 4px hsl(240 4% 60% / 0.18), 2px 1px 2px 3px hsl(240 4% 60% / 0.18);
+  --shadow-md: 2px 2px 10px 4px hsl(240 4% 60% / 0.18), 2px 2px 4px 3px hsl(240 4% 60% / 0.18);
+  --shadow-lg: 2px 2px 10px 4px hsl(240 4% 60% / 0.18), 2px 4px 6px 3px hsl(240 4% 60% / 0.18);
+  --shadow-xl: 2px 2px 10px 4px hsl(240 4% 60% / 0.18), 2px 8px 10px 3px hsl(240 4% 60% / 0.18);
+  --shadow-2xl: 2px 2px 10px 4px hsl(240 4% 60% / 0.45);
+}
+.theme-claymorphism.dark {
+  --background: oklch(0.22 0.01 67.44);
+  --foreground: oklch(0.93 0.01 255.51);
+  --card: oklch(0.22 0.01 67.44);
+  --card-foreground: oklch(0.93 0.01 255.51);
+  --popover: oklch(0.28 0.01 59.34);
+  --popover-foreground: oklch(0.93 0.01 255.51);
+  --primary: oklch(0.68 0.16 276.93);
+  --primary-foreground: oklch(0.22 0.01 67.44);
+  --secondary: oklch(0.34 0.01 59.42);
+  --secondary-foreground: oklch(0.87 0.01 258.34);
+  --muted: oklch(0.28 0.01 59.34);
+  --muted-foreground: oklch(0.71 0.02 261.32);
+  --accent: oklch(0.39 0.01 59.47);
+  --accent-foreground: oklch(0.87 0.01 258.34);  --border: oklch(0.34 0.01 59.42);
+  --input: oklch(0.34 0.01 59.42);
+  --ring: oklch(0.68 0.16 276.93);
+  --chart-1: oklch(0.68 0.16 276.93);
+  --chart-2: oklch(0.59 0.20 277.12);
+  --chart-3: oklch(0.51 0.23 276.97);
+  --chart-4: oklch(0.46 0.21 277.02);
+  --chart-5: oklch(0.40 0.18 277.37);
+  --sidebar: oklch(0.34 0.01 59.42);
+  --sidebar-foreground: oklch(0.93 0.01 255.51);
+  --sidebar-primary: oklch(0.68 0.16 276.93);
+  --sidebar-primary-foreground: oklch(0.22 0.01 67.44);
+  --sidebar-accent: oklch(0.39 0.01 59.47);
+  --sidebar-accent-foreground: oklch(0.87 0.01 258.34);
+  --sidebar-border: oklch(0.34 0.01 59.42);
+  --sidebar-ring: oklch(0.68 0.16 276.93);
+}
+
+/* ---- Clean Slate (.theme-cleanslate) ---------------------------------------
+ * tweakcn — crisp neutral slate, 0.5rem radius, violet primary. Fonts intentionally not adopted (SUSE stays). */
+.theme-cleanslate {
+  --seal-hue: 277.12; /* drives the whole SEAL ramp — ADR-0014 */
+  /* Attention amber, derived from this palette's `--primary` at hue 70 — see the
+   * note in `.theme-claymorphism`. */
+  --warning: oklch(from var(--primary) clamp(0.62, l, 0.78) clamp(0.11, c, 0.2) 70);
+  --warning-foreground: oklch(from var(--warning) 0.22 0.05 h);
+  --radius: 0.5rem;
+  --background: oklch(0.98 0.00 247.86);
+  --foreground: oklch(0.28 0.04 260.03);
+  --card: oklch(1.00 0 0);
+  --card-foreground: oklch(0.28 0.04 260.03);
+  --popover: oklch(1.00 0 0);
+  --popover-foreground: oklch(0.28 0.04 260.03);
+  --primary: oklch(0.59 0.20 277.12);
+  --primary-foreground: oklch(1.00 0 0);
+  --secondary: oklch(0.93 0.01 264.53);
+  --secondary-foreground: oklch(0.37 0.03 259.73);
+  --muted: oklch(0.97 0.00 264.54);
+  --muted-foreground: oklch(0.55 0.02 264.36);
+  --accent: oklch(0.93 0.03 272.79);
+  --accent-foreground: oklch(0.37 0.03 259.73);  --border: oklch(0.87 0.01 258.34);
+  --input: oklch(0.87 0.01 258.34);
+  --ring: oklch(0.59 0.20 277.12);
+  --chart-1: oklch(0.59 0.20 277.12);
+  --chart-2: oklch(0.51 0.23 276.97);
+  --chart-3: oklch(0.46 0.21 277.02);
+  --chart-4: oklch(0.40 0.18 277.37);
+  --chart-5: oklch(0.36 0.14 278.70);
+  --sidebar: oklch(0.97 0.00 264.54);
+  --sidebar-foreground: oklch(0.28 0.04 260.03);
+  --sidebar-primary: oklch(0.59 0.20 277.12);
+  --sidebar-primary-foreground: oklch(1.00 0 0);
+  --sidebar-accent: oklch(0.93 0.03 272.79);
+  --sidebar-accent-foreground: oklch(0.37 0.03 259.73);
+  --sidebar-border: oklch(0.87 0.01 258.34);
+  --sidebar-ring: oklch(0.59 0.20 277.12);
+
+  --shadow-2xs: 0px 4px 8px -1px hsl(0 0% 0% / 0.05);
+  --shadow-xs: 0px 4px 8px -1px hsl(0 0% 0% / 0.05);
+  --shadow-sm: 0px 4px 8px -1px hsl(0 0% 0% / 0.10), 0px 1px 2px -2px hsl(0 0% 0% / 0.10);
+  --shadow-md: 0px 4px 8px -1px hsl(0 0% 0% / 0.10), 0px 2px 4px -2px hsl(0 0% 0% / 0.10);
+  --shadow-lg: 0px 4px 8px -1px hsl(0 0% 0% / 0.10), 0px 4px 6px -2px hsl(0 0% 0% / 0.10);
+  --shadow-xl: 0px 4px 8px -1px hsl(0 0% 0% / 0.10), 0px 8px 10px -2px hsl(0 0% 0% / 0.10);
+  --shadow-2xl: 0px 4px 8px -1px hsl(0 0% 0% / 0.25);
+}
+.theme-cleanslate.dark {
+  --background: oklch(0.21 0.04 265.75);
+  --foreground: oklch(0.93 0.01 255.51);
+  --card: oklch(0.28 0.04 260.03);
+  --card-foreground: oklch(0.93 0.01 255.51);
+  --popover: oklch(0.28 0.04 260.03);
+  --popover-foreground: oklch(0.93 0.01 255.51);
+  --primary: oklch(0.68 0.16 276.93);
+  --primary-foreground: oklch(0.21 0.04 265.75);
+  --secondary: oklch(0.34 0.03 260.91);
+  --secondary-foreground: oklch(0.87 0.01 258.34);
+  --muted: oklch(0.28 0.04 260.03);
+  --muted-foreground: oklch(0.71 0.02 261.32);
+  --accent: oklch(0.37 0.03 259.73);
+  --accent-foreground: oklch(0.87 0.01 258.34);  --border: oklch(0.45 0.03 256.80);
+  --input: oklch(0.45 0.03 256.80);
+  --ring: oklch(0.68 0.16 276.93);
+  --chart-1: oklch(0.68 0.16 276.93);
+  --chart-2: oklch(0.59 0.20 277.12);
+  --chart-3: oklch(0.51 0.23 276.97);
+  --chart-4: oklch(0.46 0.21 277.02);
+  --chart-5: oklch(0.40 0.18 277.37);
+  --sidebar: oklch(0.28 0.04 260.03);
+  --sidebar-foreground: oklch(0.93 0.01 255.51);
+  --sidebar-primary: oklch(0.68 0.16 276.93);
+  --sidebar-primary-foreground: oklch(0.21 0.04 265.75);
+  --sidebar-accent: oklch(0.37 0.03 259.73);
+  --sidebar-accent-foreground: oklch(0.87 0.01 258.34);
+  --sidebar-border: oklch(0.45 0.03 256.80);
+  --sidebar-ring: oklch(0.68 0.16 276.93);
+}
+
+/* ---- Modern Minimal (.theme-modern-minimal) --------------------------------
+ * tweakcn — restrained blue on near-white, tight 0.375rem radius. Fonts intentionally not adopted (SUSE stays). */
+.theme-modern-minimal {
+  --seal-hue: 259.8145; /* drives the whole SEAL ramp — ADR-0014 */
+  /* Attention amber, derived from this palette's `--primary` at hue 70 — see the
+   * note in `.theme-claymorphism`. */
+  --warning: oklch(from var(--primary) clamp(0.62, l, 0.78) clamp(0.11, c, 0.2) 70);
+  --warning-foreground: oklch(from var(--warning) 0.22 0.05 h);
+  --radius: 0.375rem;
+  --background: oklch(1.0000 0 0);
+  --foreground: oklch(0.3211 0 0);
+  --card: oklch(1.0000 0 0);
+  --card-foreground: oklch(0.3211 0 0);
+  --popover: oklch(1.0000 0 0);
+  --popover-foreground: oklch(0.3211 0 0);
+  --primary: oklch(0.6231 0.1880 259.8145);
+  --primary-foreground: oklch(1.0000 0 0);
+  --secondary: oklch(0.9670 0.0029 264.5419);
+  --secondary-foreground: oklch(0.4461 0.0263 256.8018);
+  --muted: oklch(0.9846 0.0017 247.8389);
+  --muted-foreground: oklch(0.5510 0.0234 264.3637);
+  --accent: oklch(0.9514 0.0250 236.8242);
+  --accent-foreground: oklch(0.3791 0.1378 265.5222);  --border: oklch(0.9276 0.0058 264.5313);
+  --input: oklch(0.9276 0.0058 264.5313);
+  --ring: oklch(0.6231 0.1880 259.8145);
+  --chart-1: oklch(0.6231 0.1880 259.8145);
+  --chart-2: oklch(0.5461 0.2152 262.8809);
+  --chart-3: oklch(0.4882 0.2172 264.3763);
+  --chart-4: oklch(0.4244 0.1809 265.6377);
+  --chart-5: oklch(0.3791 0.1378 265.5222);
+  --sidebar: oklch(0.9846 0.0017 247.8389);
+  --sidebar-foreground: oklch(0.3211 0 0);
+  --sidebar-primary: oklch(0.6231 0.1880 259.8145);
+  --sidebar-primary-foreground: oklch(1.0000 0 0);
+  --sidebar-accent: oklch(0.9514 0.0250 236.8242);
+  --sidebar-accent-foreground: oklch(0.3791 0.1378 265.5222);
+  --sidebar-border: oklch(0.9276 0.0058 264.5313);
+  --sidebar-ring: oklch(0.6231 0.1880 259.8145);
+
+  --shadow-2xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
+  --shadow-xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
+  --shadow-sm: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 1px 2px -1px hsl(0 0% 0% / 0.10);
+  --shadow-md: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 2px 4px -1px hsl(0 0% 0% / 0.10);
+  --shadow-lg: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 4px 6px -1px hsl(0 0% 0% / 0.10);
+  --shadow-xl: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 8px 10px -1px hsl(0 0% 0% / 0.10);
+  --shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.25);
+}
+.theme-modern-minimal.dark {
+  --background: oklch(0.2046 0 0);
+  --foreground: oklch(0.9219 0 0);
+  --card: oklch(0.2686 0 0);
+  --card-foreground: oklch(0.9219 0 0);
+  --popover: oklch(0.2686 0 0);
+  --popover-foreground: oklch(0.9219 0 0);
+  --primary: oklch(0.6231 0.1880 259.8145);
+  --primary-foreground: oklch(1.0000 0 0);
+  --secondary: oklch(0.2686 0 0);
+  --secondary-foreground: oklch(0.9219 0 0);
+  --muted: oklch(0.2393 0 0);
+  --muted-foreground: oklch(0.7155 0 0);
+  --accent: oklch(0.3791 0.1378 265.5222);
+  --accent-foreground: oklch(0.8823 0.0571 254.1284);  --border: oklch(0.3715 0 0);
+  --input: oklch(0.3715 0 0);
+  --ring: oklch(0.6231 0.1880 259.8145);
+  --chart-1: oklch(0.7137 0.1434 254.6240);
+  --chart-2: oklch(0.6231 0.1880 259.8145);
+  --chart-3: oklch(0.5461 0.2152 262.8809);
+  --chart-4: oklch(0.4882 0.2172 264.3763);
+  --chart-5: oklch(0.4244 0.1809 265.6377);
+  --sidebar: oklch(0.2046 0 0);
+  --sidebar-foreground: oklch(0.9219 0 0);
+  --sidebar-primary: oklch(0.6231 0.1880 259.8145);
+  --sidebar-primary-foreground: oklch(1.0000 0 0);
+  --sidebar-accent: oklch(0.3791 0.1378 265.5222);
+  --sidebar-accent-foreground: oklch(0.8823 0.0571 254.1284);
+  --sidebar-border: oklch(0.3715 0 0);
+  --sidebar-ring: oklch(0.6231 0.1880 259.8145);
+}
+
+/* ---- Supabase (.theme-supabase) --------------------------------------------
+ * tweakcn — mint green on neutral grey. Fonts intentionally not adopted (SUSE stays). */
+.theme-supabase {
+  --seal-hue: 160.91; /* drives the whole SEAL ramp — ADR-0014 */
+  /* Attention amber, derived from this palette's `--primary` at hue 70 — see the
+   * note in `.theme-claymorphism`. */
+  --warning: oklch(from var(--primary) clamp(0.62, l, 0.78) clamp(0.11, c, 0.2) 70);
+  --warning-foreground: oklch(from var(--warning) 0.22 0.05 h);
+  --radius: 0.5rem;
+  --background: oklch(0.99 0 0);
+  --foreground: oklch(0.20 0 0);
+  --card: oklch(0.99 0 0);
+  --card-foreground: oklch(0.20 0 0);
+  --popover: oklch(0.99 0 0);
+  --popover-foreground: oklch(0.44 0 0);
+  --primary: oklch(0.83 0.13 160.91);
+  --primary-foreground: oklch(0.26 0.01 166.46);
+  --secondary: oklch(0.99 0 0);
+  --secondary-foreground: oklch(0.20 0 0);
+  --muted: oklch(0.95 0 0);
+  --muted-foreground: oklch(0.24 0 0);
+  --accent: oklch(0.95 0 0);
+  --accent-foreground: oklch(0.24 0 0);  --border: oklch(0.90 0 0);
+  --input: oklch(0.97 0 0);
+  --ring: oklch(0.83 0.13 160.91);
+  --chart-1: oklch(0.83 0.13 160.91);
+  --chart-2: oklch(0.62 0.19 259.81);
+  --chart-3: oklch(0.61 0.22 292.72);
+  --chart-4: oklch(0.77 0.16 70.08);
+  --chart-5: oklch(0.70 0.15 162.48);
+  --sidebar: oklch(0.99 0 0);
+  --sidebar-foreground: oklch(0.55 0 0);
+  --sidebar-primary: oklch(0.83 0.13 160.91);
+  --sidebar-primary-foreground: oklch(0.26 0.01 166.46);
+  --sidebar-accent: oklch(0.95 0 0);
+  --sidebar-accent-foreground: oklch(0.24 0 0);
+  --sidebar-border: oklch(0.90 0 0);
+  --sidebar-ring: oklch(0.83 0.13 160.91);
+
+  --shadow-2xs: 0px 1px 3px 0px hsl(0 0% 0% / 0.09);
+  --shadow-xs: 0px 1px 3px 0px hsl(0 0% 0% / 0.09);
+  --shadow-sm: 0px 1px 3px 0px hsl(0 0% 0% / 0.17), 0px 1px 2px -1px hsl(0 0% 0% / 0.17);
+  --shadow-md: 0px 1px 3px 0px hsl(0 0% 0% / 0.17), 0px 2px 4px -1px hsl(0 0% 0% / 0.17);
+  --shadow-lg: 0px 1px 3px 0px hsl(0 0% 0% / 0.17), 0px 4px 6px -1px hsl(0 0% 0% / 0.17);
+  --shadow-xl: 0px 1px 3px 0px hsl(0 0% 0% / 0.17), 0px 8px 10px -1px hsl(0 0% 0% / 0.17);
+  --shadow-2xl: 0px 1px 3px 0px hsl(0 0% 0% / 0.43);
+}
+.theme-supabase.dark {
+  --background: oklch(0.18 0 0);
+  --foreground: oklch(0.93 0.01 255.51);
+  --card: oklch(0.20 0 0);
+  --card-foreground: oklch(0.93 0.01 255.51);
+  --popover: oklch(0.26 0 0);
+  --popover-foreground: oklch(0.73 0 0);
+  --primary: oklch(0.44 0.10 156.76);
+  --primary-foreground: oklch(0.92 0.01 167.16);
+  --secondary: oklch(0.26 0 0);
+  --secondary-foreground: oklch(0.99 0 0);
+  --muted: oklch(0.24 0 0);
+  --muted-foreground: oklch(0.71 0 0);
+  --accent: oklch(0.31 0 0);
+  --accent-foreground: oklch(0.99 0 0);  --border: oklch(0.28 0 0);
+  --input: oklch(0.26 0 0);
+  --ring: oklch(0.80 0.18 151.71);
+  --chart-1: oklch(0.80 0.18 151.71);
+  --chart-2: oklch(0.71 0.14 254.62);
+  --chart-3: oklch(0.71 0.16 293.54);
+  --chart-4: oklch(0.84 0.16 84.43);
+  --chart-5: oklch(0.78 0.13 181.91);
+  --sidebar: oklch(0.18 0 0);
+  --sidebar-foreground: oklch(0.63 0 0);
+  --sidebar-primary: oklch(0.44 0.10 156.76);
+  --sidebar-primary-foreground: oklch(0.92 0.01 167.16);
+  --sidebar-accent: oklch(0.31 0 0);
+  --sidebar-accent-foreground: oklch(0.99 0 0);
+  --sidebar-border: oklch(0.28 0 0);
+  --sidebar-ring: oklch(0.80 0.18 151.71);
+}
+
+/* ---- Brand palettes (hand-authored, not imported) --------------------------
+ * Three further readings of the SAME brand guide, added because the palette axis
+ * can carry them: the default SUSE pair is one way to spend Pine/Jungle/Mint/
+ * Waterhole/Persimmon, not the only way. They are NOT tweakcn output and must not
+ * be regenerated by `gen-theme-palettes.mjs` — that script fetches a registry;
+ * these were authored against the brand guide (see suse-branding-colors.md) and
+ * measured. They ARE registered in the tweakcn bridge's canonical mapping, so
+ * `pnpm theme:tweakcn:check` validates their structure like every other pair.
+ *
+ * The discipline the SUSE pair holds itself to holds here too, and
+ * scripts/suse-brand-policy.node-tests.mjs now asserts it for all four brand
+ * pairs:
+ *
+ *   - every OKLCH literal serialises to a DOCUMENTED brand value — one of the
+ *     eight named colours or a step of the five published ramps. Surfaces that
+ *     need to sit BETWEEN two brand values are `color-mix()` over documented
+ *     hexes (the guide's "shades of primary colours to create depth"), never a
+ *     sampled or invented colour;
+ *   - foreground/background pairings come from the guide's allowlist, and the
+ *     "graphics only" qualification is treated as binding for text;
+ *   - `--destructive`, `--destructive-foreground`, `--destructive-ink`, `--link`,
+ *     `--positive`, `--warning` and `--warning-foreground` are NOT re-declared.
+ *     Danger and attention are contracts with the reader (The Inherited Danger
+ *     Rule, DESIGN.md), and unlike an imported preset these three palettes stand
+ *     on the very surfaces the root amber was measured against — Pine, Fog and
+ *     White — so inheriting is not a compromise here, it is the correct value;
+ *   - `--chart-1..5` restate the fixed validated categorical series rather than
+ *     re-hue it. The series is closed and deliberately non-green; a palette has
+ *     nothing to express in it. They are declared rather than inherited only
+ *     because the bridge's canonical mapping requires every registered pair to
+ *     carry them.
+ *
+ * Each pair contributes ONE `--seal-hue`, and `--well`, `--axis-ink` and
+ * `--warning-ink` derive themselves from `--card`/`--foreground` — so the nesting
+ * ramp, the mark plane and the amber ink come out right in all sixteen
+ * mode × palette combinations with nothing added.
+ * ------------------------------------------------------------------------- */
+
+/* ---- Pine & Mint (.theme-pine-mint) ----------------------------------------
+ * Brand presence from PINE MASS and MINT rather than from a green button, which
+ * is the one thing the default pair cannot say. Light is White-canvas with a
+ * Pine-tinted hairline instead of a Fog/White lift, and the action is a PINE fill
+ * carrying MINT text — an allowlisted pairing at 9.4:1 that reads unmistakably SUSE
+ * without spending a bright hue on chrome.
+ *
+ * JUNGLE APPEARS NOWHERE, and that follows from ADR-0014 rather than from taste:
+ * the ramp hue is derived from the palette's own `--primary`, so an action in Pine
+ * puts the ordinal on Pine's own hue (180.7) and the SEAL ramp reads as the MINT
+ * family — pale mint at SEAL-0 to saturated teal-green at SEAL-4. The palette is
+ * therefore exactly what its name says, and The Reserved Hue Rule is satisfied by
+ * construction: the one hue it spends, it spends on the ramp.
+ *
+ * Radius 0.625rem and Pine-tinted shadows: softer and warmer than the default,
+ * because the separation is doing less work than the tint is. */
+.theme-pine-mint {
+  --seal-hue: 180.67524; /* Pine's own hue, because --primary is Pine — ADR-0014 derives the ramp from the palette's primary */
+  --radius: 0.625rem;
+
+  --background: oklch(1 0 0); /* White #ffffff — the canvas, not Fog */
+  --foreground: oklch(0.28851368 0.04373181 180.67524); /* Pine #0c322c */
+  --card: oklch(1 0 0); /* White; separated by a Pine-tinted rule, not a lift */
+  --card-foreground: oklch(0.28851368 0.04373181 180.67524); /* Pine */
+  --popover: oklch(1 0 0); /* White */
+  --popover-foreground: oklch(0.28851368 0.04373181 180.67524); /* Pine */
+  --primary: oklch(0.28851368 0.04373181 180.67524); /* Pine #0c322c — a PINE action, so Jungle is left to the ramp */
+  --primary-foreground: oklch(0.87453265 0.09766297 170.91162); /* Mint #90ebcd on Pine — 9.4:1, an approved pairing */
+  --secondary: oklch(0.97273408 0.0170041 187.90294); /* Mint ramp #eafaf8 */
+  --secondary-foreground: oklch(0.28851368 0.04373181 180.67524); /* Pine */
+  --muted: oklch(0.95213084 0 0); /* Fog #efefef */
+  --muted-foreground: oklch(0.43860476 0 0); /* Fog ramp #525252 — 7.8:1 on White */
+  --accent: oklch(0.97273408 0.0170041 187.90294); /* Mint ramp #eafaf8 */
+  --accent-foreground: oklch(0.28851368 0.04373181 180.67524); /* Pine */
+  --border: color-mix(in oklab, #0c322c 14%, white); /* Pine at 14% — a tinted hairline, #dadfde, in place of neutral #dcdbdc */
+  --input: oklch(1 0 0); /* White field */
+  --ring: oklch(0.53543403 0.25756394 265.4549); /* Waterhole #2453ff — 3.4:1 on White as a focus graphic */
+  --chart-1: oklch(0.53543403 0.25756394 265.4549); /* Waterhole #2453ff */
+  --chart-2: oklch(0.76442484 0.1611805 75.11594); /* product yellow #eda100 */
+  --chart-3: oklch(0.71630244 0.14117304 357.38882); /* product magenta #e87ba4 */
+  --chart-4: oklch(0.43314506 0.16713562 283.62447); /* product violet #4a3aa7 */
+  --chart-5: oklch(0.62256529 0.19091315 24.91243); /* product red #e34948 */
+  --sidebar: oklch(0.97273408 0.0170041 187.90294); /* Mint ramp #eafaf8 — the rail reads as a tint, not a lift */
+  --sidebar-foreground: oklch(0.28851368 0.04373181 180.67524); /* Pine */
+  --sidebar-primary: oklch(0.28851368 0.04373181 180.67524); /* Pine */
+  --sidebar-primary-foreground: oklch(0.87453265 0.09766297 170.91162); /* Mint */
+  --sidebar-accent: oklch(0.92156657 0.05195518 185.81777); /* Mint ramp #bff1ea */
+  --sidebar-accent-foreground: oklch(0.28851368 0.04373181 180.67524); /* Pine */
+  --sidebar-border: color-mix(in oklab, #0c322c 14%, white); /* the same tinted hairline */
+  --sidebar-ring: oklch(0.53543403 0.25756394 265.4549); /* Waterhole */
+
+  --shadow-2xs: 0 1px rgb(12 50 44 / 0.05);
+  --shadow-xs: 0 1px 2px 0 rgb(12 50 44 / 0.05);
+  --shadow-sm: 0 1px 3px 0 rgb(12 50 44 / 0.09), 0 1px 2px -1px rgb(12 50 44 / 0.09);
+  --shadow-md: 0 4px 6px -1px rgb(12 50 44 / 0.09), 0 2px 4px -2px rgb(12 50 44 / 0.09);
+  --shadow-lg: 0 10px 15px -3px rgb(12 50 44 / 0.09), 0 4px 6px -4px rgb(12 50 44 / 0.09);
+  --shadow-xl: 0 20px 25px -5px rgb(12 50 44 / 0.09), 0 8px 10px -6px rgb(12 50 44 / 0.09);
+  --shadow-2xl: 0 25px 50px -12px rgb(12 50 44 / 0.22);
+}
+/* Dark: Pine canvas, but depth climbs the MINT ramp — every surface above the
+ * canvas is `color-mix` toward Mint #008878 rather than toward white, so a lifted
+ * card gets warmer and greener instead of greyer, and the ramp reads as three
+ * legible steps (canvas → card → popover) where the default pair has two. Mint is
+ * the dark action.
+ *
+ * ONE THING NEEDS BRAND SIGN-OFF: Mint as a large BACKGROUND (the primary fill).
+ * The guide names Pine, Jungle, White and Fog as the background colours, and Mint
+ * is not among them — Pine-on-Mint measures 9.4:1, comfortably above AA, but that
+ * is an extension of the policy rather than a use of it. If it is refused, swap
+ * `--primary` to Jungle #30ba78 and nothing else moves. */
+.theme-pine-mint.dark {
+  --background: oklch(0.28851368 0.04373181 180.67524); /* Pine #0c322c */
+  --foreground: oklch(0.95213084 0 0); /* Fog #efefef — 12.1:1 on Pine */
+  --card: color-mix(in oklab, #0c322c 94%, white); /* Pine lifted one step */
+  --card-foreground: oklch(0.95213084 0 0); /* Fog */
+  --popover: color-mix(in oklab, #0c322c 86%, white); /* lifted above card */
+  --popover-foreground: oklch(0.95213084 0 0); /* Fog */
+  --primary: oklch(0.87453265 0.09766297 170.91162); /* Mint #90ebcd — the dark action */
+  --primary-foreground: oklch(0.28851368 0.04373181 180.67524); /* Pine on Mint — 9.4:1 */
+  --secondary: oklch(0.40591406 0.0737808 179.03717); /* Mint ramp #01564a — the secondary surface is MINT-family, not grey Pine */
+  --secondary-foreground: oklch(0.95213084 0 0); /* Fog on #01564a — 8.6:1 */
+  --muted: color-mix(in oklab, #0c322c 90%, white); /* the quiet surface stays Pine */
+  --muted-foreground: oklch(0.78892062 0 0); /* Fog ramp #bababa — 7.6:1 on Pine, and it clears 4.5:1 on the lifted card, which #999999 does not */
+  --accent: oklch(0.40591406 0.0737808 179.03717); /* Mint ramp #01564a */
+  --accent-foreground: oklch(0.95213084 0 0); /* Fog */
+  --border: color-mix(in oklab, #0c322c 70%, white);
+  --input: color-mix(in oklab, #0c322c 92%, white);
+  --ring: oklch(0.87453265 0.09766297 170.91162); /* Mint */
+  --chart-1: oklch(0.64435952 0.16555395 254.71981); /* Waterhole shade #3c8eef */
+  --chart-2: oklch(0.66992689 0.1425276 73.22688); /* product yellow #c98500 */
+  --chart-3: oklch(0.62244702 0.17121982 0.83781); /* product magenta #d55181 */
+  --chart-4: oklch(0.66962743 0.14516802 286.82733); /* product violet #9085e9 */
+  --chart-5: oklch(0.66928661 0.15856851 22.30678); /* product red #e66767 */
+  --sidebar: color-mix(in oklab, #0c322c 94%, black); /* Pine, recessed rail */
+  --sidebar-foreground: oklch(0.95213084 0 0); /* Fog */
+  --sidebar-primary: oklch(0.87453265 0.09766297 170.91162); /* Mint */
+  --sidebar-primary-foreground: oklch(0.28851368 0.04373181 180.67524); /* Pine */
+  --sidebar-accent: oklch(0.40591406 0.0737808 179.03717); /* Mint ramp #01564a — the active rail row is where the warmth reads */
+  --sidebar-accent-foreground: oklch(0.95213084 0 0); /* Fog */
+  --sidebar-border: color-mix(in oklab, #0c322c 70%, white);
+  --sidebar-ring: oklch(0.87453265 0.09766297 170.91162); /* Mint */
+}
+
+/* ---- Fog Editorial (.theme-fog-editorial) -----------------------------------
+ * A printed standard rather than a web app. The Fog canvas and White sheets are
+ * the default pair's, but the shadow ramp is `none` throughout and the #dcdbdc
+ * hairline does all the separating; radius drops to 0.25rem. MIDNIGHT sets
+ * secondary and accent ink while PINE sets body — two allowlisted inks doing two
+ * jobs, which buys hierarchy without a third grey.
+ *
+ * THE ONE PALETTE WITH NO GREEN IN IT. The action is Waterhole #0b41b7, and because
+ * ADR-0014 derives the ramp hue from `--primary`, the SEAL ordinal is blue too.
+ * Nothing on screen is green, so a reader coming from the default palette cannot
+ * carry over "green means sovereign" — which is the point The Unnamed Colour Rule
+ * is making, and this palette is the proof of it. The brand shows up as Fog, White,
+ * Pine ink and Midnight instead of as a hue.
+ *
+ * KNOWN TENSION, inherited rather than introduced: `--chart-1` is Waterhole and the
+ * ramp is now Waterhole's hue, so a chart series and a rung are closer in hue here
+ * than under a green palette. Modern Minimal has shipped with exactly this since the
+ * palette axis landed; the series is closed by design (DESIGN.md — a palette has
+ * nothing to express in it) so it is not re-hued per palette. If it proves confusing
+ * in the exposure tiles, the fix is a labelled legend, not a per-palette series. */
+.theme-fog-editorial {
+  --seal-hue: 262.81234; /* the hue of --primary #0b41b7 — ADR-0014 derives the ramp from the palette's primary */
+  --radius: 0.25rem;
+
+  --background: oklch(0.95213084 0 0); /* Fog #efefef */
+  --foreground: oklch(0.28851368 0.04373181 180.67524); /* Pine #0c322c — body ink */
+  --card: oklch(1 0 0); /* White sheet on the Fog canvas */
+  --card-foreground: oklch(0.28851368 0.04373181 180.67524); /* Pine */
+  --popover: oklch(1 0 0); /* White */
+  --popover-foreground: oklch(0.28851368 0.04373181 180.67524); /* Pine */
+  --primary: oklch(0.42921701 0.19350531 262.81234); /* Waterhole ramp #0b41b7 — the action is blue, never green */
+  --primary-foreground: oklch(1 0 0); /* White on #0b41b7 — 8.0:1 */
+  --secondary: oklch(1 0 0); /* White */
+  --secondary-foreground: oklch(0.30205339 0.13838516 271.14115); /* Midnight #192072 — 13.2:1 on White */
+  --muted: oklch(0.95213084 0 0); /* Fog */
+  --muted-foreground: oklch(0.43860476 0 0); /* Fog ramp #525252 */
+  --accent: oklch(0.94585349 0.02414026 267.92953); /* Waterhole ramp #e6edfe */
+  --accent-foreground: oklch(0.30205339 0.13838516 271.14115); /* Midnight */
+  --border: oklch(0.89249842 0.00172608 325.59167); /* Fog ramp #dcdbdc — with the shadow ramp at zero alpha, the hairline does ALL the separating */
+  --input: oklch(1 0 0); /* White field */
+  --ring: oklch(0.53543403 0.25756394 265.4549); /* Waterhole */
+  --chart-1: oklch(0.53543403 0.25756394 265.4549); /* Waterhole #2453ff */
+  --chart-2: oklch(0.76442484 0.1611805 75.11594); /* product yellow #eda100 */
+  --chart-3: oklch(0.71630244 0.14117304 357.38882); /* product magenta #e87ba4 */
+  --chart-4: oklch(0.43314506 0.16713562 283.62447); /* product violet #4a3aa7 */
+  --chart-5: oklch(0.62256529 0.19091315 24.91243); /* product red #e34948 */
+  --sidebar: oklch(1 0 0); /* White rail */
+  --sidebar-foreground: oklch(0.28851368 0.04373181 180.67524); /* Pine */
+  --sidebar-primary: oklch(0.42921701 0.19350531 262.81234); /* Waterhole ramp */
+  --sidebar-primary-foreground: oklch(1 0 0); /* White */
+  --sidebar-accent: oklch(0.94585349 0.02414026 267.92953); /* Waterhole ramp */
+  --sidebar-accent-foreground: oklch(0.30205339 0.13838516 271.14115); /* Midnight */
+  --sidebar-border: oklch(0.89249842 0.00172608 325.59167); /* #dcdbdc */
+  --sidebar-ring: oklch(0.53543403 0.25756394 265.4549); /* Waterhole */
+
+  --shadow-2xs: 0 1px rgb(0 0 0 / 0);
+  --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0);
+  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0), 0 1px 2px -1px rgb(0 0 0 / 0);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0), 0 2px 4px -2px rgb(0 0 0 / 0);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0), 0 4px 6px -4px rgb(0 0 0 / 0);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0), 0 8px 10px -6px rgb(0 0 0 / 0);
+  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0);
+}
+/* Dark: deliberately the NEUTRAL one — the brand's own Fog neutral ramp, not
+ * Pine. That is what keeps the "green means data" contract intact in dark mode
+ * too; a Pine canvas would put the brand green back into the chrome and undo the
+ * whole palette.
+ *
+ * ONE THING NEEDS BRAND SIGN-OFF: #1d1d1d as a canvas is a SHADE (Fog ramp step
+ * one) used for depth, not one of the four named background colours. The guide
+ * sanctions shades "to create depth", which is the reading this palette takes,
+ * but it is the call to make explicitly. Pine is available as a fallback canvas
+ * at the cost of the thesis. */
+.theme-fog-editorial.dark {
+  --background: oklch(0.23075047 0 0); /* Fog ramp #1d1d1d — the NEUTRAL dark (see the block note) */
+  --foreground: oklch(0.95213084 0 0); /* Fog #efefef — 15.4:1 */
+  --card: oklch(0.23075047 0 0); /* FLUSH with the canvas: the #525252 rule separates it, exactly as in light */
+  --card-foreground: oklch(0.95213084 0 0); /* Fog */
+  --popover: oklch(0.36385725 0 0); /* Fog ramp #3e3e3e — a popover is the one thing that must float */
+  --popover-foreground: oklch(0.95213084 0 0); /* Fog */
+  --primary: oklch(0.64435952 0.16555395 254.71981); /* Waterhole ramp #3c8eef */
+  --primary-foreground: oklch(0.18829873 0.05351497 269.38059); /* Waterhole ramp #0a112b — 6.7:1 on #3c8eef */
+  --secondary: oklch(0.36385725 0 0); /* Fog ramp #3e3e3e */
+  --secondary-foreground: oklch(0.95213084 0 0); /* Fog */
+  --muted: oklch(0.36385725 0 0); /* Fog ramp #3e3e3e */
+  --muted-foreground: oklch(0.78892062 0 0); /* Fog ramp #bababa — 4.7:1 on #3e3e3e */
+  --accent: oklch(0.36385725 0 0); /* Fog ramp #3e3e3e */
+  --accent-foreground: oklch(0.95213084 0 0); /* Fog */
+  --border: oklch(0.43860476 0 0); /* Fog ramp #525252 — a RULE, not a hairline: 2.6:1 on the canvas, because with no shadows it is the only thing separating anything */
+  --input: oklch(0.23075047 0 0); /* flush field, defined by its rule */
+  --ring: oklch(0.75029774 0.12331759 260.96522); /* Waterhole ramp #81aefc */
+  --chart-1: oklch(0.64435952 0.16555395 254.71981); /* Waterhole shade #3c8eef */
+  --chart-2: oklch(0.66992689 0.1425276 73.22688); /* product yellow #c98500 */
+  --chart-3: oklch(0.62244702 0.17121982 0.83781); /* product magenta #d55181 */
+  --chart-4: oklch(0.66962743 0.14516802 286.82733); /* product violet #9085e9 */
+  --chart-5: oklch(0.66928661 0.15856851 22.30678); /* product red #e66767 */
+  --sidebar: oklch(0.23075047 0 0); /* flush with the canvas; the rule separates it */
+  --sidebar-foreground: oklch(0.95213084 0 0); /* Fog */
+  --sidebar-primary: oklch(0.64435952 0.16555395 254.71981); /* Waterhole ramp */
+  --sidebar-primary-foreground: oklch(0.18829873 0.05351497 269.38059); /* Waterhole ramp */
+  --sidebar-accent: oklch(0.36385725 0 0); /* Fog ramp */
+  --sidebar-accent-foreground: oklch(0.95213084 0 0); /* Fog */
+  --sidebar-border: oklch(0.43860476 0 0); /* Fog ramp #525252 */
+  --sidebar-ring: oklch(0.75029774 0.12331759 260.96522); /* Waterhole ramp */
+}
+
+/* ---- Instrument (.theme-instrument) -----------------------------------------
+ * A cockpit for the facilitator, for whom the dashboard is the working surface.
+ * Radius 0.25rem, a near-flat shadow ramp that reads as a 1px seat rather than a
+ * lift, true Fog as the recess (one hard step off White instead of a soft one),
+ * and — the move that makes it — a PINE RAIL IN LIGHT MODE. Pine is an
+ * allowlisted background, so the chrome can be brand-dark while the working
+ * surface stays white, which is what makes a dense screen read as an instrument
+ * frame rather than a document.
+ *
+ * Jungle keeps the action and the ramp, exactly as the default pair has it; what
+ * changes is everything around them, so the green has more room. The rail's ring
+ * is Mint, because a Jungle ring on Pine is not the 3:1 a focus indicator owes. */
+.theme-instrument {
+  --seal-hue: 157.20318; /* exact Jungle #30ba78 hue, which is --primary — ADR-0014 */
+  --radius: 0.25rem;
+
+  --background: oklch(1 0 0); /* White */
+  --foreground: oklch(0.28851368 0.04373181 180.67524); /* Pine #0c322c */
+  --card: oklch(1 0 0); /* White */
+  --card-foreground: oklch(0.28851368 0.04373181 180.67524); /* Pine */
+  --popover: oklch(1 0 0); /* White */
+  --popover-foreground: oklch(0.28851368 0.04373181 180.67524); /* Pine */
+  --primary: oklch(0.700846 0.151227 157.20318); /* Jungle #30ba78 */
+  --primary-foreground: oklch(0.28851368 0.04373181 180.67524); /* Pine on Jungle — 5.6:1 */
+  --secondary: oklch(0.95213084 0 0); /* Fog */
+  --secondary-foreground: oklch(0.28851368 0.04373181 180.67524); /* Pine */
+  --muted: oklch(0.95213084 0 0); /* Fog — the recess is true Fog, one hard step off White */
+  --muted-foreground: oklch(0.43860476 0 0); /* Fog ramp #525252 */
+  --accent: oklch(0.97161406 0.01856343 171.51936); /* Jungle ramp #eafaf4 */
+  --accent-foreground: oklch(0.28851368 0.04373181 180.67524); /* Pine */
+  --border: oklch(0.89249842 0.00172608 325.59167); /* Fog ramp #dcdbdc */
+  --input: oklch(1 0 0); /* White field */
+  --ring: oklch(0.700846 0.151227 157.20318); /* Jungle */
+  --chart-1: oklch(0.53543403 0.25756394 265.4549); /* Waterhole #2453ff */
+  --chart-2: oklch(0.76442484 0.1611805 75.11594); /* product yellow #eda100 */
+  --chart-3: oklch(0.71630244 0.14117304 357.38882); /* product magenta #e87ba4 */
+  --chart-4: oklch(0.43314506 0.16713562 283.62447); /* product violet #4a3aa7 */
+  --chart-5: oklch(0.62256529 0.19091315 24.91243); /* product red #e34948 */
+  --sidebar: oklch(0.28851368 0.04373181 180.67524); /* PINE RAIL IN LIGHT MODE — the cockpit chrome */
+  --sidebar-foreground: oklch(0.95213084 0 0); /* Fog on Pine — 12.1:1 */
+  --sidebar-primary: oklch(0.700846 0.151227 157.20318); /* Jungle */
+  --sidebar-primary-foreground: oklch(0.28851368 0.04373181 180.67524); /* Pine */
+  --sidebar-accent: color-mix(in oklab, #0c322c 82%, white); /* Pine lifted, for the active rail row */
+  --sidebar-accent-foreground: oklch(0.95213084 0 0); /* Fog */
+  --sidebar-border: color-mix(in oklab, #0c322c 72%, white);
+  --sidebar-ring: oklch(0.87453265 0.09766297 170.91162); /* Mint — the ring has to read on the Pine rail */
+
+  --shadow-2xs: 0 1px rgb(0 0 0 / 0.04);
+  --shadow-xs: 0 1px rgb(0 0 0 / 0.05);
+  --shadow-sm: 0 1px 0 0 rgb(0 0 0 / 0.06), 0 1px 1px -1px rgb(0 0 0 / 0.06);
+  --shadow-md: 0 1px 0 0 rgb(0 0 0 / 0.06), 0 2px 3px -2px rgb(0 0 0 / 0.10);
+  --shadow-lg: 0 1px 0 0 rgb(0 0 0 / 0.06), 0 6px 10px -6px rgb(0 0 0 / 0.14);
+  --shadow-xl: 0 1px 0 0 rgb(0 0 0 / 0.06), 0 12px 18px -10px rgb(0 0 0 / 0.16);
+  --shadow-2xl: 0 18px 30px -14px rgb(0 0 0 / 0.24);
+}
+/* Dark: a THREE-step Pine ramp where the default pair has two — the canvas is
+ * Pine deepened toward black, the card is true Pine #0c322c, and the popover
+ * lifts above it. The rail is the deepest surface of all, so the frame reads as
+ * structure and the cards read as instruments seated in it. */
+.theme-instrument.dark {
+  --background: color-mix(in oklab, #0c322c 80%, black); /* Pine DEEPENED — step one of three */
+  --foreground: oklch(0.95213084 0 0); /* Fog #efefef */
+  --card: oklch(0.28851368 0.04373181 180.67524); /* true Pine #0c322c — step two */
+  --card-foreground: oklch(0.95213084 0 0); /* Fog */
+  --popover: color-mix(in oklab, #0c322c 84%, white); /* step three */
+  --popover-foreground: oklch(0.95213084 0 0); /* Fog */
+  --primary: oklch(0.700846 0.151227 157.20318); /* Jungle */
+  --primary-foreground: oklch(0.28851368 0.04373181 180.67524); /* Pine */
+  --secondary: color-mix(in oklab, #0c322c 88%, white);
+  --secondary-foreground: oklch(0.95213084 0 0); /* Fog */
+  --muted: color-mix(in oklab, #0c322c 88%, white);
+  --muted-foreground: oklch(0.78892062 0 0); /* Fog ramp #bababa — 7.6:1 on Pine */
+  --accent: color-mix(in oklab, #0c322c 80%, white);
+  --accent-foreground: oklch(0.95213084 0 0); /* Fog */
+  --border: color-mix(in oklab, #0c322c 70%, white);
+  --input: color-mix(in oklab, #0c322c 90%, white);
+  --ring: oklch(0.700846 0.151227 157.20318); /* Jungle */
+  --chart-1: oklch(0.64435952 0.16555395 254.71981); /* Waterhole shade #3c8eef */
+  --chart-2: oklch(0.66992689 0.1425276 73.22688); /* product yellow #c98500 */
+  --chart-3: oklch(0.62244702 0.17121982 0.83781); /* product magenta #d55181 */
+  --chart-4: oklch(0.66962743 0.14516802 286.82733); /* product violet #9085e9 */
+  --chart-5: oklch(0.66928661 0.15856851 22.30678); /* product red #e66767 */
+  --sidebar: color-mix(in oklab, #0c322c 68%, black); /* the deepest surface — the rail is the frame */
+  --sidebar-foreground: oklch(0.95213084 0 0); /* Fog */
+  --sidebar-primary: oklch(0.700846 0.151227 157.20318); /* Jungle */
+  --sidebar-primary-foreground: oklch(0.28851368 0.04373181 180.67524); /* Pine */
+  --sidebar-accent: oklch(0.28851368 0.04373181 180.67524); /* true Pine, for the active rail row */
+  --sidebar-accent-foreground: oklch(0.95213084 0 0); /* Fog */
+  --sidebar-border: color-mix(in oklab, #0c322c 70%, white);
+  --sidebar-ring: oklch(0.700846 0.151227 157.20318); /* Jungle */
+}
+
+/* ---- Token → Tailwind utility mapping ------------------------------------- */
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-link: var(--link);
+  --color-positive: var(--positive);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-destructive-ink: var(--destructive-ink);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  /* `text-warning-ink` — amber as readable text. `inline` for the usual reason:
+   * the utility is emitted as the literal `var(--warning-ink)`, so the color-mix
+   * resolves against the palette AND the mode in scope at the point of use. */
+  --color-warning-ink: var(--warning-ink);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* `bg-well` — the recessed surface inside a card. `inline` is load-bearing for
+   * the same reason it is on the SEAL ramp: the utility is emitted as the literal
+   * `var(--well)`, so the color-mix resolves against the palette in scope at the
+   * point of use rather than being frozen at the SUSE values. */
+  --color-well: var(--well);
+
+  /* `text-axis-ink` / `text-axis-ink-soft` — the two emphasis steps the structural
+   * SVG views draw their marks in, instead of `--foreground`. `inline` is
+   * load-bearing twice over: the utility resolves per element, so it picks up both
+   * the palette's `--seal-hue` (through the +60° calc) and the mode's L/C. */
+  --color-axis-ink: var(--axis-ink);
+  --color-axis-ink-soft: var(--axis-ink-soft);
+
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  /* Vendor plane → `bg-vendor-N` (fill), `text-vendor-ink-N` (text),
+   * `bg-vendor-wash-N` (surface). Fixed under every palette, by declaration. */
+  --color-vendor-1: var(--vendor-1);
+  --color-vendor-2: var(--vendor-2);
+  --color-vendor-3: var(--vendor-3);
+  --color-vendor-4: var(--vendor-4);
+  --color-vendor-5: var(--vendor-5);
+
+  --color-vendor-ink-1: var(--vendor-ink-1);
+  --color-vendor-ink-2: var(--vendor-ink-2);
+  --color-vendor-ink-3: var(--vendor-ink-3);
+  --color-vendor-ink-4: var(--vendor-ink-4);
+  --color-vendor-ink-5: var(--vendor-ink-5);
+
+  --color-vendor-wash-1: var(--vendor-wash-1);
+  --color-vendor-wash-2: var(--vendor-wash-2);
+  --color-vendor-wash-3: var(--vendor-wash-3);
+  --color-vendor-wash-4: var(--vendor-wash-4);
+  --color-vendor-wash-5: var(--vendor-wash-5);
+
+  /* Tag plane → `border-tag-N` (edge), `text-tag-ink-N` (token), `bg-tag-wash-N`
+   * (badge surface). Fixed under every palette, by declaration. */
+  --color-tag-1: var(--tag-1);
+  --color-tag-2: var(--tag-2);
+  --color-tag-3: var(--tag-3);
+
+  --color-tag-ink-1: var(--tag-ink-1);
+  --color-tag-ink-2: var(--tag-ink-2);
+  --color-tag-ink-3: var(--tag-ink-3);
+
+  --color-tag-wash-1: var(--tag-wash-1);
+  --color-tag-wash-2: var(--tag-wash-2);
+  --color-tag-wash-3: var(--tag-wash-3);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* SEAL ramp → `text-seal-N` (ink) and `bg-seal-fill-N` (heat/badge fill).
+   * `inline` matters doubly here: the utility is emitted as the literal
+   * `var(--seal-2)`, so it resolves per element and therefore picks up the
+   * palette's `--seal-hue` at the point of use. */
+  --color-seal-0: var(--seal-0);
+  --color-seal-1: var(--seal-1);
+  --color-seal-2: var(--seal-2);
+  --color-seal-3: var(--seal-3);
+  --color-seal-4: var(--seal-4);
+
+  --color-seal-fill-0: var(--seal-fill-0);
+  --color-seal-fill-1: var(--seal-fill-1);
+  --color-seal-fill-2: var(--seal-fill-2);
+  --color-seal-fill-3: var(--seal-fill-3);
+  --color-seal-fill-4: var(--seal-fill-4);
+
+  /* Elevation. `inline` is what makes this work rather than cycle: the utility
+   * is emitted as `box-shadow: var(--shadow-md)`, resolved against whichever
+   * palette block is in scope, instead of redeclaring the property here. */
+  --shadow-2xs: var(--shadow-2xs);
+  --shadow-xs: var(--shadow-xs);
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+  --shadow-xl: var(--shadow-xl);
+  --shadow-2xl: var(--shadow-2xl);
+}
+
+/* ---- Base layer ----------------------------------------------------------- */
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-sans);
+  }
+
+  /* Brand typography rule: headlines are set in MEDIUM, not bold — "do not
+   * create headlines in a weight that isn't medium". Tailwind's preflight resets
+   * headings to `font-weight: inherit` (400), so without this a heading with no
+   * weight utility renders lighter than the brand asks. A `font-*` utility on the
+   * element still wins, so this is the default rather than a lock. */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: 500;
+  }
+}
+
+/* Disabled form controls read as inert everywhere (shadcn disabled semantics),
+ * using the theme's muted tokens. Raw <input>/<select>/<textarea> are hand-rolled
+ * across both apps with their own `bg-background`/`text-foreground` utilities and
+ * no `disabled:` classes, so a disabled field was indistinguishable from an
+ * active one. This single rule gives every disabled control the muted, faded,
+ * not-allowed treatment — no per-control classes and no shared Input primitive to
+ * migrate to. It is UNLAYERED on purpose: unlayered rules outrank Tailwind's
+ * `utilities` layer, so this overrides each control's own bg/text utilities
+ * without `!important`. Checkbox, radio and range keep their native rendering. */
+input:not([type='checkbox']):not([type='radio']):not([type='range']):disabled,
+textarea:disabled,
+select:disabled {
+  background-color: var(--muted);
+  color: var(--muted-foreground);
+  border-color: var(--border);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Read-only inputs read inert like a read-only DetailField — muted fill + text —
+ * but stay selectable: no not-allowed cursor, no dimming, so a read-only value
+ * is legible and copyable. Same unlayered override rationale as the disabled
+ * rule above (beats each control's own bg/text utilities without !important). */
+input:not([type='checkbox']):not([type='radio']):not([type='range'])[readonly],
+textarea[readonly] {
+  background-color: var(--muted);
+  color: var(--muted-foreground);
+  border-color: var(--border);
+}
+
+/* The chip a pointer drag has picked up. The floating DndGhost is now the thing
+ * being moved, so the source chip stays put and reads as lifted away. Same
+ * unlayered rationale as the rules above (beats the chip's own utilities without
+ * !important). `pointer-events: none` is load-bearing, not decoration: the drag's
+ * `elementFromPoint` hit-test must see the drop target underneath the chip. */
+[data-dragging] {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+/* Respect reduced-motion globally (quality floor): near-instant transitions and
+ * animations for anyone who asks the OS to reduce motion. Components that need
+ * finer control still layer `motion-reduce:` utilities on top. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* layerchart surfaces (analytics ADR-0013). Under the SUSE palette green is the
+   whole SEAL ramp (ADR-0014), so the library's default series colour is
+   re-pointed away from --primary — a chart series must never read as a rung. */
+.lc-root-container,
+.lc-tooltip-root {
+  --color-surface-100: var(--card);
+  --color-surface-200: var(--muted);
+  --color-surface-content: var(--card-foreground);
+  --color-primary: var(--muted-foreground);
+}
