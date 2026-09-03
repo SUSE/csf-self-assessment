@@ -1,5 +1,7 @@
 # Cloud Sovereignty Self-Assessment
 
+[![Verify](https://github.com/SUSE/csf-self-assessment/actions/workflows/verify.yml/badge.svg)](https://github.com/SUSE/csf-self-assessment/actions/workflows/verify.yml)
+
 An offline, workshop-oriented platform for authoring self-assessment instruments,
 collecting participant answers, reconciling them, and producing a defensible
 reading of an organisation's cloud sovereignty exposure.
