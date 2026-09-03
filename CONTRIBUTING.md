@@ -55,6 +55,94 @@ pnpm test            # Runs unit and smoke tests
 pnpm verify          # Runs all quality checks and builds the project
 ```
 
+### Running Verification in Headless or Container Environments
+
+The desktop smoke tests launch a real Electron application. If you run the verification suite in a headless Linux environment, or in a container (such as Docker or Podman), you must install additional system packages.
+
+You can run the combined verification pipeline with this command:
+
+```sh
+pnpm verify:headless
+```
+
+This command wraps the verification pipeline inside a virtual framebuffer server (`xvfb-run`). The virtual display is only required for the `pnpm test` stage. Other stages like linting, typechecking, or building do not need a display server.
+
+#### Package Requirements
+
+Install these packages using your system package manager.
+
+##### 1. openSUSE Tumbleweed / Leap (Docker/Podman)
+```sh
+sudo zypper install -y \
+  xvfb-run \
+  dejavu-fonts \
+  libasound2 \
+  libatk-1_0-0 \
+  at-spi2-core \
+  libcups2 \
+  libdbus-1-3 \
+  libcairo2 \
+  libgtk-3-0 \
+  libpango-1_0-0 \
+  libX11-6 \
+  libXcomposite1 \
+  libXdamage1 \
+  libXext6 \
+  libXfixes3 \
+  libXrandr2 \
+  Mesa-libgbm1 \
+  libxcb1 \
+  libxkbcommon0
+```
+
+##### 2. Debian / Ubuntu (Docker/Podman)
+```sh
+sudo apt-get update && sudo apt-get install -y \
+  xvfb \
+  fonts-dejavu-core \
+  libasound2 \
+  libatk1.0-0 \
+  libatk-bridge2.0-0 \
+  libcairo2 \
+  libcups2 \
+  libdbus-1-3 \
+  libgbm1 \
+  libgtk-3-0 \
+  libnspr4 \
+  libnss3 \
+  libpango-1.0-0 \
+  libx11-xcb1 \
+  libxcomposite1 \
+  libxdamage1 \
+  libxfixes3 \
+  libxrandr2 \
+  libxkbcommon0
+```
+
+##### 3. Fedora / Red Hat Enterprise Linux (Docker/Podman)
+```sh
+sudo dnf install -y \
+  xorg-x11-server-Xvfb \
+  dejavu-sans-fonts \
+  alsa-lib \
+  atk \
+  at-spi2-atk \
+  cups-libs \
+  dbus-libs \
+  cairo \
+  gtk3 \
+  pango \
+  libX11 \
+  libXcomposite \
+  libXdamage \
+  libXext \
+  libXfixes \
+  libXrandr \
+  mesa-libGBM \
+  libxcb \
+  libxkbcommon
+```
+
 ## Commit Message Guidelines
 
 This repository requires Conventional Commits. Your commit messages must follow the [Conventional Commits specification](https://www.conventionalcommits.org/).

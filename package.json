@@ -40,7 +40,8 @@
     "theme:tweakcn:export": "node packages/platform/scripts/theme-palette-bridge.mjs export",
     "theme:tweakcn:apply": "node packages/platform/scripts/theme-palette-bridge.mjs apply",
     "theme:tweakcn:check": "node packages/platform/scripts/theme-palette-bridge.mjs check",
-    "verify": "pnpm lint && pnpm typecheck && pnpm test && pnpm theme:tweakcn:check && pnpm build"
+    "verify": "pnpm lint && pnpm typecheck && pnpm test && pnpm theme:tweakcn:check && pnpm build",
+    "verify:headless": "xvfb-run pnpm verify"
   },
   "devDependencies": {
     "@eslint/js": "^9.18.0",
