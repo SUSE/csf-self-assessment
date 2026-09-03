@@ -1,0 +1,88 @@
+@page {
+  margin: 16mm;
+}
+
+/* The print-only mount (report-print.svelte). Never `display: none` — the figures
+   size themselves from a measured container, so a box with no layout prints
+   blank. Screen-only, so print sees an ordinary block at the document's width. */
+@media screen {
+  [data-report-print] {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    width: 64rem;
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+@media print {
+  html,
+  body {
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  /* The report's ancestors unwrap: ui/app-shell is viewport-bounded (`h-svh`,
+     `overflow-hidden`) and ui/stage-layout clips and transforms its carousel,
+     so a multi-page document inside those boxes prints as one clipped page.
+     `display: contents` drops the box without moving the content. */
+  body :has([data-report-page]) {
+    display: contents !important;
+  }
+  /* Every branch hanging off that chain is app chrome, not document — the
+     shell header, both rails, the footer, the stage toolbar, the print
+     control itself. */
+  body > :not(:has([data-report-page]), [data-report-page]),
+  body :has([data-report-page]) > :not(:has([data-report-page]), [data-report-page]) {
+    display: none !important;
+  }
+
+  [data-report-page],
+  [data-report-page] * {
+    print-color-adjust: exact;
+  }
+
+  [data-report-section] {
+    break-before: page;
+  }
+
+  [data-report-vendor],
+  [data-report-vendor-chapter] {
+    break-before: page;
+  }
+
+  [data-recommendation] {
+    break-inside: avoid;
+  }
+
+  /* The appendix is item 9 of the spine (report.md §4.2): one break before the
+     record, none between its objectives. */
+  [data-report-appendix] {
+    break-before: page;
+  }
+
+  [data-report-figure] {
+    break-inside: avoid;
+  }
+
+  /* The grid's own scroll box is a screen affordance: eleven dimension columns
+     exceed a `half` tile at any window width. On paper there is nowhere to
+     scroll, so the box must let the table set its own width. */
+  [data-heat-scroll] {
+    overflow: visible !important;
+  }
+
+  /* A table may split across pages; a row may not. */
+  [data-report-page] tr {
+    break-inside: avoid;
+  }
+
+  /* The objectives table is the exception: eleven rows always fit a page, and
+     split it leaves one objective and a repeated header stranded above the fold,
+     reading as a second table. It moves whole to the next page instead. */
+  [data-report-objectives] {
+    break-inside: avoid;
+  }
+}

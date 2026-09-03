@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "//paths": "Repeated from tsconfig.base.json (as package-relative paths) because the shadcn-svelte CLI reads this file directly and does not follow `extends` — without a literal paths field here, `shadcn-svelte add <x>` refuses to run.",
+  "compilerOptions": {
+    "rootDir": "src",
+    "paths": {
+      "$lib": ["./src"],
+      "$lib/*": ["./src/*"]
+    }
+  },
+  "include": ["src/**/*.ts"],
+  "//exclude": "src/ui/** holds Svelte components typechecked by the app's svelte-check (tsc can't resolve .svelte imports)",
+  "exclude": ["**/dist/**", "src/ui/**"]
+}

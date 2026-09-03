@@ -1,0 +1,54 @@
+{
+  "name": "@csf/desktop",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./bridge-contract": "./src/bridge-contract.ts"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json && esbuild src/preload.ts --bundle --platform=node --format=cjs --external:electron --outfile=dist/src/preload.js",
+    "typecheck": "tsc -p tsconfig.json",
+    "test:unit": "node --import tsx --test test/target.test.ts test/protocol-policy.test.ts test/request-policy.test.ts test/bridge-*.test.ts test/profile.test.ts test/history-shortcuts.test.ts test/release-contract.test.ts test/package-config.test.ts test/icons.test.ts test/sbom.test.ts test/evidence.test.ts test/native-job.test.ts test/native-signing.test.ts test/clean-host.test.ts test/publication.test.ts test/workflows.test.ts",
+    "test:smoke": "node --import tsx --test --test-concurrency=1 test/smoke.test.ts test/profile-smoke.test.ts test/author-parity-smoke.test.ts test/assessment-parity-smoke.test.ts test/ec-calculator-smoke.test.ts",
+    "test:package": "node --import tsx --test --test-concurrency=1 test/package-smoke.test.ts",
+    "start:author": "electron dist/src/author.js",
+    "start:assessment": "electron dist/src/assessment.js",
+    "package:author": "CSF_DESKTOP_PACKAGE_TRUST=local-proof CSF_DESKTOP_PACKAGE_SYSTEM=macos electron-builder --config electron-builder.author.ts --mac dir --arm64",
+    "package:assessment": "CSF_DESKTOP_PACKAGE_TRUST=local-proof CSF_DESKTOP_PACKAGE_SYSTEM=macos electron-builder --config electron-builder.assessment.ts --mac dir --arm64",
+    "package": "pnpm run package:author && pnpm run package:assessment",
+    "release:gate": "tsx release/gate-cli.ts",
+    "release:native": "tsx release/native-job-cli.ts",
+    "release:stage": "tsx release/stage-cli.ts",
+    "release:assemble": "tsx release/assemble-cli.ts",
+    "release:verify": "tsx release/verify-cli.ts",
+    "release:clean-host": "tsx release/clean-host-cli.ts",
+    "release:clean-renderers": "node --import tsx --test test/release-renderers.test.ts",
+    "release:publication": "tsx release/publication-cli.ts",
+    "release:package:macos": "pnpm run build && electron-builder --config electron-builder.author.ts --mac && electron-builder --config electron-builder.assessment.ts --mac",
+    "release:package:windows": "pnpm run build && electron-builder --config electron-builder.author.ts --win && electron-builder --config electron-builder.assessment.ts --win",
+    "release:package:linux": "pnpm run build && electron-builder --config electron-builder.author.ts --linux && electron-builder --config electron-builder.assessment.ts --linux"
+  },
+  "dependencies": {
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@cyclonedx/cyclonedx-library": "10.1.1",
+    "@electron/asar": "4.2.1",
+    "@shockpkg/icon-encoder": "3.2.3",
+    "@types/node": "^22.10.7",
+    "actionlint": "2.0.6",
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1",
+    "ajv-formats-draft2019": "1.6.1",
+    "electron": "43.4.0",
+    "electron-builder": "26.15.3",
+    "esbuild": "0.25.12",
+    "packageurl-js": "2.0.1",
+    "playwright": "1.62.1",
+    "sharp": "0.35.3",
+    "tsx": "4.23.12",
+    "typescript": "^5.7.3",
+    "yaml": "2.9.0"
+  }
+}

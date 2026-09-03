@@ -1,0 +1,290 @@
+import { spawn } from 'node:child_process';
+import { createHash } from 'node:crypto';
+import { readFile } from 'node:fs/promises';
+import { join } from 'node:path';
+
+import {
+  RemoteReleaseSchema,
+  RepositoryVisibilitySchema,
+  ReleaseError,
+  Sha256Schema,
+  releaseAssetNames,
+} from './contract.js';
+import type {
+  CommitSha,
+  GitHubReleaseOperation,
+  GitHubRepository,
+  ReleaseAssetEvidence,
+  ReleaseTag,
+  ReleaseVersion,
+  RemoteRelease,
+} from './contract.js';
+import { verifyCandidate } from './evidence.js';
+
+export type GhArguments = readonly [string, ...string[]];
+export type GhCommandResult =
+  | { kind: 'succeeded'; stdout: string }
+  | { kind: 'failed'; exitCode: number };
+export type GhRunner = (
+  operation: GitHubReleaseOperation,
+  arguments_: GhArguments,
+) => Promise<GhCommandResult>;
+
+export type GhRunnerInput = {
+  executable: 'gh';
+  workingDirectory: string;
+  environment: NodeJS.ProcessEnv;
+};
+
+export type DraftReleaseInput = {
+  candidateDirectory: string;
+  notesFile: string;
+  repository: GitHubRepository;
+  expectedTag: ReleaseTag;
+  expectedCommit: CommitSha;
+};
+
+export type PublishReleaseInput = {
+  candidateDirectory: string;
+  repository: GitHubRepository;
+  expectedTag: ReleaseTag;
+  expectedCommit: CommitSha;
+};
+
+function ghArguments(first: string, ...rest: string[]): GhArguments {
+  return [first, ...rest];
+}
+
+function sha256(bytes: Buffer): ReleaseAssetEvidence['sha256'] {
+  return Sha256Schema.parse(createHash('sha256').update(bytes).digest('hex'));
+}
+
+async function evidenceFor(
+  candidateDirectory: string,
+  version: ReleaseVersion,
+): Promise<readonly ReleaseAssetEvidence[]> {
+  return Promise.all(
+    releaseAssetNames(version).map(async (file) => {
+      const bytes = await readFile(join(candidateDirectory, file));
+      return { file, bytes: bytes.length, sha256: sha256(bytes) };
+    }),
+  );
+}
+
+function requireContext(
+  actualTag: ReleaseTag,
+  actualCommit: CommitSha,
+  expectedTag: ReleaseTag,
+  expectedCommit: CommitSha,
+): void {
+  if (actualTag !== expectedTag) {
+    throw new ReleaseError({ kind: 'release-context-mismatch', field: 'tag' });
+  }
+  if (actualCommit !== expectedCommit) {
+    throw new ReleaseError({ kind: 'release-context-mismatch', field: 'commit' });
+  }
+}
+
+async function requireSucceeded(
+  operation: GitHubReleaseOperation,
+  arguments_: GhArguments,
+  run: GhRunner,
+): Promise<string> {
+  const result = await run(operation, arguments_);
+  if (result.kind === 'failed') {
+    throw new ReleaseError({
+      kind: 'github-command-failed',
+      operation,
+      exitCode: result.exitCode,
+    });
+  }
+  return result.stdout;
+}
+
+function parseRemoteRelease(stdout: string, tag: ReleaseTag): RemoteRelease {
+  try {
+    return RemoteReleaseSchema.parse(JSON.parse(stdout));
+  } catch {
+    throw new ReleaseError({ kind: 'invalid-remote-release', tag });
+  }
+}
+
+function requireRemoteRelease(
+  remote: RemoteRelease,
+  tag: ReleaseTag,
+  expectedState: 'draft' | 'published',
+  evidence: readonly ReleaseAssetEvidence[],
+): void {
+  if (remote.tag_name !== tag || !remote.prerelease) {
+    throw new ReleaseError({ kind: 'invalid-remote-release', tag });
+  }
+  const actualState = remote.draft ? 'draft' : 'published';
+  if (actualState !== expectedState) {
+    throw new ReleaseError({
+      kind: 'remote-release-state',
+      expected: expectedState,
+      actual: actualState,
+    });
+  }
+  if (remote.assets.length !== evidence.length) {
+    throw new ReleaseError({ kind: 'invalid-remote-release', tag });
+  }
+  for (const local of evidence) {
+    const matches = remote.assets.filter(({ name }) => name === local.file);
+    if (
+      matches.length !== 1 ||
+      matches[0]?.size !== local.bytes ||
+      matches[0]?.digest !== `sha256:${local.sha256}`
+    ) {
+      throw new ReleaseError({ kind: 'invalid-remote-release', tag });
+    }
+  }
+}
+
+async function inspectRelease(
+  repository: GitHubRepository,
+  tag: ReleaseTag,
+  run: GhRunner,
+): Promise<RemoteRelease> {
+  const stdout = await requireSucceeded(
+    'inspect-release',
+    ghArguments('api', `repos/${repository}/releases/tags/${tag}`),
+    run,
+  );
+  return parseRemoteRelease(stdout, tag);
+}
+
+export function createGhRunner(input: GhRunnerInput): GhRunner {
+  return async (_operation, arguments_) =>
+    new Promise<GhCommandResult>((resolve) => {
+      const child = spawn(input.executable, arguments_, {
+        cwd: input.workingDirectory,
+        env: input.environment,
+        shell: false,
+        stdio: ['ignore', 'pipe', 'ignore'],
+      });
+      let stdout = '';
+      child.stdout.setEncoding('utf8');
+      child.stdout.on('data', (chunk: string) => {
+        stdout += chunk;
+      });
+      child.once('error', () => {
+        resolve({ kind: 'failed', exitCode: 1 });
+      });
+      child.once('close', (exitCode) => {
+        if (exitCode === 0) {
+          resolve({ kind: 'succeeded', stdout });
+          return;
+        }
+        resolve({ kind: 'failed', exitCode: exitCode ?? 1 });
+      });
+    });
+}
+
+export async function releaseAssetEvidence(
+  candidateDirectory: string,
+): Promise<readonly ReleaseAssetEvidence[]> {
+  const manifest = await verifyCandidate(candidateDirectory);
+  return evidenceFor(candidateDirectory, manifest.version);
+}
+
+export async function createVerifiedDraft(
+  input: DraftReleaseInput,
+  run: GhRunner,
+): Promise<RemoteRelease> {
+  const manifest = await verifyCandidate(input.candidateDirectory);
+  requireContext(
+    manifest.tag,
+    manifest.commit,
+    input.expectedTag,
+    input.expectedCommit,
+  );
+  const evidence = await evidenceFor(input.candidateDirectory, manifest.version);
+
+  const repositoryOutput = await requireSucceeded(
+    'inspect-repository',
+    ghArguments('repo', 'view', input.repository, '--json', 'visibility'),
+    run,
+  );
+  try {
+    RepositoryVisibilitySchema.parse(JSON.parse(repositoryOutput));
+  } catch {
+    throw new ReleaseError({
+      kind: 'repository-not-private',
+      repository: input.repository,
+    });
+  }
+
+  await requireSucceeded(
+    'create-draft',
+    ghArguments(
+      'release',
+      'create',
+      input.expectedTag,
+      '--repo',
+      input.repository,
+      '--draft',
+      '--prerelease',
+      '--verify-tag',
+      '--generate-notes',
+      '--notes-file',
+      input.notesFile,
+    ),
+    run,
+  );
+  await requireSucceeded(
+    'upload-assets',
+    ghArguments(
+      'release',
+      'upload',
+      input.expectedTag,
+      ...releaseAssetNames(manifest.version).map((file) =>
+        join(input.candidateDirectory, file),
+      ),
+      '--repo',
+      input.repository,
+    ),
+    run,
+  );
+  const remote = await inspectRelease(input.repository, input.expectedTag, run);
+  requireRemoteRelease(remote, input.expectedTag, 'draft', evidence);
+  return remote;
+}
+
+export async function publishVerifiedDraft(
+  input: PublishReleaseInput,
+  run: GhRunner,
+): Promise<RemoteRelease> {
+  const manifest = await verifyCandidate(input.candidateDirectory);
+  requireContext(
+    manifest.tag,
+    manifest.commit,
+    input.expectedTag,
+    input.expectedCommit,
+  );
+  const evidence = await evidenceFor(input.candidateDirectory, manifest.version);
+
+  const draft = await inspectRelease(input.repository, input.expectedTag, run);
+  requireRemoteRelease(draft, input.expectedTag, 'draft', evidence);
+  await requireSucceeded(
+    'publish-release',
+    ghArguments(
+      'release',
+      'edit',
+      input.expectedTag,
+      '--draft=false',
+      '--prerelease',
+      '--latest=false',
+      '--repo',
+      input.repository,
+    ),
+    run,
+  );
+  const published = await inspectRelease(
+    input.repository,
+    input.expectedTag,
+    run,
+  );
+  requireRemoteRelease(published, input.expectedTag, 'published', evidence);
+  return published;
+}
