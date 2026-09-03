@@ -248,3 +248,5 @@ procedure.
 For guided use, start with the
 [authoring guide](./docs/authoring.md) or the
 [workshop flow guide](./docs/assessment-flow.md).
+
+To contribute to this project, please read our [Contributing Guide](./CONTRIBUTING.md).
