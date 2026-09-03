@@ -69,6 +69,8 @@ This command wraps the verification pipeline inside a virtual framebuffer server
 
 #### Package Requirements
 
+This section is **ILLUSTRATIVE**. It doesn't pretend to list all the operative systems and the packages may change through the time, so what worked one day may not work today.
+
 Install these packages using your system package manager.
 
 ##### 1. openSUSE Tumbleweed / Leap (Docker/Podman)
@@ -90,9 +92,10 @@ sudo zypper install -y \
   libXext6 \
   libXfixes3 \
   libXrandr2 \
-  Mesa-libgbm1 \
   libxcb1 \
-  libxkbcommon0
+  libxkbcommon0 \
+  mozilla-nspr \
+  mozilla-nss
 ```
 
 ##### 2. Debian / Ubuntu (Docker/Podman)
