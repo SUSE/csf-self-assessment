@@ -25,7 +25,7 @@ const readJson = (path: string) =>
 describe('checked-in assessments', () => {
   const cases = [
     {
-      file: 'v2/csf-estate-partial-Alex.json',
+      file: 'assessment/partial-Alex.json',
       floor: 1,
       score: 40.8558402585411,
       answered: 28,
@@ -44,7 +44,7 @@ describe('checked-in assessments', () => {
       unknowns: ['SOV-5.hardware-provenance'],
     },
     {
-      file: 'v2/csf-estate-partial-Jane.json',
+      file: 'assessment/partial-Jane.json',
       floor: 0,
       score: 17.25563909774436,
       answered: 14,
@@ -122,7 +122,7 @@ describe('checked-in workbooks', () => {
       ],
     },
     {
-      file: 'v2/csf-estate-workbook.json',
+      file: 'assessment/workbook.json',
       readings: [
         ['profile-a', 0, 14.479166666666668, units(63, 63, 0, 0, 0)],
         ['profile-base', 1, 68.44977025898079, units(69, 66, 0, 0, 3)],
@@ -152,7 +152,7 @@ describe('checked-in workbook-assessments', () => {
   const files = [
     'samples/teaching-workbook-assessment.json',
     'samples/teaching-deep-analysis-workbook-assessment.json',
-    'v2/csf-estate-workbook-assessment.json',
+    'assessment/workbook-assessment.json',
   ];
 
   for (const file of files) {

@@ -8,11 +8,11 @@ import { reviewLanding } from './review';
 import { land } from './land';
 
 const read = (file: string): unknown =>
-  JSON.parse(readFileSync(fileURLToPath(new URL(`../../../../v2/${file}`, import.meta.url)), 'utf8'));
+  JSON.parse(readFileSync(fileURLToPath(new URL(`../../../../assessment/${file}`, import.meta.url)), 'utf8'));
 
-export const WA = WorkbookAssessmentSchema.parse(read('csf-estate-workbook-assessment.json'));
-export const ALEX = AssessmentSchema.parse(read('csf-estate-partial-Alex.json'));
-export const JANE = AssessmentSchema.parse(read('csf-estate-partial-Jane.json'));
+export const WA = WorkbookAssessmentSchema.parse(read('workbook-assessment.json'));
+export const ALEX = AssessmentSchema.parse(read('partial-Alex.json'));
+export const JANE = AssessmentSchema.parse(read('partial-Jane.json'));
 
 export const NO_DECISIONS = { resolutions: [] as ClashResolution[], partyDecisions: [] };
 

@@ -7,10 +7,10 @@ import { evaluate } from '../score-engine';
 import { ribbonModel } from './ribbon';
 
 const read = (file: string): unknown =>
-  JSON.parse(readFileSync(fileURLToPath(new URL(`../../../../v2/${file}`, import.meta.url)), 'utf8'));
+  JSON.parse(readFileSync(fileURLToPath(new URL(`../../../../assessment/${file}`, import.meta.url)), 'utf8'));
 
-const alex = AssessmentSchema.parse(read('csf-estate-partial-Alex.json'));
-const WA = WorkbookAssessmentSchema.parse(read('csf-estate-workbook-assessment.json'));
+const alex = AssessmentSchema.parse(read('partial-Alex.json'));
+const WA = WorkbookAssessmentSchema.parse(read('workbook-assessment.json'));
 const A = evaluate(alex.workbook, {
   ...alex,
   parties: [...alex.parties, ...(alex.partiesAdded ?? [])],

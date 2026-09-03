@@ -47,7 +47,7 @@ export type SecondLookTile =
   | { kind: 'flagged'; headline: string; caption: string; checks: ConsistencyCheck[] }
   | { kind: 'clear'; reason: string };
 
-/** The v1 set is exactly five (§2.8; a sixth is deferred to a later slice, §8). */
+/** The initial set is exactly five (§2.8; a sixth is deferred to a later slice, §8). */
 export const CHECK_COUNT = 5;
 
 /** Every check, in reading order, whether or not it fired — the tile draws one dial

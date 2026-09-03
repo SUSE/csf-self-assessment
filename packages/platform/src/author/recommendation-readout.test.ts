@@ -141,7 +141,7 @@ describe('the SUSE set over the real workbook', () => {
     WorkbookSchema.parse(
       JSON.parse(readFileSync(fileURLToPath(new URL(path, import.meta.url)), 'utf8')),
     );
-  const SUSE = parse('../../../../v2/csf-estate-workbook.json');
+  const SUSE = parse('../../../../assessment/workbook.json');
   const NEUTRAL = parse('../../../../samples/csf-workbook.json');
 
   it('measures every offer against every shipped profile', () => {

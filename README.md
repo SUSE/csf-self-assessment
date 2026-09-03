@@ -188,7 +188,7 @@ is recorded in the desktop release workflow.
 ├── packages/
 │   └── platform/            Schemas, assessment/merge logic, scoring, analytics,
 │                            reports, storage utilities, and shared Svelte UI
-├── v2/                      Current Cloud Sovereignty workbook and example files
+├── assessment/              Current Cloud Sovereignty workbook, example files, and test fixtures
 ├── samples/                 Teaching and EC calculator fixtures
 ├── docs/
 │   ├── eu-csf/              EC reference material (read-only)
@@ -233,10 +233,14 @@ pnpm tweakcn apply suse --write
 See `tools/tweakcn-session.mjs` for the managed workflow and pin-update
 procedure.
 
+## Security
+
+Do not report security vulnerabilities in public issues. If you find a security vulnerability, please contact the maintainers securely or open a private draft security advisory in GitHub.
+
 ## Data and documentation conventions
 
 - Treat `docs/eu-csf/` as read-only upstream material.
-- Put regenerated Cloud Sovereignty workbook and assessment artifacts in `v2/`.
+- Put regenerated Cloud Sovereignty workbook and assessment artifacts in `assessment/`. Note that these files serve as the authoritative test fixtures for the test suite.
 - Use `samples/` for teaching data and cross-instrument fixtures.
 - Keep runtime behaviour offline. Do not use CDN assets, remote fonts, telemetry,
   automatic updates, or release checks.

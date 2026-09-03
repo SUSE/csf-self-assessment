@@ -6,7 +6,7 @@ import { openUnitsInspection, whatsLeftTile } from './whats-left';
 
 const alex = AssessmentSchema.parse(
   JSON.parse(
-    readFileSync(new URL('../../../../v2/csf-estate-partial-Alex.json', import.meta.url), 'utf8'),
+    readFileSync(new URL('../../../../assessment/partial-Alex.json', import.meta.url), 'utf8'),
   ),
 );
 const rosterA: Party[] = [...alex.parties, ...(alex.partiesAdded ?? [])];

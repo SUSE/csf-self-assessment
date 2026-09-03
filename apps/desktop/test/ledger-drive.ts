@@ -31,16 +31,16 @@ const THEME_COMBOS: readonly (readonly [DrivePalette, DriveMode])[] = [
 ];
 
 const ASSESSMENT_WORKBOOK = fileURLToPath(
-  new URL('../../../v2/csf-estate-workbook-assessment.json', import.meta.url),
+  new URL('../../../assessment/workbook-assessment.json', import.meta.url),
 );
 const AUTHOR_WORKBOOK = fileURLToPath(
-  new URL('../../../v2/csf-estate-workbook.json', import.meta.url),
+  new URL('../../../assessment/workbook.json', import.meta.url),
 );
 const ALEX_PARTIAL = fileURLToPath(
-  new URL('../../../v2/csf-estate-partial-Alex.json', import.meta.url),
+  new URL('../../../assessment/partial-Alex.json', import.meta.url),
 );
 const JANE_PARTIAL = fileURLToPath(
-  new URL('../../../v2/csf-estate-partial-Jane.json', import.meta.url),
+  new URL('../../../assessment/partial-Jane.json', import.meta.url),
 );
 
 const RecommendationTitlesSchema = z.object({

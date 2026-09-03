@@ -7,7 +7,7 @@ import { SEAL_FLOOR_FRACTION, objectivesTile } from './objectives';
 
 const alex = AssessmentSchema.parse(
   JSON.parse(
-    readFileSync(new URL('../../../../v2/csf-estate-partial-Alex.json', import.meta.url), 'utf8'),
+    readFileSync(new URL('../../../../assessment/partial-Alex.json', import.meta.url), 'utf8'),
   ),
 );
 const result = evaluate(alex.workbook, {

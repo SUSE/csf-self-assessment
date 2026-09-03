@@ -1,4 +1,4 @@
-// Test-only fixture (node: reads the repo's v2 estate files with fs).
+// Test-only fixture (node: reads the repo's estate files with fs).
 // Imported by platform tests ONLY — never by app or platform runtime code,
 // and never re-exported from a barrel. Holds the two evaluated estates every
 // analytics oracle is measured against: Alex's partial, the drivable
@@ -25,11 +25,11 @@ import { evaluate } from '../score-engine';
 import type { EngineResult } from '../score-engine';
 
 const read = (file: string): unknown =>
-  JSON.parse(readFileSync(fileURLToPath(new URL(`../../../../v2/${file}`, import.meta.url)), 'utf8'));
+  JSON.parse(readFileSync(fileURLToPath(new URL(`../../../../assessment/${file}`, import.meta.url)), 'utf8'));
 
-const alex = AssessmentSchema.parse(read('csf-estate-partial-Alex.json'));
-const WA = WorkbookAssessmentSchema.parse(read('csf-estate-workbook-assessment.json'));
-const JANE = AssessmentSchema.parse(read('csf-estate-partial-Jane.json'));
+const alex = AssessmentSchema.parse(read('partial-Alex.json'));
+const WA = WorkbookAssessmentSchema.parse(read('workbook-assessment.json'));
+const JANE = AssessmentSchema.parse(read('partial-Jane.json'));
 
 const rosterA = [...alex.parties, ...(alex.partiesAdded ?? [])];
 const alexEstate = { ...alex, parties: rosterA };

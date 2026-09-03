@@ -221,7 +221,7 @@ describe('a custom axis', () => {
 const alex = AssessmentSchema.parse(
   JSON.parse(
     readFileSync(
-      fileURLToPath(new URL('../../../../v2/csf-estate-partial-Alex.json', import.meta.url)),
+      fileURLToPath(new URL('../../../../assessment/partial-Alex.json', import.meta.url)),
       'utf8',
     ),
   ),

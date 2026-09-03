@@ -13,7 +13,7 @@ import {
 } from './electron-harness.js';
 
 const WORKBOOK_ASSESSMENT_PATH = fileURLToPath(
-  new URL('../../../v2/csf-estate-workbook-assessment.json', import.meta.url),
+  new URL('../../../assessment/workbook-assessment.json', import.meta.url),
 );
 
 const PARTICIPANT_NAME = 'Desktop S2 assessment';

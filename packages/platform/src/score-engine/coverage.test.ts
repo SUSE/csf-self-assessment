@@ -10,9 +10,9 @@ import { evaluate } from './index';
 // Alex's raw partial is still read directly, because `B` re-evaluates it over a
 // roster this fixture does not carry.
 const read = (file: string): unknown =>
-  JSON.parse(readFileSync(fileURLToPath(new URL(`../../../../v2/${file}`, import.meta.url)), 'utf8'));
+  JSON.parse(readFileSync(fileURLToPath(new URL(`../../../../assessment/${file}`, import.meta.url)), 'utf8'));
 
-const alex = AssessmentSchema.parse(read('csf-estate-partial-Alex.json'));
+const alex = AssessmentSchema.parse(read('partial-Alex.json'));
 
 const { result: A, parties: rosterA } = SUBJECT_A;
 

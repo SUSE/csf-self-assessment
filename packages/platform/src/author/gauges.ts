@@ -1,7 +1,7 @@
 import type { Role, Workbook } from '../schema';
 import { gates } from '../score-engine/scope';
 
-// Author HUD v1 (spec §4.3c): the STRUCTURAL gauges — budget, coverage grid,
+// Author HUD (spec §4.3c): the STRUCTURAL gauges — budget, coverage grid,
 // role readout, gate list — pure counts over the workbook definition,
 // recomputed on every edit. Inputs are Workbook-TYPED but only draft-valid;
 // everything here tolerates empty arrays, empty strings, and dangling
