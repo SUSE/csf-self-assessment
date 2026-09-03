@@ -11,8 +11,6 @@ graph TD
     Score -->|Ranks| Final
 ```
 
----
-
 ## 1. Gating: The SEAL Floor (0–4)
 
 The **SEAL Floor** measures the absolute minimum level of sovereignty established across the estate.
@@ -25,8 +23,6 @@ The **SEAL Floor** measures the absolute minimum level of sovereignty establishe
 ### Critical Dimensions
 Questions on the dimension grain only gate the SEAL floor if they cover a **critical dimension** (for example, Compute or Storage, as marked by the author). Answers on non-critical dimensions do not affect the SEAL floor.
 
----
-
 ## 2. Ranking: The Sovereignty Score (0–100)
 
 The **Sovereignty Score** is a continuous ranking metric. It compares different estates that clear the same SEAL floor.
@@ -36,8 +32,6 @@ The **Sovereignty Score** is a continuous ranking metric. It compares different 
 2. A question's **attainable points** are the points of its highest rung.
 3. For each objective, the engine calculates the ratio of earned points to attainable points.
 4. The overall score is the weighted sum of these ratios, re-normalised over the covered weight, and scaled from 0 to 100.
-
----
 
 ## 3. Answer States and Scoring
 
@@ -49,8 +43,6 @@ The table below describes how the engine treats different answer states:
 | **Nobody Knows** | Excluded from the minimum, but adds to the floor's **unknown count** (for example, `SEAL-2 and 3 unknowns`). | Excluded from both earned and attainable points. |
 | **Doesn't Apply** | Excluded entirely. | Excluded from both earned and attainable points. |
 | **Unanswered** | Does not gate yet (the dataset is incomplete). | Earns 0 points, but attainable points remain. |
-
----
 
 ## 4. The Convergence Contract
 

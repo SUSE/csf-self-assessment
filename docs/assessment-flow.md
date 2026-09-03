@@ -2,8 +2,6 @@
 
 This guide describes how to run a Cloud Sovereignty self-assessment workshop. The process uses four distinct file types to pass data between the facilitator and participants.
 
----
-
 ## File Lifecycle
 
 The table below describes the four files in the self-assessment lifecycle:
@@ -27,8 +25,6 @@ graph TD
     Final -->|8. Generates| Report[Printable Report & Dashboard]
 ```
 
----
-
 ## Step 1: Assessment Setup (Facilitator)
 
 The facilitator prepares the assessment before the workshop:
@@ -40,8 +36,6 @@ The facilitator prepares the assessment before the workshop:
 5. Add the assessed organisation as the primary party.
 6. Add known third-party providers and select the dimensions they serve.
 7. Click **Export workbook-assessment** to save the file.
-
----
 
 ## Step 2: Participant Fill (Participant)
 
@@ -57,8 +51,6 @@ Each participant records their own knowledge during the workshop:
 8. Add a concise evidence note (for example, contract clauses or audit reports) to support high-SEAL answers.
 9. Click **Export partial** and return your file to the facilitator.
 
----
-
 ## Step 3: Reconcile and Land (Facilitator)
 
 The facilitator merges participant files to build the estate record:
@@ -73,9 +65,7 @@ The facilitator merges participant files to build the estate record:
    * **Grain:** A whole-dimension answer conflicts with stratum-specific answers.
 5. Click **Land** to save the partial to the append-only ledger.
 
----
-
-## Step 4: Finalize and Report (Facilitator)
+## Step 4: Finalise and Report (Facilitator)
 
 Once all partials land, the facilitator exports the results:
 

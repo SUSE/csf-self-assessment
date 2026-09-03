@@ -4,8 +4,6 @@ An **Instrument** (or **Workbook**) is a self-assessment configuration file. Aut
 
 This guide describes how to author a sovereignty question and configure a valid instrument.
 
----
-
 ## The Core Principle: Write Control Facts
 
 Every question rouses a simple, core enquiry:
@@ -25,8 +23,6 @@ graph TD
     Ladder --> Rung2[Rung 2: ID, Description, Points, SEAL 2]
     Ladder --> Rung3[Rung 3: ID, Description, Points, SEAL 4]
 ```
-
----
 
 ## Seven Decisions to Write a Question
 

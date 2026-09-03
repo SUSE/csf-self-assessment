@@ -4,8 +4,6 @@ The Cloud Sovereignty Self-Assessment platform is an offline, workshop-oriented 
 
 This platform adapts the European Commission's Cloud Sovereignty Framework (CSF). The framework is a reference for good practice, not a compliance target.
 
----
-
 ## Three Key Personas & Workflow Flow
 
 The platform serves three distinct people in three distinct situations:
@@ -24,9 +22,7 @@ graph TD
 
 1. **The Author:** A domain expert who builds the self-assessment instrument (the Workbook). The Author operates in the **Author** application to define objectives, dimensions, questions, rungs, and recommendations.
 2. **The Participant:** A knowledge owner who answers questions for the cloud estate. The Participant operates in **Fill** mode of the **Assessment** application. They compose claims and answer only what their claims cover.
-3. **The Facilitator:** The workshop manager. The Facilitator operates in the **Assessment** application to prepare the assessment, seed known parties, collect participant files, resolve clashes, and export the finalized assessment.
-
----
+3. **The Facilitator:** The workshop manager. The Facilitator operates in the **Assessment** application to prepare the assessment, seed known parties, collect participant files, resolve clashes, and export the finalised assessment.
 
 ## Two Distinct Outputs
 
@@ -34,8 +30,6 @@ The platform calculates two separate metrics. They never collapse into a single 
 
 * **SEAL Floor (0–4):** The gating output. It is the minimum level across all material, gating questions. A single low answer can set the overall floor.
 * **Sovereignty Score (0–100):** The ranking metric. It is a weighted percentage of earned points out of attainable points. It compares different estates that clear the same SEAL floor.
-
----
 
 ## Honesty in the Data Model
 
