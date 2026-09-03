@@ -15,8 +15,8 @@ The product is broader than that one workbook: the Author app can create and
 quality-check other assessment instruments using the same workbook model.
 
 For the project's precise vocabulary—Workbook, Estate, Rung, Claim, Partial,
-Landing, SEAL, and related terms—see [CONTEXT.md](./CONTEXT.md). Product intent
-and constraints are recorded in [PRODUCT.md](./PRODUCT.md).
+Landing, SEAL, and related terms—see [Overview](./docs/overview.md) and
+[Assessment Flow](./docs/assessment-flow.md).
 
 ## What is included
 
@@ -51,12 +51,12 @@ in browser or desktop local storage until it is exported.
 3. **Fill** — Each participant loads the workbook-assessment, enters their name,
    composes one or more claims, answers only the units covered by those claims,
    and exports a partial JSON.
-4. **Land** — The facilitator loads partials one at a time. Parties are
-   reconciled first; answer clashes are then reviewed with their provenance and
-   authority. Every accepted answer unit receives an append-only ledger record,
-   including undisputed units.
+4. **Land** — The facilitator loads partials one at a time. First, the facilitator
+   reconciles the parties. Then, the facilitator reviews answer clashes using their
+   provenance and authority. Every accepted answer unit receives an append-only
+   ledger record. This includes undisputed units.
 5. **Read and report** — The dashboard, recommendations page, and printable
-   report read the current assessment. A finalized assessment can be exported
+   report read the current assessment. A finalised assessment can be exported
    after at least one partial has landed and no landing remains under review.
 
 Files are version-checked against the embedded workbook. This is a pre-1.0
@@ -70,7 +70,7 @@ The engine deliberately keeps two outputs separate:
   marks as gating, including dimension answers only where their dimension is
   critical. One low gating answer can set the whole floor.
 - **Sovereignty Score (0–100)** is a weighted ranking measure based on authored
-  rung points. Both `material` and `ranking` questions contribute; `ranking`
+  rung points. Both `material` and `ranking` questions contribute. However, `ranking`
   questions never affect the SEAL floor.
 
 Unanswered, don't-know, and not-applicable are distinct states. The floor is
@@ -80,14 +80,14 @@ landed.
 
 The schemas in `packages/platform/src/schema/` and the evaluator in
 `packages/platform/src/score-engine/` are the implementation sources of truth.
-See [the authoring rulebook](./docs/authoring-rulebook.md) for the full mechanics
-and [the scoring analysis](./docs/csf_scoring.md) for comparison with the EC
+See [the authoring guide](./docs/authoring.md) for the full mechanics
+and [the scoring analysis](./docs/scoring.md) for comparison with the EC
 reference calculator.
 
 ## Requirements
 
 - Node.js 22 or newer
-- pnpm 11.24.0; the repository pins it through `devEngines.packageManager`
+- pnpm 11.24.0. The repository pins this version in `devEngines.packageManager`.
 
 Use pnpm. Do not use npm, yarn, or any other package manger in this workspace.
 
@@ -135,8 +135,8 @@ pnpm verify          # full CI-equivalent validation and build
 ```
 
 Desktop smoke tests launch graphical applications, so Linux CI runs `pnpm
-verify` under Xvfb. The normal pull-request and `main` workflow uses Node 22 on
-Ubuntu 24.04; see [verify.yml](./.github/workflows/verify.yml).
+verify` under Xvfb. The standard pull-request and `main` workflow runs on Node 22 and
+Ubuntu 24.04. See [verify.yml](./.github/workflows/verify.yml) for details.
 
 ## Desktop applications
 
@@ -170,10 +170,10 @@ Tagged prereleases are handled by
 [desktop-release.yml](./.github/workflows/desktop-release.yml). A tag must match
 the root package version and point to a commit contained in `main`. The workflow
 builds and tests both applications for universal macOS, Windows x64, and Linux
-x64; signed publication additionally requires the configured Apple and Windows
+x64. Signed publication also requires the configured Apple and Windows
 signing credentials. Releases include the two standalone HTML files, native
 packages, checksums, a release manifest, and a CycloneDX SBOM. The exact contract
-is recorded in [ADR 0021](./docs/adr/0021-signed-cross-platform-github-releases.md).
+is recorded in the desktop release workflow.
 
 ## Repository layout
 
@@ -189,12 +189,8 @@ is recorded in [ADR 0021](./docs/adr/0021-signed-cross-platform-github-releases.
 ├── v2/                      Current Cloud Sovereignty workbook and example files
 ├── samples/                 Teaching and EC calculator fixtures
 ├── docs/
-│   ├── adr/                 Accepted architecture decisions
-│   ├── audit/               Audit of the original instrument
 │   ├── eu-csf/              EC reference material (read-only)
-│   ├── original/            Pristine upstream source material (read-only)
-│   └── ...                  Rulebook, tutorials, design and scoring guidance
-├── scripts/                 Legacy Python extraction/conversion utilities
+│   └── ...                  Scoring guide, authoring guide, and assessment flow
 ├── tools/                   Offline checks, EC conversions, and theme tooling
 └── .github/workflows/       Source verification and tagged desktop prereleases
 ```
@@ -232,22 +228,21 @@ operation:
 pnpm tweakcn apply suse --write
 ```
 
-See [docs/tweakcn.md](./docs/tweakcn.md) for the managed workflow and pin-update
+See `tools/tweakcn-session.mjs` for the managed workflow and pin-update
 procedure.
 
 ## Data and documentation conventions
 
-- Treat `docs/original/` and `docs/eu-csf/` as read-only upstream material.
+- Treat `docs/eu-csf/` as read-only upstream material.
 - Put regenerated Cloud Sovereignty workbook and assessment artifacts in `v2/`.
 - Use `samples/` for teaching data and cross-instrument fixtures.
-- Keep runtime behavior offline: no CDN assets, remote fonts, telemetry,
+- Keep runtime behaviour offline. Do not use CDN assets, remote fonts, telemetry,
   automatic updates, or release checks.
-- Keep workbook semantics in the schema and engine; documentation explains
+- Keep workbook semantics in the schema and engine. Documentation explains
   those rules but does not override them.
 - Preserve explicit unknowns and provenance. Do not collapse don't-know into a
   zero or merge participant files as an unreviewed union.
 
 For guided use, start with the
-[authoring tutorial](./docs/authoring-tutorial.md),
-[participant tutorial](./docs/participant-tutorial.md), or
-[facilitator tutorial](./docs/facilitator-tutorial.md).
+[authoring guide](./docs/authoring.md) or the
+[workshop flow guide](./docs/assessment-flow.md).
