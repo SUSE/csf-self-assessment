@@ -1,2 +1,5 @@
 # Node / pnpm
 node_modules/
+
+# Build directories
+dist/
