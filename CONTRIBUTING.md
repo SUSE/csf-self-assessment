@@ -55,9 +55,33 @@ pnpm test            # Runs unit and smoke tests
 pnpm verify          # Runs all quality checks and builds the project
 ```
 
+## Commit Message Guidelines
+
+This repository requires Conventional Commits. Your commit messages must follow the [Conventional Commits specification](https://www.conventionalcommits.org/).
+
+Use the following format for your commit messages:
+
+```
+<type>(<scope>): <description>
+
+[optional body]
+
+[optional footer(s)]
+```
+
+Approved types:
+- `feat`: A new feature
+- `fix`: A bug fix
+- `docs`: Documentation changes
+- `style`: Changes that do not affect the meaning of the code
+- `refactor`: A code change that neither fixes a bug nor adds a feature
+- `test`: Adding missing tests or correcting existing tests
+- `chore`: Changes to the build process or auxiliary tools and libraries
+
 ## Submitting Pull Requests
 
 1. Create a branch from `main` for your changes.
-2. Make your changes and write clear, concise commit messages.
-3. Run `pnpm verify` to ensure everything is correct.
-4. Push your branch and open a pull request.
+2. Make your changes and write clear commit messages using the Conventional Commits specification.
+3. We do not allow merge commits. We require a linear git history. Rebase your branch on `main` before you push your changes.
+4. Run `pnpm verify` to make sure all checks pass.
+5. Push your branch and open a pull request.
