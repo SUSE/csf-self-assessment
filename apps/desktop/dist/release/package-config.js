@@ -1,5 +1,5 @@
 const PUBLISHER = 'CSF Self Assessment';
-const REPOSITORY = 'https://github.com/ravan/csf-self-assessment-tools';
+const REPOSITORY = 'https://github.com/SUSE/csf-self-assessment';
 export function packageConfiguration(app, version, trust, system) {
     const siblingEntry = app.kind === 'author' ? 'assessment' : 'author';
     const iconDirectory = `release/icons/generated/${app.kind}`;

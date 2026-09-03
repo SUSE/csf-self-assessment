@@ -49,7 +49,7 @@ test('package configuration keeps exact common release metadata', () => {
         version: VERSION,
         description: app.description,
         author: 'CSF Self Assessment',
-        repository: 'https://github.com/ravan/csf-self-assessment-tools',
+        repository: 'https://github.com/SUSE/csf-self-assessment',
         main: `dist/src/${app.kind}.js`,
       });
       assert.equal(

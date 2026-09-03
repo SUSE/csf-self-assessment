@@ -4,7 +4,7 @@
   "private": true,
   "repository": {
     "type": "git",
-    "url": "https://github.com/ravan/csf-self-assessment-tools"
+    "url": "https://github.com/SUSE/csf-self-assessment"
   },
   "type": "module",
   "engines": {

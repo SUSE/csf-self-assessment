@@ -8,7 +8,7 @@ import type {
 } from './contract.js';
 
 const PUBLISHER = 'CSF Self Assessment';
-const REPOSITORY = 'https://github.com/ravan/csf-self-assessment-tools';
+const REPOSITORY = 'https://github.com/SUSE/csf-self-assessment';
 
 export function packageConfiguration(
   app: DesktopApplication,

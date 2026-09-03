@@ -61,7 +61,7 @@ const PackageMetadataSchema = z
     version: z.string().min(1),
     description: z.string().min(1),
     author: z.literal('CSF Self Assessment'),
-    repository: z.literal('https://github.com/ravan/csf-self-assessment-tools'),
+    repository: z.literal('https://github.com/SUSE/csf-self-assessment'),
     main: z.string().min(1),
   })
   .passthrough();
@@ -132,7 +132,7 @@ export async function assertPackagedComposition(
       version,
       description: packaged.app.description,
       author: 'CSF Self Assessment',
-      repository: 'https://github.com/ravan/csf-self-assessment-tools',
+      repository: 'https://github.com/SUSE/csf-self-assessment',
       main: `dist/src/${packaged.app.kind}.js`,
     },
   );
