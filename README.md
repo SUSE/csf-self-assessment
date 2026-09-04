@@ -42,6 +42,19 @@ There is no server, account system, database, telemetry, or runtime network
 dependency. JSON files are the interchange format, and in-progress work is kept
 in browser or desktop local storage until it is exported.
 
+## Documentation
+
+The project includes guided and technical documentation structured for different audiences:
+
+### For Workshop Participants & Facilitators (Operational Guides)
+- [What the Self-Assessment Is](./docs/guides/what-it-is/README.md) — Introduces the conceptual design of the self-assessment and explains why the toolkit exists.
+- [Workshop Manual](./docs/guides/workshop-manual/README.md) — Describes how to prepare checklists, run the half-day session, and follow up on the results.
+
+### For Authors, Developers & Auditors (Technical Reference Sheets)
+- [Authoring Guide](./docs/authoring.md) — Explains the detailed mechanics of workbook schemas, answer ladders, and question design.
+- [Workshop Flow Guide](./docs/assessment-flow.md) — Outlines sequential landing, merge ledgers, and conflict resolution rules.
+- [Scoring Analysis](./docs/scoring.md) — Compares our scoring engine against the original European Commission reference calculator.
+
 ## Workshop flow
 
 1. **Author** — Create or import a workbook, edit the instrument, resolve its
@@ -191,6 +204,7 @@ is recorded in the desktop release workflow.
 ├── samples/                 Teaching, recommendations, and EC calculator fixtures
 ├── docs/
 │   ├── eu-csf/              EC reference material (read-only)
+│   ├── guides/              Workshop manual and conceptual guides
 │   └── ...                  Scoring guide, authoring guide, and assessment flow
 ├── tools/                   Offline checks, EC conversions, and theme tooling
 └── .github/workflows/       Source verification and tagged desktop prereleases
@@ -235,9 +249,5 @@ procedure.
 ## Security
 
 Do not report security vulnerabilities in public issues. If you find a security vulnerability, please contact the maintainers securely or open a private draft security advisory in GitHub.
-
-For guided use, start with the
-[authoring guide](./docs/authoring.md) or the
-[workshop flow guide](./docs/assessment-flow.md).
 
 To contribute to this project, please read our [Contributing Guide](./CONTRIBUTING.md).
