@@ -1,5 +1,4 @@
-import { readFileSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
+import { workbookRaw } from '../test-fixtures';
 import { WorkbookSchema } from '../schema';
 import type { Workbook } from '../schema';
 
@@ -8,9 +7,5 @@ import type { Workbook } from '../schema';
  *  code and never re-exported from a barrel. Successor to the retired
  *  `score-engine/audit-fixture.ts` — see ADR-0026. */
 export function estateWorkbook(): Workbook {
-  return WorkbookSchema.parse(
-    JSON.parse(
-      readFileSync(fileURLToPath(new URL('../../../../assessment/workbook.json', import.meta.url)), 'utf8'),
-    ),
-  );
+  return WorkbookSchema.parse(workbookRaw);
 }

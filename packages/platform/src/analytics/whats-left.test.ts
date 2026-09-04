@@ -1,14 +1,11 @@
-import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { AssessmentSchema, type Party } from '../schema';
+import { alexRaw } from '../test-fixtures';
+import { AssessmentSchema } from '../schema';
+import type { Party } from '../schema';
 import { evaluate } from '../score-engine';
 import { openUnitsInspection, whatsLeftTile } from './whats-left';
 
-const alex = AssessmentSchema.parse(
-  JSON.parse(
-    readFileSync(new URL('../../../../assessment/partial-Alex.json', import.meta.url), 'utf8'),
-  ),
-);
+const alex = AssessmentSchema.parse(alexRaw);
 const rosterA: Party[] = [...alex.parties, ...(alex.partiesAdded ?? [])];
 const rosterB: Party[] = [
   ...rosterA,

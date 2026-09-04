@@ -6,6 +6,7 @@
 // answered.
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
+import { alexRaw, janeRaw, workbookAssessmentRaw } from '../test-fixtures';
 import { AssessmentSchema, WorkbookAssessmentSchema, WorkbookSchema } from '../schema';
 import type {
   Assessment,
@@ -24,12 +25,9 @@ import { evaluateTestEstate } from '../author/estates';
 import { evaluate } from '../score-engine';
 import type { EngineResult } from '../score-engine';
 
-const read = (file: string): unknown =>
-  JSON.parse(readFileSync(fileURLToPath(new URL(`../../../../assessment/${file}`, import.meta.url)), 'utf8'));
-
-const alex = AssessmentSchema.parse(read('partial-Alex.json'));
-const WA = WorkbookAssessmentSchema.parse(read('workbook-assessment.json'));
-const JANE = AssessmentSchema.parse(read('partial-Jane.json'));
+const alex = AssessmentSchema.parse(alexRaw);
+const WA = WorkbookAssessmentSchema.parse(workbookAssessmentRaw);
+const JANE = AssessmentSchema.parse(janeRaw);
 
 const rosterA = [...alex.parties, ...(alex.partiesAdded ?? [])];
 const alexEstate = { ...alex, parties: rosterA };

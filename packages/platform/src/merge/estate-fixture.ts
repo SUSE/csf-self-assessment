@@ -1,5 +1,4 @@
-import { readFileSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
+import { alexRaw, janeRaw, workbookAssessmentRaw } from '../test-fixtures';
 import { AssessmentSchema, WorkbookAssessmentSchema } from '../schema';
 import type { ClashResolution, EstateBase, Landing } from '../schema';
 import { classify, isClash } from './clash-types';
@@ -7,12 +6,9 @@ import type { LandingClash } from './clash-types';
 import { reviewLanding } from './review';
 import { land } from './land';
 
-const read = (file: string): unknown =>
-  JSON.parse(readFileSync(fileURLToPath(new URL(`../../../../assessment/${file}`, import.meta.url)), 'utf8'));
-
-export const WA = WorkbookAssessmentSchema.parse(read('workbook-assessment.json'));
-export const ALEX = AssessmentSchema.parse(read('partial-Alex.json'));
-export const JANE = AssessmentSchema.parse(read('partial-Jane.json'));
+export const WA = WorkbookAssessmentSchema.parse(workbookAssessmentRaw);
+export const ALEX = AssessmentSchema.parse(alexRaw);
+export const JANE = AssessmentSchema.parse(janeRaw);
 
 export const NO_DECISIONS = { resolutions: [] as ClashResolution[], partyDecisions: [] };
 

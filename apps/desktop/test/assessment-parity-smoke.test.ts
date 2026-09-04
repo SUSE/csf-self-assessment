@@ -2,7 +2,6 @@ import assert from 'node:assert/strict';
 import { mkdtemp, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { fileURLToPath } from 'node:url';
 import { test } from 'node:test';
 
 import {
@@ -12,9 +11,9 @@ import {
   withOpenDialogResult,
 } from './electron-harness.js';
 
-const WORKBOOK_ASSESSMENT_PATH = fileURLToPath(
-  new URL('../../../assessment/workbook-assessment.json', import.meta.url),
-);
+import { workbookAssessmentPath } from './test-fixtures.js';
+
+const WORKBOOK_ASSESSMENT_PATH = workbookAssessmentPath;
 
 const PARTICIPANT_NAME = 'Desktop S2 assessment';
 

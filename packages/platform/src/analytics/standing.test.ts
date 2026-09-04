@@ -1,15 +1,11 @@
-import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
+import { alexRaw } from '../test-fixtures';
 import { AssessmentSchema } from '../schema';
 import { evaluate } from '../score-engine';
 import { RANK, runOn } from '../score-engine/fixtures';
 import { floorTile, scoreTile } from './standing';
 
-const alex = AssessmentSchema.parse(
-  JSON.parse(
-    readFileSync(new URL('../../../../assessment/partial-Alex.json', import.meta.url), 'utf8'),
-  ),
-);
+const alex = AssessmentSchema.parse(alexRaw);
 const rosterA = [...alex.parties, ...(alex.partiesAdded ?? [])];
 const A = evaluate(alex.workbook, { ...alex, parties: rosterA });
 const B = evaluate(alex.workbook, {

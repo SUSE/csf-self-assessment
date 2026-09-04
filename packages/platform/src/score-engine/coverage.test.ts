@@ -1,6 +1,5 @@
-import { readFileSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
+import { alexRaw } from '../test-fixtures';
 import { AssessmentSchema } from '../schema';
 import { SUBJECT_A, SUBJECT_C, SUBJECT_ONE } from '../analytics/subjects-fixture';
 import { evaluate } from './index';
@@ -9,10 +8,7 @@ import { evaluate } from './index';
 // landings are built. Rebuilding them here drifts from every other oracle.
 // Alex's raw partial is still read directly, because `B` re-evaluates it over a
 // roster this fixture does not carry.
-const read = (file: string): unknown =>
-  JSON.parse(readFileSync(fileURLToPath(new URL(`../../../../assessment/${file}`, import.meta.url)), 'utf8'));
-
-const alex = AssessmentSchema.parse(read('partial-Alex.json'));
+const alex = AssessmentSchema.parse(alexRaw);
 
 const { result: A, parties: rosterA } = SUBJECT_A;
 

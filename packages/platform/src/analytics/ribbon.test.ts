@@ -1,16 +1,12 @@
-import { readFileSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
+import { alexRaw, workbookAssessmentRaw } from '../test-fixtures';
 import { AssessmentSchema, WorkbookAssessmentSchema } from '../schema';
 import { land } from '../merge/land';
 import { evaluate } from '../score-engine';
 import { ribbonModel } from './ribbon';
 
-const read = (file: string): unknown =>
-  JSON.parse(readFileSync(fileURLToPath(new URL(`../../../../assessment/${file}`, import.meta.url)), 'utf8'));
-
-const alex = AssessmentSchema.parse(read('partial-Alex.json'));
-const WA = WorkbookAssessmentSchema.parse(read('workbook-assessment.json'));
+const alex = AssessmentSchema.parse(alexRaw);
+const WA = WorkbookAssessmentSchema.parse(workbookAssessmentRaw);
 const A = evaluate(alex.workbook, {
   ...alex,
   parties: [...alex.parties, ...(alex.partiesAdded ?? [])],

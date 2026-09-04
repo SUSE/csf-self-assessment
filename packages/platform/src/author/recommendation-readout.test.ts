@@ -136,12 +136,14 @@ describe('recommendationReadout', () => {
   });
 });
 
+import { workbookRaw } from '../test-fixtures';
+
 describe('the SUSE set over the real workbook', () => {
   const parse = (path: string): Workbook =>
     WorkbookSchema.parse(
       JSON.parse(readFileSync(fileURLToPath(new URL(path, import.meta.url)), 'utf8')),
     );
-  const SUSE = parse('../../../../assessment/workbook.json');
+  const SUSE = WorkbookSchema.parse(workbookRaw);
   const NEUTRAL = parse('../../../../samples/csf-workbook.json');
 
   it('measures every offer against every shipped profile', () => {

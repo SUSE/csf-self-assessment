@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
-import { AssessmentSchema, WorkbookSchema } from '../schema';
+import { WorkbookSchema } from '../schema';
 import type { Answer, Party, Seal, Target } from '../schema';
 import { assessmentOf, AUTHOR_QA_PROVENANCE } from '../assessment';
 import { evaluate } from '../score-engine';
@@ -218,14 +218,10 @@ describe('a custom axis', () => {
   });
 });
 
-const alex = AssessmentSchema.parse(
-  JSON.parse(
-    readFileSync(
-      fileURLToPath(new URL('../../../../assessment/partial-Alex.json', import.meta.url)),
-      'utf8',
-    ),
-  ),
-);
+import { alexRaw } from '../test-fixtures';
+import { AssessmentSchema } from '../schema';
+
+const alex = AssessmentSchema.parse(alexRaw);
 const rosterA = [...alex.parties, ...(alex.partiesAdded ?? [])];
 const A = evaluate(alex.workbook, { ...alex, parties: rosterA });
 

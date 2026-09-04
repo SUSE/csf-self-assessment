@@ -2,7 +2,6 @@ import assert from 'node:assert/strict';
 import { mkdtemp, readFile, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { fileURLToPath } from 'node:url';
 
 import type { Page } from 'playwright';
 import { z } from 'zod';
@@ -30,18 +29,17 @@ const THEME_COMBOS: readonly (readonly [DrivePalette, DriveMode])[] = [
   ['claymorphism', 'dark'],
 ];
 
-const ASSESSMENT_WORKBOOK = fileURLToPath(
-  new URL('../../../assessment/workbook-assessment.json', import.meta.url),
-);
-const AUTHOR_WORKBOOK = fileURLToPath(
-  new URL('../../../assessment/workbook.json', import.meta.url),
-);
-const ALEX_PARTIAL = fileURLToPath(
-  new URL('../../../assessment/partial-Alex.json', import.meta.url),
-);
-const JANE_PARTIAL = fileURLToPath(
-  new URL('../../../assessment/partial-Jane.json', import.meta.url),
-);
+import {
+  alexPath,
+  janePath,
+  workbookAssessmentPath,
+  workbookPath,
+} from './test-fixtures.js';
+
+const ASSESSMENT_WORKBOOK = workbookAssessmentPath;
+const AUTHOR_WORKBOOK = workbookPath;
+const ALEX_PARTIAL = alexPath;
+const JANE_PARTIAL = janePath;
 
 const RecommendationTitlesSchema = z.object({
   recommendations: z.array(z.object({ title: z.string().min(1) })).min(1),

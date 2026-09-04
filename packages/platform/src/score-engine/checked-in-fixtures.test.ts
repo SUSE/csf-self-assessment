@@ -3,6 +3,7 @@ import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { testEstateReadings } from '../author/estates';
 import { AssessmentSchema, WorkbookAssessmentSchema, WorkbookSchema } from '../schema';
+import { alexRaw, janeRaw, workbookAssessmentRaw, workbookRaw } from '../test-fixtures';
 import { evaluate } from './index';
 
 const units = (
@@ -17,10 +18,15 @@ type UnitCounts = ReturnType<typeof units>;
 type ReadingExpectation = [string, number, number, UnitCounts];
 type WorkbookCase = { file: string; readings: ReadingExpectation[] };
 
-const readJson = (path: string) =>
-  JSON.parse(
+const readJson = (path: string) => {
+  if (path === 'assessment/partial-Alex.json') return alexRaw;
+  if (path === 'assessment/partial-Jane.json') return janeRaw;
+  if (path === 'assessment/workbook-assessment.json') return workbookAssessmentRaw;
+  if (path === 'assessment/workbook.json') return workbookRaw;
+  return JSON.parse(
     readFileSync(fileURLToPath(new URL(`../../../../${path}`, import.meta.url)), 'utf8'),
   );
+};
 
 describe('checked-in assessments', () => {
   const cases = [

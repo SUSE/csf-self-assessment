@@ -1,15 +1,11 @@
-import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
+import { alexRaw } from '../test-fixtures';
 import { AssessmentSchema, type Seal, type Workbook } from '../schema';
 import { evaluate, type EngineResult } from '../score-engine';
 import { A, RANKONLY, runOn } from '../score-engine/fixtures';
 import { SEAL_FLOOR_FRACTION, objectivesTile } from './objectives';
 
-const alex = AssessmentSchema.parse(
-  JSON.parse(
-    readFileSync(new URL('../../../../assessment/partial-Alex.json', import.meta.url), 'utf8'),
-  ),
-);
+const alex = AssessmentSchema.parse(alexRaw);
 const result = evaluate(alex.workbook, {
   ...alex,
   parties: [...alex.parties, ...(alex.partiesAdded ?? [])],
