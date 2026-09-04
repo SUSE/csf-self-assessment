@@ -1,5 +1,3 @@
-import { readFileSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { AssessmentSchema, WorkbookSchema } from '../schema';
 import { evaluate } from '../score-engine';
@@ -13,14 +11,10 @@ import {
   reviewLanding,
   reviewSummary,
 } from './index';
+import { euCsfCalculatorFillAlexRaw, euCsfCalculatorFillJaneRaw } from '../test-fixtures';
 
-const readJson = (path: string) =>
-  JSON.parse(
-    readFileSync(fileURLToPath(new URL(`../../../../${path}`, import.meta.url)), 'utf8'),
-  );
-
-const alex = AssessmentSchema.parse(readJson('samples/eu-csf-calculator-fill-alex.json'));
-const jane = AssessmentSchema.parse(readJson('samples/eu-csf-calculator-fill-jane.json'));
+const alex = AssessmentSchema.parse(euCsfCalculatorFillAlexRaw);
+const jane = AssessmentSchema.parse(euCsfCalculatorFillJaneRaw);
 
 const anchor = workbookAssessmentOf({
   workbook: alex.workbook,
@@ -75,7 +69,7 @@ describe('the EC calculator fills (instrument-S6)', () => {
 
   it('a ranking question drops the score and leaves the floor alone', () => {
     const lowered = AssessmentSchema.parse(
-      atBottomRung(readJson('samples/eu-csf-calculator-fill-alex.json')),
+      atBottomRung(euCsfCalculatorFillAlexRaw),
     );
     const reading = evaluate(lowered.workbook, lowered);
     expect(reading.overall.floor).toBe(2);
@@ -83,7 +77,7 @@ describe('the EC calculator fills (instrument-S6)', () => {
   });
 
   it('the same answer on a material question would floor the estate at SEAL-0', () => {
-    const raw = readJson('samples/eu-csf-calculator-fill-alex.json') as {
+    const raw = euCsfCalculatorFillAlexRaw as {
       workbook: {
         objectives: { questions: { id: string; defaultMateriality: string }[] }[];
       };

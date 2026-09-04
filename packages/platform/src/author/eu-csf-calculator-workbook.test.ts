@@ -1,10 +1,9 @@
-import { readFileSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { WorkbookSchema } from '../schema';
 import type { Workbook } from '../schema';
 import { testEstateReadings } from './estates';
 import { ladderLint } from './lint';
+import { euCsfCalculatorWorkbookRaw } from '../test-fixtures';
 
 // instrument-S5: the imported EC calculator, pinned to its source readings. The
 // two scores are quoted from spec §9 / §2.8 at four decimal places — they are
@@ -12,11 +11,7 @@ import { ladderLint } from './lint';
 // here and not in score-engine/checked-in-fixtures.test.ts, whose table pins
 // full-precision doubles measured from our own fixtures.
 
-const FILE = fileURLToPath(
-  new URL('../../../../samples/eu-csf-calculator-workbook.json', import.meta.url),
-);
-const RAW = JSON.parse(readFileSync(FILE, 'utf8'));
-const WB: Workbook = WorkbookSchema.parse(RAW);
+const WB: Workbook = WorkbookSchema.parse(euCsfCalculatorWorkbookRaw);
 
 const RANKING_QUESTION_IDS = ['SOV-3.5', 'SOV-5.1', 'SOV-5.2', 'SOV-5.3', 'SOV-6.5'];
 
@@ -76,8 +71,8 @@ describe('the imported EC calculator (instrument-S5)', () => {
 
   it('the ranking cap is real: making the five material costs a whole SEAL level', () => {
     const gated: Workbook = WorkbookSchema.parse({
-      ...RAW,
-      objectives: RAW.objectives.map((objective: { questions: { id: string }[] }) => ({
+      ...euCsfCalculatorWorkbookRaw,
+      objectives: euCsfCalculatorWorkbookRaw.objectives.map((objective: { questions: { id: string }[] }) => ({
         ...objective,
         questions: objective.questions.map((question) =>
           RANKING_QUESTION_IDS.includes(question.id)

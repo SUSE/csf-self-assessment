@@ -2,7 +2,6 @@ import assert from 'node:assert/strict';
 import { mkdtemp, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { fileURLToPath } from 'node:url';
 import { test } from 'node:test';
 
 import {
@@ -12,15 +11,15 @@ import {
   withOpenDialogResult,
 } from './electron-harness.js';
 
-const WORKBOOK_PATH = fileURLToPath(
-  new URL('../../../samples/eu-csf-calculator-workbook.json', import.meta.url),
-);
-const ALEX_PATH = fileURLToPath(
-  new URL('../../../samples/eu-csf-calculator-fill-alex.json', import.meta.url),
-);
-const JANE_PATH = fileURLToPath(
-  new URL('../../../samples/eu-csf-calculator-fill-jane.json', import.meta.url),
-);
+import {
+  euCsfCalculatorWorkbookPath,
+  euCsfCalculatorFillAlexPath,
+  euCsfCalculatorFillJanePath,
+} from './test-fixtures.js';
+
+const WORKBOOK_PATH = euCsfCalculatorWorkbookPath;
+const ALEX_PATH = euCsfCalculatorFillAlexPath;
+const JANE_PATH = euCsfCalculatorFillJanePath;
 
 test('Author opens the EC calculator and keeps its repeated SEALs apart', async () => {
   const homeDirectory = await mkdtemp(join(tmpdir(), 'csf-desktop-ec-author-'));

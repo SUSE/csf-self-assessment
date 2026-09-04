@@ -4,9 +4,7 @@
 // analytics oracle is measured against: Alex's partial, the drivable
 // two-landing union, and the workbook-assessment as distributed with nothing
 // answered.
-import { readFileSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
-import { alexRaw, janeRaw, workbookAssessmentRaw } from '../test-fixtures';
+import { alexRaw, janeRaw, workbookAssessmentRaw, euCsfCalculatorWorkbookRaw } from '../test-fixtures';
 import { AssessmentSchema, WorkbookAssessmentSchema, WorkbookSchema } from '../schema';
 import type {
   Assessment,
@@ -161,12 +159,7 @@ export const SUBJECT_EMPTY: Subject = {
   parties: emptyEstate.parties,
 };
 
-const readSample = (file: string): unknown =>
-  JSON.parse(
-    readFileSync(fileURLToPath(new URL(`../../../../samples/${file}`, import.meta.url)), 'utf8'),
-  );
-
-const ecWorkbook = WorkbookSchema.parse(readSample('eu-csf-calculator-workbook.json'));
+const ecWorkbook = WorkbookSchema.parse(euCsfCalculatorWorkbookRaw);
 const ecEvaluation = evaluateTestEstate(ecWorkbook, ecWorkbook.testEstates[0]);
 
 /** The EC calculator's `source-worked-example`, evaluated: 48 answer units over a

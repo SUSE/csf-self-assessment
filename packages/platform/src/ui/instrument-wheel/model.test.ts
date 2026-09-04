@@ -1,14 +1,12 @@
-import { readFileSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { WorkbookSchema } from '../../schema';
 import type { Party, Workbook } from '../../schema';
 import { answerFor } from '../../assessment';
 import { inspectChip, instrumentModel, instrumentSeals } from './model';
 import { READING_IDS, instrumentReadings, readingInspection } from './readings';
+import { csfWorkbookRaw, euCsfCalculatorWorkbookRaw } from '../../test-fixtures';
 
-const SAMPLE = fileURLToPath(new URL('../../../../../samples/csf-workbook.json', import.meta.url));
-const WB = WorkbookSchema.parse(JSON.parse(readFileSync(SAMPLE, 'utf8')));
+const WB = WorkbookSchema.parse(csfWorkbookRaw);
 
 function chip(model: ReturnType<typeof instrumentModel>, kind: string, key: string) {
   const found = model.chips.find((c) => c.kind === kind && c.key === key);
@@ -344,16 +342,7 @@ describe('instrumentSeals', () => {
 // instrument-S5: the imported EC calculator declares no dimensions, so the wheel
 // must fabricate no dimension arc and must report the zeroes honestly.
 describe('instrumentModel over the EC calculator (instrument-S5)', () => {
-  const EC = WorkbookSchema.parse(
-    JSON.parse(
-      readFileSync(
-        fileURLToPath(
-          new URL('../../../../../samples/eu-csf-calculator-workbook.json', import.meta.url),
-        ),
-        'utf8',
-      ),
-    ),
-  );
+  const EC = WorkbookSchema.parse(euCsfCalculatorWorkbookRaw);
   const model = instrumentModel(EC);
 
   it('draws the assessment and party arcs only', () => {

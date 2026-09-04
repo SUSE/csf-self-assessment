@@ -1,5 +1,3 @@
-import { readFileSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { WorkbookSchema } from '../../schema';
 import type { Answer, Question, Seal, Target } from '../../schema';
@@ -17,9 +15,9 @@ import {
   trayCopy,
   unplaced,
 } from './model';
+import { csfWorkbookRaw } from '../../test-fixtures';
 
-const SAMPLE = fileURLToPath(new URL('../../../../../samples/csf-workbook.json', import.meta.url));
-const WB = WorkbookSchema.parse(JSON.parse(readFileSync(SAMPLE, 'utf8')));
+const WB = WorkbookSchema.parse(csfWorkbookRaw);
 
 // SOV-4.kill-switch again (the sibling wheel test's specimen): it fans over
 // compute — the one strata-splittable dimension here — and platform.

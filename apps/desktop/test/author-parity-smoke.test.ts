@@ -2,7 +2,6 @@ import assert from 'node:assert/strict';
 import { mkdtemp, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { fileURLToPath } from 'node:url';
 import { test } from 'node:test';
 
 import type { ElectronApplication, Locator, Page } from 'playwright';
@@ -14,9 +13,9 @@ import {
   withOpenDialogResult,
 } from './electron-harness.js';
 
-const WORKBOOK_PATH = fileURLToPath(
-  new URL('../../../samples/csf-workbook.json', import.meta.url),
-);
+import { csfWorkbookPath } from './test-fixtures.js';
+
+const WORKBOOK_PATH = csfWorkbookPath;
 
 async function inputWithValue(page: Page, value: string): Promise<Locator> {
   await page.waitForFunction(

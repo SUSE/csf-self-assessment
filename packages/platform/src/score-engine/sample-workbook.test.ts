@@ -1,13 +1,11 @@
-import { readFileSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { WorkbookSchema } from '../schema';
 import type { Answer, DimensionQuestion, Party, Seal, Target } from '../schema';
 import { assessmentOf, answerFor, applyPlacement, defaultParties, placeGroupParty, questionOf, AUTHOR_QA_PROVENANCE } from '../assessment';
 import { evaluate } from './index';
+import { sampleWorkbookRaw } from '../test-fixtures';
 
-const SAMPLE = fileURLToPath(new URL('../../../../samples/sample-workbook.json', import.meta.url));
-const WB = WorkbookSchema.parse(JSON.parse(readFileSync(SAMPLE, 'utf8')));
+const WB = WorkbookSchema.parse(sampleWorkbookRaw);
 
 // The six EC-floor criticals (now firm on the workbook) + a controlled provider
 // set: the institution (serves nothing → no exposure), an EU primary provider, and

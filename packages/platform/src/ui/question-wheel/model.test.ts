@@ -1,5 +1,3 @@
-import { readFileSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { WorkbookSchema } from '../../schema';
 import type { Answer, DimensionQuestion, Party, Question, Seal, Target } from '../../schema';
@@ -15,9 +13,9 @@ import {
   type WheelUnit,
   type WheelUnitState,
 } from './model';
+import { csfWorkbookRaw } from '../../test-fixtures';
 
-const SAMPLE = fileURLToPath(new URL('../../../../../samples/csf-workbook.json', import.meta.url));
-const WB = WorkbookSchema.parse(JSON.parse(readFileSync(SAMPLE, 'utf8')));
+const WB = WorkbookSchema.parse(csfWorkbookRaw);
 const PARTIES: Party[] = defaultParties(WB);
 
 // SOV-4.kill-switch is the useful specimen: it fans over compute (critical,

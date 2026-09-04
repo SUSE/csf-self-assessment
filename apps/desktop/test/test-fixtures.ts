@@ -4,3 +4,8 @@ export const alexPath = fileURLToPath(new URL('../../../samples/recommendations/
 export const janePath = fileURLToPath(new URL('../../../samples/recommendations/partial-Jane.json', import.meta.url));
 export const workbookAssessmentPath = fileURLToPath(new URL('../../../samples/recommendations/workbook-assessment.json', import.meta.url));
 export const workbookPath = fileURLToPath(new URL('../../../samples/recommendations/workbook.json', import.meta.url));
+
+export const csfWorkbookPath = fileURLToPath(new URL('../../../samples/csf-workbook.json', import.meta.url));
+export const euCsfCalculatorWorkbookPath = fileURLToPath(new URL('../../../samples/eu-csf-calculator-workbook.json', import.meta.url));
+export const euCsfCalculatorFillAlexPath = fileURLToPath(new URL('../../../samples/eu-csf-calculator-fill-alex.json', import.meta.url));
+export const euCsfCalculatorFillJanePath = fileURLToPath(new URL('../../../samples/eu-csf-calculator-fill-jane.json', import.meta.url));

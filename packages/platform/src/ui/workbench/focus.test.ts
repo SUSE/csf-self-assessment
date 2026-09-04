@@ -1,5 +1,3 @@
-import { readFileSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
 import type { ZodIssue } from 'zod';
 import { describe, expect, it } from 'vitest';
 import { WorkbookSchema } from '../../schema';
@@ -216,9 +214,9 @@ describe('sectionFocus', () => {
 // draft is the sample workbook plus one recommendation, parsed — no cast, and a
 // shape slip fails loudly at parse time. The objectives stay whole: the strict
 // refinements tie weights and test-estate answers to the full set.
-const SAMPLE = fileURLToPath(new URL('../../../../../samples/csf-workbook.json', import.meta.url));
-const RAW: unknown = JSON.parse(readFileSync(SAMPLE, 'utf8'));
-const FULL = WorkbookSchema.parse(RAW);
+import { csfWorkbookRaw } from '../../test-fixtures';
+
+const FULL = WorkbookSchema.parse(csfWorkbookRaw);
 const STAGE_DRAFT: Workbook = WorkbookSchema.parse({
   ...FULL,
   recommender: { name: 'A vendor', disclosure: 'Vendor-authored content.' },

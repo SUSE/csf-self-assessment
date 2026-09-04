@@ -1,5 +1,3 @@
-import { readFileSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { AssessmentSchema } from '../schema';
 import type { Assessment, ClashResolution, EstateBase, Landing } from '../schema';
@@ -7,17 +5,15 @@ import { evaluate } from '../score-engine';
 import { workbookAssessmentOf } from '../setup';
 import { checkPartial, finalizeLanded, isClash, land, reviewLanding, reviewSummary } from './index';
 import type { LandingClash } from './clash-types';
+import { euCsfCalculatorDeepFillAlexRaw, euCsfCalculatorDeepFillJaneRaw } from '../test-fixtures';
 
 // The two fills over the DEEP calculator. The flat pair next door differs in
 // four answers on a grain-free instrument; this pair exists because the deep
 // workbook has dimensions, strata and a chain of parties, so it can put all
 // four clash classes, sole-source units and a party collision in one merge.
 
-const readJson = (path: string) =>
-  JSON.parse(readFileSync(fileURLToPath(new URL(`../../../../${path}`, import.meta.url)), 'utf8'));
-
-const alex = AssessmentSchema.parse(readJson('samples/eu-csf-calculator-deep-fill-alex.json'));
-const jane = AssessmentSchema.parse(readJson('samples/eu-csf-calculator-deep-fill-jane.json'));
+const alex = AssessmentSchema.parse(euCsfCalculatorDeepFillAlexRaw);
+const jane = AssessmentSchema.parse(euCsfCalculatorDeepFillJaneRaw);
 
 // A participant scores over `parties ∪ partiesAdded` (ADR-0012): the chain they
 // added is theirs until the facilitator lands it.

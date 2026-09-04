@@ -1,5 +1,3 @@
-import { readFileSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { WorkbookSchema } from '../schema';
 import type { Recommendation, Seal, TestEstate, Workbook } from '../schema';
@@ -136,15 +134,11 @@ describe('recommendationReadout', () => {
   });
 });
 
-import { workbookRaw } from '../test-fixtures';
+import { workbookRaw, csfWorkbookRaw } from '../test-fixtures';
 
 describe('the SUSE set over the real workbook', () => {
-  const parse = (path: string): Workbook =>
-    WorkbookSchema.parse(
-      JSON.parse(readFileSync(fileURLToPath(new URL(path, import.meta.url)), 'utf8')),
-    );
   const SUSE = WorkbookSchema.parse(workbookRaw);
-  const NEUTRAL = parse('../../../../samples/csf-workbook.json');
+  const NEUTRAL = WorkbookSchema.parse(csfWorkbookRaw);
 
   it('measures every offer against every shipped profile', () => {
     const readout = recommendationReadout(SUSE);

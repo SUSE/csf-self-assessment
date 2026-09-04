@@ -1,5 +1,3 @@
-import { readFileSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { AssessmentSchema, WorkbookSchema } from '../schema';
 import type { TestEstate, Workbook } from '../schema';
@@ -9,6 +7,7 @@ import { authorGauges } from './gauges';
 import { ladderLint } from './lint';
 import { duplicateRadar } from './similarity';
 import { estateAnswers, testEstateReadings } from './estates';
+import { csfWorkbookRaw } from '../test-fixtures';
 
 // S11 (spec §9): the REAL instrument, locked to the author gauges and to the
 // audit-profile outcomes. This file is the successor of
@@ -16,8 +15,7 @@ import { estateAnswers, testEstateReadings } from './estates';
 // inversion (sovereign BASE ordered below hyperscaler A) must be dead, and
 // none of the six audit floor-traps may ever floor BASE again.
 
-const FILE = fileURLToPath(new URL('../../../../samples/csf-workbook.json', import.meta.url));
-const WB: Workbook = WorkbookSchema.parse(JSON.parse(readFileSync(FILE, 'utf8')));
+const WB: Workbook = WorkbookSchema.parse(csfWorkbookRaw);
 const INST = { id: 'inst', name: 'Institution', type: 'institution', serves: [] };
 
 function estateOf(id: string): TestEstate {

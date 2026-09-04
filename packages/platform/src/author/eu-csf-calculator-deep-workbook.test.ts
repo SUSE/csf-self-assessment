@@ -1,19 +1,15 @@
-import { readFileSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { WorkbookSchema } from '../schema';
 import type { Workbook } from '../schema';
 import { testEstateReadings } from './estates';
+import { euCsfCalculatorDeepWorkbookRaw } from '../test-fixtures';
 
 // The deep-analysis variant of the imported EC calculator: the same instrument,
 // asked across the guidance's nine technical dimensions and its chain of
 // entities ("Depth of analysis", Implementation Guidance p12-13). The faithful
 // import is pinned separately, and its own test asserts it stays grain-free.
 
-const FILE = fileURLToPath(
-  new URL('../../../../samples/eu-csf-calculator-deep-workbook.json', import.meta.url),
-);
-const WB: Workbook = WorkbookSchema.parse(JSON.parse(readFileSync(FILE, 'utf8')));
+const WB: Workbook = WorkbookSchema.parse(euCsfCalculatorDeepWorkbookRaw);
 
 const QUESTIONS = WB.objectives.flatMap((o) => o.questions);
 
