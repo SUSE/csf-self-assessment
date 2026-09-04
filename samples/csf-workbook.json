@@ -1,0 +1,2416 @@
+{
+  "meta": {
+    "id": "csf",
+    "version": "2.0.0",
+    "title": "Cloud Sovereignty Self-Assessment"
+  },
+  "frontSheet": [
+    "This is a self-assessment of an estate you already run, not a procurement scoring. The EC Cloud Sovereignty Framework is its reference, never a conformance target.",
+    "Expected ceiling: no real estate reaches SEAL-3 today, because chips plus hardware supply chains are not EU-controlled — the EC's own lessons-learnt say the same. The working range is SEAL-0 to SEAL-2, so a 2 is an achievement, not a shortfall.",
+    "Don't know is an honest answer. It never counts as zero; the floor is always reported together with its unknown count, so a guess is worse than an admission.",
+    "Pre-work (see csf-prework.md): bring contract summaries — continuity, escrow, audit clauses — from the contracts desk, plus energy, facility-operator data from estates management. Six questions lean on them."
+  ],
+  "sealLevels": [
+    {
+      "seal": 0,
+      "name": "No Sovereignty",
+      "description": "No sovereign control; fully dependent on a foreign-controlled provider."
+    },
+    {
+      "seal": 1,
+      "name": "Jurisdictional Sovereignty",
+      "description": "Operated under EU jurisdiction, but control can still be overridden from outside."
+    },
+    {
+      "seal": 2,
+      "name": "Data Sovereignty",
+      "description": "The EU controls the data even under stress; outside parties cannot compel access."
+    },
+    {
+      "seal": 3,
+      "name": "Technological Sovereignty",
+      "description": "The EU controls the technology and can keep operating if a foreign supplier withdraws."
+    },
+    {
+      "seal": 4,
+      "name": "Full Digital Sovereignty",
+      "description": "Complete sovereign control across law, data, and technology, down to the supply chain."
+    }
+  ],
+  "dimensions": [
+    {
+      "id": "compute",
+      "name": "Compute",
+      "strata": [
+        "service",
+        "software",
+        "hardware",
+        "chips"
+      ],
+      "critical": true
+    },
+    {
+      "id": "storage",
+      "name": "Storage",
+      "strata": [
+        "service",
+        "software",
+        "hardware",
+        "chips"
+      ],
+      "critical": true
+    },
+    {
+      "id": "network",
+      "name": "Network",
+      "critical": true
+    },
+    {
+      "id": "iam",
+      "name": "IAM",
+      "critical": true
+    },
+    {
+      "id": "platform",
+      "name": "Platform (containers & PaaS)",
+      "critical": true
+    },
+    {
+      "id": "aiml",
+      "name": "AI/ML platform",
+      "critical": false
+    },
+    {
+      "id": "software-supply",
+      "name": "Software supply & development",
+      "critical": false
+    },
+    {
+      "id": "security",
+      "name": "Security",
+      "critical": true
+    },
+    {
+      "id": "edge",
+      "name": "Edge (CDN/DDoS/DNS)",
+      "critical": false
+    },
+    {
+      "id": "facilities",
+      "name": "Facilities (power/cooling/building)",
+      "critical": false
+    }
+  ],
+  "roles": [
+    {
+      "id": "ARCH",
+      "name": "Architecture",
+      "description": "Designs the estate; owns topology and platform choices."
+    },
+    {
+      "id": "OPS",
+      "name": "Platform ops",
+      "description": "Runs the estate day to day."
+    },
+    {
+      "id": "SEC",
+      "name": "Security",
+      "description": "Owns controls, identity, and incident response."
+    },
+    {
+      "id": "LEG",
+      "name": "Legal",
+      "description": "Owns contracts, jurisdiction, and data-protection law."
+    },
+    {
+      "id": "PROC",
+      "name": "Procurement",
+      "description": "Owns supplier selection, exit, and commercial terms."
+    },
+    {
+      "id": "FAC",
+      "name": "Facilities/ESG",
+      "description": "Owns data-centre siting, power, and sustainability."
+    }
+  ],
+  "parties": [
+    {
+      "id": "institution",
+      "name": "Institution",
+      "kind": "assessed",
+      "description": "The assessed party — the estate owner (EC: Contracting Authority)."
+    },
+    {
+      "id": "primary-provider",
+      "name": "Primary provider",
+      "kind": "third-party",
+      "description": "The contractor delivering the service."
+    },
+    {
+      "id": "subprocessor",
+      "name": "Subprocessor",
+      "kind": "third-party",
+      "description": "A legal entity involved in delivery of the contract."
+    },
+    {
+      "id": "supplier",
+      "name": "Supplier",
+      "kind": "third-party",
+      "description": "Delivers hardware/software; no unsupervised access."
+    }
+  ],
+  "objectives": [
+    {
+      "id": "SOV-1",
+      "name": "Strategic Sovereignty",
+      "weight": 20,
+      "questions": [
+        {
+          "id": "SOV-1.provider-authority",
+          "grain": "party",
+          "axis": "party",
+          "text": "Where does ultimate authority over this provider's decisions that affect your estate — pricing, roadmap, whether service continues — finally reside?",
+          "why": "Under stress, the provider does what its controlling entity decides; sovereignty starts with where that decision would actually be made.",
+          "role": "PROC",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "A non-EU parent or head office makes, or can override, every material decision about this provider's service to you.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "An EU-registered entity signs your contracts, but pricing, roadmap or continuation decisions can be overridden from outside the EU.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "Day-to-day authority sits with an EU entity under ring-fenced governance; strategy or financing still traces to a non-EU owner.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "The provider is EU-domiciled and makes its decisions in the EU/EEA; no outside veto exists over service to your estate.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "Decisive authority and financing are fully vested in EU/EEA entities across the whole ownership chain, verifiable from public registers.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-1.contract-survival",
+          "grain": "party",
+          "axis": "party",
+          "text": "If this provider were acquired, merged or made insolvent, which of your contractual protections — continuity clauses, escrow, assignment consent — would survive?",
+          "why": "An acquisition can move your provider under foreign control overnight; only rights that survive the change of ownership still protect you the morning after.",
+          "role": "LEG",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "No such protections exist in the signed contracts, or nobody present can say whether they do.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "Assurances are informal or draft-stage; nothing enforceable survives a change of control.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "The signed contract for the core service carries continuity or escrow clauses; coverage of the remaining services is unknown.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "Enforceable continuity, escrow and assignment-consent clauses cover every service you take from this provider.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "Those clauses are proven exercisable: escrow releases have been tested and legal review confirms they bind a successor.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-1.suspension-continuity",
+          "grain": "party",
+          "axis": "party",
+          "text": "If a non-EU authority ordered this provider to suspend or degrade your service, what would still run — for how long?",
+          "why": "The EC anchors sovereignty levels in what survives a break in access, not in how well the programme runs on a good day.",
+          "role": "OPS",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "Operations dependent on this provider stop almost immediately; no bridging capability exists.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "A paper plan exists; it has never been exercised, so the real bridging window is unknown.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "Tested mitigations cover the highest-risk workloads — offline operation, local copies, escrowed artifacts — buying days to weeks.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "A tested bridging arrangement keeps the full estate running for a defined window of 90 days or more.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "Operations continue indefinitely without this provider; the dependency is fully substitutable.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "SOV-2",
+      "name": "Legal & Jurisdictional Sovereignty",
+      "weight": 10,
+      "questions": [
+        {
+          "id": "SOV-2.governing-law",
+          "grain": "party",
+          "axis": "party",
+          "text": "Which national legal system governs your contract with this provider — before which courts could you actually enforce a judgment?",
+          "why": "When a dispute or compelled act lands, the governing law plus the practically reachable court decide whether your rights exist anywhere but on paper.",
+          "role": "LEG",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "A non-EU legal system governs the contract; disputes sit before non-EU courts or arbitration.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "An EU governing-law clause exists, but the counterparty holds no EU assets a judgment could reach.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "EU member-state law governs; enforcement would run against a thin EU subsidiary of a non-EU group.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "EU law and exclusive EU venue govern; the provider holds substantial EU assets a judgment can reach.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "Exclusive EU jurisdiction end to end, with enforcement proven or uncontested against an EU-anchored counterparty.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-2.compellability",
+          "grain": "party",
+          "axis": "party",
+          "text": "Could a non-EU government compel this provider — or anyone in its corporate chain — to hand over your data?",
+          "why": "Who can lawfully compel disclosure is the sovereignty fact itself; encryption and residency only matter within its reach.",
+          "role": "LEG",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "The provider is directly subject to extraterritorial disclosure law — US CLOUD Act, FISA 702, Chinese NIL or equivalent.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "Reach arrives via a parent or affiliate; the contract promises notice where lawful — a promise a gag order overrides.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "The operating entity is EU-incorporated with separated operations; ownership still ties it to a non-EU group.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "Every entity in the ownership chain is EU/EEA-domiciled; no non-EU parent exists to receive an order.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "The whole chain, subprocessors included, is verified free of any extraterritorial nexus — today an aspiration; see the front sheet.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-2.standing-access",
+          "grain": "party",
+          "axis": "party",
+          "text": "Does this provider hold standing technical means — privileged accounts, remote support channels, escrowed keys, update push — that could reach your systems without your action?",
+          "why": "A channel that works without you is the path a compelled provider would use, under a gag order you would never see.",
+          "role": "SEC",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "Standing privileged channels exist, and the provider sits where a gag order could silence any warning to you.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "Standing channels exist under non-EU reach; contractual notice is promised where the law allows it.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "Standing channels exist, but the provider answers to EU jurisdiction only — no foreign gag can attach to them.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "No standing access: every provider intervention requires your per-incident approval and is logged on your side.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "Access without your keys and your people is technically impossible, and that design has been independently verified.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-2.sanctions-exposure",
+          "grain": "party",
+          "axis": "party",
+          "text": "Could a foreign export-control or sanctions decision lawfully revoke, suspend or restrict the licences or subscriptions this provider supplies you?",
+          "why": "Sanctions exposure is a switch someone else holds; the question measures the reach of that switch, not your paperwork about it.",
+          "role": "LEG",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "Yes — the licences sit directly under a foreign regime such as US EAR or OFAC, revocable at source.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "Exposure arrives indirectly, through the provider's corporate family or re-export conditions on components.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "Direct licences are out of foreign reach; a residual exposure remains via upstream inputs the provider itself buys.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "Nothing this provider supplies you sits under a foreign export-control or sanctions regime.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "The full supply chain behind this provider is verified free of foreign export-control reach — today an aspiration; see the front sheet.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-2.transparency",
+          "grain": "party",
+          "axis": "party",
+          "text": "Does this provider disclose — publicly or to you — the government demands for customer data it receives?",
+          "why": "Disclosure practice never changes who can compel the provider, so it informs the picture without setting the floor; it is how you would learn the pressure exists.",
+          "role": "PROC",
+          "defaultMateriality": "informational",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "No transparency reporting exists, and no contractual duty to tell you about government demands.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "General claims are published; nothing is verifiable, itemised or committed to you.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "Transparency reporting is published on a recurring schedule; you hold no contractual notification right.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "Verified reporting, plus a contractual commitment to notify you of demands where legally possible.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "Verified reporting, institution-specific notification, and a commitment to challenge overbroad demands in court.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "SOV-3",
+      "name": "Data & AI Sovereignty",
+      "weight": 10,
+      "questions": [
+        {
+          "id": "SOV-3.key-custody",
+          "grain": "dimension",
+          "appliesTo": [
+            "storage",
+            "network"
+          ],
+          "text": "For this dimension, who holds the cryptographic keys — could any outside party reach plaintext without your action?",
+          "why": "Whoever holds the keys decides, under stress, whether data is protected or merely stored; custody is the control fact the encryption paperwork stands on.",
+          "role": "SEC",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "Keys are generated and held by the provider; plaintext is technically reachable without you.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "Provider-held keys under contractual restrictions; the technical path to plaintext remains theirs.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "You control the keys, but they live in a non-EU-controlled key-management service.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "Keys sit in EU-jurisdiction HSMs under your control; a provider support path to them still exists.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "Custody is exclusively yours: keys are generated, stored and used where no other party can touch them, by design.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-3.residency",
+          "grain": "dimension",
+          "appliesTo": [
+            "storage",
+            "compute"
+          ],
+          "text": "Is every place this dimension stores, processes or replicates your data — disaster recovery included — inside EU/EEA territory?",
+          "why": "Territory decides which courts can reach the data at rest; a non-EU fallback path is a standing invitation for the day you least want it.",
+          "role": "OPS",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "Routine storage or processing happens outside the EU/EEA today.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "Primary operations are in the EU; disaster-recovery or overflow paths leave it.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "All territory is EU/EEA, but a non-EU entity operates the underlying service.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "EU territory with EU operators; the remaining non-EU technical touchpoints — firmware, telemetry — are documented.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "No non-EU path exists under any operating condition, emergencies included.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-3.facility-operator",
+          "grain": "dimension",
+          "appliesTo": [
+            "facilities"
+          ],
+          "text": "Who operates the physical facilities beneath this estate — building access, power, cooling?",
+          "why": "Physical access sits beneath every software control; a foreign-run building is a gap no layer above it can close.",
+          "role": "FAC",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "A non-EU-controlled operator runs the facilities; access terms are not fully known.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "A non-EU operator runs them under an EU-law colocation contract.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "An EU operator runs them; its ownership or maintenance chain traces outside the EU.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "EU-operated under EU control; the non-EU dependencies that remain — parts, service visits — are documented and escorted.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "Wholly EU-operated and EU-controlled, maintenance chain included.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-3.ai-control",
+          "grain": "dimension",
+          "appliesTo": [
+            "aiml"
+          ],
+          "text": "Who controls the AI models this estate runs in production — could you redeploy them without the original vendor?",
+          "why": "A model you cannot re-host is a service someone else can switch off; weights plus infrastructure decide whether AI is yours or borrowed.",
+          "role": "ARCH",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "Models are reached only through closed non-EU vendor APIs; no weight access, no redeployment right.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "Rights to obtain weights exist on paper; they have never been obtained or exercised.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "Weights are held under a vendor-gated licence; redeployment is legally possible but untested.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "Models run on infrastructure you control, or redeployment without the vendor has been tested end to end.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "Models and serving infrastructure are EU-controlled; vendor withdrawal has been demonstrated survivable.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-3.ai-training-leakage",
+          "grain": "dimension",
+          "appliesTo": [
+            "aiml"
+          ],
+          "text": "Do prompts, documents or outputs sent to AI services ever train or improve models outside your control?",
+          "why": "Data that trains someone else's model has left your control permanently; no deletion request reaches inside the weights.",
+          "role": "SEC",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "Provider terms allow training on your inputs; no restriction is in place.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "An opt-out is claimed; nothing verifies it.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "Training is contractually disabled for the named services; you rely on the provider's attestation.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "Training is technically disabled and verified — by audit, or by an architecture that keeps inputs inside your boundary.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "Processing never leaves institution-controlled infrastructure; there is no vendor to leak to.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-3.deletion",
+          "grain": "dimension",
+          "appliesTo": [
+            "storage",
+            "aiml"
+          ],
+          "text": "When you delete data, can you verify no recoverable copy remains — backups, caches, derived artifacts included?",
+          "why": "Deletion you cannot verify is a request, not a control; under stress the copies you forgot are the ones that surface.",
+          "role": "SEC",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "No deletion process exists beyond the provider's defaults.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "Deletion requests are submitted; the provider's attestation is the only assurance.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "Deletion is verified for primary storage; backups and derived artifacts rest on attestations.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "Deletion is independently verifiable across primary storage, backups and derived artifacts.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "Customer-held-key crypto-shredding makes every copy unreadable without your keys, backed by contractual audit rights on residual data.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "SOV-4",
+      "name": "Operational Sovereignty",
+      "weight": 15,
+      "questions": [
+        {
+          "id": "SOV-4.portability",
+          "grain": "dimension",
+          "appliesTo": [
+            "compute",
+            "platform"
+          ],
+          "text": "Could this dimension's workloads re-host onto a different provider or distribution without a rewrite — on open formats, open interfaces?",
+          "why": "Portability is the exit everything else prices against; proprietary interfaces are the lock that turns a supplier into a landlord.",
+          "role": "ARCH",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "Re-hosting means a rewrite; proprietary formats and interfaces carry the core workloads.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "Standard interfaces exist, but proprietary extensions are load-bearing for core functions.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "Workloads are portable except named proprietary dependencies, each with a documented workaround.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "Open formats and publicly governed interfaces end to end; portability is designed but unproven.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "Proven: an end-to-end migration to an alternate platform ran within the last 24 months.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-4.source-access",
+          "grain": "dimension",
+          "appliesTo": [
+            "compute",
+            "platform"
+          ],
+          "text": "Do your engineers hold the source code, configuration baselines, operational documentation needed to understand, troubleshoot, modify this dimension?",
+          "why": "When the vendor is gone or gagged, what your engineers can open and read is the entire remaining support organisation.",
+          "role": "OPS",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "Nothing beyond user-facing manuals is accessible.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "Operational configurations are documented in-house; source stays closed.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "Source is readable for the core components; build knowledge and modification knowledge are missing.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "Source, configurations and operational documentation are held for every component except a named list of exceptions.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "Full access, exercised: your engineers routinely troubleshoot and modify from source.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-4.eu-skills",
+          "grain": "party",
+          "axis": "assessment",
+          "text": "Could EU-resident, EU-employed staff operate, troubleshoot, evolve this estate without offshore engineers?",
+          "why": "Support withdrawal is survivable exactly as far as the people inside EU jurisdiction can carry the stack alone.",
+          "role": "OPS",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "Day-to-day operation depends on non-EU vendor engineers.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "EU staff operate the estate; troubleshooting beyond runbooks needs offshore support.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "EU-resident staff operate and troubleshoot; evolution — upgrades, architecture — still needs the vendor.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "EU-resident, EU-employed staff cover operating, troubleshooting and evolving; single-person dependencies are documented.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "Full-stack capability is in-house and redundant across people.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-4.patch-autonomy",
+          "grain": "dimension",
+          "appliesTo": [
+            "compute",
+            "platform"
+          ],
+          "text": "Can your team build, test, deploy fixes for this dimension on its own schedule — without waiting for a non-EU party's code or approval?",
+          "why": "Whoever gates your patches owns your exposure window; under an active exploit, waiting is the vulnerability.",
+          "role": "OPS",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "Every fix is authored and shipped by a non-EU vendor on its own schedule; you wait, then apply.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "A support contract lets you expedite, but the vendor still authors every fix.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "Your team backports or hot-fixes named components; the rest wait for the vendor.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "Your team, or a contracted EU party, can author, build and deploy fixes across the dimension; no outside approval can hold them.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "Self-patching is routine; vendor involvement is optional end to end.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-4.support-jurisdiction",
+          "grain": "party",
+          "axis": "party",
+          "text": "Are this provider's support, escalation, managed-service personnel restricted to EU jurisdiction by contract?",
+          "why": "Support sessions are privileged access by another name; the jurisdiction of the person on the other end is part of your attack surface.",
+          "role": "PROC",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "Support runs from non-EU jurisdictions with no restriction.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "EU preference is stated; nothing enforces it.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "Routine support is contractually EU-only; emergency escalation still reaches non-EU teams.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "EU-only support and escalation, contractually; exceptions need your written consent per case.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "EU-only is guaranteed and legally analysed: no foreign law can compel an override.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-4.kill-switch",
+          "grain": "dimension",
+          "appliesTo": [
+            "compute",
+            "platform",
+            "edge"
+          ],
+          "text": "Would this dimension keep running if its external chokepoint — licence server, activation check, update channel, CDN, DNS — went dark or refused you?",
+          "why": "A dependency that phones home is a switch in someone else's hand; the EC's level idiom asks what still works when it flips.",
+          "role": "OPS",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "A hard dependency exists; the dimension halts or degrades within days of a cut-off, with no fallback.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "The dependency is known; grace periods and fallbacks have never been established.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "A documented grace period or fallback covers the highest-risk components; none of it has been tested.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "Fallbacks are tested: the dimension survives a cut-off with documented, bounded degradation.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "No external chokepoint exists for this dimension.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-4.continuity-plan",
+          "grain": "party",
+          "axis": "assessment",
+          "text": "Is there a documented continuity plan for loss of vendor support, key people or supply — how recently was it tested?",
+          "why": "A plan is preparation, not control — it informs the picture without setting the floor; the suspension questions grade what would actually still run.",
+          "role": "OPS",
+          "defaultMateriality": "informational",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "No documented continuity plan exists.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "A plan is documented; it has never been tested.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "Tabletop-tested; findings remain open.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "Tested within the last 12 months; findings are tracked to closure.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "Live or full-scale exercise within the last 12 months; every finding closed.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "SOV-5",
+      "name": "Supply Chain Sovereignty",
+      "weight": 10,
+      "questions": [
+        {
+          "id": "SOV-5.reliance",
+          "grain": "dimension",
+          "appliesTo": [
+            "compute",
+            "storage",
+            "network",
+            "platform"
+          ],
+          "text": "How far does this dimension's critical path run on non-EU proprietary technology that could not be substituted?",
+          "why": "Unsubstitutable foreign components are the load-bearing walls someone else owns; everything above them is decor.",
+          "role": "ARCH",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "The critical path is built on non-EU proprietary technology throughout.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "Open or EU alternatives exist in places; the spine remains non-EU proprietary.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "Reliance is quantified and bounded: the non-EU proprietary components are named, with substitution candidates identified.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "Non-EU proprietary reliance is the exception — each instance known, documented, with an exit path.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "None: the critical path runs entirely on technology the EU sphere controls or can fork.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-5.provenance",
+          "grain": "dimension",
+          "appliesTo": [
+            "compute",
+            "storage"
+          ],
+          "text": "Do you know the origin — designer, maker, jurisdiction — of the hardware, firmware, embedded code beneath this dimension?",
+          "why": "You cannot de-risk silicon you have never traced; provenance knowledge is where every hardware sovereignty decision starts, and the ceiling the front sheet declares lives here.",
+          "role": "OPS",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "Provenance of hardware, firmware and embedded code is unknown, untracked.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "Vendor-level knowledge only: you know whose badge is on the box, not what is inside it.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "The highest-risk systems are traced to component level; jurisdictions of origin are identified.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "Provenance is tracked and de-risking has begun: diversified sourcing, open-ISA pilots, EU-designed options where they exist.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "Verified EU or open provenance — or audited substitutability — across the dimension. Unreachable today; see the front sheet.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-5.pipeline-jurisdiction",
+          "grain": "dimension",
+          "appliesTo": [
+            "software-supply"
+          ],
+          "text": "Under whose jurisdiction do the entities that develop, package, distribute, sign this dimension's software operate?",
+          "why": "The pipeline that builds your software can be compelled like any other operator — each stage is a hand on your future code.",
+          "role": "ARCH",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "Every stage of the pipeline operates under non-EU jurisdiction.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "Contracts reference EU terms; the pipeline entities themselves remain non-EU.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "Build stages run under EU jurisdiction; signing or distribution still sits outside it.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "All stages operate under EU jurisdiction; the remaining non-EU touchpoints are documented.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "The entire pipeline operates exclusively under EU jurisdiction.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-5.signing",
+          "grain": "dimension",
+          "appliesTo": [
+            "software-supply"
+          ],
+          "text": "Who signs the software artifacts, updates, firmware this estate runs — in which jurisdiction do those signing keys live?",
+          "why": "Whoever signs your updates decides what you will be running next month; signing custody is control over your future state.",
+          "role": "SEC",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "Non-EU vendors sign everything; you verify nothing on arrival.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "Non-EU vendors sign; you verify integrity against their manifests.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "EU-jurisdiction vendors sign the operating core; the non-EU-signed remainder is listed.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "EU-held keys sign everything you build or redistribute; third-party components carry EU-vendor signatures except documented exceptions.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "Institution- or EU-controlled signing end to end, with keys generated and held in EU jurisdiction.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-5.supply-audit",
+          "grain": "party",
+          "axis": "party",
+          "text": "Do your contracts give you — or an EU auditor acting for you — an enforceable right to audit this provider's supply chain, sub-suppliers included?",
+          "why": "Without an audit right, the supply chain is whatever the vendor says it is; the right to look is itself the control.",
+          "role": "PROC",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "No audit right exists; vendor self-attestation is all you hold.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "The direct contract is auditable; sub-suppliers are out of reach.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "Tiered audit rights exist on paper; none has been exercised.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "Audit rights have been exercised within the current contract cycle; findings are tracked.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "Unconditional tiered audit rights for you or an EU auditor, exercised on schedule.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "SOV-6",
+      "name": "Technology Sovereignty",
+      "weight": 15,
+      "questions": [
+        {
+          "id": "SOV-6.licence-rights",
+          "grain": "dimension",
+          "appliesTo": [
+            "compute",
+            "platform",
+            "security"
+          ],
+          "text": "What do the licences beneath this dimension legally let you do without vendor consent — inspect, modify, fork, redistribute?",
+          "why": "The licence is the sovereignty you keep when goodwill runs out: a fork right needs no seat at anyone's table.",
+          "role": "ARCH",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "Closed licences throughout; no right to inspect or modify anything load-bearing.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "Open components exist; the load-bearing pieces remain closed.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "The core runs open-licensed; closed components persist inside the critical path.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "Full open-source rights across the critical path, except named closed exceptions with exit plans.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "Every component carries an unconditional right to inspect, modify, fork and continue.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-6.exit-tested",
+          "grain": "dimension",
+          "appliesTo": [
+            "compute",
+            "platform"
+          ],
+          "text": "Have you costed — then actually drilled — the exit from this dimension's highest-risk component?",
+          "why": "An exit that was never priced or rehearsed is a hope; the drill is what converts it into a capability the minimum rule can trust.",
+          "role": "ARCH",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "No exit has been costed for any component.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "Exit options are identified; none is costed or tested.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "Exits are costed for the highest-risk components; no drill has run.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "One full migration drill has run for the highest-risk component, data conversion included.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "Every critical component holds a costed exit; the highest-risk one has been drilled end to end.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-6.build-capability",
+          "grain": "dimension",
+          "appliesTo": [
+            "compute",
+            "platform",
+            "software-supply"
+          ],
+          "text": "If upstream build infrastructure vanished tomorrow, could you — or a contracted EU party — build this dimension's critical components from source?",
+          "why": "An estate that cannot build is controlled by whoever can; independent build capability is the deepest technical control there is.",
+          "role": "OPS",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "Never attempted: the estate consumes vendor binaries only.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "Build instructions and sources are collected; no independent build has succeeded.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "At least one critical component has been built independently, end to end, on EU-controlled infrastructure.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "More than half the critical components rebuild reproducibly on EU-controlled infrastructure, with an EU mirror of the dependencies relied on operationally.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "End-to-end independent build capability, exercised as routine.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-6.upstream-influence",
+          "grain": "party",
+          "axis": "assessment",
+          "text": "Does the institution — directly or via EU bodies — carry weight in the communities that steward its critical dependencies?",
+          "why": "Influence upstream is early warning plus a voice in the roadmap — leverage worth recording, though it changes nothing about who controls what is deployed, so it never sets the floor.",
+          "role": "ARCH",
+          "defaultMateriality": "informational",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "Pure consumer: no engagement with the communities behind your critical dependencies.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "Sporadic engagement — bug reports, self-interested fixes — with no sustained presence.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "Sustained contribution or funded membership in at least one critical community.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "Maintainer or steering roles held in one or more critical dependencies.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "Resourced influence across the critical dependencies: seats, maintainers, funding.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "SOV-7",
+      "name": "Security & Compliance Sovereignty",
+      "weight": 15,
+      "questions": [
+        {
+          "id": "SOV-7.soc-jurisdiction",
+          "grain": "dimension",
+          "appliesTo": [
+            "security"
+          ],
+          "text": "Where are the people who staff your security operations — employed, contracted, physically located?",
+          "why": "Your defenders can be compelled too; the jurisdiction that employs your SOC decides whose orders it must follow under stress.",
+          "role": "SEC",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "Security operations are outsourced to a non-EU entity with non-EU staff.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "EU-located staff, employed by a non-EU entity.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "An EU subsidiary employs the staff; tooling and escalation run through a non-EU parent SOC.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "An EU entity with EU staff; non-EU partners advise without operational access.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "Fully EU: employment, contracts, location and escalation paths.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-7.telemetry",
+          "grain": "dimension",
+          "appliesTo": [
+            "security"
+          ],
+          "text": "In which jurisdiction do your security telemetry, SIEM data, audit logs live — who administers the tooling holding them?",
+          "why": "Telemetry maps your defences; whoever holds or administers it can be compelled to blind you, or to hand the map to someone else.",
+          "role": "SEC",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "A non-EU SaaS holds the telemetry; non-EU staff administer it.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "Data sits in an EU region of a non-EU-controlled service.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "EU storage; a non-EU-controlled operator administers the tooling — support backdoors, shared key management.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "EU storage under EU-controlled administration; remaining non-EU touchpoints are documented.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "EU end to end: storage, administration, keys and support.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-7.identity-root",
+          "grain": "dimension",
+          "appliesTo": [
+            "iam"
+          ],
+          "text": "Who controls the identity root that authenticates every login to this estate — could an outside party disable or impersonate access?",
+          "why": "The identity root is the estate's master switch: whoever controls it can lock every door or open any of them, without touching a single server.",
+          "role": "SEC",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "The identity root is a non-EU-controlled service; a foreign order could cut or impersonate every login.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "Non-EU identity software runs institution-hosted; updates and licensing remain a foreign gate.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "An EU-jurisdiction identity service, or self-hosted open software whose recovery depends on one external party.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "An institution-controlled identity root on open software; federation dependencies are documented and revocable.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "EU-controlled end to end: no outside party can disable, impersonate or lock out access.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-7.priv-access",
+          "grain": "dimension",
+          "appliesTo": [
+            "iam"
+          ],
+          "text": "Which non-EU-based people could obtain privileged access to this dimension's systems — under whose approval, with what trace?",
+          "why": "Privileged sessions are where compelled access would land in practice; who approves them, plus who sees them, is the governance that survives an order.",
+          "role": "SEC",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "Standing privileged access exists for vendor or parent staff — neither logged nor time-bound.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "Sessions are logged after the fact; approval sits with the vendor.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "Time-bound sessions the vendor approves; your side receives the logs.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "Case-by-case, institution-approved sessions — time-bound, fully logged on your side.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "No non-EU privileged access is possible: no credentials exist, no remote channel reaches these systems.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-7.audit-rights",
+          "grain": "party",
+          "axis": "party",
+          "text": "Can you — or an EU regulator acting for you — audit this provider's service to full depth, on demand, without vendor mediation?",
+          "why": "A right to look, exercised at will, is enforceable control; certificates only report what someone else saw last year.",
+          "role": "LEG",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "No independent audit right; vendor attestations are the only view inside.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "Audits happen on the vendor's terms: scope, timing and personnel are theirs to set.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "Independent audits are possible with named exclusions — shared infrastructure, third-party facilities.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "A full-access right is guaranteed, and it has been exercised at least once.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "Unconditional, on-demand, full-depth audit for you or an EU regulator, with no mediation.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-7.certifications",
+          "grain": "party",
+          "axis": "party",
+          "text": "Which security certifications cover this provider's operating entity — general schemes or EU sovereign ones?",
+          "why": "A certificate attests controls, it is not the controls — recorded here as the most verifiable evidence in the file, never as the floor.",
+          "role": "PROC",
+          "defaultMateriality": "informational",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "None — or the only certificate names an affiliate that is not the operating entity.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "A general scheme of the ISO 27001 class covers the group, not the operating entity.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "A general scheme covers the operating entity for this estate's scope.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "An EU scheme — C5, SecNumCloud, EUCS-class — covers the operating entity for this scope.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "An EU sovereign-tier scheme at its highest level, current, scoped to the operating entity.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "SOV-8",
+      "name": "Environmental Sovereignty",
+      "weight": 5,
+      "questions": [
+        {
+          "id": "SOV-8.stewardship",
+          "grain": "party",
+          "axis": "assessment",
+          "text": "Does the institution measure, publish, improve the environmental footprint of this estate — energy, hardware lifecycle, efficiency?",
+          "why": "Environmental facts move no sovereignty floor — the EC's own architecture — but an estate that measures nothing is flying blind on costs that will constrain it.",
+          "role": "FAC",
+          "defaultMateriality": "informational",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "No environmental indicator is measured; hardware has no lifecycle policy.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "Basic indicators are tracked internally; disposal runs through certified channels.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "Indicators are published; reuse and refurbishment are standard practice.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "Reporting is independently verified; efficiency and circularity targets are tracked.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "Verified reporting with demonstrated year-on-year improvement across energy, lifecycle and efficiency.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-8.energy",
+          "grain": "party",
+          "axis": "assessment",
+          "text": "Do you know where the estate's power comes from — the renewable share, its origin, the certificates behind it?",
+          "why": "Energy is a dependency like any other supply line; knowing its origin is the first step of the only sovereignty lever this objective holds.",
+          "role": "FAC",
+          "defaultMateriality": "informational",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "The energy mix is untracked; nobody could state it today.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "The provider's published figures are all you hold; nothing is institution-specific.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "The mix is tracked; renewable claims rest on certificates of unknown origin.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "Tracked, with EU-issued guarantees of origin covering the renewable share.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "Tracked end to end: EU-generated renewable supply, verified, with contractual continuity.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-8.supply-policy",
+          "grain": "party",
+          "axis": "assessment",
+          "text": "Does hardware procurement policy weigh supply-chain risk — multi-vendor sourcing, region diversification, scarce-material exposure?",
+          "why": "Raw-material exposure is real but unmappable in a workshop; what procurement can honestly report is whether the buying policy takes the risk seriously.",
+          "role": "PROC",
+          "defaultMateriality": "informational",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "Procurement decides on price plus features; supply risk is not a criterion.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "Supply risk is discussed for major purchases; no policy requires it.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "Policy requires multi-vendor options for critical hardware categories.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "Policy enforces vendor plus region diversification, with scarce-material exposure flagged where vendors disclose it.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "Diversification targets are tracked, reported; single-source hardware needs an approved exception.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "testEstates": [
+    {
+      "id": "profile-a",
+      "name": "Profile A",
+      "description": "Wholly on a non-EU hyperscaler, with an excellent programme.",
+      "parties": [
+        {
+          "id": "inst",
+          "name": "Institution",
+          "type": "institution",
+          "serves": []
+        },
+        {
+          "id": "hyperscaler",
+          "name": "Hyperscaler",
+          "type": "primary-provider",
+          "serves": [
+            "compute",
+            "storage",
+            "network",
+            "iam",
+            "platform",
+            "aiml",
+            "software-supply",
+            "security"
+          ]
+        }
+      ],
+      "answers": [
+        {
+          "questionId": "SOV-1.provider-authority",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-1.contract-survival",
+          "rungId": "choice-4"
+        },
+        {
+          "questionId": "SOV-1.suspension-continuity",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-2.governing-law",
+          "rungId": "choice-3"
+        },
+        {
+          "questionId": "SOV-2.compellability",
+          "rungId": "choice-3"
+        },
+        {
+          "questionId": "SOV-2.standing-access",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-2.sanctions-exposure",
+          "rungId": "choice-1"
+        },
+        {
+          "questionId": "SOV-2.transparency",
+          "rungId": "choice-4"
+        },
+        {
+          "questionId": "SOV-3.key-custody",
+          "rungId": "choice-3"
+        },
+        {
+          "questionId": "SOV-3.residency",
+          "rungId": "choice-3"
+        },
+        {
+          "questionId": "SOV-3.ai-control",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-3.ai-training-leakage",
+          "rungId": "choice-4"
+        },
+        {
+          "questionId": "SOV-3.deletion",
+          "rungId": "choice-3"
+        },
+        {
+          "questionId": "SOV-4.portability",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-4.source-access",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-4.eu-skills",
+          "rungId": "choice-3"
+        },
+        {
+          "questionId": "SOV-4.patch-autonomy",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-4.support-jurisdiction",
+          "rungId": "choice-3"
+        },
+        {
+          "questionId": "SOV-4.kill-switch",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-4.continuity-plan",
+          "rungId": "choice-4"
+        },
+        {
+          "questionId": "SOV-5.reliance",
+          "rungId": "choice-1"
+        },
+        {
+          "questionId": "SOV-5.provenance",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-5.pipeline-jurisdiction",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-5.signing",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-5.supply-audit",
+          "rungId": "choice-3"
+        },
+        {
+          "questionId": "SOV-6.licence-rights",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-6.exit-tested",
+          "rungId": "choice-3"
+        },
+        {
+          "questionId": "SOV-6.build-capability",
+          "rungId": "choice-1"
+        },
+        {
+          "questionId": "SOV-6.upstream-influence",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-7.soc-jurisdiction",
+          "rungId": "choice-3"
+        },
+        {
+          "questionId": "SOV-7.telemetry",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-7.identity-root",
+          "rungId": "choice-1"
+        },
+        {
+          "questionId": "SOV-7.priv-access",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-7.audit-rights",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-7.certifications",
+          "rungId": "choice-4"
+        },
+        {
+          "questionId": "SOV-8.stewardship",
+          "rungId": "choice-4"
+        },
+        {
+          "questionId": "SOV-8.energy",
+          "rungId": "choice-4"
+        },
+        {
+          "questionId": "SOV-8.supply-policy",
+          "rungId": "choice-3"
+        }
+      ]
+    },
+    {
+      "id": "profile-base",
+      "name": "Profile BASE",
+      "description": "EU/open stack, EU keys, EU SOC, no foreign parent, but thin paperwork.",
+      "parties": [
+        {
+          "id": "inst",
+          "name": "Institution",
+          "type": "institution",
+          "serves": []
+        },
+        {
+          "id": "eu-provider",
+          "name": "EU provider",
+          "type": "primary-provider",
+          "serves": [
+            "compute",
+            "storage",
+            "platform"
+          ]
+        }
+      ],
+      "answers": [
+        {
+          "questionId": "SOV-1.provider-authority",
+          "rungId": "choice-5"
+        },
+        {
+          "questionId": "SOV-1.contract-survival",
+          "rungId": "choice-3"
+        },
+        {
+          "questionId": "SOV-1.suspension-continuity",
+          "rungId": "choice-4"
+        },
+        {
+          "questionId": "SOV-2.governing-law",
+          "rungId": "choice-5"
+        },
+        {
+          "questionId": "SOV-2.compellability",
+          "rungId": "choice-4"
+        },
+        {
+          "questionId": "SOV-2.standing-access",
+          "rungId": "choice-4"
+        },
+        {
+          "questionId": "SOV-2.sanctions-exposure",
+          "rungId": "choice-4"
+        },
+        {
+          "questionId": "SOV-2.transparency",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-3.key-custody",
+          "rungId": "choice-5"
+        },
+        {
+          "questionId": "SOV-3.residency",
+          "rungId": "choice-4"
+        },
+        {
+          "questionId": "SOV-3.ai-control",
+          "rungId": "choice-4"
+        },
+        {
+          "questionId": "SOV-3.ai-training-leakage",
+          "rungId": "choice-5"
+        },
+        {
+          "questionId": "SOV-3.deletion",
+          "rungId": "choice-3"
+        },
+        {
+          "questionId": "SOV-4.portability",
+          "rungId": "choice-4"
+        },
+        {
+          "questionId": "SOV-4.source-access",
+          "rungId": "choice-4"
+        },
+        {
+          "questionId": "SOV-4.eu-skills",
+          "rungId": "choice-4"
+        },
+        {
+          "questionId": "SOV-4.patch-autonomy",
+          "rungId": "choice-4"
+        },
+        {
+          "questionId": "SOV-4.support-jurisdiction",
+          "rungId": "choice-4"
+        },
+        {
+          "questionId": "SOV-4.kill-switch",
+          "rungId": "choice-5"
+        },
+        {
+          "questionId": "SOV-4.continuity-plan",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-5.reliance",
+          "rungId": "choice-4"
+        },
+        {
+          "questionId": "SOV-5.provenance",
+          "rungId": "choice-3"
+        },
+        {
+          "questionId": "SOV-5.pipeline-jurisdiction",
+          "rungId": "choice-4"
+        },
+        {
+          "questionId": "SOV-5.signing",
+          "rungId": "choice-4"
+        },
+        {
+          "questionId": "SOV-5.supply-audit",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-6.licence-rights",
+          "rungId": "choice-4"
+        },
+        {
+          "questionId": "SOV-6.exit-tested",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-6.build-capability",
+          "rungId": "choice-3"
+        },
+        {
+          "questionId": "SOV-6.upstream-influence",
+          "rungId": "choice-3"
+        },
+        {
+          "questionId": "SOV-7.soc-jurisdiction",
+          "rungId": "choice-5"
+        },
+        {
+          "questionId": "SOV-7.telemetry",
+          "rungId": "choice-5"
+        },
+        {
+          "questionId": "SOV-7.identity-root",
+          "rungId": "choice-4"
+        },
+        {
+          "questionId": "SOV-7.priv-access",
+          "rungId": "choice-5"
+        },
+        {
+          "questionId": "SOV-7.audit-rights",
+          "rungId": "choice-4"
+        },
+        {
+          "questionId": "SOV-7.certifications",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-8.stewardship",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-8.energy",
+          "rungId": "choice-3"
+        },
+        {
+          "questionId": "SOV-8.supply-policy",
+          "rungId": "choice-2"
+        }
+      ]
+    },
+    {
+      "id": "profile-m",
+      "name": "Profile M",
+      "description": "An honest median EU public institution.",
+      "parties": [
+        {
+          "id": "inst",
+          "name": "Institution",
+          "type": "institution",
+          "serves": []
+        },
+        {
+          "id": "provider",
+          "name": "Primary provider",
+          "type": "primary-provider",
+          "serves": [
+            "compute",
+            "storage",
+            "network"
+          ]
+        }
+      ],
+      "answers": [
+        {
+          "questionId": "SOV-1.provider-authority",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-1.contract-survival",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-1.suspension-continuity",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-2.governing-law",
+          "rungId": "choice-3"
+        },
+        {
+          "questionId": "SOV-2.compellability",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-2.standing-access",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-2.sanctions-exposure",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-2.transparency",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-3.key-custody",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-3.residency",
+          "rungId": "choice-3"
+        },
+        {
+          "questionId": "SOV-3.ai-control",
+          "rungId": "choice-1"
+        },
+        {
+          "questionId": "SOV-3.ai-training-leakage",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-3.deletion",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-4.portability",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-4.source-access",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-4.eu-skills",
+          "rungId": "choice-3"
+        },
+        {
+          "questionId": "SOV-4.patch-autonomy",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-4.support-jurisdiction",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-4.kill-switch",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-4.continuity-plan",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-5.reliance",
+          "rungId": "choice-1"
+        },
+        {
+          "questionId": "SOV-5.provenance",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-5.pipeline-jurisdiction",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-5.signing",
+          "rungId": "choice-1"
+        },
+        {
+          "questionId": "SOV-5.supply-audit",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-6.licence-rights",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-6.exit-tested",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-6.build-capability",
+          "rungId": "choice-1"
+        },
+        {
+          "questionId": "SOV-6.upstream-influence",
+          "rungId": "choice-1"
+        },
+        {
+          "questionId": "SOV-7.soc-jurisdiction",
+          "rungId": "choice-3"
+        },
+        {
+          "questionId": "SOV-7.telemetry",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-7.identity-root",
+          "rungId": "choice-1"
+        },
+        {
+          "questionId": "SOV-7.priv-access",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-7.audit-rights",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-7.certifications",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-8.stewardship",
+          "rungId": "choice-3"
+        },
+        {
+          "questionId": "SOV-8.energy",
+          "rungId": "choice-3"
+        },
+        {
+          "questionId": "SOV-8.supply-policy",
+          "rungId": "choice-1"
+        }
+      ]
+    }
+  ]
+}

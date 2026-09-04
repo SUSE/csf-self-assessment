@@ -1,0 +1,18 @@
+<script lang="ts">
+  import { AlertDialog as AlertDialogPrimitive } from 'bits-ui';
+  import { cn } from '../../utils/cn';
+
+  // shadcn-svelte AlertDialog title (labels the dialog for assistive tech).
+  let {
+    ref = $bindable(null),
+    class: className,
+    ...restProps
+  }: AlertDialogPrimitive.TitleProps = $props();
+</script>
+
+<AlertDialogPrimitive.Title
+  bind:ref
+  data-slot="alert-dialog-title"
+  class={cn('text-lg font-semibold text-foreground', className)}
+  {...restProps}
+/>

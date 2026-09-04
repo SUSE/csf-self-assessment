@@ -1,0 +1,2515 @@
+{
+  "meta": {
+    "id": "csf-estate",
+    "version": "1.0.0",
+    "title": "Cloud Sovereignty Self-Assessment — Estate Workbook"
+  },
+  "frontSheet": [
+    "This workbook profiles the sovereignty of a cloud estate the institution already runs. It adapts the European Commission's Cloud Sovereignty Framework — built to rank suppliers bidding for procurement — into a self-assessment; the EC material is a reference and an example of good practice, never a conformance target.",
+    "You answer by picking the one plain-language rung that fits the estate. You pick a description, not a number — the SEAL level is derived from the rung. Every rung states a control fact: who controls the technology, whose law applies, what still works under stress. None of them grades how well-run the programme is.",
+    "Don't know is an honest answer. It never counts as zero; the floor is always reported together with its unknown count, so a guess is worse than an admission.",
+    "Expected ceiling, per the EC's own lessons learnt: SEAL-4 stays out of reach while the hardware, chips strata of compute, storage, network depend on non-EU supply. A low floor with its binding answers named is the useful result of this workshop — not a failure.",
+    "Pre-work: bring the provider contract list, the subprocessor register, the software inventory, the latest exit-plan documents. Every question is answerable in the room by the named role, within the slot, without contract review or a research project.",
+    "The environmental questions (SOV-8) ship informational: they are recorded and reported, but they never gate the SEAL floor — the EC's own architecture for its environmental criteria, generalised."
+  ],
+  "sealLevels": [
+    {
+      "seal": 0,
+      "name": "No Sovereignty",
+      "description": "Service, technology or operations under exclusive control of non-EU third parties, governed entirely by non-EU jurisdictions."
+    },
+    {
+      "seal": 1,
+      "name": "Jurisdictional Sovereignty",
+      "description": "EU law formally applies with limited practical enforceability; control can still be overridden from outside the EU."
+    },
+    {
+      "seal": 2,
+      "name": "Data Sovereignty",
+      "description": "EU jurisdictions apply and the EU controls the data even under stress; material dependencies on non-EU parties remain."
+    },
+    {
+      "seal": 3,
+      "name": "Technological Sovereignty",
+      "description": "EU actors exercise meaningful control over the technology and can keep operating if a foreign supplier withdraws."
+    },
+    {
+      "seal": 4,
+      "name": "Full Digital Sovereignty",
+      "description": "Technology and operations under complete EU control, subject only to EU jurisdiction, with no critical non-EU dependencies."
+    }
+  ],
+  "dimensions": [
+    {
+      "id": "compute",
+      "name": "Compute",
+      "strata": [
+        "service",
+        "software",
+        "hardware",
+        "chips"
+      ],
+      "critical": true
+    },
+    {
+      "id": "storage",
+      "name": "Storage",
+      "strata": [
+        "service",
+        "software",
+        "hardware",
+        "chips"
+      ],
+      "critical": true
+    },
+    {
+      "id": "network",
+      "name": "Network",
+      "strata": [
+        "service",
+        "software",
+        "hardware",
+        "chips"
+      ],
+      "critical": true
+    },
+    {
+      "id": "iam",
+      "name": "IAM",
+      "strata": [
+        "identity",
+        "access"
+      ],
+      "critical": true
+    },
+    {
+      "id": "platform",
+      "name": "Platform (Containers, PaaS)",
+      "strata": [
+        "service",
+        "software"
+      ],
+      "critical": true
+    },
+    {
+      "id": "aiml",
+      "name": "AI/ML platform",
+      "strata": [
+        "service",
+        "software"
+      ],
+      "critical": false
+    },
+    {
+      "id": "software-supply",
+      "name": "Software supply & development",
+      "strata": [
+        "service",
+        "software"
+      ],
+      "critical": false
+    },
+    {
+      "id": "security",
+      "name": "Security",
+      "strata": [
+        "siem-service",
+        "siem-software",
+        "threat",
+        "xdr-edr"
+      ],
+      "critical": true
+    },
+    {
+      "id": "edge",
+      "name": "Edge (DDoS, CDN, DNS)",
+      "strata": [
+        "ddos",
+        "cdn",
+        "dns"
+      ],
+      "critical": false
+    },
+    {
+      "id": "facilities",
+      "name": "Facilities (Power, Estate)",
+      "strata": [
+        "power",
+        "cooling",
+        "building"
+      ],
+      "critical": false
+    }
+  ],
+  "roles": [
+    {
+      "id": "ARCH",
+      "name": "Architecture",
+      "description": "Designs the estate; owns topology and platform choices."
+    },
+    {
+      "id": "OPS",
+      "name": "Platform ops",
+      "description": "Runs the estate day to day."
+    },
+    {
+      "id": "SEC",
+      "name": "Security",
+      "description": "Owns controls, identity, and incident response."
+    },
+    {
+      "id": "LEG",
+      "name": "Legal",
+      "description": "Owns contracts, jurisdiction, and data-protection law."
+    },
+    {
+      "id": "PROC",
+      "name": "Procurement",
+      "description": "Owns supplier selection, exit, and commercial terms."
+    },
+    {
+      "id": "FAC",
+      "name": "Facilities/ESG",
+      "description": "Owns the physical estate: power, cooling, buildings, environmental reporting."
+    }
+  ],
+  "parties": [
+    {
+      "id": "institution",
+      "name": "Institution",
+      "kind": "assessed",
+      "description": "The assessed party — the estate owner (EC: Contracting Authority)."
+    },
+    {
+      "id": "service-provider",
+      "name": "Service provider",
+      "kind": "third-party",
+      "description": "Delivers, operates cloud services for the estate."
+    },
+    {
+      "id": "subcontractor",
+      "name": "Sub-contractor",
+      "kind": "third-party",
+      "description": "A legal entity involved in the delivery of the contract, under the provider."
+    },
+    {
+      "id": "supplier",
+      "name": "Supplier",
+      "kind": "third-party",
+      "description": "Delivers hardware or software without unsupervised access to the infrastructure."
+    }
+  ],
+  "objectives": [
+    {
+      "id": "SOV-1",
+      "name": "Strategic Sovereignty",
+      "weight": 20,
+      "questions": [
+        {
+          "id": "SOV-1.decisive-authority",
+          "grain": "party",
+          "axis": "party",
+          "text": "Where does ultimate decisive authority over this party's strategic, financial, operational decisions reside?",
+          "why": "A contract with an entity whose parent holds the veto is a contract with the parent; the seat of decisive authority is the fact every other strategic answer stands on.",
+          "role": "LEG",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "Every material decision is made by a non-EU parent; the EU entity, if one exists, holds no independent budget or veto.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "An EU-registered entity signs the contracts; a non-EU parent can override pricing, roadmap, or service continuation at will.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "The EU entity holds delegated authority with its own budget line; a non-EU parent retains veto rights over strategic decisions.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "The EU entity decides independently; a non-EU parent's sign-off applies only to named, contractually defined exceptions.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "Decisive authority, financing rest wholly with an EU/EEA-domiciled entity; no non-EU veto, override, or financial dependency exists.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-1.change-of-control",
+          "grain": "party",
+          "axis": "party",
+          "text": "Would the institution's contractual protections with this party survive its sale, merger, or insolvency?",
+          "why": "A provider is one acquisition away from being a different provider; only rights that survive the change of owner are rights at all.",
+          "role": "LEG",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "No contract term addresses a change of control; this party could be sold or dissolved with no notice, consent, or continuity obligation.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "The contract requires notice of a change of control; the institution gains no consent, exit, or continuity right from it.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "The contract grants an exit right on change of control; no escrow or guaranteed transition support backs it.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "Consent rights, transition-support obligations, data escrow cover this party's contract; source-code escrow is absent.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "Consent rights, escrow of code, keys, data, mandated transition support cover this party's contract, verified by legal review within the last 24 months.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-1.concentration",
+          "grain": "party",
+          "axis": "assessment",
+          "text": "How many critical dimensions of this estate stand on a single non-EU-controlled provider?",
+          "why": "Concentrated sovereignty risk fails all at once: one foreign decision, one court order, one insolvency takes every dependent dimension down together.",
+          "role": "PROC",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "One non-EU-controlled provider underlies every critical dimension of the estate.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "Non-EU-controlled providers underlie every critical dimension; the concentration is spread across two or three of them.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "At least one critical dimension runs on an EU-controlled provider; the rest stand on non-EU-controlled providers.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "No single non-EU-controlled provider underlies more than one critical dimension.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "Every critical dimension has an EU-controlled provider running it, or contracted as a ready second source.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "SOV-2",
+      "name": "Legal & Jurisdictional Sovereignty",
+      "weight": 10,
+      "questions": [
+        {
+          "id": "SOV-2.compellability",
+          "grain": "party",
+          "axis": "party",
+          "text": "Could a non-EU authority lawfully compel this party to disclose your data or suspend your service?",
+          "why": "Compellability is the kill-switch fact: encryption paperwork means nothing if a foreign court can order the party holding access.",
+          "role": "LEG",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "A non-EU jurisdiction reaches this party directly; disclosure or suspension can be ordered today.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "An EU entity signs the contract; its non-EU parent remains subject to foreign orders that reach your data.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "EU law governs this party; residual foreign reach exists only through named, documented channels.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "This party sits wholly under EU/EEA jurisdiction; no foreign order can lawfully reach your data through it.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "The whole ownership chain of this party is EU-domiciled; foreign compulsion has no legal or technical path.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-2.enforceability",
+          "grain": "party",
+          "axis": "party",
+          "text": "Could the institution practically enforce an EU court judgment against this party?",
+          "why": "A right you cannot enforce is a hope: the venue on the contract matters less than whether assets exist inside the reach of an EU court.",
+          "role": "LEG",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "Disputes sit with a non-EU court or arbitration seat; no EU judgment can practically reach this party.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "The contract names an EU venue; this party holds no EU assets or presence a judgment could attach.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "An EU member-state court has exclusive jurisdiction; this party's assets, operations sit concentrated outside the EU.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "EU jurisdiction is exclusive; this party holds EU assets sufficient to satisfy a judgment, with its corporate backing outside the EU.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "Exclusive jurisdiction lies with an EU member-state court; this party is fully EU-domiciled with its assets, operations inside the EU.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-2.export-control",
+          "grain": "party",
+          "axis": "assessment",
+          "text": "Could a non-EU export-control or sanctions decision lawfully revoke a licence or subscription this estate runs on?",
+          "why": "Export control is compulsion aimed at the supplier instead of the data: a foreign government decision that revokes a licence stops the estate as surely as a disclosure order breaches it.",
+          "role": "LEG",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "Licences underpinning critical dimensions sit under a foreign export-control regime; the vendor has stated it will comply with suspension orders.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "Licences underpinning critical dimensions sit under a foreign export-control regime; contracts acknowledge the risk with no mitigation or notice commitment.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "Export-control exposure remains on critical licences; contracts bind the vendor to advance notice, transition assistance on a compelled suspension.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "Export-control exposure is confined to named, non-critical components; no critical dimension runs on a foreign-revocable licence.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "No licence, subscription, or contractual term in the estate can be revoked or restricted by a non-EU government decision.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "SOV-3",
+      "name": "Data & AI Sovereignty",
+      "weight": 10,
+      "questions": [
+        {
+          "id": "SOV-3.key-custody",
+          "grain": "dimension",
+          "appliesTo": [
+            "compute",
+            "storage"
+          ],
+          "text": "For this dimension, who holds the cryptographic keys that protect the data at rest?",
+          "why": "Whoever holds the keys decides under stress whether data is protected or merely stored.",
+          "role": "SEC",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "The provider generates, holds the keys; plaintext is technically reachable without your action.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "You hold the keys in a service under EU jurisdiction; a provider support path to plaintext remains.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-3",
+              "description": "Key generation, storage, use happen where no other party can touch them, by design.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-3.data-residency",
+          "grain": "dimension",
+          "appliesTo": [
+            "compute",
+            "storage",
+            "network",
+            "aiml",
+            "edge"
+          ],
+          "text": "For this dimension, in which jurisdiction is data stored or processed under normal operation?",
+          "why": "Residency is the first control fact: law follows the place where the bytes actually sit.",
+          "role": "ARCH",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "Data is stored or processed outside the EU/EEA at the provider's discretion; you cannot pin the location.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "The contract names EU regions, yet the provider can relocate workloads without your approval.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "Data stays in EU/EEA regions; support access or telemetry still flows to non-EU locations.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "Storage, processing, support access are confined to EU/EEA jurisdiction; the provider proves it on request.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "Every byte, backup, telemetry stream is confined to EU/EEA facilities you can enumerate.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-3.ai-hosting",
+          "grain": "dimension",
+          "appliesTo": [
+            "aiml"
+          ],
+          "text": "For this dimension, who controls the infrastructure that executes AI inference?",
+          "why": "An AI capability the institution cannot host is a dependency, not a capability: whoever runs inference sees the questions, shapes the answers, holds the off switch.",
+          "role": "ARCH",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "Inference runs only on a non-EU-operated third-party service; no EU-hosted path exists.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "Inference runs in an EU region of a non-EU-controlled service; the provider can relocate or terminate it on its own decision.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "Inference runs on EU-hosted infrastructure operated by an EU entity whose parent is non-EU.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "Inference runs on EU-hosted, EU-controlled infrastructure; the accelerators, their firmware remain non-EU supply.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "Inference runs on infrastructure the institution or an EU party controls end to end, replaceable without any non-EU actor.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-3.model-portability",
+          "grain": "dimension",
+          "appliesTo": [
+            "aiml"
+          ],
+          "text": "Could the institution redeploy its production AI models without the original vendor?",
+          "why": "Model weights are the exit path for AI: an institution that cannot take its models elsewhere is renting a capability it can never repossess.",
+          "role": "ARCH",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "Models are reachable only through a closed non-EU vendor API; no weight access, no redeployment right exists.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "Contracts name a portability right; no weights have been obtained, no redeployment attempted.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "Weights are licensed; activating them requires the vendor's cooperation or the vendor's infrastructure.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "Weights are held with unrestricted redeployment rights; a redeployment on EU-controlled infrastructure has been exercised.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "Every production model is open-weight or institution-held, redeployable on EU-controlled infrastructure at any time, demonstrated in practice.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-3.training-use",
+          "grain": "dimension",
+          "appliesTo": [
+            "aiml"
+          ],
+          "text": "Does institutional data submitted to AI services feed training or model improvement outside the institution's control?",
+          "why": "Data that trains someone else's model has left the institution permanently: no deletion request retrieves what a model has already learned.",
+          "role": "SEC",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "Prompts, outputs feed external model training by default; no opt-out is exercised.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "A contractual opt-out exists; nothing technically enforces it, nothing independently verifies it.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "Training use is disabled on every service in use; the guarantee rests on vendor self-attestation alone.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "Training use is technically disabled, contractually guaranteed on every service, verified by audit or vendor documentation.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "Institutional data never leaves EU-controlled infrastructure; inference runs in isolated environments the institution verifies itself.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-3.verified-deletion",
+          "grain": "dimension",
+          "appliesTo": [
+            "storage",
+            "aiml"
+          ],
+          "text": "For this dimension, can the institution verify that deleted data leaves no recoverable copy anywhere?",
+          "why": "Control over data includes the power to make it cease to exist; deletion you cannot verify is deletion you do not control.",
+          "role": "SEC",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "Deletion is a request to the provider; no visibility exists into backups, caches, or derived copies.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "Deletion is confirmed by provider attestation alone; derived artifacts are not covered.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "Deletion is verifiable for primary storage; derived artifacts — indexes, embeddings, fine-tuning sets — are not reliably purged.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "Deletion is independently verifiable across primary storage, backups, derived artifacts, with documented propagation timelines.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "Deletion is cryptographically verifiable across every copy, backup, cache, derived artifact, provable without any provider attestation.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "SOV-4",
+      "name": "Operational Sovereignty",
+      "weight": 15,
+      "questions": [
+        {
+          "id": "SOV-4.withdrawal-survival",
+          "grain": "dimension",
+          "appliesTo": [
+            "compute",
+            "storage",
+            "network",
+            "iam",
+            "platform",
+            "security"
+          ],
+          "text": "Who could keep this dimension running if every non-EU party withdrew tomorrow?",
+          "why": "Withdrawal survival is the operational sovereignty fact all others serve: the honest answer differs by layer, so split a dimension into strata the moment a sovereign-run service turns out to sit on foreign software or silicon.",
+          "role": "OPS",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "Under exclusive non-EU control; a withdrawal stops this outright, no EU actor can step in.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "EU actors operate it under non-EU licences, support, updates that can be revoked from outside.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "EU-controlled operation; replacement or repair still needs named non-EU technology.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "EU actors control operation, source, deployment; a non-EU withdrawal is a planned, tested event.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "Built, run, replaceable entirely under EU control; no non-EU dependency remains.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-4.workload-portability",
+          "grain": "dimension",
+          "appliesTo": [
+            "compute",
+            "platform"
+          ],
+          "text": "For this dimension, could production workloads move to an alternate provider or platform without a rewrite?",
+          "why": "Portability is what turns an exit plan from a document into an option: workloads welded to proprietary APIs cannot leave, whatever the contract says.",
+          "role": "ARCH",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "Workloads build directly on one provider's proprietary APIs, managed services; a move means a rewrite.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "Open formats exist at the edges; critical workloads still depend on provider-specific services with no exercised exit path.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "Compute, orchestration run on open standards; data stores, networking, or identity stay bound to proprietary provider services.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "The workloads run on open standards, portable formats end to end; a full re-platform is scoped, never executed.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "A full migration to an alternate platform has been executed end to end as a portability proof.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-4.eu-operations-staff",
+          "grain": "party",
+          "axis": "assessment",
+          "text": "Could EU-resident, EU-employed staff run the estate's full stack without escalating outside the EU?",
+          "why": "Skills are the sovereignty nobody can escrow: a stack only EU-external engineers understand is controlled by them, whatever the contracts say.",
+          "role": "OPS",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "Non-EU vendor staff or offshore teams hold the operational expertise; EU personnel cannot resolve incidents on their own.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "An EU team handles routine tasks; every non-trivial incident escalates to non-EU personnel.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "EU staff run day-to-day operations; named critical layers still depend on non-EU individuals for deep expertise.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "EU-resident staff operate, troubleshoot the full stack; a named set of specialised escalations still routes outside the EU.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "EU-resident, EU-employed staff operate, evolve, incident-resolve the entire stack, with succession coverage demonstrated.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-4.patch-autonomy",
+          "grain": "dimension",
+          "appliesTo": [
+            "compute",
+            "platform",
+            "security"
+          ],
+          "text": "For this dimension, could the institution build, deploy a critical security fix on its own schedule?",
+          "why": "Patch autonomy is who decides when a hole closes: an estate that waits on a foreign vendor's release cycle is defended on that vendor's timetable, not its own.",
+          "role": "OPS",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "Every patch is authored, delivered by a non-EU vendor on its own schedule; the team can only apply what arrives.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "The team applies vendor patches promptly; it cannot build, modify, or backport a fix if the vendor is unavailable.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "The team patches the layers it holds source for; core platform or firmware fixes wait on a non-EU source.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "The team builds, deploys its own fixes across this dimension; a named set of proprietary components stays vendor-gated under a firm SLA.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "The team has remediated a critical CVE end to end — authored, tested, deployed — with no non-EU involvement.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-4.licence-tether",
+          "grain": "dimension",
+          "appliesTo": [
+            "compute",
+            "platform",
+            "security"
+          ],
+          "text": "For this dimension, does continued operation depend on contact with a non-EU-controlled licence or entitlement server?",
+          "why": "A licence server is a remote kill-switch: the estate keeps running only for as long as a foreign-controlled endpoint keeps answering.",
+          "role": "OPS",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "Critical systems phone a non-EU licence server; disconnection halts them within hours, with no fallback tested.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "A grace period stands between disconnection and failure; which components carry the tether is undocumented.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "Every licence tether is documented with its grace period; no EU-hosted or offline fallback exists for the critical systems.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "EU-hosted or offline licensing covers the critical systems; a named set of components still hard-depends on a non-EU entitlement server.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "No system in this dimension depends on a non-EU-controlled licence or entitlement server; licensing is EU-hosted, self-hosted, or perpetual.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-4.facilities-control",
+          "grain": "dimension",
+          "appliesTo": [
+            "facilities"
+          ],
+          "text": "Who controls this physical layer of the facilities the estate stands on?",
+          "why": "Sovereignty reaches the ground the racks stand on: whoever controls power, cooling, the building decides who walks in and whether the lights stay on.",
+          "role": "FAC",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "Owned, operated by a non-EU party; physical access is theirs to grant.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "EU-operated; maintenance, spare parts for this layer come from non-EU suppliers.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-3",
+              "description": "Owned, operated, maintainable under EU control; physical access is EU-decided end to end.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "SOV-5",
+      "name": "Supply Chain Sovereignty",
+      "weight": 10,
+      "questions": [
+        {
+          "id": "SOV-5.chain-visibility",
+          "grain": "party",
+          "axis": "assessment",
+          "text": "Can the institution name every legal entity involved in delivering this estate, down to hardware, software suppliers?",
+          "why": "The chain has to be enumerated before any of it can be assessed — the EC's own rule that deep analysis must not stop at the entity that signed the contract.",
+          "role": "PROC",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "Only the contract-signing entity is known; nobody could list who actually delivers the service.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "Sub-contractors named in the contract are known; the suppliers behind them are not.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "Every sub-contractor is enumerated; hardware, software suppliers are mapped for the critical dimensions.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "Every sub-contractor, supplier is enumerated per dimension; the map is refreshed at each contract change.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "The full chain is enumerated down to the layer it serves; audit rights reach every entity on it.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-5.audit-rights",
+          "grain": "party",
+          "axis": "party",
+          "text": "Could the institution, or an EU auditor acting for it, audit this party's delivery without the party's discretionary mediation?",
+          "why": "Self-attestation is the supply chain grading its own homework; an audit right the party can schedule, scope, or veto is its permission, not your right.",
+          "role": "PROC",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "No audit right exists against this party; assurance rests on its own claims.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "An audit right stands on paper; it has never been exercised, reaches no sub-supplier.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "Audits of this party run on its scheduling terms; systems it deems confidential stay out of scope.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "Full-scope audit rights against this party are contractual, exercised; its sub-suppliers sit outside their reach.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "Enforceable audit rights cover this party plus its material sub-suppliers, exercisable on demand, with an exercised audit on record.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-5.hardware-provenance",
+          "grain": "dimension",
+          "appliesTo": [
+            "compute",
+            "storage",
+            "network"
+          ],
+          "text": "For this dimension, is the manufacturing provenance of hardware, firmware, embedded code known to the institution?",
+          "why": "The hardware, chips strata are where sovereignty runs out — per the EC's lessons learnt — and provenance is the fact that tells you where; unknown origin is unassessable risk.",
+          "role": "PROC",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "Provenance of the hardware, firmware, embedded code is unknown, untracked.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "Provenance rests on vendor self-declaration for the major hardware; firmware origin stays opaque.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "Provenance is mapped for the fleet; firmware from non-transparent non-EU sources remains in critical systems.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "Provenance is mapped, independently verified; the non-EU-origin components that remain are named, isolated, risk-assessed.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "Every component is of verified EU origin or manufacture, or independently audited with a substitutable alternative on record.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-5.factory-control",
+          "grain": "dimension",
+          "appliesTo": [
+            "software-supply"
+          ],
+          "text": "Who controls the software factory that builds, signs, releases the estate's software?",
+          "why": "Whoever holds the pipeline, the signing keys decides what ships: a hosted pipeline is a service dependency, the build tooling a software one.",
+          "role": "OPS",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "Builds run on a non-EU hosted service that also holds the signing keys.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "Builds run under EU control on non-EU tooling; signing keys never leave the estate.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-3",
+              "description": "Pipeline, tooling, signing sit under EU control; a release needs no non-EU system.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-5.upstream-cutoff",
+          "grain": "dimension",
+          "appliesTo": [
+            "software-supply"
+          ],
+          "text": "Could the estate keep building its software if access to upstream libraries, frameworks were cut?",
+          "why": "Open source is also a supply chain: an estate that cannot build without foreign registries has a dependency no contract governs.",
+          "role": "ARCH",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "Every build pulls straight from non-EU registries; a cut-off stops builds the same day.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "A local cache exists as a side effect; nobody has proven a build succeeds from it alone.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "A curated EU-hosted mirror serves every build; provenance is recorded for critical components.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "Dependencies are vendored or mirrored with verified provenance; an air-gapped build has been run.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "Every dependency is mirrored, provenance-verified, rebuildable from source under EU control.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "SOV-6",
+      "name": "Technology Sovereignty",
+      "weight": 15,
+      "questions": [
+        {
+          "id": "SOV-6.licence-rights",
+          "grain": "dimension",
+          "appliesTo": [
+            "compute",
+            "platform",
+            "security"
+          ],
+          "text": "For this dimension, do the software licences grant the institution the right to inspect, modify, redistribute the source?",
+          "why": "Licence rights are the legal half of technological control: without the right to inspect or continue the software, every other capability operates on sufferance.",
+          "role": "ARCH",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "The critical components are closed-source; no inspect, modify, or redistribute right exists, source sits with a non-EU vendor.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "Open licences cover named non-critical components; every load-bearing component remains closed-source.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "Open licences cover the load-bearing software; the rights have never been exercised beyond consuming releases.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "Open licences cover the load-bearing software; the institution or an EU contractor has performed a substantive source audit under them.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "Every critical-path component is open-licensed with inspect, modify, redistribute rights, exercised through a recurring audit programme.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-6.fork-continuation",
+          "grain": "party",
+          "axis": "assessment",
+          "text": "If the vendor behind a critical platform exited, could an EU actor lawfully continue or fork the technology?",
+          "why": "The fork right is the ultimate exit: a technology EU actors can lawfully continue without its originator can never be fully withdrawn.",
+          "role": "ARCH",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "The critical platforms are proprietary; no licence right to fork, continue, or independently maintain them exists.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "Licences permit a fork in theory; no EU actor holds the codebase knowledge or governance standing to carry one.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "EU actors hold contributor status or minority governance seats in the critical upstreams; the fork right has never been resourced.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "EU actors hold maintainer or steering roles in the critical upstreams; a resourced continuation path is identified.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "An EU consortium or the institution itself holds proven, resourced capability to fork, continue every critical platform.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-6.exit-rehearsal",
+          "grain": "party",
+          "axis": "assessment",
+          "text": "Has a migration off a critical non-EU-controlled component been exercised, with its cost, duration recorded?",
+          "why": "An exit that has never been rehearsed is a theory; the drill is what converts a contractual right to leave into an operational ability to leave.",
+          "role": "PROC",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "No exit plan exists for any critical component; data sits in proprietary formats with no known conversion path.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "Exit plans exist on paper; none has been costed, none tested even in a sandbox.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "Exit plans are costed for the critical components; no migration drill has been executed.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "One full migration drill has been executed for a critical component, with data conversion steps documented.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "Costed, time-bound exit plans cover every critical component, each proven by a migration drill within the last 18 months.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-6.independent-build",
+          "grain": "dimension",
+          "appliesTo": [
+            "compute",
+            "platform",
+            "security"
+          ],
+          "text": "For this dimension, could an EU party rebuild the critical software from source on EU-controlled build infrastructure?",
+          "why": "The ability to rebuild from source is what makes licence rights real: if the vendor's build infrastructure disappeared, only what you can compile yourself survives.",
+          "role": "OPS",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "No build capability exists; the estate consumes vendor binaries, an independent build has never been attempted.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "Build instructions exist; every build depends on vendor-controlled infrastructure, signing, or registries.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "One critical component has been built from source on institution-controlled infrastructure; the rest ride vendor pipelines.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "The critical components build reproducibly on EU-controlled infrastructure; a named set still needs the vendor's pipeline.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "Every critical component builds, signs, deploys end to end on EU-controlled infrastructure, verified against vendor-published artifacts.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "SOV-7",
+      "name": "Security & Compliance Sovereignty",
+      "weight": 15,
+      "questions": [
+        {
+          "id": "SOV-7.secops-control",
+          "grain": "dimension",
+          "appliesTo": [
+            "security"
+          ],
+          "text": "Under whose effective control does this security capability operate?",
+          "why": "One control fact — who runs the capability, who sees the telemetry — spans SIEM, threat intelligence, XDR/EDR alike; split into strata when the truth differs between them.",
+          "role": "SEC",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "A non-EU party operates it; telemetry leaves EU jurisdiction; it can be disabled from outside.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "EU-operated on non-EU tooling whose vendor keeps remote access to the data it processes.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "EU-operated under EU jurisdiction; detection content, updates arrive from non-EU sources.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "EU-operated, EU-governed tooling; non-EU feeds are an input, never a dependency.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "Runs entirely under EU control; logs, alerts, response never leave EU jurisdiction.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-7.privileged-access",
+          "grain": "party",
+          "axis": "party",
+          "text": "Could this party's personnel obtain privileged access to the estate's systems without the institution's per-case approval?",
+          "why": "A standing access path is a standing compulsion path: whatever a party's engineers can reach, its home jurisdiction can order reached — silently, under a gag order.",
+          "role": "SEC",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "This party holds standing privileged access; use needs no institutional approval, leaves no institutional log.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "This party's privileged access is logged after the fact; no prior institutional approval gates it.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "This party requests access case by case; approval sits with the party or its parent, not the institution.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "Access is granted per case by the institution, time-boxed, logged; the party's home law could still compel silent use of a residual support path.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "No technical path exists for this party to reach the estate's systems; every privileged control sits with the institution or an EU entity under EU law alone.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-7.iam-authority",
+          "grain": "dimension",
+          "appliesTo": [
+            "iam"
+          ],
+          "text": "Under whose control does this part of IAM operate?",
+          "why": "IAM is the estate's master key: the identity store can be sovereign while access decisions ride a foreign policy engine, or the reverse — which is why this dimension splits into identity, access.",
+          "role": "SEC",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "A non-EU provider's system is authoritative; it can lock the estate out or mint access on its own.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "The authoritative system runs under EU control; recovery or federation still routes through a non-EU provider.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-3",
+              "description": "Identity records, access decisions run on EU-controlled systems; no outside party can grant or revoke anything.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-7.edge-front",
+          "grain": "dimension",
+          "appliesTo": [
+            "edge"
+          ],
+          "text": "Who controls the edge protection standing in front of the estate?",
+          "why": "Whoever stands in front of the front door can inspect or drop everything that passes it; EU scrubbing behind a non-EU CDN is the classic split, so the strata follow DDoS, CDN, DNS.",
+          "role": "OPS",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "A non-EU service terminates the estate's traffic; it can inspect or drop that traffic at will.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "A non-EU service fronts the estate under contract terms forbidding inspection; enforcement is contractual only.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "An EU-operated service fronts the estate; attack surge capacity is rented from a non-EU network.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "EU-operated, EU-owned capacity absorbs attack load; a non-EU fallback engages only on the institution's decision.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "Every point of presence runs on EU-controlled infrastructure.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-7.sovereign-certification",
+          "grain": "party",
+          "axis": "assessment",
+          "text": "Which EU sovereign cloud certifications cover the entities that actually operate this estate?",
+          "why": "Certification signals scrutiny but is not itself a control fact — a compellable operator with a certificate is still compellable — which is exactly why this question ships informational.",
+          "role": "SEC",
+          "defaultMateriality": "informational",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "No security certification names the entities that actually operate the estate.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "ISO 27001 or equivalent covers the operating entities; no EU sovereign scheme has been assessed.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "An EU sovereign scheme — SecNumCloud, C5, EUCS — is in progress or covers a named subset of the estate.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "ISO 27001 plus at least one EU sovereign scheme cover the operating entities, the full estate.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "The highest applicable EU sovereign tier plus ISO 27001 are held, current, audited by an EU-accredited body across the estate.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "SOV-8",
+      "name": "Environmental Sustainability",
+      "weight": 5,
+      "questions": [
+        {
+          "id": "SOV-8.energy-origin",
+          "grain": "dimension",
+          "appliesTo": [
+            "facilities"
+          ],
+          "text": "What share of the energy powering this dimension is EU-generated renewable supply?",
+          "why": "Energy is a supply chain too: a renewable claim met by non-EU certificates leaves the estate's power dependent on sources outside EU reach.",
+          "role": "FAC",
+          "defaultMateriality": "informational",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "Energy sourcing is untracked, or the supply is known to be non-renewable, non-EU.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "Renewable share is estimated informally; the origin of the supply is untracked.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "Renewable share is measured, reported; EU-generated supply is a minority of it.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "Renewable supply exceeds half of the measured total; the EU-generated share is tracked with guarantees of origin.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "EU-generated renewable supply exceeds half of the total, verified by guarantees of origin, with a documented path off the non-EU remainder.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-8.hardware-circularity",
+          "grain": "party",
+          "axis": "assessment",
+          "text": "How is the estate's hardware fleet managed across its lifecycle, through to end of life?",
+          "why": "Circularity reduces the estate's draw on the same scarce, foreign-sourced materials its supply chain depends on — an environmental fact with a sovereignty shadow.",
+          "role": "FAC",
+          "defaultMateriality": "informational",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "Hardware leaves the estate with no lifecycle policy, no certified disposal channel.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "Disposal goes through uncertified channels chosen per case; no reuse or refurbishment occurs.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "Certified disposal channels are used; reuse, refurbishment are not pursued.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "Reuse, refurbishment, certified disposal operate as standard practice, tracked against lifecycle targets.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "Full circularity — extended life, refurbishment, certified disposal, material recovery — is measured, independently verified.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-8.sustainability-disclosure",
+          "grain": "party",
+          "axis": "assessment",
+          "text": "How are the estate's environmental indicators measured, disclosed?",
+          "why": "Disclosure under the EU reporting obligations is the transparency floor for everything else in this objective; it moves the score, never the SEAL.",
+          "role": "FAC",
+          "defaultMateriality": "informational",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "No environmental indicator is measured for the estate.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "Indicators are measured internally; nothing is disclosed.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "Indicators are disclosed on a fixed cycle; no independent verification exists.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "Mandatory EU reporting obligations are met on schedule; verification covers a named subset of indicators.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "Disclosure is independently verified end to end, meets every applicable EU obligation, includes voluntary schemes.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "testEstates": [
+    {
+      "id": "profile-a",
+      "name": "Hyperscaler tenancy, excellent paperwork",
+      "description": "Profile A: the whole estate rides one non-EU hyperscaler with polished disclosure, certifications, sustainability reporting. The informational rungs score high yet lift nothing — the floor is pinned at SEAL-0 by custody, compellability, withdrawal facts. Ceiling-leak resistance made visible.",
+      "parties": [
+        {
+          "id": "inst",
+          "name": "The institution",
+          "type": "institution",
+          "serves": []
+        },
+        {
+          "id": "hyper",
+          "name": "Hyperscale Inc.",
+          "type": "service-provider",
+          "serves": [
+            "compute",
+            "storage",
+            "network",
+            "iam",
+            "platform",
+            "aiml",
+            "software-supply",
+            "security",
+            "edge",
+            "facilities"
+          ]
+        }
+      ],
+      "answers": [
+        {
+          "questionId": "SOV-1.decisive-authority",
+          "rungId": "choice-1"
+        },
+        {
+          "questionId": "SOV-1.change-of-control",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-1.concentration",
+          "rungId": "choice-1"
+        },
+        {
+          "questionId": "SOV-2.compellability",
+          "rungId": "choice-1"
+        },
+        {
+          "questionId": "SOV-2.enforceability",
+          "rungId": "choice-3"
+        },
+        {
+          "questionId": "SOV-2.export-control",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-3.key-custody",
+          "rungId": "choice-1"
+        },
+        {
+          "questionId": "SOV-3.data-residency",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-3.ai-hosting",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-3.model-portability",
+          "rungId": "choice-1"
+        },
+        {
+          "questionId": "SOV-3.training-use",
+          "rungId": "choice-3"
+        },
+        {
+          "questionId": "SOV-3.verified-deletion",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-4.withdrawal-survival",
+          "rungId": "choice-1"
+        },
+        {
+          "questionId": "SOV-4.workload-portability",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-4.eu-operations-staff",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-4.patch-autonomy",
+          "rungId": "choice-1"
+        },
+        {
+          "questionId": "SOV-4.licence-tether",
+          "rungId": "choice-3"
+        },
+        {
+          "questionId": "SOV-4.facilities-control",
+          "rungId": "choice-1"
+        },
+        {
+          "questionId": "SOV-5.chain-visibility",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-5.audit-rights",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-5.hardware-provenance",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-5.factory-control",
+          "rungId": "choice-1"
+        },
+        {
+          "questionId": "SOV-5.upstream-cutoff",
+          "rungId": "choice-1"
+        },
+        {
+          "questionId": "SOV-6.licence-rights",
+          "rungId": "choice-1"
+        },
+        {
+          "questionId": "SOV-6.fork-continuation",
+          "rungId": "choice-1"
+        },
+        {
+          "questionId": "SOV-6.exit-rehearsal",
+          "rungId": "choice-3"
+        },
+        {
+          "questionId": "SOV-6.independent-build",
+          "rungId": "choice-1"
+        },
+        {
+          "questionId": "SOV-7.secops-control",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-7.privileged-access",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-7.iam-authority",
+          "rungId": "choice-1"
+        },
+        {
+          "questionId": "SOV-7.edge-front",
+          "rungId": "choice-1"
+        },
+        {
+          "questionId": "SOV-7.sovereign-certification",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-8.energy-origin",
+          "rungId": "choice-4"
+        },
+        {
+          "questionId": "SOV-8.hardware-circularity",
+          "rungId": "choice-4"
+        },
+        {
+          "questionId": "SOV-8.sustainability-disclosure",
+          "rungId": "choice-5"
+        }
+      ]
+    },
+    {
+      "id": "profile-base",
+      "name": "EU stack, thin paperwork",
+      "description": "Profile BASE: an EU cooperative runs every layer on an open stack with exclusive key custody, its own software factory — yet the floor holds at SEAL-1, pinned by unverified hardware provenance and an exit that has never been rehearsed. No AI services run, so the AI/ML questions stay unanswered. The live floor-trap discussion: are those two binding rungs control facts or paperwork?",
+      "parties": [
+        {
+          "id": "inst",
+          "name": "The institution",
+          "type": "institution",
+          "serves": []
+        },
+        {
+          "id": "coop",
+          "name": "EU Cloud Cooperative",
+          "type": "service-provider",
+          "serves": [
+            "compute",
+            "storage",
+            "network",
+            "iam",
+            "platform",
+            "security",
+            "edge",
+            "facilities"
+          ]
+        },
+        {
+          "id": "libreforge",
+          "name": "LibreForge",
+          "type": "supplier",
+          "serves": [
+            "software-supply"
+          ]
+        }
+      ],
+      "answers": [
+        {
+          "questionId": "SOV-1.decisive-authority",
+          "rungId": "choice-5"
+        },
+        {
+          "questionId": "SOV-1.change-of-control",
+          "rungId": "choice-3"
+        },
+        {
+          "questionId": "SOV-1.concentration",
+          "rungId": "choice-3"
+        },
+        {
+          "questionId": "SOV-2.compellability",
+          "rungId": "choice-4"
+        },
+        {
+          "questionId": "SOV-2.enforceability",
+          "rungId": "choice-5"
+        },
+        {
+          "questionId": "SOV-2.export-control",
+          "rungId": "choice-4"
+        },
+        {
+          "questionId": "SOV-3.key-custody",
+          "rungId": "choice-3"
+        },
+        {
+          "questionId": "SOV-3.data-residency",
+          "rungId": "choice-4"
+        },
+        {
+          "questionId": "SOV-3.verified-deletion",
+          "rungId": "choice-4"
+        },
+        {
+          "questionId": "SOV-4.withdrawal-survival",
+          "rungId": "choice-3"
+        },
+        {
+          "questionId": "SOV-4.workload-portability",
+          "rungId": "choice-4"
+        },
+        {
+          "questionId": "SOV-4.eu-operations-staff",
+          "rungId": "choice-4"
+        },
+        {
+          "questionId": "SOV-4.patch-autonomy",
+          "rungId": "choice-4"
+        },
+        {
+          "questionId": "SOV-4.licence-tether",
+          "rungId": "choice-5"
+        },
+        {
+          "questionId": "SOV-4.facilities-control",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-5.chain-visibility",
+          "rungId": "choice-3"
+        },
+        {
+          "questionId": "SOV-5.audit-rights",
+          "rungId": "choice-3"
+        },
+        {
+          "questionId": "SOV-5.hardware-provenance",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-5.factory-control",
+          "rungId": "choice-3"
+        },
+        {
+          "questionId": "SOV-5.upstream-cutoff",
+          "rungId": "choice-3"
+        },
+        {
+          "questionId": "SOV-6.licence-rights",
+          "rungId": "choice-4"
+        },
+        {
+          "questionId": "SOV-6.fork-continuation",
+          "rungId": "choice-3"
+        },
+        {
+          "questionId": "SOV-6.exit-rehearsal",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-6.independent-build",
+          "rungId": "choice-4"
+        },
+        {
+          "questionId": "SOV-7.secops-control",
+          "rungId": "choice-4"
+        },
+        {
+          "questionId": "SOV-7.privileged-access",
+          "rungId": "choice-4"
+        },
+        {
+          "questionId": "SOV-7.iam-authority",
+          "rungId": "choice-3"
+        },
+        {
+          "questionId": "SOV-7.edge-front",
+          "rungId": "choice-3"
+        },
+        {
+          "questionId": "SOV-7.sovereign-certification",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-8.energy-origin",
+          "rungId": "choice-3"
+        },
+        {
+          "questionId": "SOV-8.hardware-circularity",
+          "rungId": "choice-3"
+        },
+        {
+          "questionId": "SOV-8.sustainability-disclosure",
+          "rungId": "choice-2"
+        }
+      ]
+    },
+    {
+      "id": "profile-m",
+      "name": "Median EU institution",
+      "description": "Profile M: an honest middle — EU regions on a foreign-parented provider, an AI subprocessor, foreign silicon under everything. Every answer sits at SEAL-1 or 2, the floor lands at SEAL-1, and the exposure map shows three third parties standing under the estate. The reference reading the other two profiles are compared against.",
+      "parties": [
+        {
+          "id": "inst",
+          "name": "The institution",
+          "type": "institution",
+          "serves": []
+        },
+        {
+          "id": "acme-cloud",
+          "name": "Acme Cloud EU",
+          "type": "service-provider",
+          "serves": [
+            "compute",
+            "storage",
+            "network",
+            "iam",
+            "platform",
+            "security",
+            "edge",
+            "facilities"
+          ]
+        },
+        {
+          "id": "modelhouse",
+          "name": "Modelhouse AI",
+          "type": "subcontractor",
+          "serves": [
+            "aiml"
+          ]
+        },
+        {
+          "id": "siliconware",
+          "name": "SiliconWare Corp.",
+          "type": "supplier",
+          "serves": [
+            "compute",
+            "storage",
+            "network"
+          ]
+        }
+      ],
+      "answers": [
+        {
+          "questionId": "SOV-1.decisive-authority",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-1.change-of-control",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-1.concentration",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-2.compellability",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-2.enforceability",
+          "rungId": "choice-3"
+        },
+        {
+          "questionId": "SOV-2.export-control",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-3.key-custody",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-3.data-residency",
+          "rungId": "choice-3"
+        },
+        {
+          "questionId": "SOV-3.ai-hosting",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-3.model-portability",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-3.training-use",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-3.verified-deletion",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-4.withdrawal-survival",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-4.workload-portability",
+          "rungId": "choice-3"
+        },
+        {
+          "questionId": "SOV-4.eu-operations-staff",
+          "rungId": "choice-3"
+        },
+        {
+          "questionId": "SOV-4.patch-autonomy",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-4.licence-tether",
+          "rungId": "choice-3"
+        },
+        {
+          "questionId": "SOV-4.facilities-control",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-5.chain-visibility",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-5.audit-rights",
+          "rungId": "choice-3"
+        },
+        {
+          "questionId": "SOV-5.hardware-provenance",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-5.factory-control",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-5.upstream-cutoff",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-6.licence-rights",
+          "rungId": "choice-3"
+        },
+        {
+          "questionId": "SOV-6.fork-continuation",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-6.exit-rehearsal",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-6.independent-build",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-7.secops-control",
+          "rungId": "choice-3"
+        },
+        {
+          "questionId": "SOV-7.privileged-access",
+          "rungId": "choice-3"
+        },
+        {
+          "questionId": "SOV-7.iam-authority",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-7.edge-front",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-7.sovereign-certification",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-8.energy-origin",
+          "rungId": "choice-3"
+        },
+        {
+          "questionId": "SOV-8.hardware-circularity",
+          "rungId": "choice-3"
+        },
+        {
+          "questionId": "SOV-8.sustainability-disclosure",
+          "rungId": "choice-3"
+        }
+      ]
+    }
+  ],
+  "recommender": {
+    "name": "SUSE",
+    "disclosure": "SUSE authored this instrument and sells the offers below. A recommendation moves no number in this assessment.",
+    "contact": {
+      "label": "Talk to an Expert",
+      "url": "https://www.suse.com/contact/"
+    }
+  },
+  "recommendations": [
+    {
+      "id": "suse-strategic-digital-sovereignty",
+      "title": "Strategic Digital Sovereignty",
+      "action": "SUSE ensures strategic autonomy through our European headquarters, local governance, and SUSE Sovereign Premium Support (SPS), which guarantees that decisive operational authority remains within the EU jurisdiction.",
+      "body": [
+        "Strategic sovereignty is the foundation of digital independence. As a company headquartered in Germany and listed on the Frankfurt Stock Exchange (historical context/HQ), SUSE is governed by European law. We address the risk of foreign interference or \"kill switches\" by providing SUSE Sovereign Premium Support (SPS). SPS ensures that all support staff, including Level 3 escalation and incident response teams, are EU-based and subject only to EU jurisdiction. This eliminates the risk of \"backdoor\" access via global support chains. By building on SUSE, you anchor your strategic governance in a partner that shares your regional legal and economic interests.",
+        "To align your strategic governance with EU-based operational control, please use the button \"Talk to an Expert\" at the top of the page."
+      ],
+      "links": [
+        {
+          "kind": "objective",
+          "id": "SOV-1"
+        }
+      ],
+      "whenAtOrBelow": 2,
+      "horizon": "strategic",
+      "order": 10
+    },
+    {
+      "id": "suse-legal-jurisdictional-sovereignty",
+      "title": "Legal & Jurisdictional Sovereignty",
+      "action": "SUSE provides a full-stack solution covering OS, virtualization, cloud-native, and AI that operates in entirely air-gapped environments to protect workloads from extraterritorial laws such as the US CLOUD Act.",
+      "body": [
+        "Navigating the conflict between international data requests and EU privacy laws requires a complete decoupling from foreign-controlled infrastructure. SUSE supports enterprises by providing a comprehensive product portfolio that can run in entirely air-gapped configurations, ensuring that no data, metadata, or telemetry ever transits foreign jurisdictions.",
+        "This sovereign capability is built into our core technologies:",
+        "- Operating System: SUSE Linux Enterprise (SLES) provides a hardened, air-gapped foundation for all mission-critical workloads.",
+        "- Virtualization: SUSE Virtualization allows for modern hyper-converged infrastructure that does not require external phone-home connections.",
+        "- Cloud Native: Rancher Prime (utilizing RKE2 or K3s) enables the management of Kubernetes clusters in isolated environments where jurisdictional integrity is paramount.",
+        "- AI Capabilities: SUSE AI provides the infrastructure to deploy private LLMs entirely within your local, air-gapped data centre.",
+        "When these products are combined with SUSE Sovereign Premium Support, you ensure that even human troubleshooting remains within EU borders. This end-to-end isolation ensures your organisation remains fully compliant with NIS 2 and DORA requirements regarding jurisdictional control.",
+        "An easy step to take here is to make use of Multi Linux Support, where SUSE will take over the maintenance for RHEL so you can switch your contracts with ease.",
+        "To discuss how to insulate your infrastructure and full-stack capabilities from extraterritorial legal risks, please Talk to an Expert."
+      ],
+      "links": [
+        {
+          "kind": "objective",
+          "id": "SOV-2"
+        }
+      ],
+      "whenAtOrBelow": 2,
+      "horizon": "strategic",
+      "order": 20
+    },
+    {
+      "id": "suse-data-ai-sovereignty",
+      "title": "Data & AI Sovereignty",
+      "action": "SUSE AI delivers a secure, end-to-end AI stack that runs fully air-gapped under your total control, featuring tailored security and observability to prevent data leakage while optimizing model performance.",
+      "body": [
+        "Data and AI sovereignty are non-negotiable for enterprises looking to innovate without compromising security. SUSE AI is a comprehensive, full-stack solution designed to run entirely in your own environment—including fully air-gapped deployments. This stack leverages the stability of SUSE Linux Enterprise, the management power of Rancher Prime (using RKE2 or K3s), and a curated set of secure content from the SUSE Application Collection.",
+        "Key differentiators of SUSE AI include:",
+        "- Universal Model Support: Run all types of Large Language Models (LLMs) with absolute data jurisdiction.",
+        "- Tailored AI Security: We have extended SUSE's security framework to include AI-specific safeguards that prevent abuse, \"Shadow AI,\" and accidental data leakage at the application layer.",
+        "- AI Observability: Our SUSE observability solutions are uniquely tuned to monitor AI performance, giving you real-time insights into model behaviour and how users are experiencing the AI service.",
+        "By integrating these safeguards into the infrastructure layer, SUSE AI allows you to innovate at speed while remaining measurably secure. It ensures that your training data, model weights, and inference results stay within your sovereign boundaries.",
+        "To innovate with confidence using a secure, full-stack AI solution, please use the button \"Talk to an Expert\" at the top of the page."
+      ],
+      "links": [
+        {
+          "kind": "objective",
+          "id": "SOV-3"
+        },
+        {
+          "kind": "dimension",
+          "id": "aiml"
+        }
+      ],
+      "whenAtOrBelow": 2,
+      "horizon": "strategic",
+      "order": 30
+    },
+    {
+      "id": "suse-operational-sovereignty",
+      "title": "Operational Sovereignty",
+      "action": "SUSE empowers organisations to achieve total operational independence through air-gap-capable products, specialised product training, and a rich ecosystem of European partners for local, customer-led lifecycle management.",
+      "body": [
+        "Operational sovereignty means having the \"hands on the wheel\" at all times. All SUSE products, from SLES and SUSE Virtualization to Rancher Prime and SUSE AI, are architected to be installed, operated, patched, and improved entirely by the customer themselves. This ensures that your critical infrastructure remains independent of foreign entities and is not reliant on remote \"phone-home\" services for maintenance.",
+        "To support this independence, SUSE offers:",
+        "- Specialised Product Training: Tailored programmes that transform your internal staff into experts, enabling your team to handle everything from initial deployment to complex incident resolution.",
+        "- European Partner Ecosystem: A rich network of regional partners who can assist with local operations or provide co-managed services, ensuring that your operational \"know-how\" stays within the EU.",
+        "- Self-Contained Lifecycle: Because our stack is built for air-gapped usage, customers can deploy security patches and updates on their own schedule without external dependencies.",
+        "By owning the operational layer, you ensure that even in the event of geopolitical tension or vendor withdrawal, your systems remain functional, secure, and under your absolute control.",
+        "To build a resilient, locally-operated infrastructure that puts you in full control, please use the button \"Talk to an Expert\" at the top of the page."
+      ],
+      "links": [
+        {
+          "kind": "objective",
+          "id": "SOV-4"
+        }
+      ],
+      "whenAtOrBelow": 2,
+      "horizon": "strategic",
+      "order": 40
+    },
+    {
+      "id": "suse-supply-chain-sovereignty",
+      "title": "Supply Chain Sovereignty",
+      "action": "SUSE guarantees software integrity through EAL4+ certified processes and the SUSE Application Collection, which provides a curated library of over 130 secure images and Helm charts to eliminate the risks of unvetted container usage.",
+      "body": [
+        "A sovereign stack is only as strong as its weakest component. Many enterprises struggle with \"random\" container images entering their organisation via public registries often unaware of the underlying libraries, hidden vulnerabilities, or foreign dependencies within them.",
+        "SUSE provides a definitive solution through the SUSE Application Collection. This is a curated, hardened library of more than 130 applications and Helm charts ready for immediate enterprise use. By switching to this collection, organisations can stop pulling unverified images from the web and start using a vetted base headquartered right here in Europe.",
+        "Furthermore, we secure this investment with:",
+        "- EAL4+ Certification: We are the only major Linux vendor providing EAL4+ certified software (Common Criteria), ensuring built-in integrity.",
+        "- Reproducible Builds: For SLES we support reproducible builds this allows you to verify that the binary code you run matches the audited source code, removing the \"trust gap.\"",
+        "- Full Transparency: Every component in the collection includes Software Bill of Materials (SBOMs), enabling you to prove provenance and comply with the strict requirements of the Cyber Resilience Act (CRA).",
+        "To secure your software supply chain with a curated, verified, and transparent application collection, please use the button \"Talk to an Expert\" at the top of the page."
+      ],
+      "links": [
+        {
+          "kind": "objective",
+          "id": "SOV-5"
+        },
+        {
+          "kind": "dimension",
+          "id": "software-supply"
+        }
+      ],
+      "whenAtOrBelow": 2,
+      "horizon": "strategic",
+      "order": 50
+    },
+    {
+      "id": "suse-technology-sovereignty",
+      "title": "Technology Sovereignty",
+      "action": "Technology sovereignty is built on a foundation of true Open Source. SUSE prevents vendor lock-in by utilizing upstream-first Open Standards and fostering a global community of contributors to ensure your technology remains independent and portable.",
+      "body": [
+        "Technology sovereignty is the freedom to change your mind, and true Open Source is the essential foundation for that freedom. By utilizing SUSE Linux Enterprise (SLES) and Rancher Prime, you are building on a foundation of pure Open Source and Open Standards (OCI, CNI, CSI). Unlike proprietary alternatives that use \"open core\" as a gateway to lock-in, SUSE ensures your infrastructure is based on code that is transparent and collectively owned.",
+        "Key elements of our technological foundation include:",
+        "- Active External Community: Every SUSE product is backed by a vibrant, global community. We foster an environment where a significant number of contributors come from outside SUSE, ensuring that our projects represent a broad consensus of industry needs rather than a single vendor's roadmap.",
+        "- Global & European Leadership: SUSE is a primary contributor to many critical global initiatives, including the Linux Foundation and the Cloud Native Computing Foundation (CNCF). We also actively participate in European open-source initiatives to ensure regional requirements are represented in global standards.",
+        "- Upstream-First Commitment: We ensure your team's expertise remains portable by avoiding proprietary APIs. This allows you to migrate workloads between different hardware vendors or cloud providers without rewriting code, ensuring your technology lifecycle is determined by your business needs, not a vendor's roadmap.",
+        "This collaborative, open-source approach ensures that your stack remains resilient, transparent, and beyond the control of any single foreign entity.",
+        "To ensure your technology stack remains open and portable for the next decade, please use the button \"Talk to an Expert\" at the top of the page."
+      ],
+      "links": [
+        {
+          "kind": "objective",
+          "id": "SOV-6"
+        }
+      ],
+      "whenAtOrBelow": 2,
+      "horizon": "strategic",
+      "order": 60
+    },
+    {
+      "id": "suse-security-compliance-sovereignty",
+      "title": "Security & Compliance Sovereignty",
+      "action": "SUSE delivers proactive protection by actively monitoring upstream vulnerabilities and providing fully automated security updates through our verified pipelines and the SUSE Application Collection.",
+      "body": [
+        "Compliance is the \"proof\" of sovereignty, but resilience requires proactive action. SUSE actively follows all relevant upstream projects, ensuring that whenever a vulnerability appears, we patch, improve, and drive those updates immediately through our secure pipelines.",
+        "With SUSE, we provide:",
+        "- Active Scanning: Integrated directly into the SUSE Application Collection, we perform continuous vulnerability scanning on every image and Helm chart.",
+        "- Automated Notifications: Customers are automatically informed as soon as new updates are available.",
+        "- Rapid Response: Our SUSE Application Collection pipeline for example is designed for speed, often delivering verified patches within minutes to hours of a vulnerability being identified.",
+        "- Zero-Trust & Visibility: We provide the technical controls to meet the highest security tiers (SEAL) of the Cloud Sovereignty Framework, including FIPS 140-3 compliance and automated security auditing.",
+        "This ensures that your sovereign environment is not just independent, but also continuously protected against modern cyber threats without requiring manual oversight.",
+        "To automate your compliance and secure your sovereign infrastructure with SUSE Security, please use the button \"Talk to an Expert\" at the top of the page."
+      ],
+      "links": [
+        {
+          "kind": "objective",
+          "id": "SOV-7"
+        }
+      ],
+      "whenAtOrBelow": 2,
+      "horizon": "strategic",
+      "order": 70
+    },
+    {
+      "id": "suse-environmental-sustainability",
+      "title": "Environmental Sustainability",
+      "action": "As a European company with SBTi-validated climate targets, SUSE provides resource-efficient software that extends hardware lifecycles and reduces energy consumption at the Edge.",
+      "body": [
+        "Sovereignty includes the long-term sustainability of resources. SUSE is a leader in \"Green Coding\" and resource-efficient infrastructure. Our lightweight distributions, like SL Micro and K3s, are optimized for low-power operation, particularly in Edge and IoT deployments.",
+        "By providing support for up to 16-18 years, we enable organisations to extend the lifecycle of their hardware, significantly reducing e-waste and the carbon footprint associated with frequent hardware refreshes. Our corporate governance is aligned with the UN Global Compact, with a clear path toward net-zero emissions by 2030.",
+        "To align your digital sovereignty goals with your environmental targets, please use the button \"Talk to an Expert\" at the top of the page."
+      ],
+      "links": [
+        {
+          "kind": "objective",
+          "id": "SOV-8"
+        },
+        {
+          "kind": "dimension",
+          "id": "facilities"
+        }
+      ],
+      "whenAtOrBelow": 2,
+      "horizon": "strategic",
+      "order": 80
+    },
+    {
+      "id": "suse-multi-linux-support",
+      "title": "Multi Linux Support",
+      "action": "SUSE takes over the maintenance and support of your existing RHEL estate, so a contract switch — not a migration — moves your Linux support into EU jurisdiction at the next renewal.",
+      "body": [
+        "An easy step to take here is to make use of Multi Linux Support, where SUSE will take over the maintenance for RHEL so you can switch your contracts with ease.",
+        "Nothing is reinstalled and nothing is migrated: the Red Hat Enterprise Linux systems you run today stay where they are, and SUSE assumes the patching, the security updates and the support escalation for them. Combined with SUSE Sovereign Premium Support, this ensures that even human troubleshooting remains within EU borders.",
+        "This is a renewal-scale decision rather than a programme. It lands when the current subscription comes up for renewal, and it removes a non-EU-controlled entitlement dependency from systems that are already in production.",
+        "To move your existing Linux estate onto EU-jurisdiction support at your next renewal, please use the button \"Talk to an Expert\" at the top of the page."
+      ],
+      "links": [
+        {
+          "kind": "question",
+          "id": "SOV-4.licence-tether"
+        },
+        {
+          "kind": "question",
+          "id": "SOV-6.licence-rights"
+        }
+      ],
+      "whenAtOrBelow": 2,
+      "horizon": "renewal",
+      "order": 10
+    },
+    {
+      "id": "suse-application-collection",
+      "title": "SUSE Application Collection",
+      "action": "Replace unverified public container images with a curated, hardened library of more than 130 applications and Helm charts, every component shipping a Software Bill of Materials.",
+      "body": [
+        "Many enterprises struggle with \"random\" container images entering their organisation via public registries often unaware of the underlying libraries, hidden vulnerabilities, or foreign dependencies within them.",
+        "SUSE provides a definitive solution through the SUSE Application Collection. This is a curated, hardened library of more than 130 applications and Helm charts ready for immediate enterprise use. By switching to this collection, organisations can stop pulling unverified images from the web and start using a vetted base headquartered right here in Europe.",
+        "Furthermore, we secure this investment with:",
+        "- EAL4+ Certification: We are the only major Linux vendor providing EAL4+ certified software (Common Criteria), ensuring built-in integrity.",
+        "- Full Transparency: Every component in the collection includes Software Bill of Materials (SBOMs), enabling you to prove provenance and comply with the strict requirements of the Cyber Resilience Act (CRA).",
+        "This is a change of registry rather than a change of platform, so it fits inside a normal release cycle instead of a migration programme.",
+        "To replace unverified public images with a curated, verified and transparent collection, please use the button \"Talk to an Expert\" at the top of the page."
+      ],
+      "links": [
+        {
+          "kind": "question",
+          "id": "SOV-5.factory-control"
+        },
+        {
+          "kind": "question",
+          "id": "SOV-5.upstream-cutoff"
+        }
+      ],
+      "whenAtOrBelow": 2,
+      "horizon": "renewal",
+      "order": 20
+    },
+    {
+      "id": "suse-sovereign-premium-support",
+      "title": "SUSE Sovereign Premium Support",
+      "action": "A support subscription whose staff — including Level 3 escalation and incident response — are EU-based and subject only to EU jurisdiction, closing the backdoor that a global support chain opens.",
+      "body": [
+        "We address the risk of foreign interference or \"kill switches\" by providing SUSE Sovereign Premium Support (SPS). SPS ensures that all support staff, including Level 3 escalation and incident response teams, are EU-based and subject only to EU jurisdiction. This eliminates the risk of \"backdoor\" access via global support chains.",
+        "SPS is bought rather than built. It attaches to the subscriptions you already hold, so the privileged-access path into your estate changes jurisdiction at the next renewal rather than at the end of a migration.",
+        "To put EU-jurisdiction people behind the subscriptions you already hold, please use the button \"Talk to an Expert\" at the top of the page."
+      ],
+      "links": [
+        {
+          "kind": "question",
+          "id": "SOV-1.decisive-authority"
+        },
+        {
+          "kind": "question",
+          "id": "SOV-4.eu-operations-staff"
+        },
+        {
+          "kind": "question",
+          "id": "SOV-7.privileged-access"
+        }
+      ],
+      "whenAtOrBelow": 2,
+      "horizon": "renewal",
+      "order": 30
+    }
+  ]
+}
