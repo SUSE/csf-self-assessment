@@ -197,9 +197,9 @@ The system is honest about ignorance in the way it *looks*, not just in what it 
 - **Two-axis themeable.** Mode × palette, both classes on `<html>`, eight palettes shipping — four hand-authored brand pairs (SUSE, Pine & Mint, Fog Editorial, Instrument) and four imported presets.
 - **One ordinal ramp, one hue.** Order is readable from intensity alone, never from hue identity.
 - **Keyboard-first.** Digits place a rung, `u` is don't-know, `n` is n/a, `Enter` advances.
-- **Viewport-bounded.** The page itself never scrolls; every region owns its own scroll.
+- **Viewport-bounded.** The page itself never scrolls. Every region owns its own scroll.
 
-## Colors
+## Colours
 
 A soft, low-glare brand core — deep blue-green ink on a warm grey canvas — carrying exactly one action colour, one alarm colour, one attention colour, and one ordinal ramp. Nothing else is allowed a hue.
 
@@ -229,9 +229,9 @@ It is **two ramps, not one**. Gauge Ink is for text and for SVG `currentColor` (
 
 **The Reserved Hue Rule.** Under the default palette the gauge hue is the brand's own green, and it belongs *entirely* to the ramp. No green button, no green success state, no green chart series, no green check. Whatever hue a palette assigns to `--seal-hue`, that hue is spent.
 
-**The Unnamed Colour Rule.** UI copy may never name a colour. A legend reading "green = sovereign" is factually false under six of the eight shipping palettes — including two of the four BRAND palettes, whose ordinals are Pine's teal-green and Waterhole blue. Describe the ramp by intensity — "the palest rung", "the most saturated cell" — or by its number. This rule governs product copy only; this document is free to name colours because it is not on screen.
+**The Unnamed Colour Rule.** UI copy may never name a colour. A legend reading "green = sovereign" is factually false under six of the eight shipping palettes — including two of the four BRAND palettes, whose ordinals are Pine's teal-green and Waterhole blue. Describe the ramp by intensity — "the palest rung", "the most saturated cell" — or by its number. This rule governs product copy only. This document is free to name colours because it is not on screen.
 
-**The Inherited Danger Rule.** `--destructive`, `--destructive-foreground`, `--warning` and `--warning-foreground` are declared in the two root blocks and stripped from every imported palette. Alarm and attention are contracts with the reader; there is nothing for a palette to express in them.
+**The Inherited Danger Rule.** `--destructive`, `--destructive-foreground`, `--warning` and `--warning-foreground` are declared in the two root blocks and stripped from every imported palette. Alarm and attention are contracts with the reader. There is nothing for a palette to express in them.
 
 ## Typography
 
@@ -257,44 +257,44 @@ Both faces are the SIL OFL brand typefaces, vendored as subsetted variable woff2
 
 **The Medium-Headline Rule.** Headings are set in medium (500), not bold — the brand guide's explicit instruction, applied as a base-layer default on `h1`–`h6` because Tailwind's preflight would otherwise reset them to 400. It is a default, not a lock: an explicit `font-*` utility still wins.
 
-**The Earned Size Rule.** `text-xs` and `text-sm` carry 94% of the interface. Reaching past them is a semantic claim that something is a headline or a headline number — not a way to add emphasis. Emphasis is weight and colour; size is rank. The rule has a floor as well as a ceiling: `--text-3xs` is the smallest step and there is no step below it, so a mark that will not fit at 0.625rem needs less content, not smaller type. Both ends are enforced — an arbitrary `text-[…]` fails the source scan (spec docs/specs/quality.md §2.5).
+**The Earned Size Rule.** `text-xs` and `text-sm` carry 94% of the interface. Reaching past them is a semantic claim that something is a headline or a headline number — not a way to add emphasis. Emphasis is weight and colour. Size is rank. The rule has a floor as well as a ceiling: `--text-3xs` is the smallest step and there is no step below it, so a mark that will not fit at 0.625rem needs less content, not smaller type. Both ends are enforced — an arbitrary `text-[…]` fails the source scan (spec docs/specs/quality.md §2.5).
 
 ## Layout
 
-**The shell is bounded to the viewport and the page never scrolls.** The root is `h-svh` with `overflow-hidden`; the header, both side panels and the main region are siblings inside it, and each scrolling region owns its own overflow. A tall rulebook or a long HUD scrolls in place rather than pushing the page — so the chrome stays exactly where the reader's hand left it. This is the single most consequential layout decision in the system, and everything else follows from it.
+**The shell is bounded to the viewport and the page never scrolls.** The root is `h-svh` with `overflow-hidden`. The header, both side panels and the main region are siblings inside it, and each scrolling region owns its own overflow. A tall rulebook or a long HUD scrolls in place rather than pushing the page — so the chrome stays exactly where the reader's hand left it. This is the single most consequential layout decision in the system, and everything else follows from it.
 
-**Chrome.** A 3.5rem header bar (logo, subtitle, app actions, then the two theme controls) over the content row, with a footer beneath. Side panels are 18rem open and collapse to a 3rem icon rail, animating width over 200ms. **The collapse control lives inside the panel it collapses**, not in the header — open, it sits in the panel's 2.75rem title row; collapsed, it becomes the rail's top icon. The chevron always points the way the panel will travel.
+**Chrome.** A 3.5rem header bar (logo, subtitle, app actions, then the two theme controls) over the content row, with a footer beneath. Side panels are 18rem open and collapse to a 3rem icon rail, animating width over 200ms. **The collapse control lives inside the panel it collapses**, not in the header — open, it sits in the panel's 2.75rem title row. Collapsed, it becomes the rail's top icon. The chevron always points the way the panel will travel.
 
 **The stage.** Inside the main region, a single-focus stage: a sticky header bar broken full-bleed out of the content column's 1.5rem padding (`-mx-6` sides, `-mt-6` top) so it pins flush under the app header, over a carousel content area. Stage changes slide the leaving and entering nodes across one grid cell in opposite directions — 240ms, `cubicOut`, collapsed to an instant swap under reduced motion.
 
-**Rhythm.** The spacing scale in active use is tight and short: `0.5`, `1`, `1.5`, `2`, `3`, `4`, `6`. Row padding is `py-1` on chips and `p-4` on cards; `gap-2` and `space-y-2` are the default separations; `1.5rem` is reserved for separating whole sections. There is no wide-gutter tier because there is no wide-gutter content.
+**Rhythm.** The spacing scale in active use is tight and short: `0.5`, `1`, `1.5`, `2`, `3`, `4`, `6`. Row padding is `py-1` on chips and `p-4` on cards. `gap-2` and `space-y-2` are the default separations. `1.5rem` is reserved for separating whole sections. There is no wide-gutter tier because there is no wide-gutter content.
 
-**The dashboard module — six columns, laid as wrapping flex rows.** A tile does not claim a grid cell; it declares what its content can spend, and the browser computes the row. Three declarations, all content truths (`ui/dashboard/tile-width.ts`, `analytics/tiles.ts`):
+**The dashboard module — six columns, laid as wrapping flex rows.** A tile does not claim a grid cell. It declares what its content can spend, and the browser computes the row. Three declarations, all content truths (`ui/dashboard/tile-width.ts`, `analytics/tiles.ts`):
 
 - **`width`** — its share of the row, named as the fraction it takes: `sixth`, `third`, `half`, `twoThirds`, `full`. Five-sixths is absent because it strands a column nothing fits in.
-- **`grow`** — whether the body can *use* surplus width. A list, a ledger, a heat matrix can; a headline number cannot, and a figure is forbidden from claiming it (`FigureTile` makes `grow` `never`, so the contradiction fails typecheck rather than a review).
+- **`grow`** — whether the body can *use* surplus width. A list, a ledger, a heat matrix can. A headline number cannot, and a figure is forbidden from claiming it (`FigureTile` makes `grow` `never`, so the contradiction fails typecheck rather than a review).
 - **`min`** — the width in rem below which the body stops being legible. Measured, not preferred.
-- **`hug`** — whether the body's height is its own content rather than the row's. Only for a body bounded by what it has to say; anything that grows with the estate must fill, or it crops.
+- **`hug`** — whether the body's height is its own content rather than the row's. Only for a body bounded by what it has to say. Anything that grows with the estate must fill, or it crops.
 
-**Six, and not five, because five cannot express equality.** The most common structural relationship on this surface is *equivalence* — the four heat tiles are one component on four axes; `floor` and `score` are the two numbers the product refuses to collapse. Under five columns two tiles can only sit 2+3, a 1.5:1 ratio that asserts one matters more. Six also gives every useful width a name a reader already owns, which fifths do not. The declared share is exact: with tiles summing to six, their bases and gaps add to 100% at any container width.
+**Six, and not five, because five cannot express equality.** The most common structural relationship on this surface is *equivalence* — the four heat tiles are one component on four axes. `floor` and `score` are the two numbers the product refuses to collapse. Under five columns two tiles can only sit 2+3, a 1.5:1 ratio that asserts one matters more. Six also gives every useful width a name a reader already owns, which fifths do not. The declared share is exact: with tiles summing to six, their bases and gaps add to 100% at any container width.
 
-**The Symmetric-Remainder Rule.** A row that does not divide evenly is settled twice. Tiles that declared `grow` absorb the remainder first; anything left becomes equal air on both sides (`justify-content: center`), never dead space dumped on the right. This is why a lone figure — `exposure`, `estate-wheel`, `objectives` — reads as deliberate rather than broken: it takes symmetric air *outside* its card instead of floating in its own. A figure is never widened to close the gap, because extra width only scales the drawing and the same hole reappears inside a bigger box.
+**The Symmetric-Remainder Rule.** A row that does not divide evenly is settled twice. Tiles that declared `grow` absorb the remainder first. Anything left becomes equal air on both sides (`justify-content: center`), never dead space dumped on the right. This is why a lone figure — `exposure`, `estate-wheel`, `objectives` — reads as deliberate rather than broken: it takes symmetric air *outside* its card instead of floating in its own. A figure is never widened to close the gap, because extra width only scales the drawing and the same hole reappears inside a bigger box.
 
 **Height is the row's, until a bounded body says otherwise.** A row's height is its tallest tile and the rest fill it — that is what keeps a row hole-free, and a row span stays refused because it reserves height the neighbours cannot reach. Filling is wrong in one case: beside a *capped* figure. `objectives` caps its ring and still sets a ~514px row, while `whats-left` measures 98–179px at the two columns beside it, so filling spent the difference on air inside a card. `hug` ends that card at its content and leaves the air in the column, where it reads as space rather than as an empty panel. It is expressed as a keyword on the cell (`--tile-cross`, `align-self`), never a height: nothing is frozen at one container width, so what a hugging tile measures stays a function of the width it actually got.
 
 **A set wraps as a set.** The four heat tiles share one floor rather than each deriving its own from its pivot count. With `heat-dimension`'s eleven columns set higher than the rest, a narrowing row broke the four into 1 / 2 / 1 — four equals reflowing as three unequal lines.
 
-**Elsewhere.** Radial views and centred flows are constrained to `max-w-3xl`; identity and setup gates to `max-w-lg`.
+**Elsewhere.** Radial views and centred flows are constrained to `max-w-3xl`. Identity and setup gates are constrained to `max-w-lg`.
 
 **Responsive posture — stated honestly.** This is a desktop instrument, and no surface should claim otherwise. But the dashboard consults **no breakpoint at all**: wrapping falls out of `flex-basis: max(min, share)` against the container, so one mechanism covers window resize, panel collapse, and zoom. That is not purity — it is the only thing that works here. Both side panels collapse 18rem → 3rem and change a tile's available width by roughly a third **without the viewport changing**, which a media query is structurally blind to. Tile bodies read the same width through `@container` on the tile frame. Verified from 500px to 2000px of row width with no horizontal overflow.
 
 ## Elevation & Depth
 
-**There is no elevation system, and that is the design.** Depth is expressed by exactly two devices: a hairline border, and one step of tonal lift (a White card on a Fog page in light; a lifted Pine card on the Pine canvas in dark, every step along the same hue at low chroma so the depth ramp stays one colour).
+**There is no elevation system, and that is the design.** Depth is expressed by exactly two devices: a hairline border, and one step of tonal lift (a White card on a Fog page in light, and a lifted Pine card on the Pine canvas in dark. Every step along the same hue at low chroma ensures the depth ramp stays one colour).
 
 **The Ground-Level Rule.** Nothing in the document flow casts a shadow. Shadows belong exclusively to things that have *left* the page — the six `z-50` overlays, exhaustively: tooltip, dialog, alert dialog, popover, chart tooltip, and the drag ghost. This is verifiable in one pass, and it is the audit test: grep the source for a shadow utility, and every hit must sit on a fixed or absolutely-positioned overlay. A shadow used to make an in-flow card "pop" is a defect, because in a system with this much data on screen, ambient depth is just blur.
 
-The shadow *tokens* are nonetheless a full seven-step ramp restated from Tailwind's defaults, so that a palette can re-express them. Claymorphism does exactly this — wide diffuse clay shadows are that palette's entire point — and it lands on those same six overlays. **The rule constrains where a designer reaches for depth; the palette stays free to say what depth looks like once it is warranted.**
+The shadow *tokens* are nonetheless a full seven-step ramp restated from Tailwind's defaults, so that a palette can re-express them. Claymorphism does exactly this — wide diffuse clay shadows are that palette's entire point — and it lands on those same six overlays. **The rule constrains where a designer reaches for depth. The palette stays free to say what depth looks like once it is warranted.**
 
 ### Shadow Vocabulary
 - **`--shadow-md`** — the overlay default: tooltip, dialog, alert dialog, popover.
@@ -323,18 +323,18 @@ There is one deliberate exception, and it is a **selection** mark rather than a 
 
 ### Buttons
 - **Shape:** structural large radius (0.5rem under SUSE), 2rem tall at default size, `px-2.5`, control typography (0.875rem / 500). Four heights ship: 1.5rem (`xs`), 1.75rem (`sm`), 2rem, 2.25rem (`lg`), plus square icon variants at each.
-- **Primary:** Jungle fill with Pine text. Note the deliberate asymmetry — the hover fill change is scoped to `[a]:hover`, so only link-buttons restyle on hover; a real `<button>` answers with the press instead.
+- **Primary:** Jungle fill with Pine text. Note the deliberate asymmetry — the hover fill change is scoped to `[a]:hover`, so only link-buttons restyle on hover. A real `<button>` answers with the press instead.
 - **Outline / Secondary / Ghost:** transparent or one-step fills that resolve to the muted wash on hover. `aria-expanded` gets the same treatment as hover, so a button holding a popover open looks held open.
 - **Destructive is a tint, never a fill.** 10% destructive background with destructive text, deepening to 20% on hover. A solid red button would be the loudest thing on any screen in the product, and nothing here deserves that.
 - **Press:** `active:translate-y-px` — a one-pixel drop, suppressed on menu triggers.
-- **Focus:** a 3px `--ring` at 50% with the border switching to `--ring`. Selection rings elsewhere are 1px inset; only focus is thick.
+- **Focus:** a 3px `--ring` at 50% with the border switching to `--ring`. Selection rings elsewhere are 1px inset. Only focus is thick.
 - **Element follows semantics:** an `href` renders an `<a>`, so a link styled as a button stays middle-clickable and correct for assistive tech.
 
 ### Inputs / Fields
 - **Style:** full-width, medium radius, 1px border, page-background fill, `0.5rem 0.75rem`. A `compact` density (`px-2 py-1`) exists to sit inline beside read-only detail fields.
 - **Focus:** a 1px `--ring`, native outline suppressed.
 - **Invalid:** border and focus ring both swap to destructive.
-- **Disabled and read-only are owned globally.** `theme.css` styles them with *unlayered* rules, which outrank Tailwind's utilities layer without `!important`. Disabled gets muted fill, muted text, 60% opacity and `not-allowed`; read-only gets the same inert fill but stays fully legible and selectable, because a read-only value exists to be copied. **Never add `disabled:` or read-only utilities to a control** — they will be overridden, and the local version will drift.
+- **Disabled and read-only are owned globally.** `theme.css` styles them with *unlayered* rules, which outrank Tailwind's utilities layer without `!important`. Disabled gets muted fill, muted text, 60% opacity and `not-allowed`. Read-only gets the same inert fill but stays fully legible and selectable because a read-only value exists to be copied. **Never add `disabled:` or read-only utilities to a control** — they will be overridden, and the local version will drift.
 
 ### Cards / Tiles
 - **Corner:** structural large radius. **Border:** 1px hairline. **Background:** card. **Padding:** 1rem. **Shadow:** none, ever (see Elevation).
@@ -346,21 +346,21 @@ One cell per unit in scope, the open ones carrying `--warning` — the counterpa
 - **A field states a population where a bar states a proportion.** `3 of 67 open` is a 4.5% bar, and a 4.5% bar reads as "almost nothing has happened" when the truth is "almost everything has". Sixty-seven cells with three specks in them is read correctly as a nearly-complete population before a word of it is read at all.
 - **Open cells are `--warning`.** An open unit is a decision owed by a named owner, which is what Act-Here Amber means everywhere else it appears. Never the SEAL ramp: a backlog is not a level, and the green hue would say the estate scored something here.
 - **Answered cells are `bg-border`, not `bg-muted`.** `--muted` on a light card is a 1.05:1 step, so the population would vanish and the field would read as three floating specks on nothing. The border token is the lightest step that survives both modes.
-- **Above `CAP` = 240 units the field falls back to the bar** (`fieldDrawable`). A dozen rows of 11px specks is not a readable population, and a large population is a proportion again. The numeral is the source of truth in both cases; the field never rounds and never bundles.
+- **Above `CAP` = 240 units the field falls back to the bar** (`fieldDrawable`). A dozen rows of 11px specks is not a readable population, and a large population is a proportion again. The numeral is the source of truth in both cases. The field never rounds and never bundles.
 
 ### Navigation
-- Navigation is the stage header plus the two collapsible panels; there is no nav bar. The header carries the logo, an optional subtitle, app actions, and the two theme controls — palette then mode, in that order, because that is the order of the two token axes.
-- The logo is an inline SVG whose fills read `--primary` and `--primary-foreground` directly, so the mark recolours with the theme like everything else. It is a placeholder for a real mark; the contract (a themeable inline SVG, never a remote asset) is what must survive the swap.
+- Navigation is the stage header plus the two collapsible panels. There is no nav bar. The header carries the logo, an optional subtitle, app actions, and the two theme controls — palette then mode, in that order, because that is the order of the two token axes.
+- The logo is an inline SVG whose fills read `--primary` and `--primary-foreground` directly, so the mark recolours with the theme like everything else. It is a placeholder for a real mark. The contract (a themeable inline SVG, never a remote asset) is what must survive the swap.
 
 ### The Ladder (signature)
-The answering surface, and the clearest expression of the north star. Rungs stack SEAL-0 at the top descending to SEAL-4 at the bottom — *you start exposed and climb down the rungs into sovereignty* — as a proper `radiogroup` with roving tabindex, arrow-key traversal, and digit keys that jump straight to a rung (a sparse ladder simply no-ops on a missing digit; it never snaps to the nearest).
+The answering surface, and the clearest expression of the north star. Rungs stack SEAL-0 at the top descending to SEAL-4 at the bottom — *you start exposed and climb down the rungs into sovereignty* — as a proper `radiogroup` with roving tabindex, arrow-key traversal, and digit keys that jump straight to a rung (a sparse ladder simply no-ops on a missing digit. It never snaps to the nearest).
 
 Each rung is a 2rem gauge badge carrying its number in ramp ink over ramp fill, an uppercase `SEAL-n · Level Name` eyebrow, and the rung description in reading type. The selected rung sits in the accent wash with a 1px inset ring. An unselected rung shows its digit as a `kbd` hint at zero opacity that fades in on hover or keyboard focus — **the interface teaches its own shortcuts, but only to someone already reaching for them.**
 
 **The Quiet-Until-Asked Rule.** Controls recede into the surface at rest — transparent borders, ghost buttons, invisible drop zones, hidden key hints — and state is the only thing permitted to draw the eye. On a screen carrying this much data, every element that asserts itself at rest is one the reader has to actively dismiss.
 
 ### The Wheels (signature)
-Radial structural views (instrument, question, merge) built as hand-drawn SVG on a shared viewbox. Spokes read length as quantity; strata are diamonds placed along the spoke; the hub carries a headline number in 15px/600 over a 10px muted caption. Every stroke takes its colour from a token via `currentColor` and a `text-*` utility, because `fill`/`stroke` cannot take a Tailwind background utility. Empty structure — a dimension no question touches — renders as a destructive-coloured stub at the hub rather than as nothing, because absence is a finding.
+Radial structural views (instrument, question, merge) built as hand-drawn SVG on a shared viewbox. Spokes read length as quantity. Strata are diamonds placed along the spoke. The hub carries a headline number in 15px/600 over a 10px muted caption. Every stroke takes its colour from a token via `currentColor` and a `text-*` utility, because `fill`/`stroke` cannot take a Tailwind background utility. Empty structure — a dimension no question touches — renders as a destructive-coloured stub at the hub rather than as nothing, because absence is a finding.
 
 ## Do's and Don'ts
 
@@ -372,14 +372,14 @@ Radial structural views (instrument, question, merge) built as hand-drawn SVG on
 - **Do** route every ramp reference through `sealInkClass()` / `sealSwatchClass()`. A computed `text-seal-${n}` compiles to no utility at all — Tailwind v4 extracts class names by scanning source text — and renders silently unstyled.
 - **Do** keep a panel's collapse control inside the panel.
 - **Do** present a floor and its unknown count as one value, and render absence as an em-dash plus a sentence. Never as a zero.
-- **Do** let each region own its scroll; the page itself must never scroll.
+- **Do** let each region own its scroll. The page itself must never scroll.
 
 ### Don't:
 - **Don't** name a colour in UI copy. It is false under six of the eight palettes.
 - **Don't** spend the gauge hue on anything but the ramp — no success green, no green series, no green check under the default palette.
 - **Don't** put a shadow on anything in the document flow. Depth is a border and one tonal step.
-- **Don't** add `disabled:` or read-only utilities to a form control; `theme.css` owns those unlayered and will win.
+- **Don't** add `disabled:` or read-only utilities to a form control. `theme.css` owns those unlayered and will win.
 - **Don't** introduce a sixth chart colour, or reuse the amber or the brick as a series — they are the attention and alarm contracts.
 - **Don't** re-declare `--destructive` or `--warning` in a palette block. They are inherited by design.
-- **Don't** use dashed borders decoratively; dashed means provisional and nothing else.
+- **Don't** use dashed borders decoratively. Dashed means provisional and nothing else.
 - **Don't** collapse the floor and the score into a single number or a single visual. They answer different questions, and the product is structurally forbidden from implying one headline.
