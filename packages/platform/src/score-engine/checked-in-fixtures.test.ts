@@ -1,9 +1,19 @@
-import { readFileSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { testEstateReadings } from '../author/estates';
 import { AssessmentSchema, WorkbookAssessmentSchema, WorkbookSchema } from '../schema';
-import { alexRaw, janeRaw, workbookAssessmentRaw, workbookRaw } from '../test-fixtures';
+import {
+  alexRaw,
+  csfWorkbookRaw,
+  janeRaw,
+  sampleWorkbookRaw,
+  teachingDeepAnalysisAssessmentRaw,
+  teachingDeepAnalysisWorkbookAssessmentRaw,
+  teachingDeepAnalysisWorkbookRaw,
+  teachingWorkbookAssessmentRaw,
+  teachingWorkbookRaw,
+  workbookAssessmentRaw,
+  workbookRaw,
+} from '../test-fixtures';
 import { evaluate } from './index';
 
 const units = (
@@ -16,12 +26,6 @@ const units = (
 
 type UnitCounts = ReturnType<typeof units>;
 type ReadingExpectation = [string, number, number, UnitCounts];
-type WorkbookCase = { file: string; readings: ReadingExpectation[] };
-
-const readJson = (path: string) =>
-  JSON.parse(
-    readFileSync(fileURLToPath(new URL(`../../../../${path}`, import.meta.url)), 'utf8'),
-  );
 
 describe('checked-in assessments', () => {
   it('test fixture: alexRaw', () => {
@@ -70,8 +74,8 @@ describe('checked-in assessments', () => {
     ]);
   });
 
-  it('samples/learn-deep-analysis/assessment.json', () => {
-    const assessment = AssessmentSchema.parse(readJson('samples/learn-deep-analysis/assessment.json'));
+  it('test fixture: teachingDeepAnalysisAssessmentRaw', () => {
+    const assessment = AssessmentSchema.parse(teachingDeepAnalysisAssessmentRaw);
     const result = evaluate(assessment.workbook, assessment);
 
     expect(result.overall.floor).toBe(0);
@@ -86,37 +90,40 @@ describe('checked-in assessments', () => {
 });
 
 describe('checked-in workbooks', () => {
-  const cases: WorkbookCase[] = [
+  const cases = [
     {
-      file: 'samples/csf-workbook.json',
+      name: 'test fixture: csfWorkbookRaw',
+      raw: csfWorkbookRaw,
       readings: [
-        ['profile-a', 0, 31.180555555555557, units(68, 67, 0, 0, 1)],
-        ['profile-base', 1, 73.00073099415204, units(68, 67, 0, 0, 1)],
-        ['profile-m', 0, 23.190789473684212, units(68, 67, 0, 0, 1)],
+        ['profile-a', 0, 31.180555555555557, units(68, 67, 0, 0, 1)] as ReadingExpectation,
+        ['profile-base', 1, 73.00073099415204, units(68, 67, 0, 0, 1)] as ReadingExpectation,
+        ['profile-m', 0, 23.190789473684212, units(68, 67, 0, 0, 1)] as ReadingExpectation,
       ],
     },
-    { file: 'samples/sample-workbook.json', readings: [] },
+    { name: 'test fixture: sampleWorkbookRaw', raw: sampleWorkbookRaw, readings: [] as ReadingExpectation[] },
     {
-      file: 'samples/learn-basics/workbook.json',
+      name: 'test fixture: teachingWorkbookRaw',
+      raw: teachingWorkbookRaw,
       readings: [
-        ['teach-median', 1, 38.88888888888889, units(10, 10, 0, 0, 0)],
-        ['teach-hyperscaler', 0, 18.75, units(9, 9, 0, 0, 0)],
-        ['teach-sovereign', 1, 71.875, units(9, 8, 0, 0, 1)],
+        ['teach-median', 1, 38.88888888888889, units(10, 10, 0, 0, 0)] as ReadingExpectation,
+        ['teach-hyperscaler', 0, 18.75, units(9, 9, 0, 0, 0)] as ReadingExpectation,
+        ['teach-sovereign', 1, 71.875, units(9, 8, 0, 0, 1)] as ReadingExpectation,
       ],
     },
     {
-      file: 'samples/learn-deep-analysis/workbook.json',
+      name: 'test fixture: teachingDeepAnalysisWorkbookRaw',
+      raw: teachingDeepAnalysisWorkbookRaw,
       readings: [
-        ['deep-one-roof', 0, 5.681818181818182, units(14, 14, 0, 0, 0)],
-        ['deep-layered', 1, 42.04545454545455, units(16, 16, 0, 0, 0)],
-        ['deep-sovereign-ceiling', 2, 73.4090909090909, units(15, 15, 0, 0, 0)],
+        ['deep-one-roof', 0, 5.681818181818182, units(14, 14, 0, 0, 0)] as ReadingExpectation,
+        ['deep-layered', 1, 42.04545454545455, units(16, 16, 0, 0, 0)] as ReadingExpectation,
+        ['deep-sovereign-ceiling', 2, 73.4090909090909, units(15, 15, 0, 0, 0)] as ReadingExpectation,
       ],
     },
   ];
 
   for (const expected of cases) {
-    it(expected.file, () => {
-      const workbook = WorkbookSchema.parse(readJson(expected.file));
+    it(expected.name, () => {
+      const workbook = WorkbookSchema.parse(expected.raw);
       const readings = testEstateReadings(workbook);
 
       expect(readings).toHaveLength(expected.readings.length);
@@ -151,14 +158,14 @@ describe('checked-in workbooks', () => {
 });
 
 describe('checked-in workbook-assessments', () => {
-  const files = [
-    'samples/learn-basics/workbook-assessment.json',
-    'samples/learn-deep-analysis/workbook-assessment.json',
+  const cases = [
+    { name: 'test fixture: teachingWorkbookAssessmentRaw', raw: teachingWorkbookAssessmentRaw },
+    { name: 'test fixture: teachingDeepAnalysisWorkbookAssessmentRaw', raw: teachingDeepAnalysisWorkbookAssessmentRaw },
   ];
 
-  for (const file of files) {
-    it(file, () => {
-      const assessment = WorkbookAssessmentSchema.parse(readJson(file));
+  for (const expected of cases) {
+    it(expected.name, () => {
+      const assessment = WorkbookAssessmentSchema.parse(expected.raw);
       expect(assessment.workbook.objectives.length).toBeGreaterThan(0);
     });
   }
