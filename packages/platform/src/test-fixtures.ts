@@ -4,18 +4,18 @@ import workbookAssessmentJson from '../../../samples/recommendations/workbook-as
 import workbookJson from '../../../samples/recommendations/workbook.json' with { type: 'json' };
 
 import csfWorkbookJson from '../../../samples/csf-workbook.json' with { type: 'json' };
-import euCsfCalculatorDeepFillAlexJson from '../../../samples/eu-csf-calculator-deep-fill-alex.json' with { type: 'json' };
-import euCsfCalculatorDeepFillJaneJson from '../../../samples/eu-csf-calculator-deep-fill-jane.json' with { type: 'json' };
-import euCsfCalculatorDeepWorkbookJson from '../../../samples/eu-csf-calculator-deep-workbook.json' with { type: 'json' };
-import euCsfCalculatorFillAlexJson from '../../../samples/eu-csf-calculator-fill-alex.json' with { type: 'json' };
-import euCsfCalculatorFillJaneJson from '../../../samples/eu-csf-calculator-fill-jane.json' with { type: 'json' };
-import euCsfCalculatorWorkbookJson from '../../../samples/eu-csf-calculator-workbook.json' with { type: 'json' };
+import euCsfCalculatorDeepFillAlexJson from '../../../samples/ec-guidance-deep-analysis/alex.json' with { type: 'json' };
+import euCsfCalculatorDeepFillJaneJson from '../../../samples/ec-guidance-deep-analysis/jane.json' with { type: 'json' };
+import euCsfCalculatorDeepWorkbookJson from '../../../samples/ec-guidance-deep-analysis/workbook.json' with { type: 'json' };
+import euCsfCalculatorFillAlexJson from '../../../samples/ec-guidance-complete/alex.json' with { type: 'json' };
+import euCsfCalculatorFillJaneJson from '../../../samples/ec-guidance-complete/jane.json' with { type: 'json' };
+import euCsfCalculatorWorkbookJson from '../../../samples/ec-guidance-complete/workbook.json' with { type: 'json' };
 import sampleWorkbookJson from '../../../samples/sample-workbook.json' with { type: 'json' };
-import teachingDeepAnalysisAssessmentJson from '../../../samples/teaching-deep-analysis-assessment.json' with { type: 'json' };
-import teachingDeepAnalysisWorkbookAssessmentJson from '../../../samples/teaching-deep-analysis-workbook-assessment.json' with { type: 'json' };
-import teachingDeepAnalysisWorkbookJson from '../../../samples/teaching-deep-analysis-workbook.json' with { type: 'json' };
-import teachingWorkbookAssessmentJson from '../../../samples/teaching-workbook-assessment.json' with { type: 'json' };
-import teachingWorkbookJson from '../../../samples/teaching-workbook.json' with { type: 'json' };
+import teachingDeepAnalysisAssessmentJson from '../../../samples/learn-deep-analysis/assessment.json' with { type: 'json' };
+import teachingDeepAnalysisWorkbookAssessmentJson from '../../../samples/learn-deep-analysis/workbook-assessment.json' with { type: 'json' };
+import teachingDeepAnalysisWorkbookJson from '../../../samples/learn-deep-analysis/workbook.json' with { type: 'json' };
+import teachingWorkbookAssessmentJson from '../../../samples/learn-basics/workbook-assessment.json' with { type: 'json' };
+import teachingWorkbookJson from '../../../samples/learn-basics/workbook.json' with { type: 'json' };
 
 export const alexRaw = partialAlexJson;
 export const janeRaw = partialJaneJson;

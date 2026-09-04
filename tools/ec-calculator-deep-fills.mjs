@@ -1,4 +1,4 @@
-// A ONE-OFF generator: it turns samples/eu-csf-calculator-deep-workbook.json
+// A ONE-OFF generator: it turns samples/ec-guidance-deep-analysis/workbook.json
 // into the two committed participant fills over it. No spreadsheet is read here.
 // Run as `node tools/ec-calculator-deep-fills.mjs` from the repo root.
 //
@@ -16,11 +16,11 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
 /** Repo-relative input: the committed deep workbook. */
-export const WORKBOOK_PATH = 'samples/eu-csf-calculator-deep-workbook.json';
+export const WORKBOOK_PATH = 'samples/ec-guidance-deep-analysis/workbook.json';
 
 /** Repo-relative outputs, in this order. */
-export const ALEX_PATH = 'samples/eu-csf-calculator-deep-fill-alex.json';
-export const JANE_PATH = 'samples/eu-csf-calculator-deep-fill-jane.json';
+export const ALEX_PATH = 'samples/ec-guidance-deep-analysis/alex.json';
+export const JANE_PATH = 'samples/ec-guidance-deep-analysis/jane.json';
 
 /** The lineage both fills share. Frozen literals — a checked-in fixture never
  *  reads the clock. */

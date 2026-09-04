@@ -1,4 +1,4 @@
-// A ONE-OFF generator: it turns samples/eu-csf-calculator-workbook.json into the
+// A ONE-OFF generator: it turns samples/ec-guidance-complete/workbook.json into the
 // two committed participant fills over it. The .xlsx is never read here.
 // Run as `node tools/ec-calculator-fills.mjs` from the repo root.
 
@@ -6,11 +6,11 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
 /** Repo-relative input: the committed EC workbook. The .xlsx is NOT read here. */
-export const WORKBOOK_PATH = 'samples/eu-csf-calculator-workbook.json';
+export const WORKBOOK_PATH = 'samples/ec-guidance-complete/workbook.json';
 
 /** Repo-relative outputs, in this order. */
-export const ALEX_PATH = 'samples/eu-csf-calculator-fill-alex.json';
-export const JANE_PATH = 'samples/eu-csf-calculator-fill-jane.json';
+export const ALEX_PATH = 'samples/ec-guidance-complete/alex.json';
+export const JANE_PATH = 'samples/ec-guidance-complete/jane.json';
 
 /** The lineage both fills share (spec §9: same estate, parties, claims,
  *  workbook version and workbookAssessment id). Frozen literals — a checked-in

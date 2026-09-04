@@ -6,7 +6,7 @@
   },
   "frontSheet": [
     "This is the teaching workbook: one objective, five questions, chosen so every mechanic of the model — dimension fan-out, strata splits, party fan-out, the assessment grain, sparse ladders, materiality, criticality, structural n/a — appears at least once.",
-    "It is not an assessment instrument. Pair it with docs/authoring-rulebook.md, which walks each question mechanic by mechanic, then open samples/teaching-assessment.json to see how the answers are recorded.",
+    "It is not an assessment instrument. Pair it with docs/authoring-rulebook.md, which walks each question mechanic by mechanic, then open samples/learn-deep-analysis/assessment.json to see how the answers are recorded.",
     "The EC Cloud Sovereignty Framework is the reference behind these shapes — an example of good practice, never a conformance target.",
     "Don't know is an honest answer. It never counts as zero; the floor is always reported together with its unknown count, so a guess is worse than an admission."
   ],

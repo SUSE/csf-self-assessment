@@ -70,8 +70,8 @@ describe('checked-in assessments', () => {
     ]);
   });
 
-  it('samples/teaching-deep-analysis-assessment.json', () => {
-    const assessment = AssessmentSchema.parse(readJson('samples/teaching-deep-analysis-assessment.json'));
+  it('samples/learn-deep-analysis/assessment.json', () => {
+    const assessment = AssessmentSchema.parse(readJson('samples/learn-deep-analysis/assessment.json'));
     const result = evaluate(assessment.workbook, assessment);
 
     expect(result.overall.floor).toBe(0);
@@ -97,7 +97,7 @@ describe('checked-in workbooks', () => {
     },
     { file: 'samples/sample-workbook.json', readings: [] },
     {
-      file: 'samples/teaching-workbook.json',
+      file: 'samples/learn-basics/workbook.json',
       readings: [
         ['teach-median', 1, 38.88888888888889, units(10, 10, 0, 0, 0)],
         ['teach-hyperscaler', 0, 18.75, units(9, 9, 0, 0, 0)],
@@ -105,7 +105,7 @@ describe('checked-in workbooks', () => {
       ],
     },
     {
-      file: 'samples/teaching-deep-analysis-workbook.json',
+      file: 'samples/learn-deep-analysis/workbook.json',
       readings: [
         ['deep-one-roof', 0, 5.681818181818182, units(14, 14, 0, 0, 0)],
         ['deep-layered', 1, 42.04545454545455, units(16, 16, 0, 0, 0)],
@@ -152,8 +152,8 @@ describe('checked-in workbooks', () => {
 
 describe('checked-in workbook-assessments', () => {
   const files = [
-    'samples/teaching-workbook-assessment.json',
-    'samples/teaching-deep-analysis-workbook-assessment.json',
+    'samples/learn-basics/workbook-assessment.json',
+    'samples/learn-deep-analysis/workbook-assessment.json',
   ];
 
   for (const file of files) {

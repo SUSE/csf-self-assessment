@@ -1,4 +1,4 @@
-// A ONE-OFF generator: it turns samples/eu-csf-calculator-workbook.json — the
+// A ONE-OFF generator: it turns samples/ec-guidance-complete/workbook.json — the
 // faithful import, which must stay grain-free — into the DEEP-ANALYSIS variant
 // described by the Implementation Guidance, "Depth of analysis" (p12-13). The
 // .xlsx is never read here, and the faithful import is never written.
@@ -14,10 +14,10 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
 /** Repo-relative input: the committed faithful import. Never written here. */
-export const WORKBOOK_PATH = 'samples/eu-csf-calculator-workbook.json';
+export const WORKBOOK_PATH = 'samples/ec-guidance-complete/workbook.json';
 
 /** Repo-relative output. */
-export const OUTPUT_PATH = 'samples/eu-csf-calculator-deep-workbook.json';
+export const OUTPUT_PATH = 'samples/ec-guidance-deep-analysis/workbook.json';
 
 const REPO_ROOT = new URL('../', import.meta.url);
 
@@ -145,7 +145,7 @@ export const DIMENSION_QUESTION_APPLIES_TO = {
 };
 
 const FRONT_SHEET = [
-  'This is the deep-analysis variant of the imported EC calculator. The instrument is unchanged — the same 8 objectives, the same 48 questions, the same 233 rungs, the same weights and the same five ranking questions. What changes is how often each question is asked, which is what the Implementation Guidance means by "Depth of analysis" (p12-13): the information is gathered "across all sovereignty dimensions" and "all the technical layers, to identify all the hidden dependencies and supply chain". samples/eu-csf-calculator-workbook.json remains the faithful import and is not touched.',
+  'This is the deep-analysis variant of the imported EC calculator. The instrument is unchanged — the same 8 objectives, the same 48 questions, the same 233 rungs, the same weights and the same five ranking questions. What changes is how often each question is asked, which is what the Implementation Guidance means by "Depth of analysis" (p12-13): the information is gathered "across all sovereignty dimensions" and "all the technical layers, to identify all the hidden dependencies and supply chain". samples/ec-guidance-complete/workbook.json remains the faithful import and is not touched.',
   'The nine dimensions are the nine blocks of the guidance\'s technical-dimensions diagram (p12), each keeping the layer boxes drawn inside it as its strata. Compute, Storage, Network, IAM, Platform and Security are marked critical — the guidance\'s own floor list, "compute, storage, network, security, IAM and critical PaaS services". Software supply (Development), Edge (Advanced) and Facilities (Power, Estate) are in scope and score, but never gate the floor.',
   'The guidance reports that its 43-question version asks 9 questions of the contractor and sub-contractor entities and 19 "for every relevant entity involved in the technical dimensions". Those two counts are published; the question-by-question split is not. This workbook applies the same counts to the imported 48: 9 questions are asked once per party on the chain, 19 once per technical dimension, and the remaining 20 keep the source grain of one answer for the whole estate. Which question sits in which set is our reading of the guidance, not an EC ruling.',
   'The chain is the guidance\'s own: "the evaluation must not stop at the level of the legal entity which applied to the tender but all its chains of sub-contractors and suppliers". Sub-contractors are legal entities involved in delivering the contract; suppliers deliver hardware or software and never reach the infrastructure unsupervised (footnotes 1 and 2, p13).',
