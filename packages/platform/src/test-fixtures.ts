@@ -1,7 +1,7 @@
-import partialAlexJson from '../../../assessment/partial-Alex.json' with { type: 'json' };
-import partialJaneJson from '../../../assessment/partial-Jane.json' with { type: 'json' };
-import workbookAssessmentJson from '../../../assessment/workbook-assessment.json' with { type: 'json' };
-import workbookJson from '../../../assessment/workbook.json' with { type: 'json' };
+import partialAlexJson from '../../../samples/recommendations/partial-Alex.json' with { type: 'json' };
+import partialJaneJson from '../../../samples/recommendations/partial-Jane.json' with { type: 'json' };
+import workbookAssessmentJson from '../../../samples/recommendations/workbook-assessment.json' with { type: 'json' };
+import workbookJson from '../../../samples/recommendations/workbook.json' with { type: 'json' };
 
 export const alexRaw = partialAlexJson;
 export const janeRaw = partialJaneJson;

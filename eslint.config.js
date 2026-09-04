@@ -13,7 +13,7 @@ export default tseslint.config(
       '.claude/**',
       '.tools/**',
       'docs/**',
-      'assessment/**',
+      'samples/recommendations/**',
       'scripts/**',
       '**/.svelte-kit/**',
     ],

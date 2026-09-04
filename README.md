@@ -188,8 +188,7 @@ is recorded in the desktop release workflow.
 ├── packages/
 │   └── platform/            Schemas, assessment/merge logic, scoring, analytics,
 │                            reports, storage utilities, and shared Svelte UI
-├── assessment/              Current Cloud Sovereignty workbook, example files, and test fixtures
-├── samples/                 Teaching and EC calculator fixtures
+├── samples/                 Teaching, recommendations, and EC calculator fixtures
 ├── docs/
 │   ├── eu-csf/              EC reference material (read-only)
 │   └── ...                  Scoring guide, authoring guide, and assessment flow

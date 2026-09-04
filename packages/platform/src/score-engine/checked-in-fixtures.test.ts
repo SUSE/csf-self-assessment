@@ -18,86 +18,71 @@ type UnitCounts = ReturnType<typeof units>;
 type ReadingExpectation = [string, number, number, UnitCounts];
 type WorkbookCase = { file: string; readings: ReadingExpectation[] };
 
-const readJson = (path: string) => {
-  if (path === 'assessment/partial-Alex.json') return alexRaw;
-  if (path === 'assessment/partial-Jane.json') return janeRaw;
-  if (path === 'assessment/workbook-assessment.json') return workbookAssessmentRaw;
-  if (path === 'assessment/workbook.json') return workbookRaw;
-  return JSON.parse(
+const readJson = (path: string) =>
+  JSON.parse(
     readFileSync(fileURLToPath(new URL(`../../../../${path}`, import.meta.url)), 'utf8'),
   );
-};
 
 describe('checked-in assessments', () => {
-  const cases = [
-    {
-      file: 'assessment/partial-Alex.json',
-      floor: 1,
-      score: 40.8558402585411,
-      answered: 28,
-      total: 35,
-      units: units(63, 56, 1, 6, 0),
-      heatmapLength: 21,
-      binding: [
-        'SOV-1.concentration',
-        'SOV-4.withdrawal-survival',
-        'SOV-4.patch-autonomy',
-        'SOV-5.hardware-provenance',
-        'SOV-6.fork-continuation',
-        'SOV-6.exit-rehearsal',
-        'SOV-6.independent-build',
-      ],
-      unknowns: ['SOV-5.hardware-provenance'],
-    },
-    {
-      file: 'assessment/partial-Jane.json',
-      floor: 0,
-      score: 17.25563909774436,
-      answered: 14,
-      total: 35,
-      units: units(66, 36, 3, 7, 20),
-      heatmapLength: 14,
-      binding: [
-        'SOV-1.concentration',
-        'SOV-3.key-custody',
-        'SOV-4.withdrawal-survival',
-        'SOV-6.exit-rehearsal',
-        'SOV-7.iam-authority',
-      ],
-      unknowns: [
-        'SOV-3.data-residency',
-        'SOV-4.withdrawal-survival',
-        'SOV-5.hardware-provenance',
-      ],
-    },
-    {
-      file: 'samples/teaching-deep-analysis-assessment.json',
-      floor: 0,
-      score: 44.25,
-      answered: 9,
-      total: 11,
-      units: units(24, 22, 1, 0, 1),
-      heatmapLength: 8,
-      binding: ['DEEP-TEC.layer-control'],
-      unknowns: ['DEEP-TEC.paas-control'],
-    },
-  ];
+  it('test fixture: alexRaw', () => {
+    const assessment = AssessmentSchema.parse(alexRaw);
+    const result = evaluate(assessment.workbook, assessment);
 
-  for (const expected of cases) {
-    it(expected.file, () => {
-      const assessment = AssessmentSchema.parse(readJson(expected.file));
-      const result = evaluate(assessment.workbook, assessment);
+    expect(result.overall.floor).toBe(1);
+    expect(result.overall.score).toBeCloseTo(40.8558402585411, 10);
+    expect(result.overall.answered).toBe(28);
+    expect(result.overall.total).toBe(35);
+    expect(result.units).toEqual(units(63, 56, 1, 6, 0));
+    expect(result.heatmap).toHaveLength(21);
+    expect(result.overall.binding).toEqual([
+      'SOV-1.concentration',
+      'SOV-4.withdrawal-survival',
+      'SOV-4.patch-autonomy',
+      'SOV-5.hardware-provenance',
+      'SOV-6.fork-continuation',
+      'SOV-6.exit-rehearsal',
+      'SOV-6.independent-build',
+    ]);
+    expect(result.overall.unknowns).toEqual(['SOV-5.hardware-provenance']);
+  });
 
-      expect(result.overall.floor).toBe(expected.floor);
-      expect(result.overall.score).toBeCloseTo(expected.score, 10);
-      expect(result.overall.answered).toBe(expected.answered);
-      expect(result.overall.total).toBe(expected.total);
-      expect(result.units).toEqual(expected.units);
-      expect(result.heatmap).toHaveLength(expected.heatmapLength);
-      expect(result.overall.binding).toEqual(expected.binding);
-      expect(result.overall.unknowns).toEqual(expected.unknowns);
-    });
-  }
+  it('test fixture: janeRaw', () => {
+    const assessment = AssessmentSchema.parse(janeRaw);
+    const result = evaluate(assessment.workbook, assessment);
+
+    expect(result.overall.floor).toBe(0);
+    expect(result.overall.score).toBeCloseTo(17.25563909774436, 10);
+    expect(result.overall.answered).toBe(14);
+    expect(result.overall.total).toBe(35);
+    expect(result.units).toEqual(units(66, 36, 3, 7, 20));
+    expect(result.heatmap).toHaveLength(14);
+    expect(result.overall.binding).toEqual([
+      'SOV-1.concentration',
+      'SOV-3.key-custody',
+      'SOV-4.withdrawal-survival',
+      'SOV-6.exit-rehearsal',
+      'SOV-7.iam-authority',
+    ]);
+    expect(result.overall.unknowns).toEqual([
+      'SOV-3.data-residency',
+      'SOV-4.withdrawal-survival',
+      'SOV-5.hardware-provenance',
+    ]);
+  });
+
+  it('samples/teaching-deep-analysis-assessment.json', () => {
+    const assessment = AssessmentSchema.parse(readJson('samples/teaching-deep-analysis-assessment.json'));
+    const result = evaluate(assessment.workbook, assessment);
+
+    expect(result.overall.floor).toBe(0);
+    expect(result.overall.score).toBeCloseTo(44.25, 10);
+    expect(result.overall.answered).toBe(9);
+    expect(result.overall.total).toBe(11);
+    expect(result.units).toEqual(units(24, 22, 1, 0, 1));
+    expect(result.heatmap).toHaveLength(8);
+    expect(result.overall.binding).toEqual(['DEEP-TEC.layer-control']);
+    expect(result.overall.unknowns).toEqual(['DEEP-TEC.paas-control']);
+  });
 });
 
 describe('checked-in workbooks', () => {
@@ -127,14 +112,6 @@ describe('checked-in workbooks', () => {
         ['deep-sovereign-ceiling', 2, 73.4090909090909, units(15, 15, 0, 0, 0)],
       ],
     },
-    {
-      file: 'assessment/workbook.json',
-      readings: [
-        ['profile-a', 0, 14.479166666666668, units(63, 63, 0, 0, 0)],
-        ['profile-base', 1, 68.44977025898079, units(69, 66, 0, 0, 3)],
-        ['profile-m', 1, 35.61116332497911, units(75, 75, 0, 0, 0)],
-      ],
-    },
   ];
 
   for (const expected of cases) {
@@ -152,13 +129,31 @@ describe('checked-in workbooks', () => {
       });
     });
   }
+
+  it('test fixture: workbookRaw', () => {
+    const workbook = WorkbookSchema.parse(workbookRaw);
+    const readings = testEstateReadings(workbook);
+
+    expect(readings).toHaveLength(3);
+    const expectations = [
+      ['profile-a', 0, 14.479166666666668, units(63, 63, 0, 0, 0)],
+      ['profile-base', 1, 68.44977025898079, units(69, 66, 0, 0, 3)],
+      ['profile-m', 1, 35.61116332497911, units(75, 75, 0, 0, 0)],
+    ];
+    readings.forEach((reading, i) => {
+      const expectedReading = expectations[i];
+      expect(reading.estateId).toBe(expectedReading[0]);
+      expect(reading.overall.floor).toBe(expectedReading[1]);
+      expect(reading.overall.score).toBeCloseTo(expectedReading[2] as number, 10);
+      expect(reading.units).toEqual(expectedReading[3]);
+    });
+  });
 });
 
 describe('checked-in workbook-assessments', () => {
   const files = [
     'samples/teaching-workbook-assessment.json',
     'samples/teaching-deep-analysis-workbook-assessment.json',
-    'assessment/workbook-assessment.json',
   ];
 
   for (const file of files) {
@@ -167,4 +162,9 @@ describe('checked-in workbook-assessments', () => {
       expect(assessment.workbook.objectives.length).toBeGreaterThan(0);
     });
   }
+
+  it('test fixture: workbookAssessmentRaw', () => {
+    const assessment = WorkbookAssessmentSchema.parse(workbookAssessmentRaw);
+    expect(assessment.workbook.objectives.length).toBeGreaterThan(0);
+  });
 });
