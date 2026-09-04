@@ -6,7 +6,7 @@
   import { cn } from '../../utils/cn';
 
   // One answer unit's history in ledger order — `git blame` for an answer.
-  //
+  
   // The rail is drawn ONCE at list level, not per row, so it spans the gaps between
   // entries the way the ladder's staircase does — the opaque outcome chips interrupt
   // it, which is what makes the column read as a tape. 12px between entries against

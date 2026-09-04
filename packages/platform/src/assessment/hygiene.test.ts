@@ -15,7 +15,7 @@ const question = (id: string, extra: Record<string, unknown>) => ({
   ...extra,
 });
 
-/** A gating party question, a dimension question over one critical and one not, and an informational twin. */
+// A gating party question, a dimension question over one critical and one not, and an informational twin.
 const S5_WB = WorkbookSchema.parse({
   ...BASE,
   meta: { id: 'w5', version: '1', title: 'W5' },

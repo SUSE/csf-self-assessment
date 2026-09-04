@@ -11,13 +11,13 @@
   // except that the governed section BUBBLES to the top rather than the list
   // scrolling down to it — so the rest of the screen never shifts and only one
   // card moves. animate:flip does the travel.
-  //
+  
   // Presentational: it takes its cards and its promoted id as props and reads no
   // context. RulebookPanel is the piece that knows about the help session.
   type Props = {
-    /** The reader's rule set (AUTHOR_RULES, PARTICIPANT_RULES, …). */
+    /** The reader's rule set (AUTHOR_RULES, PARTICIPANT_RULES, …).*/
     sections: RuleSection[];
-    /** The rule section to promote to the top, e.g. '3.2'. Null = reading order. */
+    /** The rule section to promote to the top, e.g. '3.2'. Null = reading order.*/
     activeSection?: string | null;
     class?: string;
   };

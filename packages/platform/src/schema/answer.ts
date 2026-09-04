@@ -3,7 +3,7 @@ import { z } from 'zod';
 // What a participant places on one answer unit: the target it lands on, the
 // state, and the gesture that produced it.
 
-// Provenance (spec §2.5): group = one uniformity claim over the visible chips;
+// Provenance: group = one uniformity claim over the visible chips.
 // individual = a chip placed on its own. The engine scores both identically.
 export const GestureSchema = z.object({
   groupId: z.string().min(1),
@@ -17,7 +17,7 @@ export const DimensionTargetSchema = z.object({
   dimension: z.string().min(1),
 });
 
-// A dimension/stratum refinement (spec §2.3). Strata are NOT an axis — the
+// A dimension/stratum refinement. Strata are NOT an axis — the
 // refinement always names its parent dimension.
 export const DimensionStratumTargetSchema = z.object({
   kind: z.literal('dimension-stratum'),
@@ -44,7 +44,7 @@ export const AnswerSchema = z.discriminatedUnion('state', [
     target: TargetSchema,
     state: z.literal('answered'),
     rungId: z.string().min(1),
-    // The supporting proof for the chosen rung (spec §4.1), attachable at group
+    // The supporting proof for the chosen rung, attachable at group
     // level so a swept placement repeats one note across its answers. Absent =
     // none recorded, never an empty string. The credibility lens reads its
     // presence; scoring never does.
@@ -61,7 +61,7 @@ export const AnswerSchema = z.discriminatedUnion('state', [
     questionId: z.string().min(1),
     target: TargetSchema,
     state: z.literal('na'),
-    // Review-only reason an n/a is excluded (spec §2.1). Engine-invisible.
+    // Review-only reason an n/a is excluded. Engine-invisible.
     reason: z.string().min(1).optional(),
     gesture: GestureSchema,
   }),

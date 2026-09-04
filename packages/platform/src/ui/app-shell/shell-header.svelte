@@ -6,15 +6,15 @@
   // The shell's top chrome: the product logo (left), an optional subtitle, then
   // the app's own header controls and the theme controls (right). The logo carries
   // the product name, so `title` is a short subtitle beside it.
-  //
+  
   // The two theme controls are the two axes of the token layer — palette (which
   // colours) then mode (light/dark) — and live here rather than per app so both
   // apps stay in step.
   type Props = {
     logoLabel: string;
-    /** Short subtitle beside the logo (the logo carries the product name). */
+    /** Short subtitle beside the logo (the logo carries the product name).*/
     title?: string | undefined;
-    /** Extra header controls, placed left of the theme controls. */
+    /** Extra header controls, placed left of the theme controls.*/
     actions?: Snippet | undefined;
   };
   let { logoLabel, title, actions }: Props = $props();

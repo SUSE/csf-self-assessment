@@ -18,7 +18,7 @@
   }: {
     total: number;
     /** Open units. Drawn as the tail of the population, matching `ratio-bar`'s
-     *  `align="end"`: what is left sits after what is done. */
+     * `align="end"`: what is left sits after what is done.*/
     open: number;
     class?: string;
     [attr: string]: unknown;

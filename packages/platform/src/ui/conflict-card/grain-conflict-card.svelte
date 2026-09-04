@@ -41,8 +41,8 @@
       {stratumAuthor} split it into {clash.strata.length}
     </p>
     <!-- Wraps: the candidate column is now capped, and a six-stratum silhouette
-         is wider than it. Wrapping keeps the segments readable where a single
-         line would push out of the card. -->
+     is wider than it. Wrapping keeps the segments readable where a single
+     line would push out of the card. -->
     <span class="inline-flex flex-wrap items-center rounded-full border border-border text-xs text-foreground">
       <span class="px-2 py-0.5 font-medium">{targetLabel}</span>
       {#each clash.strata as stratum (stratum.stratum)}

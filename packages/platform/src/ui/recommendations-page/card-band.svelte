@@ -11,7 +11,7 @@
     accentFrom,
   }: {
     cards: RecommendationCard[];
-    /** Where this band starts in the vendor series, so no two adjacent offers share a hue. */
+    /** Where this band starts in the vendor series, so no two adjacent offers share a hue.*/
     accentFrom: number;
   } = $props();
 </script>

@@ -24,7 +24,7 @@ import { BASE, DIM_WB, G, INST, STRAT_WB, dq, sdq } from './fixtures';
 const TWO = { state: 'answered', rungId: 'choice-2' } as const;
 const ZERO = { state: 'answered', rungId: 'choice-1' } as const;
 
-/** The one fixture with a question in each of two objectives. */
+// The one fixture with a question in each of two objectives.
 const TWO_OBJECTIVES = WorkbookSchema.parse({
   ...BASE,
   dimensions: [{ id: 'compute', name: 'Compute', critical: true }],

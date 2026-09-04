@@ -9,7 +9,7 @@
   // `.theme-<id>.dark` — both classes must land on the same element). So
   // `bg-primary` inside this row paints THAT palette's primary, not the active
   // one, and the preview stays token-only with no raw colour values.
-  //
+  
   // This includes the default SUSE palette: it lives on `:root`/`.dark`, which
   // theme.css also aliases as `.theme-suse` / `.theme-suse.dark` precisely so a
   // preview row can name it. Scoping every row the same way is what stops the
@@ -27,7 +27,7 @@
     label: string;
     note: string;
     selected: boolean;
-    /** The app's current mode, so the swatches preview the right variant. */
+    /** The app's current mode, so the swatches preview the right variant.*/
     isDark: boolean;
     onselect: () => void;
   } = $props();
@@ -47,7 +47,7 @@
   onclick={onselect}
 >
   <!-- Swatch trio: surface, primary, accent — enough to read a palette at a
-       glance. aria-hidden because the label and note already name it. -->
+     glance. aria-hidden because the label and note already name it. -->
   <span class={cn('flex shrink-0 gap-1', scope)} aria-hidden="true">
     <span class="bg-background border-border size-4 rounded-full border"></span>
     <span class="bg-primary size-4 rounded-full"></span>

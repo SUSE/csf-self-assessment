@@ -5,8 +5,8 @@ import type { RuleSection } from './content';
 // deciding what a rung should say, a participant is deciding which rung is true,
 // and those are different questions. Sourced from the authoring rulebook §3.1
 // (the scale), §4.2 (parties), §5.1–5.3 (targets, states, evidence) and the
-// delivery spec §2.3 (claims).
-//
+// (claims).
+
 // STARTER SET. It covers the four stage sections plus the answering surface's own
 // concerns; the ids not present here are not an oversight — a section with no
 // card correctly greys out in help mode, so this set can grow one card at a time

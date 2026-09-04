@@ -28,7 +28,7 @@
   {:else}
     <div class="space-y-1">
       <!-- The header sits on the rows' own grid: a transparent border and the same
-           px-2 put its labels over the cells they name. -->
+     px-2 put its labels over the cells they name. -->
       <div class="flex items-center gap-2 border border-transparent px-2">
         <span class="min-w-0 flex-1"></span>
         <span class={`${METRIC_CELL} ${eyebrowVariants()}`}>Questions</span>

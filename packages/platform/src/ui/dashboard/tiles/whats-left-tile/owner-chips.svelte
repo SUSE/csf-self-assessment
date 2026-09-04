@@ -4,7 +4,7 @@
 
   // Who holds what is left, largest first. The overflow chip reads the whole chase,
   // which is how the owners past the fourth stay reachable.
-  //
+  
   // `flex-[3_1_16rem]` against the rail's `1`: both stack below 32rem of band, and
   // above it the surplus goes to the chips rather than to a wider count.
   const LEDGER = 'flex min-w-0 flex-[3_1_16rem] flex-wrap content-start gap-1.5';

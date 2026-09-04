@@ -4,13 +4,13 @@
   import { Panel, PanelHeader } from '../panel';
   import EstateCell from './estate-cell.svelte';
 
-  // The dead-ad gauge on the Author overview (recommendations spec §4.5): every
+  // The dead-ad gauge on the Author overview (recommendations ): every
   // authored offer run against every test estate, so an offer no profile in this
   // workbook would ever hear is visible. Presentation only — every value comes off
   // the prop, nothing is computed here.
   type Props = {
     readout: RecommendationReadout;
-    /** Jump to the Recommendations section — where a dead ad is widened. */
+    /** Jump to the Recommendations section — where a dead ad is widened.*/
     onOpen: () => void;
   };
   let { readout, onOpen }: Props = $props();
@@ -34,10 +34,10 @@
   <Panel data-recommendation-readout class="space-y-4">
     <PanelHeader title="Recommendation readout" tone="eyebrow" level={2}>
       {#snippet actions()}
-        <!-- Only a dead offer gives this button something to do; widening one is an
-             edit on the Recommendations page. It rides the header's own actions row
-             rather than trailing the list, which is where the panel's controls live
-             everywhere else. -->
+        <!-- Only a dead offer gives this button something to do. widening one is an
+     edit on the Recommendations page. It rides the header's own actions row
+     rather than trailing the list, which is where the panel's controls live
+     everywhere else. -->
         {#if dead > 0}
           <Button variant="outline" size="sm" onclick={onOpen}>Open Recommendations</Button>
         {/if}
@@ -45,8 +45,8 @@
     </PanelHeader>
 
     <!-- Intro and verdict on ONE line, and deliberately uncapped: both are short
-         sentences, so a prose measure never applies and only forced a break the
-         width did not call for. -->
+     sentences, so a prose measure never applies and only forced a break the
+     width did not call for. -->
     <div class="flex flex-wrap items-baseline gap-x-6 gap-y-1 text-xs">
       <p class="text-muted-foreground">
         Every authored offer, run against every test estate — to catch one no estate would ever
@@ -61,8 +61,8 @@
       <p class="text-sm text-muted-foreground">{readout.reason}</p>
     {:else}
       <!-- A wrapping row of estate cells: as many abreast as the panel's width
-           allows, sized by `basis` rather than by a column count, so the collapsing
-           right rail reflows it without a breakpoint. -->
+     allows, sized by `basis` rather than by a column count, so the collapsing
+     right rail reflows it without a breakpoint. -->
       <ul class="flex flex-wrap gap-x-10 gap-y-2.5">
         {#each readout.perEstate as estate (estate.estateId)}
           <EstateCell
@@ -75,8 +75,8 @@
       </ul>
       {#if dead > 0}
         <!-- WHICH offers went unheard — the verdict above already said how many, so
-             this is the list, named and set on one wrapping row rather than stacked
-             one per line down a 1500px panel. -->
+     this is the list, named and set on one wrapping row rather than stacked
+     one per line down a 1500px panel. -->
         <div class="flex flex-wrap items-baseline gap-x-6 gap-y-1 border-t border-border pt-4">
           <h3 class="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
             Heard by no estate

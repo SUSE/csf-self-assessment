@@ -4,7 +4,7 @@
   // The shell's footer strip: the app's own footer content, or a neutral
   // offline-first default when none is given.
   type Props = {
-    /** Footer content; the neutral default is shown when omitted. */
+    /** Footer content. the neutral default is shown when omitted.*/
     footer?: Snippet | undefined;
   };
   let { footer }: Props = $props();

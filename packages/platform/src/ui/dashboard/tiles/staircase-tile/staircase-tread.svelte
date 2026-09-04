@@ -10,7 +10,7 @@
   type Props = {
     step: StaircaseStepView;
     selected: string | null;
-    /** null = this tread is a drawn bar, not a button. */
+    /** null = this tread is a drawn bar, not a button.*/
     onSelect: ((mark: string) => void) | null;
   };
   let { step, selected, onSelect }: Props = $props();

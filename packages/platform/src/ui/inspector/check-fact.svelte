@@ -1,5 +1,5 @@
 <script lang="ts">
-  // One side of a check, named. Side by side is the tile's old layout; in a 20rem rail
+  // One side of a check, named. Side by side is the tile's old layout. in a 20rem rail
   // the two facts stack, so each has to say which kind of fact it is (§2.8).
   let { label, text }: { label: string; text: string } = $props();
 </script>

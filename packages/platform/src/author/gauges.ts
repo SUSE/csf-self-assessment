@@ -1,19 +1,19 @@
 import type { Role, Workbook } from '../schema';
 import { gates } from '../score-engine/scope';
 
-// Author HUD (spec §4.3c): the STRUCTURAL gauges — budget, coverage grid,
+// Author HUD: the STRUCTURAL gauges — budget, coverage grid,
 // role readout, gate list — pure counts over the workbook definition,
 // recomputed on every edit. Inputs are Workbook-TYPED but only draft-valid;
 // everything here tolerates empty arrays, empty strings, and dangling
 // appliesTo references. Quality gauges (duplicate radar, ladder lint, test
-// estates) live in similarity.ts / lint.ts / estates.ts (S9b).
+// estates) live in similarity.ts / lint.ts / estates.ts.
 
 // Budget heuristics. Deliberately crude: the gauge exists to make a
 // workbook's workshop cost VISIBLE while authoring, not to schedule the
 // workshop. Answer units count every dimension (all in scope now) plus the
-// graceful-default two parties. Revisit with field data (S11).
-export const QUESTION_TARGET = 40; // spec §1: 30–40 question interactions
-export const MINUTES_TARGET = 90; // spec §9 S11: a real workshop fits 90 min
+// graceful-default two parties.
+export const QUESTION_TARGET = 40; // 40 question interactions
+export const MINUTES_TARGET = 90; // a real workshop fits 90 min
 export const MINUTES_FIRST_UNIT = 2; // one considered answer, in the room
 export const MINUTES_EXTRA_UNIT = 0.5; // each further chip in the same gesture
 export const DEFAULT_PARTY_COUNT = 2; // institution + primary provider
@@ -49,11 +49,11 @@ export type RoleLoad = {
   estimatedMinutes: number;
 };
 
-// The role READOUT (docs/specs/roles.md §4): question count + estimated
-// minutes per authored role, in workbook order. Informational only — it makes
-// workshop load visible but flags nothing missing/overloaded/unbalanced
-// (invariant #6). Distribution is a downstream fact of the questions that
-// exist, not a target. Replaces the retired role-BALANCE verdict (ADR-0003).
+// The role READOUT: question count + estimated minutes per authored role,
+// in workbook order. Informational only — it makes workshop load visible
+// but flags nothing missing/overloaded/unbalanced. Distribution is a
+// downstream fact of the questions that exist, not a target.
+// Replaces the retired role-BALANCE verdict.
 export type RoleReadout = {
   loads: RoleLoad[]; // one per authored role, in workbook order
 };

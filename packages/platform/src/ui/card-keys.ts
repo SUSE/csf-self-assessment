@@ -1,5 +1,5 @@
-// One card-level keystroke, mapped from KeyboardEvent.key (spec §4.10). `place`
-// carries a 1-based authored rung POSITION, not a SEAL value (ADR-0023): a SEAL
+// One card-level keystroke, mapped from KeyboardEvent.key. `place`
+// carries a 1-based authored rung POSITION, not a SEAL value: a SEAL
 // digit is ambiguous on any ladder that repeats a SEAL. The card resolves
 // position → rung through `rungAtPosition`, so a digit past the end of the
 // ladder is a no-op (never nearest-match). Space is NOT
@@ -38,7 +38,7 @@ export type CardKeyActions = {
 };
 
 // The shared svelte:window handler. Guards: focus must be inside the card; skip
-// when a text field is focused (§4.10 suppresses letter/number keys there); skip
+// when a text field is focused (§4.10 suppresses letter/number keys there). skip
 // modifier chords; skip if the ladder radiogroup already handled the key
 // (e.defaultPrevented — arrows/digits when focus is in the ladder). Enter on a
 // focused tray chip lifts it (native) and must NOT be hijacked to Next.
@@ -56,7 +56,7 @@ export function handleCardKeydown(
   if (action === null) return;
   const el = document.activeElement;
   // Enter on a focused tray chip lifts it (native <button>); only hijack Enter →
-  // Next when focus is elsewhere in the card (spec §4.10 resolved: Space activates
+  // Next when focus is elsewhere in the card ( resolved: Space activates
   // the focused control, Enter advances).
   if (action.kind === 'next' && el instanceof Element && el.closest('[data-tray-chip]') !== null) return;
   e.preventDefault();

@@ -21,7 +21,7 @@
     {@const waId = fill.workbookAssessmentId}
     <DetailsCard title="Workbook assessment">
       {#snippet fields()}
-        <!-- Mirrored to the model on every keystroke; blank is fine until export. -->
+        <!-- Mirrored to the model on every keystroke. blank is fine until export. -->
         {#if fill.participant !== null}
           {@const participant = fill.participant}
           <TextField

@@ -20,7 +20,7 @@
   } = $props();
 
   const page = $derived(recommendationsPage(result, workbook, parties));
-  /** Each chapter continues the vendor series where the previous one left off. */
+  /** Each chapter continues the vendor series where the previous one left off.*/
   const offsets = $derived(
     page.chapters.map((_, index) =>
       page.chapters

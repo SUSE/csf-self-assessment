@@ -7,13 +7,13 @@ import type {
   WorkbookAssessment,
 } from '../schema';
 
-// The party axis of one landing (merge.md §2.5): the candidate pairs the model
+// The party axis of one landing: the candidate pairs the model
 // puts to the facilitator, the typed decisions they settle, and the vocabulary
 // both the card and the ledger read. Pure — no clock, no randomness.
 
-/** How two parties' `serves` compare. Every list is in the ESTATE party's own
- *  `serves` order, with the incoming's extras in its own order — deterministic,
- *  so a card and a test read the same sequence. */
+// How two parties' `serves` compare. Every list is in the ESTATE party's own
+// `serves` order, with the incoming's extras in its own order — deterministic,
+// so a card and a test read the same sequence.
 export type ServesDiff = { shared: string[]; baseOnly: string[]; incomingOnly: string[] };
 
 export type AliasPair = {
@@ -21,37 +21,37 @@ export type AliasPair = {
   base: Party;
   incoming: Party;
   serves: ServesDiff;
-  /** The identity tokens both names carry — the evidence behind the rank. */
+  // The identity tokens both names carry — the evidence behind the rank.
   sharedTokens: string[];
-  /** 2 × sharedTokens.length + serves.shared.length. Higher ranks first. */
+  // 2 × sharedTokens.length + serves.shared.length. Higher ranks first.
   score: number;
-  /** The id a `split` would give the incoming — its own: no id collides. */
+  // The id a `split` would give the incoming — its own: no id collides.
   splitId: string;
 };
 
 export type IdCollisionPair = {
   kind: 'id-collision';
-  /** The id both sides used. */
+  // The id both sides used.
   id: string;
   base: Party;
   incoming: Party;
   serves: ServesDiff;
-  /** The fresh id a `split` would mint, derived from the ids in play. */
+  // The fresh id a `split` would mint, derived from the ids in play.
   splitId: string;
 };
 
 export type PartyPair = AliasPair | IdCollisionPair;
 
-/** Legal forms and articles carry no identity — dropped before overlap is
- *  counted, so two unrelated "GmbH"s never look alike. */
+// Legal forms and articles carry no identity — dropped before overlap is
+// counted, so two unrelated "GmbH"s never look alike.
 export const NAME_STOPWORDS: readonly string[] = [
   'ag', 'bv', 'corp', 'gmbh', 'inc', 'limited', 'llc', 'ltd',
   'nv', 'plc', 'sa', 'sarl', 'sas', 'spa', 'srl', 'the',
 ];
 
-/** A name's identity tokens: lowercased, split on every non-alphanumeric run,
- *  single characters and NAME_STOPWORDS dropped, de-duplicated, in first
- *  appearance order. */
+// A name's identity tokens: lowercased, split on every non-alphanumeric run,
+// single characters and NAME_STOPWORDS dropped, de-duplicated, in first
+// appearance order.
 export function nameTokens(name: string): string[] {
   const tokens: string[] = [];
   for (const raw of name.toLowerCase().split(/[^a-z0-9]+/)) {
@@ -66,9 +66,9 @@ export function nameTokens(name: string): string[] {
 const slug = (name: string): string =>
   name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
 
-/** The id a split gives an addition: its own when nothing in `taken` holds it,
- *  else `<id>-<participant slug>`, then `-2`, `-3`, … until free. Deterministic
- *  — derived from the ids in play, never random and never clock-derived. */
+// The id a split gives an addition: its own when nothing in `taken` holds it,
+// else `<id>-<participant slug>`, then `-2`, `-3`, … until free. Deterministic
+// — derived from the ids in play, never random and never clock-derived.
 export function splitIdFor(addedId: string, participant: string, taken: readonly string[]): string {
   if (!taken.includes(addedId)) return addedId;
   const stem = `${addedId}-${slug(participant)}`;
@@ -86,7 +86,7 @@ function servesDiff(base: Party, incoming: Party): ServesDiff {
   };
 }
 
-/** The pairs this landing puts to the facilitator (merge.md §2.5.1). */
+// The pairs this landing puts to the facilitator.
 export function suggestPartyPairs(base: EstateBase, incoming: Assessment): PartyPair[] {
   const added = incoming.partiesAdded ?? [];
   const participant = incoming.meta.participant?.name ?? '';
@@ -143,9 +143,9 @@ export function suggestPartyPairs(base: EstateBase, incoming: Assessment): Party
   return [...collisions, ...aliases];
 }
 
-/** What one absorb does (invariant #6): the survivor keeps its id and its type,
- *  takes `name`, and takes the union of `serves` — its own order first, the
- *  inherited edges appended in the absorbed party's order. */
+// What one absorb does (invariant #6): the survivor keeps its id and its type,
+// takes `name`, and takes the union of `serves` — its own order first, the
+// inherited edges appended in the absorbed party's order.
 export type Absorption = { party: Party; servesAdded: string[] };
 export function absorb(survivor: Party, absorbed: Party, name: string): Absorption {
   const servesAdded = absorbed.serves.filter((s) => !survivor.serves.includes(s));
@@ -155,7 +155,7 @@ export function absorb(survivor: Party, absorbed: Party, name: string): Absorpti
   };
 }
 
-/** The pair's two sides as the card reads them, ESTATE first. */
+// The pair's two sides as the card reads them, ESTATE first.
 export type PartySide = { from: string; party: Party; typeName: string };
 export function pairSides(
   pair: PartyPair,
@@ -170,13 +170,13 @@ export function pairSides(
   ];
 }
 
-/** Dimension NAMES for these ids, in the given order; an unknown id falls back
- *  to itself. */
+// Dimension NAMES for these ids, in the given order; an unknown id falls back
+// to itself.
 export function servesLabels(ids: readonly string[], wa: WorkbookAssessment): string[] {
   return ids.map((id) => wa.workbook.dimensions.find((d) => d.id === id)?.name ?? id);
 }
 
-/** The card's own heading — the vocabulary lives here, never in markup. */
+// The card's own heading — the vocabulary lives here, never in markup.
 export function pairTitle(pair: PartyPair): string {
   switch (pair.kind) {
     case 'alias':
@@ -186,8 +186,8 @@ export function pairTitle(pair: PartyPair): string {
   }
 }
 
-/** One enumerated party decision (merge.md §2.5.5, invariant #8). `key`
- *  identifies the radio AND matches a stored decision's choice. */
+// One enumerated party decision (merge.md §2.5.5, invariant #8). `key`
+// identifies the radio AND matches a stored decision's choice.
 export type PartyOption = { key: string; label: string; choice: PartyChoice };
 
 export function partyChoiceKey(choice: PartyChoice): string {
@@ -205,9 +205,9 @@ const absorbOption = (into: string, name: string, label: string): PartyOption =>
   choice: { kind: 'absorb', into, name },
 });
 
-/** The choices a pair offers, in presentation order. NOTHING is pre-selected and
- *  nothing is suggested — the party axis has no authority ladder, so every
- *  collapse is a bare human decision (invariant #1). */
+// The choices a pair offers, in presentation order. NOTHING is pre-selected and
+// nothing is suggested — the party axis has no authority ladder, so every
+// collapse is a bare human decision.
 export function partyOptionsFor(pair: PartyPair, participant: string): PartyOption[] {
   const split: PartyOption = {
     key: partyChoiceKey({ kind: 'split', id: pair.splitId, from: pair.base.id }),
@@ -238,8 +238,8 @@ export function partyOptionsFor(pair: PartyPair, participant: string): PartyOpti
   ];
 }
 
-/** Record a party decision: any previous decision on the same addition
- *  replaced, the new one appended last. */
+// Record a party decision: any previous decision on the same addition
+// replaced, the new one appended last.
 export function upsertPartyDecision(
   decisions: PartyDecision[],
   decision: PartyDecision,

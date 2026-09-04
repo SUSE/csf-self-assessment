@@ -6,7 +6,7 @@
 
   // The participant's stage navigation (addendum 3, option B): the shared
   // QuestionNav fed from the active-pass walk. Read-only — coverage only, no
-  // authoring. Navigation is scoped to `sections` (the active claim's walk);
+  // authoring. Navigation is scoped to `sections` (the active claim's walk).
   // `workbook`/`parties`/`answers` drive each question's coverage tick. Owns no
   // state: the parent holds `focusId` and receives every move via `onFocus`.
   type Props = {
@@ -17,9 +17,9 @@
     focusId: string;
     onFocus: (id: string) => void;
     /** Draw the bottom separator. False when embedded in the assessment toolbar,
-        where the toolbar owns the border. */
+where the toolbar owns the border.*/
     bordered?: boolean;
-    /** Leading control, before Prev — forwarded to QuestionNav's `lead`. */
+    /** Leading control, before Prev — forwarded to QuestionNav's `lead`.*/
     lead?: Snippet | undefined;
   };
   let {
@@ -63,7 +63,7 @@
           fraction: d.total > 0 ? d.placed / d.total : 0,
           // Surface a don't-know OR a doesn't-apply whether the question is
           // answered or still in progress — neither an unknown nor an exclusion is
-          // silent; both are placements, so neither co-occurs with `none`.
+          // silent. both are placements, so neither co-occurs with `none`.
           notch: d.hasDontKnow,
           naMark: d.hasNa,
         };

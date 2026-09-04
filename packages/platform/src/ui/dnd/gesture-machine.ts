@@ -15,13 +15,13 @@ export { EDGE, SPEED, THRESHOLD, TOUCH_HOLD, TOUCH_SLOP };
 
 type Point = { x: number; y: number };
 
-/** The visible top/bottom of the scroll region, in viewport coords — the adapter
- *  measures it, the machine decides what speed that means. */
+// The visible top/bottom of the scroll region, in viewport coords — the adapter
+// measures it, the machine decides what speed that means.
 export type ScrollEdges = { top: number; bottom: number };
 
-/** `pending` is the touch waiting out its hold; `armed` is the mouse/pen press
- *  waiting to travel past the threshold. A touch never sits in `armed`: its hold
- *  begins the drag outright. */
+// `pending` is the touch waiting out its hold; `armed` is the mouse/pen press
+// waiting to travel past the threshold. A touch never sits in `armed`: its hold
+// begins the drag outright.
 export type GestureState =
   | { phase: 'idle' }
   | { phase: 'pending'; pointerId: number; start: Point }
@@ -30,7 +30,7 @@ export type GestureState =
 
 export type GestureEvent =
   | { kind: 'down'; pointerId: number; pointerType: string; button: number; x: number; y: number }
-  /** `edges` is present only once a drag can be in flight; absent means "do not auto-scroll". */
+  // `edges` is present only once a drag can be in flight; absent means "do not auto-scroll".
   | { kind: 'move'; pointerId: number; x: number; y: number; edges?: ScrollEdges | undefined }
   | { kind: 'holdElapsed' }
   | { kind: 'up'; pointerId: number }
@@ -39,29 +39,29 @@ export type GestureEvent =
   | { kind: 'scrollFrame' };
 
 export type GestureCommand =
-  /** Subscribe to window pointer/key events for the life of the press. */
+  // Subscribe to window pointer/key events for the life of the press.
   | { kind: 'listen' }
-  /** Undo `listen`: drop the subscriptions, the hold timer, the scroll loop and the drag styling. */
+  // Undo `listen`: drop the subscriptions, the hold timer, the scroll loop and the drag styling.
   | { kind: 'release' }
   | { kind: 'holdTimer'; ms: number }
   | { kind: 'beginDrag'; x: number; y: number }
   | { kind: 'preventDefault' }
-  /** Hit-test this point and report it to the session. */
+  // Hit-test this point and report it to the session.
   | { kind: 'track'; x: number; y: number }
-  /** Run the scroll loop at this speed; 0 stops it. */
+  // Run the scroll loop at this speed; 0 stops it.
   | { kind: 'autoScroll'; velocity: number }
   | { kind: 'scrollBy'; velocity: number }
   | { kind: 'drop' }
   | { kind: 'cancelDrag' }
-  /** Swallow the synthetic click a finished drag leaves behind, so it cannot re-tap the chip. */
+  // Swallow the synthetic click a finished drag leaves behind, so it cannot re-tap the chip.
   | { kind: 'swallowClick' };
 
 export type GestureStep = { state: GestureState; commands: GestureCommand[] };
 
 export const IDLE: GestureState = { phase: 'idle' };
 
-/** How fast to scroll with the pointer at `y`: zero in the middle, ramping to
- *  ±SPEED at either edge of the region. */
+// How fast to scroll with the pointer at `y`: zero in the middle, ramping to
+// ±SPEED at either edge of the region.
 export function scrollVelocity(y: number, edges: ScrollEdges): number {
   const dTop = y - edges.top;
   if (dTop < EDGE) return -SPEED * (1 - Math.max(0, dTop) / EDGE);

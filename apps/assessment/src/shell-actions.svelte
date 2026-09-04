@@ -72,7 +72,7 @@
   {/if}
 
   <!-- Enabled once something has landed and nothing is still under review, so a
-       partially decided landing can never be exported. -->
+     partially decided landing can never be exported. -->
   {#if facilitator.active && merge.workbookAssessment}
     <Tooltip.Root>
       <Tooltip.Trigger

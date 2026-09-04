@@ -13,7 +13,7 @@ export const AssessmentMetaSchema = z.object({
   workbookId: z.string().min(1),
   workbookVersion: z.string().min(1),
   estate: z.string().min(1),
-  // Workshop lineage (delivery §2.9, ADR-0007): EVERY assessment carries its
+  // Workshop lineage: EVERY assessment carries its
   // workbook-assessment id. `participant` rides a PARTIAL only; a finalized omits
   // it. There is no lineage-free assessment (the retired 'solo').
   workbookAssessment: z.string().min(1),
@@ -24,12 +24,12 @@ const AssessmentFieldsSchema = z.object({
   meta: AssessmentMetaSchema,
   workbook: WorkbookSchema,
   // Concrete parties seeded in the workbook-assessment and embedded here
-  // (delivery §2.5). There is no per-assessment profile.
+  // . There is no per-assessment profile.
   parties: z.array(PartySchema).default([]),
-  // The participant's ordered claims (delivery §2.3), asserted on a partial and
+  // The participant's ordered claims, asserted on a partial and
   // absent on a finalized — the same pattern as meta.participant.
   claims: z.array(ClaimSchema).optional(),
-  // The provisional parties a participant adds in context (delivery §2.5.3).
+  // The provisional parties a participant adds in context.
   // Ids are namespaced by the participant name; every added party is a THIRD
   // party, since the assessed "us" is seeded, never added.
   partiesAdded: z.array(PartySchema).optional(),
@@ -38,7 +38,7 @@ const AssessmentFieldsSchema = z.object({
 });
 
 export const AssessmentSchema = AssessmentFieldsSchema.superRefine((assessment, ctx) => {
-  // Two shapes, no third (delivery §2.9, ADR-0007): these markers travel
+  // Two shapes, no third: these markers travel
   // together, so an assessment is a PARTIAL (all of them) or a FINALIZED (none).
   const markers = [assessment.meta.participant, assessment.claims, assessment.partiesAdded];
   const present = markers.filter((marker) => marker !== undefined).length;
@@ -52,7 +52,7 @@ export const AssessmentSchema = AssessmentFieldsSchema.superRefine((assessment, 
   }
 
   // Every answered value names a question and a rung the embedded workbook
-  // authors (ADR-0022): one lookup serves the standing answers and the ledger.
+  // authors: one lookup serves the standing answers and the ledger.
   const rungIds = new Map<string, Set<string>>();
   assessment.workbook.objectives.forEach((o) =>
     o.questions.forEach((q) => rungIds.set(q.id, new Set(q.ladder.map((r) => r.id)))),

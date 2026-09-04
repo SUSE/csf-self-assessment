@@ -8,7 +8,7 @@
 
   type Props = {
     objective: Objective;
-    /** Column maxima, so every row's bars are drawn against the same scale. */
+    /** Column maxima, so every row's bars are drawn against the same scale.*/
     maxQuestions: number;
     maxWeight: number;
   };

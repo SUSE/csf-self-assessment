@@ -1,7 +1,7 @@
 import type { Assessment, Target, WorkbookAssessment } from '../schema';
 import { targetLabel } from '../utils/target-label';
 
-// The facilitator's merge (merge.md), as pure functions: the version gate per
+// The facilitator's merge, as pure functions: the version gate per
 // partial, the review of one partial against the estate base, and the landing
 // that commits it. Nothing prevented, everything remembered: every landed unit
 // leaves a ledger record; the version gate is the ONLY hard refusal, and only
@@ -9,7 +9,7 @@ import { targetLabel } from '../utils/target-label';
 
 export type PartialCheck = { ok: true } | { ok: false; reason: string };
 
-// Refusal rules (merge.md, invariant #10), first failure wins: only the
+// Refusal rules (merge.md,), first failure wins: only the
 // workbook-assessment lineage and the workbook id@version must match. The same
 // participant may land again — a re-landing appends to the ledger.
 export function checkPartial(wa: WorkbookAssessment, candidate: Assessment): PartialCheck {

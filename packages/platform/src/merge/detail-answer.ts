@@ -23,19 +23,19 @@ import type { DetailContext } from './detail-context';
 // One answer record as the detail reads it (§4.6): two labelled peer snapshots,
 // the human action between them, and every candidate that was in play.
 
-/** One side of an answer panel (§4.6). `absent` renders **No standing answer** —
- *  never SEAL-0 (§2.2.3). */
+// One side of an answer panel. `absent` renders **No standing answer** —
+// never SEAL-0.
 export type SnapshotReading =
   | { kind: 'absent' }
   | {
-      kind: 'present';
-      stateLabel: string;
-      seal: Seal | null;
-      sealLevel: string | null;
-      placement: Gesture['placement'];
-      evidence: string | null;
-      reason: string | null;
-    };
+    kind: 'present';
+    stateLabel: string;
+    seal: Seal | null;
+    sealLevel: string | null;
+    placement: Gesture['placement'];
+    evidence: string | null;
+    reason: string | null;
+  };
 
 const STATE_LABELS = {
   answered: 'answered',
@@ -61,8 +61,8 @@ export function snapshotReading(
   };
 }
 
-/** One candidate as the disclosure reads it (§4.6), `standing` marking the one that
- *  became the answer. */
+// One candidate as the disclosure reads it (§4.6), `standing` marking the one that
+// became the answer.
 export type CandidateReading = {
   from: string;
   answer: string;
@@ -94,8 +94,8 @@ export type AnswerPanel = {
   candidatesOpen: boolean;
 };
 
-/** Where a record naming a question this workbook does not carry is filed, so no
- *  record can vanish from the detail. */
+// Where a record naming a question this workbook does not carry is filed, so no
+// record can vanish from the detail.
 export const UNPLACED_OBJECTIVE: { id: string; name: string } = {
   id: 'unplaced',
   name: 'Other records',

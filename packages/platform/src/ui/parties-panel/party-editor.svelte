@@ -7,20 +7,20 @@
   import ChevronLeft from '@lucide/svelte/icons/chevron-left';
   import Check from '@lucide/svelte/icons/check';
 
-  // The party editor (delivery §2.6.5, ADR-0007) — the twin of the claim editor:
+  // The party editor — the twin of the claim editor:
   // name a provider you rely on, pick its third-party TYPE, and mark the dimensions
   // it serves. Reached from the party list's "+ Party" (new) or a row's edit (CRUD
-  // update, pre-filled from `initial`); a Back link returns to the list. Owns only
-  // the in-progress draft; emits a whole Party on Save. A NEW party's id is minted
-  // from the participant name; an EDITED party keeps its id so the claim log still
+  // update, pre-filled from `initial`). a Back link returns to the list. Owns only
+  // the in-progress draft. emits a whole Party on Save. A NEW party's id is minted
+  // from the participant name. an EDITED party keeps its id so the claim log still
   // points at it.
   type Props = {
     workbook: Workbook;
-    /** Seeded + added — the id-uniqueness set a new party's id must avoid. */
+    /** Seeded + added — the id-uniqueness set a new party's id must avoid.*/
     parties: Party[];
-    /** Namespaces a new provider's id. */
+    /** Namespaces a new provider's id.*/
     participantName: string;
-    /** The party being edited; absent when composing a new one. */
+    /** The party being edited. absent when composing a new one.*/
     initial?: Party | undefined;
     onSave: (party: Party) => void;
     onBack: () => void;

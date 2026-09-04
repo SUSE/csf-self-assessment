@@ -5,7 +5,7 @@
   import RoleRow from './role-row.svelte';
 
   // The workbook's answerer roles, read-only — the twin of ui/workbench's editable
-  // Roles panel. The author's table carries a `load` column (questions × minutes);
+  // Roles panel. The author's table carries a `load` column (questions × minutes).
   // that is a reading of the DRAFT being shaped, not a fact of the workbook, so a
   // reader's table stops at the description.
   type Props = {

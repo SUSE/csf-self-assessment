@@ -10,10 +10,10 @@
   // lint and the duplicate radar, the two readings the retired Author HUD carried
   // that live nowhere else. Both are advisory — a hedged rung is a rewrite, not a
   // validation failure, which is why they sit here and not in the issue list.
-  //
+  
   // Unlike the HUD, every id is a real navigation: a finding opens the question it
   // is about.
-  //
+  
   // Presentation only: this component counts nothing — the lint and the radar are
   // derived by the overview that hosts it.
   type Props = {
@@ -38,7 +38,7 @@
   </div>
 
   <!-- Two lists side by side on a wide stage, folding when the collapsing rails
-       narrow it: sized by basis, not by a viewport breakpoint. -->
+     narrow it: sized by basis, not by a viewport breakpoint. -->
   <div class="flex flex-wrap gap-x-10 gap-y-6">
     <section class="min-w-0 grow basis-[26rem] space-y-1">
       <PanelHeader title="Ladder lint" tone="eyebrow" level={3} />

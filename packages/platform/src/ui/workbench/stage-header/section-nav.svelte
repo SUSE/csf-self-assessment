@@ -12,13 +12,13 @@
   import Megaphone from '@lucide/svelte/icons/megaphone';
 
   // The instrument sections: icon-buttons that reach the always-present workbook
-  // sections (spec §4.3c). Objectives (SOV) is one of them — its icon opens the
+  // sections. Objectives (SOV) is one of them — its icon opens the
   // list page and dots for an objective-level issue. The QUESTIONS index is
   // deliberately NOT here: it is about the same set the question nav walks, so it
   // leads that group instead (see stage-header), and a question-level issue dots
   // it there. Each `owns` predicate feeds the shared ownsIssue so a dot lands on
   // the exact target the issue-jump would.
-  //
+  
   // Each also names the AUTHOR_RULES card that governs its section, which is what
   // makes the row readable in help mode: press Dimensions there and you land on the
   // Dimensions page with the dimension rule already up beside it (HeaderIconButton
@@ -27,7 +27,7 @@
     focus: FocusRef;
     ownsIssue: (match: (f: FocusRef) => boolean) => boolean;
     onFocus: (focus: FocusRef) => void;
-    /** Trailing controls, inside the last group (the help toggle). */
+    /** Trailing controls, inside the last group (the help toggle).*/
     actions?: Snippet | undefined;
   };
   let { focus, ownsIssue, onFocus, actions }: Props = $props();
@@ -54,7 +54,7 @@
   {#each sections as s (s.kind)}
     {#if 'divide' in s}
       <!-- Its own margins, because the row's `gap-1` is tuned for neighbouring
-           icons and would read as a hairline crammed between two buttons. -->
+     icons and would read as a hairline crammed between two buttons. -->
       <div class="mx-1.5 h-6 w-px bg-border"></div>
     {/if}
     <HeaderIconButton

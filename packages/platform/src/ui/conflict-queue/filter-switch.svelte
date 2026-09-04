@@ -6,9 +6,9 @@
   // transparent at rest, accent fill when pressed. It is deliberately a `ghost`
   // and not an `outline` button — outline carries its own fill, and in dark mode
   // an accent fill over that fill is invisible, so a pressed switch looked
-  // exactly like an idle one. These are not actions; they change what is listed,
+  // exactly like an idle one. These are not actions. they change what is listed,
   // so they must read as state, not as buttons.
-  //
+  
   // The count is what pressing it would leave, and a switch that would leave
   // nothing is disabled on the same rule as an option: dead ends are
   // unpressable, but never the one you are standing on.

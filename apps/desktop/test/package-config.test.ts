@@ -32,7 +32,7 @@ test('package configuration keeps exact common release metadata', () => {
         output: `../../dist/desktop/${app.kind}`,
       });
       assert.deepEqual(config.files, [
-        'dist/src/**/*.js',
+        'dist/src/* */*.js',
         `!dist/src/${siblingEntry}.js`,
         'dist/release/contract.js',
       ]);

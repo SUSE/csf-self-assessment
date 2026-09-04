@@ -9,9 +9,9 @@
   // so this passes no navigation handler.
   type Props = {
     workbook: Workbook;
-    /** Concrete declared parties, when an assessment is loaded (party-axis seals). */
+    /** Concrete declared parties, when an assessment is loaded (party-axis seals).*/
     parties?: Party[];
-    /** The loaded assessment's answers — the wheel's results overlay. */
+    /** The loaded assessment's answers — the wheel's results overlay.*/
     answers?: Answer[];
   };
   let { workbook, parties = [], answers = [] }: Props = $props();

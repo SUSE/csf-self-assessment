@@ -25,7 +25,7 @@ export const INST: Party = { id: 'institution', name: 'Our institution', type: '
 export const ASSESSMENT: { kind: 'assessment' } = { kind: 'assessment' };
 export const G = { groupId: 'g1', placement: 'individual' as const };
 
-/** One party question, no dimensions. */
+// One party question, no dimensions.
 export const BASE = {
   meta: { id: 'wb', version: '1.0.0', title: 'T' },
   sealLevels: [0, 1, 2, 4].map((seal) => ({ seal, name: `S${seal}`, description: `d${seal}` })),
@@ -51,7 +51,7 @@ export const BASE = {
   ],
 };
 
-/** One dimension question over compute + network; edge is declared but unused. */
+// One dimension question over compute + network; edge is declared but unused.
 const DIM_BASE = {
   ...BASE,
   dimensions: [
@@ -80,7 +80,7 @@ const DIM_BASE = {
   ],
 };
 
-/** The same, with compute split into software + chips. */
+// The same, with compute split into software + chips.
 const STRAT_BASE = {
   ...DIM_BASE,
   dimensions: [
@@ -99,11 +99,11 @@ export const BASE_WB = WorkbookSchema.parse(BASE);
 export const DIM_WB = WorkbookSchema.parse(DIM_BASE);
 export const STRAT_WB = WorkbookSchema.parse(STRAT_BASE);
 
-/** `SOV-6.d1` as the strict schema parsed it, from each workbook. */
+// `SOV-6.d1` as the strict schema parsed it, from each workbook.
 export const dq = dimensionQuestionOf(DIM_WB);
 export const sdq = dimensionQuestionOf(STRAT_WB);
 
-/** Three questions over three dimensions, for claim scope and walks (delivery-S6). */
+// Three questions over three dimensions, for claim scope and walks.
 export const CLAIM_WB = WorkbookSchema.parse({
   meta: { id: 'w', version: '1', title: 'W' },
   sealLevels: [0, 2, 3, 4].map((seal) => ({ seal, name: `S${seal}`, description: 'd' })),
@@ -128,7 +128,7 @@ export const CLAIM_WB = WorkbookSchema.parse({
   ],
 });
 
-/** A dimension question beside a party-axis question, for the claim's party axis (delivery-S7). */
+// A dimension question beside a party-axis question, for the claim's party axis.
 export const PARTY_WB = WorkbookSchema.parse({
   meta: { id: 'wp', version: '1', title: 'WP' },
   sealLevels: [0, 4].map((seal) => ({ seal, name: `S${seal}`, description: 'd' })),

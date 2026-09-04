@@ -11,7 +11,7 @@ const livePreview = tweakcnLivePreview() as Plugin;
 
 // The entry is the conventional `index.html`, so the Vite dev server serves the
 // app at `/`. For the production build we rename the emitted single file to
-// `author.html` — the offline deliverable name (ADR-0001, spec §9 S9).
+// `author.html` — the offline deliverable name.
 function emitAsAuthorHtml(): Plugin {
   return {
     name: 'emit-author-html',

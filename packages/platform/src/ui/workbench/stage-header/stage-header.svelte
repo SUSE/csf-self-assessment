@@ -12,7 +12,7 @@
   import SectionNav from './section-nav.svelte';
   import HeaderIconButton from './header-icon-button.svelte';
 
-  // The stage header (spec §4.3c; addendum 3 option B): the sole navigation for
+  // The stage header: the sole navigation for
   // the single-focus stage. Composes the instrument SectionNav and the shared
   // QuestionNav — the same breadcrumb + full-map dialog the assessment app uses,
   // green-free (green-reserved) and driven by authoring issues rather than
@@ -27,7 +27,7 @@
     onFocus: (focus: FocusRef) => void;
     onDraft: (next: Workbook) => void;
     /** The app's stage destinations, closing the row past their own divider —
-     *  the facilitator toolbar's reporting group in the same place. */
+     * the facilitator toolbar's reporting group in the same place.*/
     destinations?: Snippet | undefined;
   };
   let { draft, focus, issues, onFocus, onDraft, destinations }: Props = $props();
@@ -91,8 +91,8 @@
 <Tooltip.Provider delayDuration={300}>
   <div class="flex w-full flex-wrap items-center gap-x-3 gap-y-2 py-1">
     <!-- Help closes the section row rather than leading it: it is a mode, not a
-         destination, so it sits past the last divider beside Test estates — the
-         other control that is about the workbench rather than in it. -->
+     destination, so it sits past the last divider beside Test estates — the
+     other control that is about the workbench rather than in it. -->
     <SectionNav {focus} {ownsIssue} {onFocus}>
       {#snippet actions()}
         <HelpToggle />
@@ -103,10 +103,10 @@
 
     <QuestionNav {groups} {activeId} onSelect={(id) => onFocus({ kind: 'question', id })}>
       <!-- The Questions index OPENS the group it belongs to: every question the
-           workbook asks, in reading order, as the page behind the nav that walks
-           them one at a time. It leads the nav rather than joining the instrument
-           section tabs, which reach the workbook's OTHER sets. It also carries the
-           dot for any question-level issue — the page that reaches the target. -->
+     workbook asks, in reading order, as the page behind the nav that walks
+     them one at a time. It leads the nav rather than joining the instrument
+     section tabs, which reach the workbook's OTHER sets. It also carries the
+     dot for any question-level issue — the page that reaches the target. -->
       {#snippet lead()}
         <HeaderIconButton
           label="Questions"

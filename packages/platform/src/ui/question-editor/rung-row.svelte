@@ -15,17 +15,17 @@
   // the badge threaded on the staircase rail, the rung's own points and SEAL on
   // the eyebrow, its text as the row's prose. The geometry is ui/ladder's to the
   // pixel, so the author's ladder and the participant's stay one object.
-  //
+  
   // The badge shows POSITION, not SEAL: SEALs repeat on a hosted ladder, so the
   // digit alone would name nothing. It keeps the SEAL's swatch and ink.
   type Props = {
     rung: Rung;
     /** 1-based index in authored order — the handle the author reads and the
-     *  digit ADR-0023 will bind at answer time. */
+     * digit will bind at answer time.*/
     position: number;
-    /** Ladder length: the first and last rows disable the move they cannot make. */
+    /** Ladder length: the first and last rows disable the move they cannot make.*/
     total: number;
-    /** The workbook's SEAL scale — this row's select offers exactly these. */
+    /** The workbook's SEAL scale — this row's select offers exactly these.*/
     sealLevels: SealLevel[];
     onPatch: (patch: RungPatch) => void;
     onMove: (move: RungMove) => void;
@@ -36,7 +36,7 @@
 
 <div class="group relative px-2 py-3">
   <!-- Staircase rail: segments overrun 2px past the row's edges so no gap can
-       open between neighbours (ui/ladder). -->
+     open between neighbours (ui/ladder). -->
   {#if position !== 1}
     <span
       aria-hidden="true"
@@ -65,8 +65,8 @@
     <div class="min-w-0 flex-1 space-y-1">
       <div class="flex flex-wrap items-center gap-2">
         <!-- Wears the participant's eyebrow (ui/ladder), so it outranks the 15px
-             description instead of tying with it, and takes the rung's own ramp ink
-             so the level reads at the same step as its badge. -->
+     description instead of tying with it, and takes the rung's own ramp ink
+     so the level reads at the same step as its badge. -->
         <Select
           density="compact"
           class={cn(
@@ -82,7 +82,7 @@
           {/each}
         </Select>
         <!-- Tabular figures, and the unit named — a bare `100` beside a SEAL names
-             nothing. `onchange`: a half-typed `41.` must not rewrite the draft. -->
+     nothing. `onchange`: a half-typed `41.` must not rewrite the draft. -->
         <label class="flex items-center gap-1.5 text-xs text-muted-foreground" data-rule="value">
           value
           <Input
@@ -120,7 +120,7 @@
         </div>
       </div>
       <!-- Reading type, capped at the card's own 72ch: the ladder column grows with
-           whatever the side panels leave it, and prose must not run past a measure. -->
+     whatever the side panels leave it, and prose must not run past a measure. -->
       <Textarea
         rows={2}
         class={cn(QUIET_FIELD, 'max-w-[72ch] text-reading leading-relaxed')}

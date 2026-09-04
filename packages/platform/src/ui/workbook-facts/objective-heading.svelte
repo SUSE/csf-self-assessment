@@ -5,7 +5,7 @@
   // An objective heading a group of its own questions: the code, then the name. Not
   // a PanelHeader — that one's title is a single string, and here the code is a
   // distinct token in front of the name, on the same baseline.
-  //
+  
   // The name takes the LABEL role, not body size: its members are `text-sm`
   // questions, and at body size the heading read as one more row. The Earned Size
   // Rule forbids buying rank with size, so rank comes from case and tracking.

@@ -3,33 +3,33 @@ import type { EngineResult, StaircaseBinding } from '../score-engine';
 import { sealName } from '../score-engine';
 import { targetLabel } from '../utils/target-label';
 
-/** One gating answer on a rung. Every rendered string is computed here; the
- *  component renders and computes none. */
+// One gating answer on a rung. Every rendered string is computed here; the
+// component renders and computes none.
 export type StaircaseRowView = {
-  /** `<questionId>|<dimension>|<stratum>|<party>` — stable across renders. */
+  // `<questionId>|<dimension>|<stratum>|<party>` — stable across renders.
   key: string;
   questionId: string;
   questionText: string;
-  /** The answered unit's target, in the vocabulary every other surface uses. */
+  // The answered unit's target, in the vocabulary every other surface uses.
   label: string;
-  /** The authored name of the role that answers this question. */
+  // The authored name of the role that answers this question.
   roleName: string;
   seal: Seal;
   evidence: boolean;
 };
 
 export type StaircaseStepView = {
-  /** `step:<floor>`. */
+  // `step:<floor>`.
   key: string;
   floor: Seal;
-  /** The authored seal level's name at `floor`. */
+  // The authored seal level's name at `floor`.
   floorName: string;
-  /** `SEAL-0 · No Sovereignty` — the rung named as the rail heads it. */
+  // `SEAL-0 · No Sovereignty` — the rung named as the rail heads it.
   title: string;
   count: number;
-  /** `Fix these 5 → the floor rises to SEAL-1.`
-   *  `Fix this one → the floor rises to SEAL-2.`
-   *  `Fix these 3 → the last constraint clears (up to SEAL-4).` */
+  // `Fix these 5 → the floor rises to SEAL-1.`
+  // `Fix this one → the floor rises to SEAL-2.`
+  // `Fix these 3 → the last constraint clears (up to SEAL-4).`
   unlocks: string;
   rows: StaircaseRowView[];
 };
@@ -37,23 +37,23 @@ export type StaircaseStepView = {
 export type StaircaseTile =
   | {
       kind: 'climb';
-      /** `5 answers pin you at SEAL-0` / `1 answer pins you at SEAL-0`. */
+      // `5 answers pin you at SEAL-0` / `1 answer pins you at SEAL-0`.
       headline: string;
       floor: Seal;
       floorName: string;
-      /** Binding counts rung by rung: `5 → 22 → 30 → 10`. */
+      // Binding counts rung by rung: `5 → 22 → 30 → 10`.
       climb: string;
-      /** The authored SEAL-4 level's name — the summit tread's label. */
+      // The authored SEAL-4 level's name — the summit tread's label.
       summitName: string;
       steps: StaircaseStepView[];
     }
   | { kind: 'clear'; floor: Seal; floorName: string; reason: string }
   | { kind: 'not-assessed'; reason: string };
 
-/** The binding's three nullable facets are mutually exclusive by the engine's own
- *  contract; precedence reconstructs the unit's target so the label is the same
- *  vocabulary every other surface uses. Shared by the evidence and second-look
- *  tiles, which list the same gating answers. */
+// The binding's three nullable facets are mutually exclusive by the engine's own
+// contract; precedence reconstructs the unit's target so the label is the same
+// vocabulary every other surface uses. Shared by the evidence and second-look
+// tiles, which list the same gating answers.
 export function bindingTarget(binding: StaircaseBinding): Target {
   if (binding.party !== null) return { kind: 'party', party: binding.party };
   if (binding.dimension !== null && binding.stratum !== null) {
@@ -124,9 +124,9 @@ export function staircaseTile(
   };
 }
 
-/** The rung a pressed tread names, for the Inspector. Resolved against the live
- *  reading every render, so a tread whose rung has since cleared resolves to
- *  nothing rather than to a stale worklist. */
+// The rung a pressed tread names, for the Inspector. Resolved against the live
+// reading every render, so a tread whose rung has since cleared resolves to
+// nothing rather than to a stale worklist.
 export function staircaseRung(view: StaircaseTile, floor: Seal): StaircaseStepView | null {
   if (view.kind !== 'climb') return null;
   return view.steps.find((step) => step.floor === floor) ?? null;

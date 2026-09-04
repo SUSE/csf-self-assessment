@@ -6,7 +6,7 @@
   // One value inside a card: a candidate answer, a before/after reading, a
   // disclosure row. Fill only, no border — at this depth another ring of hairline
   // turns a card into a grid of boxes.
-  //
+  
   // Same parent rule as Well: `--well` is derived from `--card`, so an Inset is
   // only legal inside a Panel or a Card.
   export type InsetProps = SurfaceAttributes & {

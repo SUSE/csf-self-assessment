@@ -15,7 +15,7 @@ import {
 import { setRecommender } from './edit-meta';
 import { linkableWorkbook, recOf } from './fixtures';
 
-/** One recommendation, linked to compute, with a body. */
+// One recommendation, linked to compute, with a body.
 const authored = (): Workbook => {
   const linked = linkRecommendation(addRecommendation(linkableWorkbook()), 'rec-1', {
     kind: 'dimension',

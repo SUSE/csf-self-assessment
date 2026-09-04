@@ -28,22 +28,22 @@
   // hands over the draft and the estate and nothing else.
   type Props = {
     /** The live draft — what the instrument chip, reading and objective views
-     *  resolve their ids against. */
+     * resolve their ids against.*/
     draft: Workbook | null;
-    /** The strict-parsed draft, or null while it has issues. */
+    /** The strict-parsed draft, or null while it has issues.*/
     valid: Workbook | null;
-    /** The test estate on the canvas and its reading; null with none readable. */
+    /** The test estate on the canvas and its reading. null with none readable.*/
     estate: TestEstate | null;
     evaluation: TestEstateEvaluation | null;
-    /** Preview's running floor, for the ambient estate-reading view. */
+    /** Preview's running floor, for the ambient estate-reading view.*/
     previewResult: EngineResult | null;
     selection: InspectSelection | null;
     page: InspectSubject | null;
-    /** Switch to the workbench and open a question's editor. */
+    /** Switch to the workbench and open a question's editor.*/
     onOpenQuestion: (id: string) => void;
-    /** Focus a question without leaving the current destination. */
+    /** Focus a question without leaving the current destination.*/
     onFocusQuestion: (id: string) => void;
-    /** Focus the instrument section a chip or a reading manages. */
+    /** Focus the instrument section a chip or a reading manages.*/
     onManageSection: (section: InstrumentSection) => void;
   };
   let {

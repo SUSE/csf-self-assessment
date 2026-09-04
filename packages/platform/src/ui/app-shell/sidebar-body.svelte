@@ -7,7 +7,7 @@
 
   // The OPEN state of a Sidebar: a title row carrying the collapse chevron, over the
   // panel's scrolling content. Internal to app-shell.
-  //
+  
   // It is laid out at its full open width and clipped by the panel, so the content
   // never reflows while the panel is animating. The collapse control sits on the
   // panel's INNER edge (toward the content it uncovers) — one Button, positioned by
@@ -15,13 +15,13 @@
   type Props = {
     side: 'left' | 'right';
     title?: string | undefined;
-    /** Accessible name for the collapse control, worded by the panel. */
+    /** Accessible name for the collapse control, worded by the panel.*/
     label: string;
     icon: LucideIcon;
-    /** The panel's open width — this is laid out at it, not at the animating width. */
+    /** The panel's open width — this is laid out at it, not at the animating width.*/
     width: string;
     onToggle: () => void;
-    /** The panel's slide, so the contents travel with the width. */
+    /** The panel's slide, so the contents travel with the width.*/
     slide: { x: number; duration: number };
     children: Snippet;
   };
@@ -37,7 +37,7 @@
   transition:fly={{ x: slide.x, duration: slide.duration, opacity: 0 }}
 >
   <!-- `min-h-12`, the same row height the stage toolbar uses, so the two bottom
-       borders land on one line across the shell. -->
+     borders land on one line across the shell. -->
   <div
     class={cn(
       'flex min-h-12 shrink-0 items-center gap-1 border-b border-sidebar-border px-2',

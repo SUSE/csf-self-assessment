@@ -12,7 +12,7 @@
   // The floating Rulebook: help mode's own panel, lifted off the surface rather
   // than living as a tab in the app shell's right rail (where it competed with the
   // Inspector for the one rail, and every screen had to spend a tab on it).
-  //
+  
   // It is the app shell's `overlay` snippet, not a child of the stage: a stage
   // renders inside StageLayout's transformed carousel, and `position` inside a
   // transformed ancestor resolves against that ancestor — a panel mounted there
@@ -20,12 +20,12 @@
   // absolutely positioned against the shell's content ROW, so it spans exactly
   // between header and footer and covers the right rail whether that rail is open
   // or collapsed.
-  //
+  
   // Reads the session, so a caller mounts it unconditionally and it shows itself
   // when help mode is on. No session (an app with no help) renders nothing.
   type Props = {
-    /** One sentence on how to use help mode here. The default is true everywhere;
-     *  a screen whose fields carry `data-rule` markers should say so instead. */
+    /** One sentence on how to use help mode here. The default is true everywhere.
+     * a screen whose fields carry `data-rule` markers should say so instead.*/
     hint?: string;
   };
   let {
@@ -39,8 +39,8 @@
 
 {#if help?.open}
   <!-- `pointer-events-auto` re-arms interaction: the overlay layer the shell
-       renders this into is pointer-transparent, so the stage underneath stays
-       usable everywhere the panel is not. -->
+     renders this into is pointer-transparent, so the stage underneath stays
+     usable everywhere the panel is not. -->
   <aside
     class="pointer-events-auto absolute inset-y-0 right-0 m-2 flex w-88 max-w-[calc(100%-1rem)] flex-col rounded-lg border border-border bg-card p-3 shadow-lg"
     aria-label="Rulebook"

@@ -18,7 +18,7 @@ const RAW_FORM = /<(?:input|select|textarea)(?=\s|$)/;
 const RAW_FORM_SCOPE: EntryScope = {
   kind: 'paths-except',
   match: /\.svelte$/,
-  except: /ui\/forms\//,
+  except: /ui\/forms\// ,
 };
 
 describe('the file list', () => {

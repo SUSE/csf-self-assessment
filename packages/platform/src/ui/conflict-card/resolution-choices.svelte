@@ -7,10 +7,10 @@
   import { Label } from '../label';
   import { SealSelector, type SealChoice } from '../seal-selector';
 
-  // The enumerated set as ONE radio group (invariant #9: the set IS the truth)
-  // plus the optional note — one click decides a clash; the note gates nothing.
-  // The suggestion pre-selects a cell and states its reason beside it; a
-  // pre-selection is not a decision (invariant #1).
+  // The enumerated set as ONE radio group (: the set IS the truth)
+  // plus the optional note — one click decides a clash. the note gates nothing.
+  // The suggestion pre-selects a cell and states its reason beside it. a
+  // pre-selection is not a decision .
   type Props = {
     name: string;
     question: Question;
@@ -62,11 +62,11 @@
     {#each rows as option (option.key)}
       <div class="flex items-center gap-2">
         <!-- `onclick` as well as the group's `onValueChange`: clicking the option
-             that is ALREADY the group's value changes nothing, so bits-ui rightly
-             stays silent — and the one option that starts as the value is the
-             SUGGESTED one, which would then be the only choice nobody could
-             accept by clicking it. `upsertResolution` is keyed, so emitting the
-             same decision twice is the same decision. -->
+     that is ALREADY the group's value changes nothing, so bits-ui rightly
+     stays silent — and the one option that starts as the value is the
+     SUGGESTED one, which would then be the only choice nobody could
+     accept by clicking it. `upsertResolution` is keyed, so emitting the
+     same decision twice is the same decision. -->
         <RadioGroup.Item
           value={option.key}
           id={rowId(option.key)}
@@ -80,8 +80,8 @@
 
     {#if cells.length > 0}
       <!-- The strip is a member of the group above it, not a second control: the
-           caption reads into the cells, so the row still says the whole sentence
-           the five rows used to say one at a time. -->
+     caption reads into the cells, so the row still says the whole sentence
+     the five rows used to say one at a time. -->
       <div class="flex flex-wrap items-center gap-x-2 gap-y-1 pt-0.5">
         <span class="text-sm text-foreground">Re-answer at rung</span>
         <SealSelector choices={cells} onPick={choose} />
@@ -90,8 +90,8 @@
   </RadioGroup.Root>
 
   <!-- The same closing beat as the party card's, from one component (ui/decision
-       -note), so the two queues a facilitator works in the same sitting end
-       identically. Only the open state differs: this axis has a suggestion. -->
+     note), so the two queues a facilitator works in the same sitting end
+     identically. Only the open state differs: this axis has a suggestion. -->
   <DecisionNote
     decided={selected === null ? null : selectedLabel}
     noteLabel={`Resolution note for ${name}`}
@@ -101,10 +101,10 @@
     {#snippet pending()}
       {#if suggestion !== null}
         <!-- The suggestion is the one option that is pre-selected and NOT yet
-             decided (invariant #1), so accepting it has to be a real click
-             somewhere — until it was one, the reader's only route to a suggested
-             answer was to pick a different option and come back. The sentence
-             itself is that control, and it says what pressing it does. -->
+     decided , so accepting it has to be a real click
+     somewhere — until it was one, the reader's only route to a suggested
+     answer was to pick a different option and come back. The sentence
+     itself is that control, and it says what pressing it does. -->
         <button
           type="button"
           class="inline-flex max-w-full cursor-pointer flex-wrap items-baseline gap-x-1.5 rounded text-left text-xs text-warning-ink underline-offset-2 hover:underline focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"

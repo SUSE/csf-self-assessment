@@ -5,8 +5,8 @@ import { minSeal, sealName } from '../../score-engine';
 // Which question (and which of its answer units) the rail has open is NOT here: it
 // is one member of the Inspector's subject union, ui/inspector's InspectSelection.
 
-// The critical dimension ids (the SEAL gate reads these — delivery §2.1,
-// ADR-0005). Shown as a ⚑ flag on a dimension in the detail so the facilitator
+// The critical dimension ids (the SEAL gate reads these — ,
+// ). Shown as a ⚑ flag on a dimension in the detail so the facilitator
 // sees which dimensions can pin the estate floor.
 export function criticalDimensions(workbook: Workbook): Set<string> {
   return new Set(workbook.dimensions.filter((d) => d.critical).map((d) => d.id));
@@ -19,8 +19,8 @@ export function criticalDimensions(workbook: Workbook): Set<string> {
 export type UnitSeal = {
   target: Target;
   state: 'answered' | 'dont-know' | 'na' | 'unanswered';
-  /** The rung this unit selected; null unless `state === 'answered'`. The rung,
-   *  not the SEAL, is what tells two units apart (invariant #3). */
+  // The rung this unit selected; null unless `state === 'answered'`. The rung,
+  // not the SEAL, is what tells two units apart.
   rungId: string | null;
   seal: Seal | null;
 };
@@ -76,13 +76,13 @@ export function questionGrainLabel(question: Question): string {
       : 'Party grain · asked once for the whole estate';
 }
 
-/** One stratum of a split dimension, with the seal selected for it (null when that
- *  stratum is unanswered inside a loaded assessment). */
+// One stratum of a split dimension, with the seal selected for it (null when that
+// stratum is unanswered inside a loaded assessment).
 export type StratumSeal = { stratum: string; seal: Seal | null };
 
-/** One dimension a dimension-grain question applies to, resolved against the
- *  loaded answers: its lowest selected seal, whether it gates the floor, and the
- *  per-stratum seals when it was split (else its bare declared strata). */
+// One dimension a dimension-grain question applies to, resolved against the
+// loaded answers: its lowest selected seal, whether it gates the floor, and the
+// per-stratum seals when it was split (else its bare declared strata).
 export type DimensionCoverage = {
   id: string;
   name: string;
@@ -128,8 +128,8 @@ export function dimensionCoverage(
   });
 }
 
-/** One concrete declared party a party-axis question is answered for, with its
- *  selected seal and its kind (assessed party vs third party). */
+// One concrete declared party a party-axis question is answered for, with its
+// selected seal and its kind (assessed party vs third party).
 export type PartyCoverage = { id: string; name: string; kind: PartyType['kind']; seal: Seal | null };
 
 // The concrete parties a party-axis question fans over, each with its selected
@@ -160,10 +160,10 @@ export function assessmentSeal(question: Question, unitSeals: UnitSeal[]): Seal 
   return u !== undefined && u.state === 'answered' ? u.seal : null;
 }
 
-/** One rung of the answer ladder, resolved against the loaded answers: whether a
- *  unit selected it, how many did, and whether it is the binding (lowest) result. */
+// One rung of the answer ladder, resolved against the loaded answers: whether a
+// unit selected it, how many did, and whether it is the binding (lowest) result.
 export type LadderRung = {
-  /** The frozen rung id — the render key, because a SEAL may repeat. */
+  // The frozen rung id — the render key, because a SEAL may repeat.
   rungId: string;
   seal: Seal;
   name: string;

@@ -14,7 +14,7 @@
     questionId: string;
     text: string;
     chips?: string[];
-    /** [] where the rail lists questions rather than their units. */
+    /** where the rail lists questions rather than their units.*/
     units?: QuestionUnitView[];
     onOpen?: ((id: string) => void) | undefined;
   };

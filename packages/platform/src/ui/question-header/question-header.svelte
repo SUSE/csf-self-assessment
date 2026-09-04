@@ -16,17 +16,17 @@
   // ladder-card): the "answering as <role>" identity line, the loud question, and
   // the italic-less "why" rationale rail. Extracted so both cards render an
   // identical header (build once, wire twice) — only `grainLabel` differs per
-  // grain/axis. STATELESS; no truth computed here.
-  //
+  // grain/axis. STATELESS. no truth computed here.
+  
   // The top-right controls row carries the completeness INDICATOR (the question's
   // progress, formerly the footer's left half) and, when `onReset` is supplied, a
   // reset control that clears this question back to how it loaded from the workbook
   // (confirm-gated, since it discards the placed answers — the ConfirmAction
   // convention). `canReset` disables reset when there is nothing to clear.
-  //
+  
   // "Complete" is `coverage === 'answered'` — every in-scope unit DEALT WITH — the
   // SAME rule the pager's solid circle uses, so the two never disagree. Green signals
-  // a good/done outcome (SEAL-3/4 AND completion, invariant #3), so "Complete" is
+  // a good/done outcome (SEAL-3/4 AND completion,), so "Complete" is
   // GREEN here — the same green as the nav's answered tick — while every non-done
   // state stays muted. Weight (font-medium) is the redundant channel alongside hue.
   type Props = {
@@ -34,7 +34,7 @@
     role: string;            // raw role id — the small muted chip
     materiality: Materiality;
     text: string;            // the question
-    why: string | undefined; // the rationale rail; absent renders nothing
+    why: string | undefined; // the rationale rail. absent renders nothing
     coverage: QuestionCoverage; // drives the top-right progress indicator
     grainLabel?: string;     // "dimension grain — one answer per dimension", etc.
     onReset?: () => void;    // clear every answer for this question (undefined → no reset control)
@@ -75,8 +75,8 @@
 
     <div class="flex shrink-0 items-center gap-2">
       <!-- Question progress (formerly the footer's left half): icon + label. "Complete"
-           is green (a done outcome); every other state is muted. Weight is the
-           redundant, colour-independent channel. -->
+     is green (a done outcome). every other state is muted. Weight is the
+     redundant, colour-independent channel. -->
       <span class="flex items-center gap-1.5 text-sm">
         {#if coverage === 'answered'}
           <CircleCheck class="size-4 shrink-0 text-positive" aria-hidden="true" />

@@ -5,7 +5,7 @@
   // One rung of the authored scale — a definition, not the answering rung in ui/ladder.
   type Props = {
     level: SealLevel;
-    /** The reading sits here. */
+    /** The reading sits here.*/
     atFloor: boolean;
   };
   let { level, atFloor }: Props = $props();

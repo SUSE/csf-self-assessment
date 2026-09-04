@@ -17,7 +17,7 @@
     tone = 'soft',
     ...rest
   }: {
-    /** The whole reading as one string — `5 parties`, `2 contributors`. */
+    /** The whole reading as one string — `5 parties`, `2 contributors`.*/
     label: string;
     count: number;
     tone?: keyof typeof TONE;
@@ -29,7 +29,7 @@
 
 <div class="flex flex-col gap-1.5">
   <!-- Attributes land on the reading, not the box: the acceptance scripts read
-       this text exactly, and the pips beside it would pad it with whitespace. -->
+     this text exactly, and the pips beside it would pad it with whitespace. -->
   <span {...rest} class="text-sm tabular-nums text-card-foreground">{label}</span>
   {#if pips.length > 0}
     <span aria-hidden="true" class="flex h-2 items-center gap-[3px]">

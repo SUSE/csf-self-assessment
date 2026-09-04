@@ -6,9 +6,9 @@
   // The printed cross-reference: paper has no links, so the badge IS the handle —
   // the reader searches the PDF for the token and lands on every appendix question
   // the list covers.
-  //
+  
   // Colour is the theme's own: a climb tag names a floor, so it wears that floor on
-  // the SEAL ramp; every other family takes its slot of the tag plane (ui/theme.css).
+  // the SEAL ramp. every other family takes its slot of the tag plane (ui/theme.css).
   let { tag }: { tag: ReportTag } = $props();
 
   const skin = $derived(

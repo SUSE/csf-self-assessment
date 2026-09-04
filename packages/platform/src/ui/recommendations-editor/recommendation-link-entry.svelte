@@ -7,7 +7,7 @@
   // (title, horizon, trigger) and the way OFF this page to author it. The title
   // is the link — an author reading a question's offers needs to reach the offer
   // itself, and a bare string forces them to hunt for it in the catalogue.
-  //
+  
   // The link is underlined in the ink it is written in, never in `--primary`:
   // under SUSE that token is the brand green, which is the SEAL hue and is
   // barred as body text.
@@ -15,7 +15,7 @@
     recommendation: Recommendation;
     sealName: string;
     /** Open this recommendation's editor. Omitted where there is nowhere to go
-     *  (the assessment side), and the title then reads as plain text. */
+     * (the assessment side), and the title then reads as plain text.*/
     onOpen?: ((recommendationId: string) => void) | undefined;
     onUnlink: () => void;
   };

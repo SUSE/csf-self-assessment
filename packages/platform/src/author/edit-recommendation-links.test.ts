@@ -5,7 +5,7 @@ import { removeDimension, updateDimension } from './edit-dimensions';
 import { removeObjective, removeQuestion, updateObjective, updateQuestion } from './edit-questions';
 import { linkableWorkbook, recOf } from './fixtures';
 
-/** Three questions across two objectives, and one recommendation holding the given links. */
+// Three questions across two objectives, and one recommendation holding the given links.
 const linkedWb = (links: RecommendationLink[]): Workbook => {
   const base = linkableWorkbook();
   const [alpha] = base.objectives;

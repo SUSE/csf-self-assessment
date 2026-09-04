@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { EstateFloorFlip } from '../../author';
 
-  // "A change that flips a profile's floor announces itself" (spec §4.3c). One
+  // "A change that flips a profile's floor announces itself". One
   // markup path, not one per direction: the tone is a derived class, because a
   // rise and a fall are the same sentence about the same estate.
   type Props = {

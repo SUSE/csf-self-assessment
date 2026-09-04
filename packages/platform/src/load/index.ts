@@ -4,8 +4,8 @@
 // together with the confirm copy for the destructive/ambiguous cases. The app
 // shell (App.svelte) does the file IO and applies the outcome; all the branchy
 // decision-making lives here.
-//
-// The model (delivery §4 UX): there is NO role switch. The FIRST load from an
+
+// The model: there is NO role switch. The FIRST load from an
 // empty app sets the mode — a bare workbook opens the FACILITATOR flow, a
 // workbook-assessment or saved assessment opens the FILL flow. After that,
 // Load stays WITHIN the mode (facilitator: feed the merge; fill: replace the
@@ -38,23 +38,23 @@ export type LoadOutcome =
   | { kind: 'fill-workbook-assessment'; wa: WorkbookAssessment; confirm: ConfirmCopy | null }
   | { kind: 'fill-assessment'; assessment: Assessment; confirm: ConfirmCopy | null }
   | { kind: 'facilitator-workbook'; workbook: Workbook; confirm: ConfirmCopy | null }
-  /** A finalized assessment opened in facilitator mode: the estate of RECORD,
-   *  read-only — its workbook, roster, answers and ledger become the facilitator's
-   *  inspect context so the Questions rail can explain an answer from the file
-   *  alone (merge.md §4.1, invariant #5). Never starts a merge. */
+  // A finalized assessment opened in facilitator mode: the estate of RECORD,
+  // read-only — its workbook, roster, answers and ledger become the facilitator's
+  // inspect context so the Questions rail can explain an answer from the file
+  // alone. Never starts a merge.
   | { kind: 'facilitator-finalized'; assessment: Assessment; confirm: ConfirmCopy | null }
   | { kind: 'merge-start'; wa: WorkbookAssessment; incoming: Assessment | null; confirm: ConfirmCopy | null }
   | { kind: 'merge-review'; partial: Assessment; confirm: ConfirmCopy | null };
 
 export type LoadInput = {
-  /** The parsed JSON of the opened file (the shell parses; JSON errors never reach here). */
+  // The parsed JSON of the opened file (the shell parses; JSON errors never reach here).
   data: unknown;
-  /** The file name, for human-readable messages. */
+  // The file name, for human-readable messages.
   name: string;
   mode: LoadMode;
-  /** The merge-in-progress: its anchor, and the partial currently under review. */
+  // The merge-in-progress: its anchor, and the partial currently under review.
   merge: { active: boolean; wa: WorkbookAssessment | null; incoming: Assessment | null };
-  /** Timestamp for a derived merge anchor's createdAt (pure-core clock seam). */
+  // Timestamp for a derived merge anchor's createdAt (pure-core clock seam).
   now: string;
 };
 
@@ -94,7 +94,7 @@ export function decideLoad(input: LoadInput): LoadOutcome {
     }
     // A returned partial → put it under review, or start a merge from it (a
     // partial is self-sufficient: its embedded workbook + workbook-assessment id
-    // derive the anchor). One partial is under review at a time (merge.md §2.1.3).
+    // derive the anchor). One partial is under review at a time.
     if (assessment.success && assessment.data.meta.participant !== undefined) {
       const partial = assessment.data;
       if (input.merge.active && input.merge.wa) {

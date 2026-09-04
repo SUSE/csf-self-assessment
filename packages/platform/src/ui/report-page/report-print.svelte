@@ -15,7 +15,7 @@
     assessment: Assessment;
     result: EngineResult;
     stamp: ReportStamp;
-    /** Called once the print dialog has been dismissed — unmount this then. */
+    /** Called once the print dialog has been dismissed — unmount this then.*/
     onDone: () => void;
   };
   let { assessment, result, stamp, onDone }: Props = $props();

@@ -6,11 +6,11 @@
   import BindingGroup from './binding-group.svelte';
   import VitalStat from './vital-stat.svelte';
 
-  // The participant's honest right-rail summary while filling a PARTIAL (delivery
+  // The participant's honest right-rail summary while filling a PARTIAL (
   // §2.7.1). Replaces the estate Hud for a working file: it presents ONLY what is
   // true of a slice — scoped completeness, hygiene, and per-answer binding
-  // potential — never an estate result (invariant #7). Thin: every figure comes
-  // from scopeCompleteness / sliceHygiene / bindingPotential; it computes no truth.
+  // potential — never an estate result . Thin: every figure comes
+  // from scopeCompleteness / sliceHygiene / bindingPotential. it computes no truth.
   // Vitals are ratio bars and binding answers group by the rung they cap at, so
   // the rail reads as marks first. The headline is the WORST rung present.
   type PartialSummaryProps = {
@@ -18,7 +18,7 @@
     parties: Party[];
     answers: Answer[];
     claims: Claim[];
-    /** Given, a binding question is the control that opens it on the fill surface. */
+    /** Given, a binding question is the control that opens it on the fill surface.*/
     onOpenQuestion?: ((id: string) => void) | undefined;
   };
 

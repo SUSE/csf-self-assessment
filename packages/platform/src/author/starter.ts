@@ -1,13 +1,13 @@
 import type { Workbook } from '../schema';
 
-// The "New workbook" seed (spec §2.8, §2.1): the core ten dimensions with the
+// The "New workbook" seed: the core ten dimensions with the
 // EC-floor six critical (Edge and Facilities not critical), the five SEAL levels,
 // and the EC's eight objectives with their inherited weights (audit D-4: keep +
 // document) — question lists EMPTY. The starter is draft-valid but strict-INVALID
 // on purpose: the validity badge and the coverage grid are the author's to-do
 // list, and Preview unlocks only once every remaining objective holds a question
 // and the weights still sum to 100. The audit's reference profiles A / BASE / M
-// ship as test estates (spec §9 S9b), answers empty.
+// ship as test estates, answers empty.
 export function starterWorkbook(): Workbook {
   return {
     meta: { id: 'my-workbook', version: '0.1.0', title: 'Untitled workbook' },

@@ -2,8 +2,8 @@ import type { Answer, Seal, Workbook } from '../schema';
 import { gates } from '../score-engine/scope';
 import { sealOfAnswer } from './placement';
 
-// Counts over a participant's own answers (delivery §2.7.1, invariant #7): answered,
-// how many carry evidence, how many admit don't-know. Never an estate figure.
+// Counts over a participant's own answers: answered, how many carry evidence, how
+// many admit don't-know. Never an estate figure.
 export type SliceHygiene = { answered: number; evidenced: number; dontKnow: number };
 
 export function sliceHygiene(answers: Answer[]): SliceHygiene {
@@ -21,11 +21,11 @@ export function sliceHygiene(answers: Answer[]): SliceHygiene {
   return { answered, evidenced, dontKnow };
 }
 
-// Per-question binding potential (delivery §2.7.1, invariant #7): the seal each
-// material GATING question would cap the estate at once merged. A gating answer is
-// answered + material and either party-grain (always gates) or a critical-dimension
-// answer. Computed from the workbook alone — never evaluates an estate result. One
-// entry per question with ≥1 gating answer, carrying its minimum gating seal.
+// Per-question binding potential: the seal each material GATING question would cap
+// the estate at once merged. A gating answer is answered + material and either
+// party-grain (always gates) or a critical-dimension answer. Computed from the
+// workbook alone — never evaluates an estate result. One entry per question with ≥1
+// gating answer, carrying its minimum gating seal.
 export type BindingPotential = { questionId: string; seal: Seal };
 
 export function bindingPotential(workbook: Workbook, answers: Answer[]): BindingPotential[] {

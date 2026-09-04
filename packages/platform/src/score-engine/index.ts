@@ -1,13 +1,13 @@
 // The scoring engine: one evaluate() over a workbook + assessment, emitting every
-// number a view renders (invariant #3 — no view recomputes truth). Two axes,
-// computed independently and never mixed (docs/csf_scoring.md, spec §2.4):
-//   • SEAL floor — the minimum over answered material answers that GATE.
-//   • Score      — every answered scoring unit sweeps in, weighted per objective.
+// number a view renders ( — no view recomputes truth). Two axes,
+// computed independently and never mixed (docs/csf_scoring.md, ):
+// • SEAL floor — the minimum over answered material answers that GATE.
+// • Score — every answered scoring unit sweeps in, weighted per objective.
 // A unit is eligible when it is answered, unanswered, don't-know or n/a on a
-// question the workbook authors `material` or `ranking` (spec §2.6). The
+// question the workbook authors `material` or `ranking`. The
 // eligibility table lives in objectives.ts; the two don't-know figures stay distinct — overall.unknowns
 // is the FLOOR's holes (gating don't-knows), overall.dontKnowCount the honest grand
-// total of every in-scope don't-know (invariant #5).
+// total of every in-scope don't-know.
 import type { Assessment, Seal, Workbook } from '../schema';
 import { minSeal, scopeOf } from './scope';
 export { gates, minSeal, sealName, scores } from './scope';

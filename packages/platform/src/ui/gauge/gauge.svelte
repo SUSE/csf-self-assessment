@@ -6,26 +6,26 @@
   // A single value read against its scale, drawn as an open radial arc — the
   // dashboard's own idiom, so a ratio tile sits beside the rings rather than
   // beneath a web-form progress bar.
-  //
+  
   // Deliberately HUE-FREE: a gauge encodes a ratio out of `max`, never a SEAL
   // rung, and under the SUSE palette `--primary` IS the seal hue — a green arc
   // here would read as "SEAL-good". Callers that mean a seal pass `arcClass`.
   type Props = {
     value: number;
-    /** Top of the scale. The arc fills `value / max` of its sweep. */
+    /** Top of the scale. The arc fills `value / max` of its sweep.*/
     max?: number;
-    /** The big reading at the centre, already formatted (`51.7%`). */
+    /** The big reading at the centre, already formatted (`51.7%`).*/
     label: string;
-    /** One short line under the reading. */
+    /** One short line under the reading.*/
     caption?: string | undefined;
-    /** Scale ends, printed below the arc's open mouth. */
+    /** Scale ends, printed below the arc's open mouth.*/
     minLabel?: string | undefined;
     maxLabel?: string | undefined;
-    /** Paint for the value arc. Hue-free ink by default. */
+    /** Paint for the value arc. Hue-free ink by default.*/
     arcClass?: string | undefined;
     /** Paint for the unfilled remainder. A translucent step toward `--background`
-     *  reads as a recessed groove on a card in BOTH modes and under every
-     *  palette — `fill-muted` collapses into the card on some of them. */
+     * reads as a recessed groove on a card in BOTH modes and under every
+     * palette — `fill-muted` collapses into the card on some of them.*/
     trackClass?: string | undefined;
     class?: string | undefined;
   };
@@ -41,7 +41,7 @@
     class: className,
   }: Props = $props();
 
-  /** The arc's open mouth, in degrees either side of 12 o'clock. */
+  /** The arc's open mouth, in degrees either side of 12 o'clock.*/
   const SWEEP = 130;
 </script>
 
@@ -58,7 +58,7 @@
         track={{ class: trackClass }}
         class={arcClass}>
         <!-- The scale ends ride the arc's OWN outer radius, so they stay at its
-             mouth whatever size the container resolves to. -->
+     mouth whatever size the container resolves to. -->
         {#snippet children({ outerRadius })}
           {@const rad = (SWEEP * Math.PI) / 180}
           {#if minLabel !== undefined}

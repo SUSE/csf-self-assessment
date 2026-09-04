@@ -13,7 +13,7 @@
   // holds NO edit logic and NO validation — pure ops build the next draft, and
   // the strict issues under `roles` arrive pre-computed from the stage. A role's
   // code freezes and its delete is blocked once a question uses it. RecordTable
-  // owns the table shell; this file is the columns, the copy and the wiring.
+  // owns the table shell. this file is the columns, the copy and the wiring.
   type Props = {
     draft: Workbook;
     issues: ZodIssue[];
@@ -24,10 +24,10 @@
   const ownIssues = $derived(issuesUnder(issues, ['roles']));
 
   // The role READOUT (docs/specs/roles.md §4): question count and estimated
-  // workshop minutes per role. It was the Author HUD's own section; the minutes are
+  // workshop minutes per role. It was the Author HUD's own section. the minutes are
   // the part no other surface said, and they belong on the page where roles are
   // assigned rather than in a rail. Informational — it makes load visible and flags
-  // nothing overloaded or unbalanced (invariant #6).
+  // nothing overloaded or unbalanced .
   const loads = $derived(
     new Map(authorGauges(draft).roleReadout.loads.map((l) => [l.role, l])),
   );

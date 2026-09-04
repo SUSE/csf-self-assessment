@@ -39,7 +39,7 @@
   <div class="grid gap-3 md:grid-cols-2">
     {#each [{ heading: 'Before landing', empty: 'No affected party before landing', rows: panel.before }, { heading: 'After landing', empty: 'No affected party after landing', rows: panel.after }] as side (side.heading)}
       <!-- The same `bg-card`-inside-`bg-card` bug snapshot-side had: two boxes
-           that were the same colour as their parent in every palette. -->
+     that were the same colour as their parent in every palette. -->
       <Inset as="article" density="sm" class="space-y-1">
         <h5 class={eyebrowVariants({ weight: 'medium' })}>
           {side.heading}

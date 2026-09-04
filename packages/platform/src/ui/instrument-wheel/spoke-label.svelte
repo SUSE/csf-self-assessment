@@ -8,14 +8,14 @@
   // the question-unit count, then `· ◇N` strata where the dimension splits, then
   // — only when a facilitator's answers are loaded — the lowest selected SEAL as
   // a colour-coded `◈N`. Internal to instrument-wheel.
-  //
+  
   // The tspans are written without whitespace between them on purpose: SVG text
   // preserves inter-element whitespace, so a newline here would print as a space
   // and push the suffixes off their measured budget.
   type Props = {
     chip: InstrumentChip;
     label: PlacedLabel;
-    /** The chip's seal reading, or null when the wheel is purely structural. */
+    /** The chip's seal reading, or null when the wheel is purely structural.*/
     seal: ChipSeal | null;
   };
   let { chip, label, seal }: Props = $props();

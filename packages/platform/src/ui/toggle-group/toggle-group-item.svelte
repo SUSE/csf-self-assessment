@@ -3,7 +3,7 @@
   import type { Snippet } from 'svelte';
   import { cn } from '../../utils/cn';
 
-  // One segment. Inactive = muted; active (bits-ui sets data-state="on") = accent.
+  // One segment. Inactive = muted. active (bits-ui sets data-state="on") = accent.
   // Mirrors the hand-rolled segmented control this component replaces.
   type Props = {
     ref?: HTMLButtonElement | null;
@@ -11,7 +11,7 @@
     disabled?: boolean;
     class?: string;
     /** For a segment whose visible text is abbreviated (a bare digit, a label
-     *  plus a count) — the full name a screen reader should read. */
+     * plus a count) — the full name a screen reader should read.*/
     'aria-label'?: string;
     children: Snippet;
   };

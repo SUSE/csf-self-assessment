@@ -2,8 +2,8 @@ import type { Question, RecommendationLink, Workbook } from '../schema';
 
 // The shared preamble for every `edit-*` module, and the id/link/question
 // helpers they all reach for.
-//
-// Pure workbook-definition edits (spec §9 S9). Every structural change the
+
+// Pure workbook-definition edits. Every structural change the
 // workbench makes goes through one of these — the components hold no edit
 // logic, so every cascade (a dimension rename rewrites appliesTo; a removal
 // strips it) is decided and tested HERE, once. All functions return a new

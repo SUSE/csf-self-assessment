@@ -5,7 +5,7 @@
 
   // Page one (report.md §2.2.1): what this is, what it was read against, and the
   // two marks a forwarded copy cannot lose — the ribbon and the not-a-certification
-  // line (invariant #1), so neither is ever conditional.
+  // line , so neither is ever conditional.
   type Props = { cover: ReportCover };
 
   let { cover }: Props = $props();

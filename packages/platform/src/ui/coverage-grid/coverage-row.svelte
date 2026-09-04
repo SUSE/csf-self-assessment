@@ -6,7 +6,7 @@
   // dimension.
   type Props = {
     row: CoverageRowModel;
-    /** Open this objective's editor. */
+    /** Open this objective's editor.*/
     onOpen: (objectiveId: string) => void;
   };
   let { row, onOpen }: Props = $props();

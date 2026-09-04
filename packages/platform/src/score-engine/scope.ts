@@ -11,17 +11,17 @@ import type {
   Workbook,
 } from '../schema';
 
-/** Does an answer on this question contribute points to the Sovereignty Score?
- *  `material` and `ranking` do; `informational` and `na` do not. One of the two
- *  owners of the distinction — no surface compares the enum to a literal
- *  (instrument.md §6 invariant #10). */
+// Does an answer on this question contribute points to the Sovereignty Score?
+// `material` and `ranking` do; `informational` and `na` do not. One of the two
+// owners of the distinction — no surface compares the enum to a literal
+// (instrument.md §6).
 export function scores(materiality: Materiality): boolean {
   return materiality === 'material' || materiality === 'ranking';
 }
 
-/** Does an answered rung on this question gate the SEAL floor? `material` only.
- *  A `ranking` question never gates, never opens a floor hole, and always
- *  scores (invariant #9). */
+// Does an answered rung on this question gate the SEAL floor? `material` only.
+// A `ranking` question never gates, never opens a floor hole, and always
+// scores.
 export function gates(materiality: Materiality): boolean {
   return materiality === 'material';
 }
@@ -30,11 +30,11 @@ export function minSeal(seals: Seal[]): Seal {
   return seals.reduce((lowest, seal) => (seal < lowest ? seal : lowest));
 }
 
-/** The workbook's authored name for a SEAL rank — `''` when the scale declares
- *  no level at that rank, so a name is never fabricated from the number. Takes
- *  the levels rather than the whole workbook because four of the ten adopting
- *  sites hold only a `sealLevels` prop; it is the same fact either way. One
- *  owner, no local copies (quality spec §3, invariant 9). */
+// The workbook's authored name for a SEAL rank — `''` when the scale declares
+// no level at that rank, so a name is never fabricated from the number. Takes
+// the levels rather than the whole workbook because four of the ten adopting
+// sites hold only a `sealLevels` prop; it is the same fact either way. One
+// owner, no local copies (quality ,).
 export function sealName(levels: readonly SealLevel[], seal: Seal): string {
   return levels.find((l) => l.seal === seal)?.name ?? '';
 }
@@ -45,7 +45,7 @@ export function provenanceOf(
   return placements.size > 1 ? 'mixed' : placements.has('group') ? 'group' : 'individual';
 }
 
-/** A target flattened to the facets the outputs group by. */
+// A target flattened to the facets the outputs group by.
 export function facetsOf(target: Target): {
   dimension: string | null;
   stratum: string | null;
@@ -62,15 +62,15 @@ export function facetsOf(target: Target): {
 export type Scope = {
   dimensions: Set<string>;
   critical: Set<string>;
-  /** A material answer on this target GATES the floor: party and assessment
-   *  answers always, dimension answers only on critical dimensions. */
+  // A material answer on this target GATES the floor: party and assessment
+  // answers always, dimension answers only on critical dimensions.
   gatesFloor: (target: Target) => boolean;
-  /** Guards a stray non-workbook dimension in `appliesTo` (schema R6 forbids it). */
+  // Guards a stray non-workbook dimension in `appliesTo` (schema R6 forbids it).
   scoresTarget: (target: Target) => boolean;
-  /** A STORED answer's target is declared: one rule shared by the don't-know
-   *  totals and the swept share. */
+  // A STORED answer's target is declared: one rule shared by the don't-know
+  // totals and the swept share.
   inScope: (answer: Answer) => boolean;
-  /** The dimension's workbook-declared strata ([] = unsplittable). */
+  // The dimension's workbook-declared strata ([] = unsplittable).
   strataOf: (dimension: string) => string[];
   partyKindOf: (type: string) => PartyKind;
 };

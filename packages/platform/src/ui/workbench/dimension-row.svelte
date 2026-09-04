@@ -11,7 +11,7 @@
   // in the table's colgroup, which is why nothing here carries a width.
   type Props = {
     dimension: Dimension;
-    /** Flashed when the overview's instrument wheel deep-links to this row. */
+    /** Flashed when the overview's instrument wheel deep-links to this row.*/
     highlighted?: boolean;
     onUpdate: (patch: Partial<Dimension>) => void;
     onStrata: (strata: string[]) => void;
@@ -56,7 +56,7 @@
   </td>
   <td>
     <!-- The whole cell is the target: a 16px box is a small mark, not a small
-         control, so the label stretches to the column. The tick follows the palette. -->
+     control, so the label stretches to the column. The tick follows the palette. -->
     <label class="flex cursor-pointer justify-center py-0.5">
       <Checkbox
         aria-label={`Critical: ${dimension.id}`}

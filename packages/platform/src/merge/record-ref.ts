@@ -3,9 +3,9 @@ import type { LedgerRecord, PartyLedgerRecord } from '../schema';
 import { TargetSchema } from '../schema';
 import { targetKey } from '../assessment';
 
-/** Which affected record inside a Landing a reading is anchored on (§4.5): what the
- *  navigator marks `aria-current`, and the panel Back returns to. Identity is
- *  DERIVED from the record — never its position in `records`. */
+// Which affected record inside a Landing a reading is anchored on (§4.5): what the
+// navigator marks `aria-current`, and the panel Back returns to. Identity is
+// DERIVED from the record — never its position in `records`.
 export const RecordRefSchema = z.discriminatedUnion('kind', [
   z.object({ kind: z.literal('party'), party: z.string().min(1) }),
   z.object({ kind: z.literal('answer'), questionId: z.string().min(1), target: TargetSchema }),
@@ -13,10 +13,10 @@ export const RecordRefSchema = z.discriminatedUnion('kind', [
 
 export type RecordRef = z.infer<typeof RecordRefSchema>;
 
-/** The party a party record's decision is ABOUT — the incoming representation for
- *  `absorb`, the colliding id for `rename`, the fresh id for `split`, the joining
- *  party for `add`. Unique inside one Landing: at most one decision settles each
- *  incoming addition (§2.3.4). */
+// The party a party record's decision is ABOUT — the incoming representation for
+// `absorb`, the colliding id for `rename`, the fresh id for `split`, the joining
+// party for `add`. Unique inside one Landing: at most one decision settles each
+// incoming addition.
 export function partySubject(record: PartyLedgerRecord): string {
   const decision = record.decision;
   switch (decision.kind) {
@@ -49,8 +49,8 @@ export function sameRecordRef(a: RecordRef, b: RecordRef): boolean {
   );
 }
 
-/** A stable string for `{#each}` keys and the `data-record` attribute the detail
- *  scrolls to: `party:<id>` or `answer:<questionId> <targetKey>`. */
+// A stable string for `{#each}` keys and the `data-record` attribute the detail
+// scrolls to: `party:<id>` or `answer:<questionId> <targetKey>`.
 export function recordRefKey(ref: RecordRef): string {
   return ref.kind === 'party'
     ? `party:${ref.party}`

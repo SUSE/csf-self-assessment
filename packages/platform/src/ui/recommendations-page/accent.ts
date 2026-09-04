@@ -2,13 +2,13 @@
 // class names by scanning source text, so `bg-vendor-${n}` would compile to
 // nothing (the `sealSwatchClass` rule).
 export type VendorAccent = {
-  /** Solid fill: stripes, rules, numerals set as marks. */
+  // Solid fill: stripes, rules, numerals set as marks.
   bar: string;
-  /** The same hue on the text plane. */
+  // The same hue on the text plane.
   ink: string;
-  /** The surface a card of that hue sits on. */
+  // The surface a card of that hue sits on.
   wash: string;
-  /** Border in the hue, for an edge that must read as the card's colour. */
+  // Border in the hue, for an edge that must read as the card's colour.
   edge: string;
 };
 

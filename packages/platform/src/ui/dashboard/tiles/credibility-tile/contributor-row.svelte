@@ -5,10 +5,10 @@
   // One legend line: the slice's swatch, the name, the count. The bar this used to
   // carry is now the arc beside it, so a contributor costs one line rather than
   // three and the whole roster reads at a glance.
-  //
+  
   // Colour is never the only carrier (product accessibility rule): the line prints
   // its own count, and legend order is slice order clockwise from twelve.
-  //
+  
   // This line is the accessible control for its slice — the arc is a second hit
   // area on the same press. Where no session runs it is plain text, never a control
   // that no-ops.

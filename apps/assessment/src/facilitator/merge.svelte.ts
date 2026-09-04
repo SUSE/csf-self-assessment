@@ -1,4 +1,4 @@
-// The MERGE in progress (merge.md): the estate base, the ledger of Landings, and
+// The MERGE in progress: the estate base, the ledger of Landings, and
 // the ONE partial under review with the decisions taken on it. Landing is atomic —
 // a refused Land writes nothing — so the refusal lives here rather than on the
 // shell's error line, where someone else would have to clear it.
@@ -30,28 +30,28 @@ import { nowInstant } from '../clock';
 type PersistedMerge = NonNullable<FacilitatorState['merge']>;
 
 export class Merge {
-  /** The anchor every landing is reconciled against. */
+  // The anchor every landing is reconciled against.
   workbookAssessment = $state<WorkbookAssessment | null>(null);
-  /** Everything landed so far. Not an assessment — no floor, no score. */
+  // Everything landed so far. Not an assessment — no floor, no score.
   base = $state<EstateBase | null>(null);
   ledger = $state<Landing[]>([]);
-  /** One partial under review at a time (§2.1.3), and its decisions. */
+  // One partial under review at a time (§2.1.3), and its decisions.
   incoming = $state<Assessment | null>(null);
   resolutions = $state<ClashResolution[]>([]);
   partyDecisions = $state<PartyDecision[]>([]);
-  /** Frozen into the Landing envelope on Land (landing-history §2.6). */
+  // Frozen into the Landing envelope on Land (landing-history §2.6).
   note = $state('');
-  /** The History reading position; null = the Review is open. Never persisted with
-   *  the estate (landing-history §3.3.2). */
+  // The History reading position; null = the Review is open. Never persisted with
+  // the estate
   history = $state<HistoryView | null>(null);
-  /** Transient — a refusal is not state. */
+  // Transient — a refusal is not state.
   refusal = $state<string | null>(null);
 
   active = $derived(this.workbookAssessment !== null && this.base !== null);
-  /** Something has actually landed — what makes the estate readable. */
+  // Something has actually landed — what makes the estate readable.
   landed = $derived(this.base !== null && this.base.answers.length > 0);
 
-  /** Null while nothing is under review — the merge screen shows Add partial then. */
+  // Null while nothing is under review — the merge screen shows Add partial then.
   review = $derived(
     this.base && this.incoming
       ? reviewLanding(this.base, this.ledger, this.incoming, this.partyDecisions)
@@ -64,20 +64,20 @@ export class Merge {
       : null,
   );
 
-  /** A partially decided landing is never exported. */
+  // A partially decided landing is never exported.
   canExportFinal = $derived(
     this.workbookAssessment !== null && this.ledger.length > 0 && this.incoming === null,
   );
 
-  /** The estate of record as it stands — what the dashboard reads. */
+  // The estate of record as it stands — what the dashboard reads.
   finalized = $derived(
     this.workbookAssessment && this.base
       ? finalizeLanded(this.workbookAssessment, this.base, this.ledger)
       : null,
   );
 
-  /** A method rather than a constructor argument so Facilitator can initialise this
-   *  at its DECLARATION — a class field cannot reference a later one. */
+  // A method rather than a constructor argument so Facilitator can initialise this
+  // at its DECLARATION — a class field cannot reference a later one.
   restore(restored: PersistedMerge | null | undefined): void {
     if (!restored) return;
     this.workbookAssessment = restored.workbookAssessment;
@@ -89,7 +89,7 @@ export class Merge {
     this.note = restored.note;
   }
 
-  /** What the facilitator store writes, or null when there is nothing to resume. */
+  // What the facilitator store writes, or null when there is nothing to resume.
   persisted(): PersistedMerge | null {
     const workbookAssessment = this.workbookAssessment;
     const base = this.base;
@@ -105,7 +105,7 @@ export class Merge {
     };
   }
 
-  /** A fresh import drops any merge built against the previous workbook. */
+  // A fresh import drops any merge built against the previous workbook.
   reset(): void {
     this.workbookAssessment = null;
     this.base = null;
@@ -136,14 +136,14 @@ export class Merge {
     this.partyDecisions = upsertPartyDecision(this.partyDecisions, decision);
   }
 
-  /** Send the partial back unlanded — nothing it proposed is kept. */
+  // Send the partial back unlanded — nothing it proposed is kept.
   discard(): void {
     this.#clearReview();
     this.note = '';
   }
 
-  /** Commit onto the base (merge.md §2.1.2). The identity and clock are stamped
-   *  here — the pure core reads neither (invariant #3). A refusal writes nothing. */
+  // Commit onto the base (merge.md §2.1.2). The identity and clock are stamped
+  // here — the pure core reads neither. A refusal writes nothing.
   land(): void {
     const base = this.base;
     const incoming = this.incoming;
@@ -173,8 +173,8 @@ export class Merge {
     };
   }
 
-  /** Same screen, so it replaces rather than pushing — pushing is the router's
-   *  `openLanding`. */
+  // Same screen, so it replaces rather than pushing — pushing is the router's
+  // `openLanding`.
   openNeighbor(id: string): void {
     this.history = { ...this.#historyBase(), landing: id, record: null };
   }
@@ -186,7 +186,7 @@ export class Merge {
     await saveJsonFile(`${wa.meta.workbookId}-finalized.json`, finalized);
   }
 
-  /** A plain object for the History API — a $state proxy throws DataCloneError. */
+  // A plain object for the History API — a $state proxy throws DataCloneError.
   historySnapshot(): HistoryView | null {
     return $state.snapshot(this.history);
   }

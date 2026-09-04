@@ -10,20 +10,20 @@ import { RecordRefSchema, sameRecordRef } from './record-ref';
 // Reading the merge ledger as a searchable chronology (landing-history §3.3): the
 // viewer's calendar, the filters a History reading applies, and the date groups
 // the list renders. Pure — the viewer's locale and zone arrive as an argument,
-// never read from the environment here (invariant #3).
+// never read from the environment here.
 
-/** A calendar date in the viewer's zone, `YYYY-MM-DD` — the form the date-range
- *  controls edit and date groups are keyed by. Never an instant. */
+// A calendar date in the viewer's zone, `YYYY-MM-DD` — the form the date-range
+// controls edit and date groups are keyed by. Never an instant.
 export type CalendarDate = string;
 
-/** The viewer's calendar, stamped by the app shell: the pure core reads neither
- *  clock nor environment (invariant #3). */
+// The viewer's calendar, stamped by the app shell: the pure core reads neither
+// clock nor environment.
 export type Viewer = { locale: string; zone: string };
 
 export const CalendarDateSchema = z.string().regex(/^\d{4}-\d{2}-\d{2}$/);
 
-/** The date filter (§4.3). The `range` variant IS the expanded control — an open
- *  end is unbounded — so no separate "filters expanded" flag exists (§3.3.2). */
+// The date filter. The `range` variant IS the expanded control — an open
+// end is unbounded — so no separate "filters expanded" flag exists.
 export const DateFilterSchema = z.discriminatedUnion('kind', [
   z.object({ kind: z.literal('all-time') }),
   z.object({
@@ -33,7 +33,7 @@ export const DateFilterSchema = z.discriminatedUnion('kind', [
   }),
 ]);
 
-/** Which derived count the outcome filter requires to be non-zero (§4.3). */
+// Which derived count the outcome filter requires to be non-zero (§4.3).
 export const OutcomeFilterSchema = z.enum([
   'all',
   'new',
@@ -62,10 +62,10 @@ export const NO_HISTORY_FILTERS: HistoryFilters = {
   outcome: 'all',
 };
 
-/** One reading position in Merge → History (§3.3.2): the query, the Landing whose
- *  detail is open (null = the list), and the list scroll captured when it opened.
- *  Lives in app-shell view state — never in a component, never persisted with the
- *  assessment. A Landing is addressed by full UUID; row indexes are never stored. */
+// One reading position in Merge → History (§3.3.2): the query, the Landing whose
+// detail is open (null = the list), and the list scroll captured when it opened.
+// Lives in app-shell view state — never in a component, never persisted with the
+// assessment. A Landing is addressed by full UUID; row indexes are never stored.
 export const HistoryViewSchema = z.object({
   filters: HistoryFiltersSchema,
   landing: z.string().uuid().nullable(),
@@ -84,8 +84,8 @@ export const NO_HISTORY_VIEW: HistoryView = {
   record: null,
 };
 
-/** The guard the app shell hands `readView`: history.state is an I/O boundary
- *  shared with the sibling Author app under one key (utils/view-history.ts). */
+// The guard the app shell hands `readView`: history.state is an I/O boundary
+// shared with the sibling Author app under one key (utils/view-history.ts).
 export function isHistoryView(raw: unknown): raw is HistoryView {
   return HistoryViewSchema.safeParse(raw).success;
 }
@@ -99,7 +99,7 @@ const sameDates = (a: DateFilter, b: DateFilter): boolean => {
 const sameRecord = (a: RecordRef | null, b: RecordRef | null): boolean =>
   a === null || b === null ? a === b : sameRecordRef(a, b);
 
-/** Two readings that describe the same position — the shell's view equality. */
+// Two readings that describe the same position — the shell's view equality.
 export function sameHistoryView(a: HistoryView | null, b: HistoryView | null): boolean {
   if (a === null || b === null) return a === b;
   return (
@@ -113,7 +113,7 @@ export function sameHistoryView(a: HistoryView | null, b: HistoryView | null): b
   );
 }
 
-/** The outcome filter's options in control order (§4.3). */
+// The outcome filter's options in control order (§4.3).
 export const OUTCOME_FILTERS: { value: OutcomeFilter; label: string }[] = [
   { value: 'all', label: 'All outcomes' },
   { value: 'new', label: 'New units' },
@@ -124,7 +124,7 @@ export const OUTCOME_FILTERS: { value: OutcomeFilter; label: string }[] = [
   { value: 'parties', label: 'Party decisions' },
 ];
 
-/** True when anything narrows the list — what `Clear filters` is offered on. */
+// True when anything narrows the list — what `Clear filters` is offered on.
 export function isNarrowed(filters: HistoryFilters): boolean {
   return (
     filters.search !== '' ||
@@ -134,18 +134,18 @@ export function isNarrowed(filters: HistoryFilters): boolean {
   );
 }
 
-/** Everything a History reading needs beyond the ledger: the workbook that names
- *  questions and dimensions, the estate roster that names party targets, and the
- *  viewer's calendar the dates are read in. */
+// Everything a History reading needs beyond the ledger: the workbook that names
+// questions and dimensions, the estate roster that names party targets, and the
+// viewer's calendar the dates are read in.
 export type HistoryContext = {
   workbook: Pick<Workbook, 'dimensions' | 'objectives'>;
   parties: readonly Party[];
   viewer: Viewer;
 };
 
-/** A calendar day in the viewer's zone, derived from an INSTANT. The pure core
- *  reads neither clock nor environment (invariant #3) — the instant is stamped by
- *  the app shell and passed in. */
+// A calendar day in the viewer's zone, derived from an INSTANT. The pure core
+// reads neither clock nor environment — the instant is stamped by
+// the app shell and passed in.
 export function calendarDateOf(at: string, viewer: Viewer): CalendarDate {
   const parts = new Intl.DateTimeFormat('en-GB', {
     timeZone: viewer.zone,
@@ -158,12 +158,12 @@ export function calendarDateOf(at: string, viewer: Viewer): CalendarDate {
   return `${part('year')}-${part('month')}-${part('day')}`;
 }
 
-/** The Landing's calendar date in the viewer's zone (§2.5.2). */
+// The Landing's calendar date in the viewer's zone (§2.5.2).
 export function landingDate(landing: LandingEnvelope, viewer: Viewer): CalendarDate {
   return calendarDateOf(landing.at, viewer);
 }
 
-/** The Landing's clock time in the viewer's locale and zone, e.g. `14:32`. */
+// The Landing's clock time in the viewer's locale and zone, e.g. `14:32`.
 export function landingTime(landing: LandingEnvelope, viewer: Viewer): string {
   return new Intl.DateTimeFormat(viewer.locale, {
     timeZone: viewer.zone,
@@ -172,8 +172,8 @@ export function landingTime(landing: LandingEnvelope, viewer: Viewer): string {
   }).format(new Date(landing.at));
 }
 
-/** The calendar day in words, e.g. `10 August 2026` — the date group heading and the
- *  detail's landed sentence say it the same way. */
+// The calendar day in words, e.g. `10 August 2026` — the date group heading and the
+// detail's landed sentence say it the same way.
 export function longDateOf(date: CalendarDate, viewer: Viewer): string {
   const [year, month, day] = date.split('-').map(Number);
   return new Intl.DateTimeFormat(viewer.locale, {
@@ -184,15 +184,15 @@ export function longDateOf(date: CalendarDate, viewer: Viewer): string {
   }).format(new Date(Date.UTC(year, month - 1, day)));
 }
 
-/** A date group's heading, e.g. `Landings on 10 August 2026`. */
+// A date group's heading, e.g. `Landings on 10 August 2026`.
 export function dateGroupHeading(date: CalendarDate, viewer: Viewer): string {
   return `Landings on ${longDateOf(date, viewer)}`;
 }
 
-/** Every string this Landing is searchable by, lower-cased (§4.3): participant,
- *  note, full Landing id (a short id matches as its prefix), and per record the
- *  question id, question text, target label, and the names in a party record's
- *  before/after sets. */
+// Every string this Landing is searchable by, lower-cased (§4.3): participant,
+// note, full Landing id (a short id matches as its prefix), and per record the
+// question id, question text, target label, and the names in a party record's
+// before/after sets.
 export function searchTerms(landing: Landing, ctx: HistoryContext): string[] {
   const terms: string[] = [landing.participant, landing.id];
   if (landing.note !== undefined) terms.push(landing.note);
@@ -236,7 +236,7 @@ function withinDates(landing: Landing, viewer: Viewer, dates: DateFilter): boole
   return true;
 }
 
-/** True when this Landing survives every filter (§4.3). */
+// True when this Landing survives every filter (§4.3).
 export function landingMatches(
   landing: Landing,
   ctx: HistoryContext,
@@ -250,17 +250,17 @@ export function landingMatches(
   return searchTerms(landing, ctx).some((term) => term.includes(search));
 }
 
-/** The distinct participants the ledger holds, alphabetical — the participant
- *  filter's options beside `All participants`. */
+// The distinct participants the ledger holds, alphabetical — the participant
+// filter's options beside `All participants`.
 export function landingParticipants(ledger: readonly Landing[]): string[] {
   return [...new Set(ledger.map((landing) => landing.participant))].sort((a, b) =>
     a.localeCompare(b),
   );
 }
 
-/** One calendar day of matching Landings. Groups follow REVERSED recorded order
- *  and break on a date change, so a backwards clock change repeats a heading
- *  rather than reordering or merging Landings (§2.5.1, §2.5.3, invariant #11). */
+// One calendar day of matching Landings. Groups follow REVERSED recorded order
+// and break on a date change, so a backwards clock change repeats a heading
+// rather than reordering or merging Landings.
 export type HistoryGroup = { date: CalendarDate; heading: string; landings: Landing[] };
 
 export function historyGroups(
@@ -286,10 +286,10 @@ export function landingById(ledger: readonly Landing[], id: string): Landing | n
   return ledger.find((landing) => landing.id === id) ?? null;
 }
 
-/** Which screen Merge → History shows for one reading position (§3.3.5, §4.3).
- *  A named-but-absent Landing wins over the no-ledger state: a saved reading
- *  position is EXPLAINED, never silently replaced by a different screen
- *  (§3.3.5 — "It never substitutes the nearest Landing"). */
+// Which screen Merge → History shows for one reading position.
+// A named-but-absent Landing wins over the no-ledger state: a saved reading
+// position is EXPLAINED, never silently replaced by a different screen
+// (§3.3.5 — "It never substitutes the nearest Landing").
 export type HistoryScreen =
   | { kind: 'missing'; id: string }
   | { kind: 'no-ledger' }
@@ -306,8 +306,8 @@ export function historyScreen(ledger: readonly Landing[], view: HistoryView): Hi
   return { kind: 'list' };
 }
 
-/** The Landing an exact search entry names (§3.3.4): a full UUID, or a short id
- *  exactly one Landing carries. Null when the text names none or several. */
+// The Landing an exact search entry names (§3.3.4): a full UUID, or a short id
+// exactly one Landing carries. Null when the text names none or several.
 export function landingForSearch(ledger: readonly Landing[], search: string): Landing | null {
   const entry = search.trim().toLowerCase();
   if (entry === '') return null;
@@ -321,10 +321,10 @@ export function landingForSearch(ledger: readonly Landing[], search: string): La
 const phrase = (count: number, one: string, many: string): string =>
   `${count} ${count === 1 ? one : many}`;
 
-/** The non-zero counts as a row says them (§4.3): the effect counts in
- *  new / standing changes / cleared / unchanged order, then the process counts in
- *  agreements / party decisions / facilitator-resolved clashes order. A zero count
- *  has no phrase; `unitsReviewed` is not one of these. */
+// The non-zero counts as a row says them (§4.3): the effect counts in
+// new / standing changes / cleared / unchanged order, then the process counts in
+// agreements / party decisions / facilitator-resolved clashes order. A zero count
+// has no phrase; `unitsReviewed` is not one of these.
 export function landingCountPhrases(summary: LandingSummary): string[] {
   const phrases: string[] = [];
   if (summary.newUnits > 0) phrases.push(phrase(summary.newUnits, 'new', 'new'));

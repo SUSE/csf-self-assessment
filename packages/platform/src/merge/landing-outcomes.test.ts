@@ -5,7 +5,7 @@ import { reviewLanding } from './review';
 import { applyOutcomes, landingOutcomes } from './land';
 import { SECURITY, STORAGE, afterAlex, answered, onParty, partial, stratum } from './synthetic-fixture';
 
-/** Alex holds storage and security; Jane agrees on storage, diverges on security, brings one new unit. */
+// Alex holds storage and security; Jane agrees on storage, diverges on security, brings one new unit.
 const mixedReview = () => {
   const alex = afterAlex();
   const jane = partial('Jane', [onParty('inst', 2), answered(STORAGE, 2), answered(SECURITY, 4)]);

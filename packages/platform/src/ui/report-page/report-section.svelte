@@ -4,7 +4,7 @@
   import ReportReading from './report-reading.svelte';
 
   // One section of the spine (report.md §4.2). The figures are the dashboard's own
-  // — one rendering of every mark (invariant #3) — and this component adds no
+  // — one rendering of every mark — and this component adds no
   // number.
   type Props = { section: ReportSection; offers: OfferPointers };
 

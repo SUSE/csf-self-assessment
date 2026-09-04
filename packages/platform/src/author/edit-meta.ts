@@ -1,13 +1,13 @@
 import type { Workbook, WorkbookMeta } from '../schema';
 
 // The workbook's own header: its meta block, its front sheet, and the
-// recommender who stands behind the catalogue (see ./links for the preamble).
+// recommender who stands behind the catalogue (see./links for the preamble).
 
 export function setWorkbookMeta(wb: Workbook, patch: Partial<WorkbookMeta>): Workbook {
   return { ...wb, meta: { ...wb.meta, ...patch } };
 }
 
-// Replace the workbook's front-sheet lines (spec §9 S11, audit R-7).
+// Replace the workbook's front-sheet lines.
 // Whole-array replacement, immutable like every other edit here.
 export function setFrontSheet(wb: Workbook, lines: string[]): Workbook {
   return { ...wb, frontSheet: lines };
@@ -24,7 +24,7 @@ export type RecommenderPatch = Partial<{
   contactUrl: string;
 }>;
 
-// Create or patch the workbook's recommender block (spec §2.4, R21). A `contact`
+// Create or patch the workbook's recommender block. A `contact`
 // key exists as soon as EITHER half is non-empty — the missing half stays '',
 // which is strict-invalid and glows, because the author is mid-typing, not done.
 // When name, disclosure and both halves are empty the whole `recommender` key is

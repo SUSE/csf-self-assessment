@@ -14,15 +14,15 @@
 
   // The single-unit card (assessment axis / single-answer): one answer, no tray to
   // drag. Nobody knows / Doesn't apply are OFF-LADDER ROWS inside the ladder (spec
-  // §4.8 / ADR-0009) — the same unified answer column the fan-out cards use, so the
+  // §4.8 / ) — the same unified answer column the fan-out cards use, so the
   // single-unit question reads consistently: rungs 4→0, then the two off-ladder
-  // rows. The chosen off-ladder row shows a neutral tick (via `selectedOff`); the
+  // rows. The chosen off-ladder row shows a neutral tick (via `selectedOff`). the
   // n/a reason field lives in the qualify column.
   type Props = {
     question: PartyQuestion;
     sealLevels: SealLevel[];
     roles: RoleDef[];               // NEW — resolve question.role → role.name
-    answer: Answer | undefined; // required prop; pass undefined when unanswered
+    answer: Answer | undefined; // required prop. pass undefined when unanswered
     coverage: QuestionCoverage;
     onChoose: (choice: LadderChoice) => void;
     onEvidence: (note: string) => void;   // NEW — set the placed answer's whole-group evidence
@@ -89,7 +89,7 @@
 
     {#snippet qualify()}
       <!-- Escape hatches ride the RIGHT column, top-aligned with the ladder, so the X
-           real estate carries them instead of pushing the answer list down the page. -->
+     real estate carries them instead of pushing the answer list down the page. -->
       <OffLadder
         {selectedOff}
         onOffLadder={(kind) => onChoose(kind === 'na' ? { state: 'na' } : { state: 'dont-know' })}

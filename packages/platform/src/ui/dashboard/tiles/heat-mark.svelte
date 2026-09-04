@@ -7,15 +7,15 @@
   import type { InspectSelection } from '../../inspector/subject';
 
   // One mark on the heat grid — a cell, or the carry mark that closes a row.
-  // Every string it shows comes from analytics/heat.ts; the tile owns selection, and
+  // Every string it shows comes from analytics/heat.ts. the tile owns selection, and
   // the mark's own `title` is its readout.
-  //
+  
   // A press does both things it can do: it selects the mark in the tile, and where a
   // session runs it puts the answers behind the mark in the rail. A mark nothing
   // reaches has no answers to show, so it only selects.
   type Props = {
     mark: HeatMarkView;
-    /** Carry marks sit outside the grid proper and carry their own probe hook. */
+    /** Carry marks sit outside the grid proper and carry their own probe hook.*/
     carry: boolean;
     selected: boolean;
     tint: boolean;

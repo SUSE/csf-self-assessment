@@ -13,8 +13,8 @@
   // on every edit. It holds NO edit logic and NO validation — pure ops build the
   // next draft, and the strict issues under `testEstates` arrive pre-computed
   // from the stage. The estate's answers are placed on the question cards, not
-  // here; this panel only counts them.
-  //
+  // here. this panel only counts them.
+  
   // It reads as a table like every other set editor, rather than one Well per
   // estate: the records carry the same three fields plus one reading, and stacked
   // cards made three identical fields land at three different x-positions with the

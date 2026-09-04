@@ -10,14 +10,14 @@
   // button that flips between two.
   type Props = {
     items: SegmentedItem[];
-    /** The `id` of the segment whose view is showing. */
+    /** The `id` of the segment whose view is showing.*/
     active: string;
     onSelect: (id: string) => void;
-    /** Names the strip for assistive tech — 'Mode', 'Right panel'. */
+    /** Names the strip for assistive tech — 'Mode', 'Right panel'.*/
     label: string;
     /** `tablist` when the strip switches PANES inside the region below it (the
-     *  right rail); `group` when each segment is a destination that changes the
-     *  stage (the mode switch, the QA estate picker). */
+     * right rail). `group` when each segment is a destination that changes the
+     * stage (the mode switch, the QA estate picker).*/
     as?: 'tablist' | 'group';
     grow?: boolean;
     class?: string;

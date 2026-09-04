@@ -19,24 +19,24 @@
   import RecommendationRowItem from './recommendation-row.svelte';
   import { IssueList } from '../forms';
 
-  // The Workbench's Recommendations section (spec §4.5) as a LIST page: the
+  // The Workbench's Recommendations section as a LIST page: the
   // catalogue plus the attribution it may not be read without. Adding one opens
   // it — this page never edits a recommendation in place, so a catalogue of
   // twenty is still a page you can read.
-  //
+  
   // Three blocks, separated at the section step (1.5rem) and tight inside
   // themselves, so the page has a cadence rather than one repeated gap: the
-  // heading and its sentence are one unit; the byline is one unit; and the
+  // heading and its sentence are one unit. the byline is one unit. and the
   // filter bar and the rows are ONE unit, because the bar is the catalogue's
   // own header and the tally it ends with belongs to the rows directly beneath.
-  //
+  
   // This section owns TWO issue paths (`recommender` and `recommendations`), so
   // it receives the full strict issue list and scopes it itself.
   type Props = {
     draft: Workbook;
     issues: ZodIssue[];
     onDraft: (next: Workbook) => void;
-    /** Open one recommendation's editor. */
+    /** Open one recommendation's editor.*/
     onOpen: (recommendationId: string) => void;
   };
   let { draft, issues, onDraft, onOpen }: Props = $props();
@@ -87,7 +87,7 @@
       <RecommendationFilterBar {filter} {facets} onFilter={(next) => (filter = next)} />
       {#if shown.length === 0}
         <!-- Padded rather than a bare line: a dead-end filter must not collapse
-             the region the rows were occupying. -->
+     the region the rows were occupying. -->
         <p
           class="border-y border-border/60 px-2 py-6 text-xs text-muted-foreground"
           data-recommendation-none

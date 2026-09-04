@@ -4,10 +4,10 @@
   import { sealName } from '../../score-engine';
   import { sealSwatchClass } from '../../utils/seal-color';
 
-  // HUD v3 (spec §4.2). Reads the ONE engine result (invariant #3) — it never
+  // HUD v3. Reads the ONE engine result — it never
   // recomputes truth, only presents it. Two don't-know figures, both surfaced and
-  // kept distinct (spec §2.4, invariant #5): the FLOOR line carries its gating
-  // `unknowns` inseparably ("SEAL-2 · 3 unknowns"); the PROGRESS panel shows the
+  // kept distinct: the FLOOR line carries its gating
+  // `unknowns` inseparably ("SEAL-2 · 3 unknowns"). the PROGRESS panel shows the
   // honest grand total (`dontKnowCount`) of every admitted ignorance.
   type Props = {
     result: EngineResult | null;

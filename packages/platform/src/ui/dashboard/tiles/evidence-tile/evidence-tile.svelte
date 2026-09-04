@@ -9,9 +9,9 @@
 
   // Could we defend this to a reviewer? Coverage over the gating answers, then where
   // the debt sits. The bar encodes a ratio, never a seal.
-  //
+  
   // The questions themselves are the rail's reading — a second reading, not a second
-  // size of this one. The headline presses through to all of them; each badge to its
+  // size of this one. The headline presses through to all of them. each badge to its
   // own objective's share, which is why the strip sits outside the headline's button.
   let { result, workbook, parties }: TileProps = $props();
 

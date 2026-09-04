@@ -4,7 +4,7 @@ import { AUTHOR_QA_PROVENANCE, answerFor, assessmentOf } from '../assessment';
 import { evaluate } from './index';
 import { FULL, G, obj, rungs, wb } from './fixtures';
 
-/** A party-AXIS question: one unit per party on the roster. */
+// A party-AXIS question: one unit per party on the roster.
 const partyQ = (id: string, materiality: string, seals: number[]) => ({
   id,
   grain: 'party',
@@ -55,7 +55,7 @@ describe('evaluate() — party axis', () => {
       { party: 'idp', dimension: 'iam', worstSeal: 2 },
       { party: 'idp', dimension: 'compute', worstSeal: 2 },
     ]);
-    expect(r.heatmap).toEqual([]); // party answers never paint dimension cells (spec §2.2.6)
+    expect(r.heatmap).toEqual([]); // party answers never paint dimension cells
     expect(r.declaredParties).toEqual([
       { id: 'inst', name: 'Institution', type: 'institution', kind: 'assessed', serves: [] },
       { id: 'hyper', name: 'Hyperscaler', type: 'primary-provider', kind: 'third-party', serves: ['compute', 'iam'] },

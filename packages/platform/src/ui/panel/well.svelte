@@ -4,7 +4,7 @@
   import { surfaceVariants, type SurfaceDensity, type SurfaceTone } from './variants';
 
   // A compartment cut INTO a panel, holding several cards.
-  //
+  
   // Only legal on a `bg-card` surface — inside a Panel or a Card. `--well` is
   // derived from `--card`, so a Well laid straight on the canvas steps away from
   // a parent it does not have. A quiet region on the canvas is

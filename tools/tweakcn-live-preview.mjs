@@ -15,10 +15,8 @@ export const SEAL_HUE_BRIDGE = `(() => {
   });
 })();`;
 
-/**
- * Add tweakcn's development-only live-preview client and bridge the repository's
- * custom SEAL hue from the same light primary value used by the palette bridge.
- */
+// Add tweakcn's development-only live-preview client and bridge the repository's
+// custom SEAL hue from the same light primary value used by the palette bridge.
 export function tweakcnLivePreview() {
   return {
     name: 'tweakcn-live-preview',

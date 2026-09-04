@@ -7,18 +7,18 @@
   // from the ladder so each card can position them where its layout wants: the
   // fan-out cards mount them right under the placement tray — next to the units,
   // no scroll past the rungs to reach them — the single-unit card below its
-  // ladder. They are real answers, off the graded scale (spec §4.8 / ADR-0009):
+  // ladder. They are real answers, off the graded scale:
   // each is a drop hot spot (drag a chip here), a tap/keyboard radio, and — in the
-  // fan-out cards — a rest for chips answered n/a / don't-know. Its own radiogroup;
+  // fan-out cards — a rest for chips answered n/a / don't-know. Its own radiogroup.
   // layout-neutral (no outer margin/divider — the caller owns spacing). Neutral
-  // only (invariant #3 — never green).
+  // only ( — never green).
 
   type Props = {
-    /** single-unit: which off row is the chosen answer (neutral tick); fan-out leaves it null. */
+    /** single-unit: which off row is the chosen answer (neutral tick). fan-out leaves it null.*/
     selectedOff?: OffKind | null;
     onOffLadder?: (kind: OffKind) => void;
     onDropOff?: (kind: OffKind, payload: P) => void;
-    /** resting chips (fan-out); the single-unit card omits it. */
+    /** resting chips (fan-out). the single-unit card omits it.*/
     offLadderContent?: Snippet<[OffKind]>;
   };
   let { selectedOff = null, onOffLadder, onDropOff, offLadderContent }: Props = $props();
@@ -52,9 +52,9 @@
     }
   }
 
-  // Drop hot-spot styling (spec §4.8 / the chip-dnd prototype): while a drag is live
-  // every row shows a dashed outline; the one under the pointer goes solid + filled.
-  // Neutral only (invariant #3). Just the border-style/colour so it never fights the
+  // Drop hot-spot styling: while a drag is live
+  // every row shows a dashed outline. the one under the pointer goes solid + filled.
+  // Neutral only . Just the border-style/colour so it never fights the
   // container's baseline `border`.
   function overClass(key: string): string {
     if (!dnd?.dragging) return 'border-transparent';

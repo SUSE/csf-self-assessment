@@ -10,7 +10,7 @@
   // body is its whole reading gets no button rather than a button that only
   // enlarges it (`maximises` in analytics/tiles.ts). The tile body arrives as
   // `children`.
-  //
+  
   // The frame is a query container, and on this surface that is the only correct
   // input: the same tile renders at a sixth, a half and a whole row
   // (tile-width.ts) and maximised, and both side panels change its width without

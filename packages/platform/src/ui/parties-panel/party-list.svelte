@@ -7,8 +7,8 @@
   import Pencil from '@lucide/svelte/icons/pencil';
   import Trash2 from '@lucide/svelte/icons/trash-2';
 
-  // The participant's providers as an author-style list (delivery §2.6.5,
-  // ADR-0007) — the twin of the claim list: a titled card with a "+ Party" action,
+  // The participant's providers as an author-style list (,
+  // ) — the twin of the claim list: a titled card with a "+ Party" action,
   // the seeded providers shown read-only, then one row per provider the participant
   // added — its type, what it serves, an edit and a remove. Adding or editing opens
   // the party editor (the app swaps the stage, exactly as it does for claims). A
@@ -18,7 +18,7 @@
     workbook: Workbook;
     parties: Party[]; // seeded providers + the assessed party — read-only (shared ids)
     partiesAdded: Party[]; // this participant's own additions — edit / remove
-    claims: Claim[]; // a provider named by any claim can't be removed (invariant #3)
+    claims: Claim[]; // a provider named by any claim can't be removed
     answers: Answer[];
     onAdd: () => void;
     onEdit: (id: string) => void;
@@ -74,7 +74,7 @@
     </div>
   {/if}
 
-  <!-- Added by you — editable rows; adding/editing opens the party editor. -->
+  <!-- Added by you — editable rows. adding/editing opens the party editor. -->
   <div class="space-y-2">
     <p class={eyebrowVariants({ weight: 'medium' })}>Added by you</p>
     {#if partiesAdded.length === 0}

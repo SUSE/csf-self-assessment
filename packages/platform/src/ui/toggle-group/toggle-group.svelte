@@ -5,11 +5,11 @@
 
   // shadcn-svelte ToggleGroup, styled as our segmented control (a bordered pill
   // whose active item takes the accent). Wraps bits-ui, fixed to single-select —
-  // the only shape this app uses; typing it directly avoids bits-ui's
+  // the only shape this app uses. typing it directly avoids bits-ui's
   // single|multiple union (which is too large to flow through a wrapper).
-  //
+  
   // Where a selection is mandatory, drive it FULLY CONTROLLED with a function
-  // binding — `bind:value={() => current, (v) => { if (v) current = v }}` — so the
+  // binding — `bind:value={ => current, (v) => { if (v) current = v }}` — so the
   // getter stays the source of truth and the empty string bits-ui emits when the
   // active item is re-clicked is dropped by the setter, keeping that item lit.
   type Props = {
@@ -18,9 +18,9 @@
     class?: string;
     'aria-label'?: string;
     /** Help surface A: the id of the rulebook card that governs this control. The
-     *  workbench's delegated listener reads it off the group, so it is named here
-     *  one attribute at a time rather than by opening the type up (the
-     *  `SurfaceAttributes` precedent). */
+     * workbench's delegated listener reads it off the group, so it is named here
+     * one attribute at a time rather than by opening the type up (the
+     * `SurfaceAttributes` precedent).*/
     'data-rule'?: string;
     children: Snippet;
   };

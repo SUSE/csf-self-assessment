@@ -2,7 +2,7 @@ import type { ZodIssue } from 'zod';
 import type { Objective, Question, Recommendation, Workbook } from '../../schema';
 import type { InstrumentSection } from '../instrument-wheel/model';
 
-// Which single target the Author's stage is showing (spec §4.3c — one focus,
+// Which single target the Author's stage is showing ( — one focus,
 // reached by navigation, not by scrolling a 39k-px wall). The instrument
 // sections (overview / front sheet / objectives / questions / dimensions /
 // test estates / recommendations)
@@ -153,24 +153,24 @@ export function sameFocus(a: FocusRef, b: FocusRef): boolean {
   return id(a) === id(b);
 }
 
-/** A focused question with the indices `issuesUnder` needs for its path prefix. */
+// A focused question with the indices `issuesUnder` needs for its path prefix.
 export type QuestionSite = {
   objective: Objective;
   question: Question;
   objectiveIndex: number;
   questionIndex: number;
 };
-/** A focused recommendation with the index `issuesUnder` needs. */
+// A focused recommendation with the index `issuesUnder` needs.
 export type RecommendationSite = { recommendation: Recommendation; index: number };
 
 export function focusKey(focus: FocusRef): string {
   return 'id' in focus ? `${focus.kind}:${focus.id}` : focus.kind;
 }
 
-/** Every stage key left to right along the header's icon row — the carousel axis.
- * It runs the instrument sections in SectionNav order (each recommendation behind
- * its list), then Test estates, then the Questions index and the objective /
- * question walk, and finally the app's own destinations. */
+// Every stage key left to right along the header's icon row — the carousel axis.
+// It runs the instrument sections in SectionNav order (each recommendation behind
+// its list), then Test estates, then the Questions index and the objective /
+// question walk, and finally the app's own destinations.
 export function stageOrder(draft: Workbook, stageIds: readonly string[]): string[] {
   const seq: string[] = ['overview', 'frontSheet', 'objectives', 'dimensions', 'roles', 'parties', 'recommendations'];
   for (const r of draft.recommendations) seq.push(`recommendation:${r.id}`);

@@ -9,7 +9,7 @@ import { duplicateRadar } from './similarity';
 import { estateAnswers, testEstateReadings } from './estates';
 import { csfWorkbookRaw } from '../test-fixtures';
 
-// S11 (spec §9): the REAL instrument, locked to the author gauges and to the
+// The REAL instrument, locked to the author gauges and to the
 // audit-profile outcomes. This file is the successor of
 // score-engine/audit-profiles.test.ts for the rewritten content: the F-1
 // inversion (sovereign BASE ordered below hyperscaler A) must be dead, and
@@ -43,7 +43,7 @@ describe('csf workbook — the real content (S11)', () => {
     const gauges = authorGauges(WB);
     expect(gauges.budget.questionCount).toBe(39);
     expect(gauges.budget.questionCount).toBeLessThanOrEqual(gauges.budget.questionTarget);
-    // delivery-S2: the budget now counts EVERY appliesTo dimension (edge/facilities
+    // The budget now counts EVERY appliesTo dimension (edge/facilities
     // included), so the real instrument estimates 92.5 min — 2.5 over the 90-min
     // heuristic. Pinned exactly (a regression lock); flagged in the plan Deviations.
     expect(gauges.budget.estimatedMinutes).toBe(92.5);
@@ -162,11 +162,11 @@ describe('csf workbook — the real content (S11)', () => {
           estate.id !== 'profile-base'
             ? estate
             : {
-                ...estate,
-                answers: estate.answers.map((answer) =>
-                  answer.questionId === questionId ? { ...answer, rungId: bottom.id } : answer,
-                ),
-              },
+              ...estate,
+              answers: estate.answers.map((answer) =>
+                answer.questionId === questionId ? { ...answer, rungId: bottom.id } : answer,
+              ),
+            },
         ),
       };
       expect(overallOf(flipped, 'profile-base').floor).toBe(1);

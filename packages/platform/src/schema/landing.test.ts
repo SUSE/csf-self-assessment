@@ -40,7 +40,7 @@ const partyRecord = (decision: unknown) => ({
   affectedTargets: [],
 });
 
-/** One Jane candidate under the decision being tested. */
+// One Jane candidate under the decision being tested.
 const decided = (decision: unknown) => AnswerLedgerRecordSchema.safeParse(record([JANE_CAND], decision));
 
 describe('the Landing envelope', () => {

@@ -1,7 +1,7 @@
 import type { Dimension, Workbook } from '../schema';
 import { filterLinks, mapQuestions, nextId, renameLinks } from './links';
 
-// The dimension section's edits and their cascades (see ./links for the
+// The dimension section's edits and their cascades (see./links for the
 // preamble).
 
 export function addDimension(wb: Workbook): Workbook {

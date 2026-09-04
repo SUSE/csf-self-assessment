@@ -8,14 +8,14 @@
 
   // One row of the instrument's readings ledger: the count, what it counts, and
   // the qualifier it is measured against. Internal to instrument-wheel.
-  //
+  
   // These were eight equal tinted cards in an eight-across strip. Equal boxes give
   // equal weight, so a balanced count and a coverage gap looked alike, and at
   // ~1280 each card was ~130px and clipped its own qualifier mid-line. As rows,
   // the counts align into a scannable column and only an exceptional reading takes
   // a surface — so the one dial that needs turning is the only thing wearing
   // colour.
-  //
+  
   // The row is INSPECTOR-AWARE, the same way a wheel spoke is: pressing it reports
   // the reading to the rail rather than jumping the stage, so a count can be read
   // without leaving the overview. The rail's own view carries the jump. In an app
@@ -80,7 +80,7 @@
 <li>
   <svelte:element this={navigable ? 'button' : 'div'} class={rowClass} {...interactive}>
     <!-- Right-aligned and tabular so the eight counts form a column the eye can
-         run down, whatever their digit width. -->
+     run down, whatever their digit width. -->
     <span
       class={cn(
         'w-10 shrink-0 text-right text-xl font-semibold tabular-nums',
@@ -89,9 +89,9 @@
     <span class="text-xs font-semibold uppercase tracking-wide text-muted-foreground"
       >{reading.label}</span>
     <!-- The qualifier lifts to full ink on a toned row rather than taking the
-         tone's colour: it is 11px, so it needs 4.5:1, and the brick measures 3.3:1
-         on the dark well. The tone is already carried by the value and the band —
-         this line's job is to say, legibly, what the tone is about. -->
+     tone's colour: it is 11px, so it needs 4.5:1, and the brick measures 3.3:1
+     on the dark well. The tone is already carried by the value and the band —
+     this line's job is to say, legibly, what the tone is about. -->
     <span class={cn('ml-auto text-2xs', tone ? 'text-foreground' : 'text-muted-foreground')}
       >{reading.note}</span>
   </svelte:element>

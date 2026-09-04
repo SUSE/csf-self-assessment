@@ -8,7 +8,7 @@
   type Props = {
     item: SegmentedItem;
     active: boolean;
-    /** The strip is a tabs widget, so state is `aria-selected` on a `role=tab`. */
+    /** The strip is a tabs widget, so state is `aria-selected` on a `role=tab`.*/
     tab: boolean;
     grow: boolean;
     onSelect: () => void;

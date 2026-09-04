@@ -8,7 +8,7 @@
   }: {
     kind: 'gating' | 'others';
     paint: string;
-    /** 0–1 of the base. */
+    /** 0–1 of the base.*/
     share: number;
   } = $props();
 </script>

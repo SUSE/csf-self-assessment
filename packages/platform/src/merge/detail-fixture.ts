@@ -167,7 +167,7 @@ export const SPLIT: PartyLedgerRecord = {
   decision: { kind: 'split', from: 'acme-cloud', id: 'jane:acme-eu-2', by: 'facilitator', note: '' },
 };
 
-/** Jane's answer taken over Alex's, with her claim on the record. */
+// Jane's answer taken over Alex's, with her claim on the record.
 export const RESOLVED: AnswerLedgerRecord = {
   kind: 'answer',
   questionId: 'SOV-2.q1',
@@ -215,7 +215,7 @@ export const AGREED: AnswerLedgerRecord = {
   decision: { kind: 'agreed', among: ['Alex', 'Jane'], kept: 'Alex' },
 };
 
-/** A record for a question the workbook does not carry — it lands in "Other records". */
+// A record for a question the workbook does not carry — it lands in "Other records".
 export const UNPLACED: AnswerLedgerRecord = {
   kind: 'answer',
   questionId: 'SOV-9.qX',
@@ -242,6 +242,6 @@ export const ALEX_2: Landing = { id: L3, at: '2026-08-10T20:05:00.000Z', partici
 
 export const LEDGER = [ALEX_1, JANE, ALEX_2];
 
-/** Jane's Landing with one record of every kind the navigator groups. */
+// Jane's Landing with one record of every kind the navigator groups.
 export const BIG: Landing = { ...JANE, records: [ABSORB, AGREED, RESOLVED, ALEX_SOLE, UNPLACED] };
 export const BIG_LEDGER = [ALEX_1, BIG, ALEX_2];

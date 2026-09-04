@@ -18,8 +18,8 @@ export function snapshotOf(answer: Answer): AnswerSnapshot {
   }
 }
 
-/** Assessment-value equality (merge.md §2.2.9): state and, when answered, the
- *  same RUNG. Two rungs sharing a SEAL are different answers (invariant #3). */
+// Assessment-value equality (merge.md §2.2.9): state and, when answered, the
+// same RUNG. Two rungs sharing a SEAL are different answers.
 export function sameStanding(a: AnswerSnapshot | null, b: AnswerSnapshot | null): boolean {
   if (a === null || b === null) return a === b;
   if (a.state !== b.state) return false;

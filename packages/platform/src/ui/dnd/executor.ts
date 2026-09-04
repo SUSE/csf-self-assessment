@@ -8,7 +8,7 @@ import type { GestureCommand, ScrollEdges } from './gesture-machine';
 // the real DOM one; the test fake is the second implementation, which is what
 // makes this a seam rather than a hypothetical one.
 
-/** The slice of a drag session the interpreter drives; `DndSession` satisfies it. */
+// The slice of a drag session the interpreter drives; `DndSession` satisfies it.
 export type DragTarget<P extends DragPayload> = {
   begin(key: string, payload: P, x: number, y: number): void;
   track(x: number, y: number, overKey: string | null): void;
@@ -22,31 +22,31 @@ export type ExecutorParams<P extends DragPayload> = {
   payload: P;
 };
 
-/** The region auto-scroll drives while a chip heads for an off-screen rung. */
+// The region auto-scroll drives while a chip heads for an off-screen rung.
 export type Scroller = {
-  /** Its visible top/bottom in viewport coords — the machine turns that into a speed. */
+  // Its visible top/bottom in viewport coords — the machine turns that into a speed.
   edges(): ScrollEdges;
   scrollBy(dy: number): void;
 };
 
 export type ExecutorEnv = {
-  /** Which drop target sits under this point, if any. */
+  // Which drop target sits under this point, if any.
   dropKeyAt(x: number, y: number): string | null;
-  /** Pick the region this press will auto-scroll (resolved once, at press time). */
+  // Pick the region this press will auto-scroll (resolved once, at press time).
   scroller(): Scroller;
-  /** Show or clear the chip's dragged-away styling. */
+  // Show or clear the chip's dragged-away styling.
   setDragging(on: boolean): void;
   // Both hand back their own canceller, so the interpreter never holds a
   // browser handle (a timeout id, a frame id) to clear later.
   timer(ms: number, fire: () => void): () => void;
   frame(fire: () => void): () => void;
-  /** Swallow the synthetic click a finished drag leaves behind, so it cannot re-tap the chip. */
+  // Swallow the synthetic click a finished drag leaves behind, so it cannot re-tap the chip.
   swallowClick(): void;
 };
 
 export type ExecutorDeps<P extends DragPayload> = {
   env: ExecutorEnv;
-  /** Read at command time, so a reactive payload stays current. */
+  // Read at command time, so a reactive payload stays current.
   params: () => ExecutorParams<P>;
   listen: () => void;
   unlisten: () => void;
@@ -56,7 +56,7 @@ export type ExecutorDeps<P extends DragPayload> = {
 
 export type Executor = {
   resolveScroller(): void;
-  /** The visible slice of that region, for the machine's scroll ramp. */
+  // The visible slice of that region, for the machine's scroll ramp.
   edges(): ScrollEdges;
   release(): void;
   run(command: GestureCommand): void;

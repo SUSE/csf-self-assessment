@@ -1,7 +1,7 @@
-/** Prints the Report. Swaps `document.title` so the browser seeds the
- *  Save-as-PDF filename from it, and drops the `dark` class so the document
- *  prints light in the ACTIVE palette (§4.3, invariant #6 — never a fifth
- *  palette). Both are restored when the print dialog returns. */
+// Prints the Report. Swaps `document.title` so the browser seeds the
+// Save-as-PDF filename from it, and drops the `dark` class so the document
+// prints light in the ACTIVE palette (§4.3, — never a fifth
+// palette). Both are restored when the print dialog returns.
 export function printReport(filename: string): void {
   const root = document.documentElement;
   const title = document.title;

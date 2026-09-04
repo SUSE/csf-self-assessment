@@ -1,23 +1,21 @@
 import type { ContributorShare } from '../../../../analytics';
 
-/** One line of the ranked reading: a contributor, or the tail folded into one. */
+// One line of the ranked reading: a contributor, or the tail folded into one.
 export type ContributorRow = {
   key: string;
   label: string;
   units: number;
   fraction: number;
-  /** True for the tail row, which names a count of people rather than a person. */
+  // True for the tail row, which names a count of people rather than a person.
   folded: boolean;
 };
 
-/**
- * The head of the ranked list with everything past it folded into one line.
- *
- * `lines` is how many LINES the reading has, not how many contributors it will
- * name: at the limit the last line becomes the tail, so a room of twenty and a
- * room of three are read at the same height. That is the whole point of the
- * fold — a tile is a fixed space and the roster is not bounded by anything.
- */
+// The head of the ranked list with everything past it folded into one line.
+//
+// `lines` is how many LINES the reading has, not how many contributors it will
+// name: at the limit the last line becomes the tail, so a room of twenty and a
+// room of three are read at the same height. That is the whole point of the
+// fold — a tile is a fixed space and the roster is not bounded by anything.
 export function contributorRows(
   contributors: readonly ContributorShare[],
   lines: number,

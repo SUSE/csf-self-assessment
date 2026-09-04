@@ -4,7 +4,7 @@
   import { Panel } from '../panel';
   import { Textarea } from '../forms';
 
-  // The header of the partial under review (merge.md §2.2): who it is, what
+  // The header of the partial under review: who it is, what
   // landing it would do, and the two irreversible controls. Computes no truth —
   // every number arrives in `summary`.
   type Props = {
@@ -41,12 +41,12 @@
       </p>
     </div>
     <!-- The note sits BETWEEN the summary and the two irreversible controls, and
-         takes every pixel between them: it is the one thing on this row a
-         facilitator writes rather than reads, and a single line pretended the
-         reason a partial landed fits in six words. It grows into the slack only
-         to a readable measure (~70 characters at this size) and then stops, so
-         `ml-auto` takes the rest and the field stays pinned to the controls it
-         belongs with. Below `basis`, flex-wrap drops it onto its own line. -->
+     takes every pixel between them: it is the one thing on this row a
+     facilitator writes rather than reads, and a single line pretended the
+     reason a partial landed fits in six words. It grows into the slack only
+     to a readable measure (~70 characters at this size) and then stops, so
+     `ml-auto` takes the rest and the field stays pinned to the controls it
+     belongs with. Below `basis`, flex-wrap drops it onto its own line. -->
     <Textarea
       rows={3}
       class="ml-auto min-w-0 max-w-lg flex-1 basis-64"
@@ -56,9 +56,9 @@
       oninput={(e) => onNote(e.currentTarget.value)}
     />
     <!-- Centred against the note rather than top-aligned with it: the row's other
-         two items are read from their first line down, the controls are one
-         object, and hanging them off the note's top edge left them adrift over
-         two empty rows. `self-center` alone — the summary stays top-aligned. -->
+     two items are read from their first line down, the controls are one
+     object, and hanging them off the note's top edge left them adrift over
+     two empty rows. `self-center` alone — the summary stays top-aligned. -->
     <div class="flex flex-wrap items-center gap-2 self-center">
       <Button disabled={!canLand} onclick={onLand} aria-label="Land">Land</Button>
       <Button variant="outline" onclick={onDiscard} aria-label="Discard partial">Discard</Button>

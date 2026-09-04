@@ -1,13 +1,13 @@
 <script lang="ts">
   import { getDnd } from './dnd.svelte';
 
-  // The floating chip that follows the pointer while a drag is in flight (spec §4.8:
+  // The floating chip that follows the pointer while a drag is in flight (:
   // the critical ⚑ TRAVELS with the chip). A fixed, pointer-events-none clone of the
   // chip's look, offset off the cursor so a finger doesn't cover it, tilted + lifted
   // slightly (rotate/scale) so it reads as "picked up" (the chip-dnd prototype). On
   // release it settles out with a soft fade rather than popping, skipped under
-  // prefers-reduced-motion. Mounted once per card; reads the card's dnd session.
-  // Neutral border (invariant #3 — never green).
+  // prefers-reduced-motion. Mounted once per card. reads the card's dnd session.
+  // Neutral border ( — never green).
   const dnd = getDnd();
   const reduceMotion =
     typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;

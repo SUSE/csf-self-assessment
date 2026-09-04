@@ -3,19 +3,19 @@ import { targetKey } from '../assessment';
 import { clashCandidates } from './clash-types';
 import type { LandingClash, ReviewCandidate } from './clash-types';
 
-// What a decided clash writes back onto the estate base (merge.md §2.5).
+// What a decided clash writes back onto the estate base.
 
-/** One answer unit a clash's decision writes: what stands there afterwards, or
- *  `null` when the decision emptied it. */
+// One answer unit a clash's decision writes: what stands there afterwards, or
+// `null` when the decision emptied it.
 export type ClashUnitOutcome = {
   target: Target;
   candidates: ReviewCandidate[];
   answer: Answer | null;
 };
 
-/** What a clash's resolution writes — one entry per unit the clash covers, or
- *  `null` when the clash is still undecided (including a resolution whose
- *  choice does not fit this clash's class). */
+// What a clash's resolution writes — one entry per unit the clash covers, or
+// `null` when the clash is still undecided (including a resolution whose
+// choice does not fit this clash's class).
 export function resolveClash(
   clash: LandingClash,
   resolution: ClashResolution | undefined,

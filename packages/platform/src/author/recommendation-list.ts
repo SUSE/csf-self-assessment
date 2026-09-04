@@ -4,26 +4,26 @@ import { LINK_KIND_LABELS, linkTargets } from './edit-recommendations';
 // The recommendations catalogue as a LIST: one row per recommendation, resolved
 // against the draft, plus the narrowing an author reads it through. The list
 // page computes nothing itself — every label, count and sentence is built here,
-// so the controls and what they claim can never disagree (the merge queue's
-// invariant #13, applied to the author side).
+// so the controls and what they claim can never disagree (the merge queue's,
+// applied to the author side).
 
-/** One catalogue row: the record, its position (so the caller can still scope
- *  strict issues by index after filtering), and its links resolved to the
- *  labels the picker would show. A dangling link keeps its raw id — never
- *  blank, exactly as the links editor renders it. */
+// One catalogue row: the record, its position (so the caller can still scope
+// strict issues by index after filtering), and its links resolved to the
+// labels the picker would show. A dangling link keeps its raw id — never
+// blank, exactly as the links editor renders it.
 export type RecommendationRow = {
   recommendation: Recommendation;
-  /** Index in `workbook.recommendations` — the strict-issue path segment. */
+  // Index in `workbook.recommendations` — the strict-issue path segment.
   index: number;
   links: { link: RecommendationLink; kindLabel: string; label: string }[];
 };
 
-/** Whether a row's links are drawn on at all. A recommendation with no link
- *  never fires, so "unlinked" is the one facet worth its own control. */
+// Whether a row's links are drawn on at all. A recommendation with no link
+// never fires, so "unlinked" is the one facet worth its own control.
 export type RecommendationLinkage = 'all' | 'linked' | 'unlinked';
 
-/** The list's narrowing. `query` is free text over everything a row shows —
- *  including the labels of the questions attached to it. */
+// The list's narrowing. `query` is free text over everything a row shows —
+// including the labels of the questions attached to it.
 export type RecommendationFilter = {
   query: string;
   horizon: Horizon | 'all';
@@ -40,7 +40,7 @@ export function isRecommendationFilterNarrowed(filter: RecommendationFilter): bo
   return filter.query.trim() !== '' || filter.horizon !== 'all' || filter.linkage !== 'all';
 }
 
-/** Every recommendation as a row, in workbook order. */
+// Every recommendation as a row, in workbook order.
 export function recommendationRows(wb: Workbook): RecommendationRow[] {
   return wb.recommendations.map((recommendation, index) => ({
     recommendation,
@@ -87,7 +87,7 @@ function matchesLinkage(row: RecommendationRow, linkage: RecommendationLinkage):
   return linkage === 'linked' ? linked : !linked;
 }
 
-/** The rows the list shows under `filter`, in workbook order. */
+// The rows the list shows under `filter`, in workbook order.
 export function filterRecommendationRows(
   rows: RecommendationRow[],
   filter: RecommendationFilter,
@@ -100,12 +100,12 @@ export function filterRecommendationRows(
   );
 }
 
-/** One option of a narrowing, carrying the count it would leave. */
+// One option of a narrowing, carrying the count it would leave.
 export type RecommendationOption<T extends string> = { value: T; label: string; count: number };
 
-/** Every option of every narrowing, each counted with THAT option applied and
- *  the rest of the filter held — so a count is what pressing the option would
- *  actually leave, not a global tally. */
+// Every option of every narrowing, each counted with THAT option applied and
+// the rest of the filter held — so a count is what pressing the option would
+// actually leave, not a global tally.
 export type RecommendationFacets = {
   horizons: RecommendationOption<Horizon | 'all'>[];
   linkage: RecommendationOption<RecommendationLinkage>[];
@@ -150,15 +150,15 @@ export function recommendationFacets(
   };
 }
 
-/** An option's accessible name: a label beside a bare numeral reads as nothing
- *  on its own, so the count is spelled out. */
+// An option's accessible name: a label beside a bare numeral reads as nothing
+// on its own, so the count is spelled out.
 export function recommendationOptionName(label: string, count: number): string {
   return `${label} — ${count} recommendation${count === 1 ? '' : 's'}`;
 }
 
-/** The current narrowing in one sentence — the list's own answer to "what am I
- *  looking at, and why is it short?". The vocabulary lives here so the bar and
- *  the controls always agree. */
+// The current narrowing in one sentence — the list's own answer to "what am I
+// looking at, and why is it short?". The vocabulary lives here so the bar and
+// the controls always agree.
 export function recommendationFilterSummary(
   filter: RecommendationFilter,
   shown: number,

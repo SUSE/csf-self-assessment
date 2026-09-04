@@ -2,7 +2,7 @@ import { cubicOut } from 'svelte/easing';
 import type { TransitionConfig } from 'svelte/transition';
 
 // The directional carousel slide shared by the participant fill surface and the
-// Author workbench (spec §4.3c): both stack the leaving and entering nodes in one
+// Author workbench: both stack the leaving and entering nodes in one
 // grid cell (col/row-start-1) inside an overflow-x-clip container, so the two
 // cross like a slideshow. `dir` is the side the node is associated with — +1 for
 // the right, -1 for the left. Callers pass the ENTERING node `slideDir` (forward

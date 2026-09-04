@@ -1,6 +1,6 @@
 import type { Question, Workbook } from '../schema';
 
-// The duplicate radar (spec §4.3c): the Jaccard index over content-word
+// The duplicate radar: the Jaccard index over content-word
 // sets. A number alone never establishes double-counting (the shared
 // underlying fact stays the author's judgment); the radar only WARNS.
 // Warnings start at 0.12 and the author reads them; the gauge decides

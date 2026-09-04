@@ -12,7 +12,7 @@ export {
   Portal,
   Close,
   Content,
-  //
+
   Root as Popover,
   Trigger as PopoverTrigger,
   Portal as PopoverPortal,

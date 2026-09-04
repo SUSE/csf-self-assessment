@@ -92,7 +92,7 @@ describe('the clash queue over the Alex/Jane pair', () => {
     const review = reviewLanding(alex.base, alex.ledger, JANE, []);
     const clashes = review.units.filter(isClash);
 
-    // No bulk control exists (invariant #7): these are 22 individual decisions,
+    // No bulk control exists: these are 22 individual decisions,
     // one per one-rung divergence, exactly as a facilitator clicks them.
     const oneRung = filterClashes(
       clashes,

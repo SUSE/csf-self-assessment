@@ -3,7 +3,7 @@
   import { cn } from '../../utils/cn';
 
   // shadcn-svelte Dialog overlay — the dimmed scrim behind the dialog. Twin of
-  // alert-dialog-overlay; the plain Dialog (role="dialog", light-dismiss) rather
+  // alert-dialog-overlay. the plain Dialog (role="dialog", light-dismiss) rather
   // than the interruptive AlertDialog. (No enter/exit animation utilities — this
   // repo does not load tw-animate-css, so the scrim appears instantly.)
   let {

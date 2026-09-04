@@ -5,7 +5,7 @@
   // One dimension in "Applies to": the authoring twin of the participant's
   // placement tray, and therefore in the tray's position — above the ladder, in the
   // left column, where the fill card puts the units that fan onto it.
-  //
+  
   // It borrows ui/chip's pill styling but is deliberately NOT `rounded-full`:
   // DESIGN.md reserves the pill for things that MOVE (a tray chip you can pick up,
   // a landing preview), and the tray's dimension chips are exactly that — so an
@@ -13,7 +13,7 @@
   // exist here. Structural radius, pressed state in the selection wash.
   type Props = {
     name: string;
-    /** Gates the floor — the flag the chip carries everywhere else in the product. */
+    /** Gates the floor — the flag the chip carries everywhere else in the product.*/
     critical: boolean;
     pressed: boolean;
     onToggle: () => void;

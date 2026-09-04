@@ -5,17 +5,17 @@
   import ChevronLeft from '@lucide/svelte/icons/chevron-left';
   import SelectionChip from './selection-chip.svelte';
 
-  // The claim editor (delivery §2.3): pick the role(s) you answer as, then narrow
+  // The claim editor: pick the role(s) you answer as, then narrow
   // the subject to dimensions and/or parties (both empty = everything for those
   // roles). Reached from the claim list's "+ Claim" (new) or a row's edit (CRUD
-  // update, pre-filled from `initial`); a Back link returns to the list. Owns only
-  // the in-progress selection; emits a whole Claim on Save. A live claim sentence
+  // update, pre-filled from `initial`). a Back link returns to the list. Owns only
+  // the in-progress selection. emits a whole Claim on Save. A live claim sentence
   // reads the selection back as scope so the participant sees the commitment before
   // saving — role is the required perspective, subject the optional narrowing.
   type Props = {
     workbook: Workbook;
     parties: Party[];
-    /** The claim being edited; absent when composing a new one. */
+    /** The claim being edited. absent when composing a new one.*/
     initial?: Claim | undefined;
     onSave: (claim: Claim) => void;
     onBack: () => void;
@@ -75,7 +75,7 @@
         {#if selectedRoles.length === 0}
           <span class="text-muted-foreground">Pick the role you answer as — your claim reads back here.</span>
         {:else}
-          <!-- The whitespace mustaches are load-bearing single-space separators between adjacent inline spans and blocks; plain whitespace here would be collapsed/trimmed by Svelte. -->
+          <!-- The whitespace mustaches are load-bearing single-space separators between adjacent inline spans and blocks. plain whitespace here would be collapsed/trimmed by Svelte. -->
           <!-- eslint-disable-next-line svelte/no-useless-mustaches -->
 <span class="text-muted-foreground">Answering as</span>{' '}{#each selectedRoles as r, i (r.id)}<span class="font-semibold text-foreground">{r.name || r.id}</span>{i < selectedRoles.length - 1 ? ', ' : ''}{/each}{' '}<span class="text-muted-foreground">about</span>{' '}{#if subjectNames.length === 0}<span class="font-semibold text-foreground">the whole estate</span>{:else}{#each subjectNames as name, i (i)}<span class="font-semibold text-foreground">{name}</span>{i < subjectNames.length - 1 ? ', ' : ''}{/each}{/if}
         {/if}

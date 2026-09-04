@@ -7,8 +7,8 @@
   import FloorReading from './floor-reading.svelte';
 
   // What we are: the floor, its authored level, and the holes that could still drop
-  // it. Absence is never a zero (analytics invariant #2).
-  //
+  // it. Absence is never a zero (analytics).
+  
   // Pressing the reading puts the authored SEAL ladder in the rail, which is what
   // the tile has instead of a maximised state. With no session it is plain marks.
   let { result, workbook }: TileProps = $props();

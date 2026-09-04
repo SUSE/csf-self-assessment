@@ -4,7 +4,7 @@ import { addRole, questionsUsingRole, removeRole, updateRole } from './edit-role
 import { addQuestion, updateQuestion } from './edit-questions';
 import { starterWorkbook } from './starter';
 
-/** q-1 keeps the seeded ARCH; q-2 is reassigned to OPS. */
+// q-1 keeps the seeded ARCH; q-2 is reassigned to OPS.
 function withRoleRefs(): Workbook {
   let wb = addQuestion(starterWorkbook(), 'SOV-6', 'dimension');
   wb = addQuestion(wb, 'SOV-6', 'dimension');

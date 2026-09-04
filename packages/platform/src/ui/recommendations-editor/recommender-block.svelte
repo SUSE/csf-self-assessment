@@ -11,10 +11,10 @@
   import ChevronUp from '@lucide/svelte/icons/chevron-up';
   import RecommenderContactFields from './recommender-contact-fields.svelte';
 
-  // Who is speaking (spec §2.4, R21). Each input emits exactly ONE
-  // RecommenderPatch field; the both-or-neither contact rule and the
+  // Who is speaking. Each input emits exactly ONE
+  // RecommenderPatch field. the both-or-neither contact rule and the
   // drop-when-empty rule live in setRecommender, never here.
-  //
+  
   // Attribution is set once per workbook and then read, so at rest it is ONE
   // line, not four filled inputs: on the catalogue page the eleven offers are
   // the subject and this is the byline. It opens itself — and stays open — while
@@ -22,7 +22,7 @@
   // is the thing to fix.
   type Props = {
     draft: Workbook;
-    /** Already scoped to `['recommender']` by the caller. */
+    /** Already scoped to `['recommender']` by the caller.*/
     issues: ZodIssue[];
     onDraft: (next: Workbook) => void;
   };
@@ -67,7 +67,7 @@
     {/if}
     {#if !pinnedOpen}
       <!-- The chevron points the way the block will travel, which is the house
-           rule for every collapse control in the system. -->
+     rule for every collapse control in the system. -->
       <Button
         variant="outline"
         size="icon"
@@ -87,7 +87,7 @@
       call to action.
     </p>
     <!-- Capped measure: unbounded, the disclosure field grows to the width of
-         the stage — a 1300px single-line input for one sentence. -->
+     the stage — a 1300px single-line input for one sentence. -->
     <div class="flex max-w-5xl flex-wrap items-end gap-2">
       <Field label="name" class="w-48">
         <Input
@@ -99,8 +99,8 @@
         />
       </Field>
       <!-- basis-full: the disclosure is prose, not a field in the row, so it
-           takes its own line at the full measure rather than a 64px-basis slot
-           that grows and shrinks against the controls beside it. -->
+     takes its own line at the full measure rather than a 64px-basis slot
+     that grows and shrinks against the controls beside it. -->
       <Field label="disclosure" class="min-w-0 basis-full">
         <Textarea
           density="compact"
@@ -112,7 +112,7 @@
         />
       </Field>
       <!-- Sits on the fields' baseline, not their captions': it is a control in
-           the row, so it lines up with the inputs beside it. -->
+     the row, so it lines up with the inputs beside it. -->
       <Label for="recommender-contact" class="h-8 text-xs text-muted-foreground" data-rule="3.8">
         <Checkbox
           id="recommender-contact"

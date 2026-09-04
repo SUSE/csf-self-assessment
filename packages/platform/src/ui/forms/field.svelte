@@ -4,7 +4,7 @@
 
   // The one caption + control stack every editor shares, so a row of fields is
   // aligned by construction rather than by luck.
-  //
+  
   // A control that is really a group — a radiogroup, a toggle group — must pass
   // `as="div"` and carry its own `aria-label`, because an implicit label would
   // otherwise name only the first radio in it.
@@ -14,7 +14,7 @@
     class?: string;
     children: Snippet;
     /** Passed through to the wrapper — `data-rule` marks a governed control for
-     *  the Rulebook tab, and the marker belongs on the whole field. */
+     * the Rulebook tab, and the marker belongs on the whole field.*/
     [key: `data-${string}`]: unknown;
   };
   let { label, as = 'label', class: className, children, ...rest }: Props = $props();

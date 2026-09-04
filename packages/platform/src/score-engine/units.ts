@@ -9,12 +9,12 @@ export type UnitWalk = {
   facts: HeatFact[];
   units: UnitCoverage;
   openUnits: OpenUnit[];
-  /** Progress in question-interaction terms: a question is answerable with ≥1 unit
-   *  and complete when every unit is answered. */
+  // Progress in question-interaction terms: a question is answerable with ≥1 unit
+  // and complete when every unit is answered.
   questions: { total: number; answered: number };
-  /** "Nothing SCORING answered" is not-assessed, not zero (csf_scoring.md
-   *  §13.1). Counts a `material` or a `ranking` answer — the score's guard is
-   *  not the floor's (ADR-0024 §4). Renamed from `materialAnswered`. */
+  // "Nothing SCORING answered" is not-assessed, not zero (csf_scoring.md
+  // §13.1). Counts a `material` or a `ranking` answer — the score's guard is
+  // not the floor's. Renamed from `materialAnswered`.
   scoringAnswered: boolean;
 };
 

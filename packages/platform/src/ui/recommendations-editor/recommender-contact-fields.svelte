@@ -5,7 +5,7 @@
 
   // The call to action's two halves, revealed by the block's checkbox. Their own
   // component because they are a branch of the block's template with a reason to
-  // change of their own; the both-or-neither rule still lives in setRecommender.
+  // change of their own. the both-or-neither rule still lives in setRecommender.
   type Props = {
     draft: Workbook;
     onDraft: (next: Workbook) => void;

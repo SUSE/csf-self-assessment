@@ -4,8 +4,8 @@ import { targetKey } from '../assessment';
 import { targetLabel } from '../utils/target-label';
 import { bindingTarget } from './staircase';
 
-/** The five hand-written checks (analytics §2.8). Adding one is a code change with
- *  a test: there is no rule format, no authorable condition language, no engine. */
+// The five hand-written checks (analytics §2.8). Adding one is a code change with
+// a test: there is no rule format, no authorable condition language, no engine.
 export type CheckId =
   | 'concentration'
   | 'chain-visibility'
@@ -13,32 +13,32 @@ export type CheckId =
   | 'hidden-layer'
   | 'undefended-claim';
 
-/** A unit the check invites the room to open. */
+// A unit the check invites the room to open.
 export type CheckOpen = {
   key: string;
   questionId: string;
   questionText: string;
-  /** The exact answer unit, so the rail reads THIS unit rather than the whole
-   *  question — a check can list one question under several targets. */
+  // The exact answer unit, so the rail reads THIS unit rather than the whole
+  // question — a check can list one question under several targets.
   target: Target;
-  /** The unit's target label: `whole estate`, a dimension name, a party name. */
+  // The unit's target label: `whole estate`, a dimension name, a party name.
   label: string;
 };
 
-/** The share of what the check read that it is asking about — `part` of `whole`, in
- *  the units `CHECK_META.subject` names. Structural throughout: never a seal. */
+// The share of what the check read that it is asking about — `part` of `whole`, in
+// the units `CHECK_META.subject` names. Structural throughout: never a seal.
 export type CheckRatio = { part: number; whole: number };
 
 export type ConsistencyCheck = {
   id: CheckId;
   title: string;
   ratio: CheckRatio;
-  /** The rung someone chose, in the workbook's own words; null when the check has
-   *  no asserted side (§2.8 check 3). */
+  // The rung someone chose, in the workbook's own words; null when the check has
+  // no asserted side.
   asserted: string | null;
-  /** What the declared model says. */
+  // What the declared model says.
   structural: string;
-  /** Always a question, never a verdict (analytics invariant #5). */
+  // Always a question, never a verdict.
   question: string;
   opens: CheckOpen[];
 };
@@ -47,12 +47,12 @@ export type SecondLookTile =
   | { kind: 'flagged'; headline: string; caption: string; checks: ConsistencyCheck[] }
   | { kind: 'clear'; reason: string };
 
-/** The initial set is exactly five (§2.8; a sixth is deferred to a later slice, §8). */
+// The initial set is exactly five.
 export const CHECK_COUNT = 5;
 
-/** Every check, in reading order, whether or not it fired — the tile draws one dial
- *  each, so a check that came back clear still has to be nameable. `subject` names
- *  what its ratio counts. */
+// Every check, in reading order, whether or not it fired — the tile draws one dial
+// each, so a check that came back clear still has to be nameable. `subject` names
+// what its ratio counts.
 export const CHECK_META: { id: CheckId; title: string; subject: string }[] = [
   { id: 'concentration', title: 'Concentration', subject: 'critical dimensions' },
   { id: 'chain-visibility', title: 'Chain visibility', subject: 'critical dimensions' },
@@ -124,9 +124,8 @@ export function secondLookTile(
           questionById.get(CONCENTRATION_QUESTION),
           concentrationSeal,
         )}`,
-        structural: `The roster puts ${carrier.name} under ${criticalDims.length} of ${
-          criticalDims.length
-        } critical ${criticalDims.length === 1 ? 'dimension' : 'dimensions'}.`,
+        structural: `The roster puts ${carrier.name} under ${criticalDims.length} of ${criticalDims.length
+          } critical ${criticalDims.length === 1 ? 'dimension' : 'dimensions'}.`,
         question: 'Is one provider really carrying this?',
         opens: [openOn(CONCENTRATION_QUESTION, { kind: 'assessment' })],
       });
@@ -150,11 +149,9 @@ export function secondLookTile(
           questionById.get(CHAIN_VISIBILITY_QUESTION),
           chainSeal,
         )}`,
-        structural: `The roster names ${thirdParties.length} ${
-          thirdParties.length === 1 ? 'third party' : 'third parties'
-        }; ${listPhrase(soleServed.map((d) => d.name))} each ${
-          soleServed.length === 1 ? 'stands' : 'stand'
-        } on exactly one of them.`,
+        structural: `The roster names ${thirdParties.length} ${thirdParties.length === 1 ? 'third party' : 'third parties'
+          }; ${listPhrase(soleServed.map((d) => d.name))} each ${soleServed.length === 1 ? 'stands' : 'stand'
+          } on exactly one of them.`,
         question: 'Can the chain really be named below these providers?',
         opens: [openOn(CHAIN_VISIBILITY_QUESTION, { kind: 'assessment' })],
       });
@@ -170,11 +167,9 @@ export function secondLookTile(
       title: titleOf('unserved-dimension'),
       ratio: { part: unserved.length, whole: result.declaredDimensions.length },
       asserted: null,
-      structural: `${listPhrase(unserved.map((d) => d.name))} ${
-        unserved.length === 1 ? 'is' : 'are'
-      } declared in scope, and no party on the roster serves ${
-        unserved.length === 1 ? 'it' : 'them'
-      }.`,
+      structural: `${listPhrase(unserved.map((d) => d.name))} ${unserved.length === 1 ? 'is' : 'are'
+        } declared in scope, and no party on the roster serves ${unserved.length === 1 ? 'it' : 'them'
+        }.`,
       question: 'Who runs this?',
       opens: [],
     });
@@ -200,12 +195,10 @@ export function secondLookTile(
       // Of the dimensions this estate answers at a layer at all, how many were
       // nonetheless taken whole. The two sets cannot overlap.
       ratio: { part: wholeOnly.length, whole: wholeOnly.length + splitDims.length },
-      asserted: `${listPhrase(wholeOnly.map((d) => d.name))} ${
-        wholeOnly.length === 1 ? 'was' : 'were'
-      } each answered whole.`,
-      structural: `${listPhrase(splitDims.map((d) => d.name))} ${
-        splitDims.length === 1 ? 'is' : 'are'
-      } split into layers; each of these declares layers of its own.`,
+      asserted: `${listPhrase(wholeOnly.map((d) => d.name))} ${wholeOnly.length === 1 ? 'was' : 'were'
+        } each answered whole.`,
+      structural: `${listPhrase(splitDims.map((d) => d.name))} ${splitDims.length === 1 ? 'is' : 'are'
+        } split into layers; each of these declares layers of its own.`,
       question: 'Is the weakness hiding at one layer?',
       opens: wholeOnly.map((d) =>
         openOn(lowestOf(d.id).questionId, { kind: 'dimension', dimension: d.id }),
@@ -222,12 +215,10 @@ export function secondLookTile(
       id: 'undefended-claim',
       title: titleOf('undefended-claim'),
       ratio: { part: undefended.length, whole: strongClaims.length },
-      asserted: `${strongClaims.length} gating ${
-        strongClaims.length === 1 ? 'answer claims' : 'answers claim'
-      } SEAL-3 or SEAL-4.`,
-      structural: `${undefended.length} of them ${
-        undefended.length === 1 ? 'records' : 'record'
-      } no evidence note.`,
+      asserted: `${strongClaims.length} gating ${strongClaims.length === 1 ? 'answer claims' : 'answers claim'
+        } SEAL-3 or SEAL-4.`,
+      structural: `${undefended.length} of them ${undefended.length === 1 ? 'records' : 'record'
+        } no evidence note.`,
       question: 'Would these hold up if someone asked for the document?',
       opens: undefended.map((b) => openOn(b.questionId, bindingTarget(b))),
     });

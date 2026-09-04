@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { ClaimSchema, PartySchema } from './primitives';
 import { AnswerSchema, AnswerSnapshotSchema, TargetSchema } from './answer';
 
-// The append-only history of a merge (merge.md §2.4/§5, ADR-0011): one record per
+// The append-only history of a merge: one record per
 // answer unit a landing touched, undisputed ones included. Every candidate
 // carries the CLAIM that produced it verbatim, because `claims` is partial-only —
 // without it a finalized assessment cannot explain why a candidate won. Scoring
@@ -23,13 +23,13 @@ export const LedgerCandidateSchema = z.object({
   authority: AuthoritySchema,
 });
 
-// The four clash classes (merge.md §2.2). No fifth.
+// The four clash classes. No fifth.
 export const ClashClassSchema = z.enum(['divergence', 'gap', 'scope', 'grain']);
 
 export const ClashChoiceSchema = z.discriminatedUnion('kind', [
   z.object({ kind: z.literal('take'), from: z.string().min(1) }),
   z.object({ kind: z.literal('reanswer'), rungId: z.string().min(1) }),
-  // A grain decision keeps ONE depth and empties the other (merge.md §2.2).
+  // A grain decision keeps ONE depth and empties the other.
   z.object({ kind: z.literal('grain'), keep: z.enum(['strata', 'roll-up']) }),
 ]);
 
@@ -45,7 +45,7 @@ export const LedgerDecisionSchema = z.discriminatedUnion('kind', [
     clash: ClashClassSchema,
     choice: ClashChoiceSchema,
     by: z.string().min(1),
-    // Optional by design (merge.md §2.7): the typed choice carries the meaning.
+    // Optional by design: the typed choice carries the meaning.
     note: z.string(),
   }),
 ]);
@@ -99,9 +99,9 @@ export const PartyRecordDecisionSchema = z.discriminatedUnion('kind', [
   }),
 ]);
 
-// The in-review party choice (merge.md §2.5, invariant #8). `absorb` keeps ONE
+// The in-review party choice. `absorb` keeps ONE
 // party under the ESTATE's id `into`, displayed under `name` — either side's, the
-// facilitator's pick — taking the union of `serves` (invariant #6). `split` keeps
+// facilitator's pick — taking the union of `serves`. `split` keeps
 // the incoming addition under its own `id`; `from` names the estate party it was
 // weighed against, so the record can say what it was not.
 export const PartyChoiceSchema = z.discriminatedUnion('kind', [
@@ -111,7 +111,7 @@ export const PartyChoiceSchema = z.discriminatedUnion('kind', [
 
 // One decision on the party axis, keyed by the incoming addition it settles — at
 // most one per addition, so a changed mind REPLACES here (upsertPartyDecision)
-// and the ledger is what appends (merge.md §2.4.4).
+// and the ledger is what appends.
 export const PartyDecisionSchema = z.object({
   added: z.string().min(1),
   choice: PartyChoiceSchema,
@@ -119,7 +119,7 @@ export const PartyDecisionSchema = z.object({
 });
 
 // A `rename` puts two parties carrying the SAME id in `before`, so no id lookup
-// can tell the sides apart: POSITION is the contract (§2.3.2, ADR-0015).
+// can tell the sides apart: POSITION is the contract (§2.3.2, ).
 // `before` = [estate side, …incoming side]; `after` = the resulting parties.
 export const PartyLedgerRecordSchema = z.object({
   kind: z.literal('party'),
@@ -134,8 +134,8 @@ export const LedgerRecordSchema = z.discriminatedUnion('kind', [
   PartyLedgerRecordSchema,
 ]);
 
-// One press of Land (§2.1, ADR-0015). Identity, time, participant and note live
-// here and NOWHERE else; the shell stamps id/at (invariant #3).
+// One press of Land (§2.1, ). Identity, time, participant and note live
+// here and NOWHERE else. the shell stamps id/at.
 export const LandingEnvelopeSchema = z.object({
   id: z.string().uuid(),
   at: z.string().min(1),

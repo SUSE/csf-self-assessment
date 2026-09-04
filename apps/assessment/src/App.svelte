@@ -35,7 +35,7 @@
   // each other, and chooses a stage. It holds no lifecycle of its own — each one
   // lives in the controller that owns it (fill/, facilitator/, load, stage-router).
 
-  // Restore in-progress work (invariant #7): the DATA from local storage, the VIEW
+  // Restore in-progress work: the DATA from local storage, the VIEW
   // from history.state.
   const restoredFill = participantState.load();
   const restoredFacilitator = facilitatorState.load();
@@ -44,7 +44,7 @@
   const restoredFillView = restoredView?.stage === 'fill' ? restoredView : null;
   const restoredFacilitatorView = restoredView?.stage === 'facilitator' ? restoredView : null;
 
-  // Stamped here: the pure core reads neither clock nor environment (invariant #3).
+  // Stamped here: the pure core reads neither clock nor environment .
   const viewer: Viewer = {
     locale: navigator.language === '' ? 'en-GB' : navigator.language,
     zone: Intl.DateTimeFormat().resolvedOptions().timeZone,
@@ -75,7 +75,7 @@
   createHelp(() => (facilitating ? FACILITATOR_RULES : PARTICIPANT_RULES));
 
   // What the rail reads when nothing is selected. A facilitator screen names what to
-  // click on it; the participant's rail always has its estate reading.
+  // click on it. the participant's rail always has its estate reading.
   const railPage = $derived<InspectSubject | null>(
     facilitating
       ? { kind: 'hint', title: 'Inspector', text: FACILITATOR_HINTS[facilitator.section] }
@@ -123,7 +123,7 @@
   {/snippet}
 
   <!-- Mounted unconditionally: it shows itself when help mode is on, and reads
-       whichever rule set the live persona needs. -->
+     whichever rule set the live persona needs. -->
   {#snippet overlay()}
     <RulebookPanel />
   {/snippet}

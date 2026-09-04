@@ -4,7 +4,7 @@
   type Props = {
     label: string;
     note: string | null;
-    /** The carry column is ruled off from the grid proper. */
+    /** The carry column is ruled off from the grid proper.*/
     carry?: boolean;
     columnKey?: string | undefined;
   };

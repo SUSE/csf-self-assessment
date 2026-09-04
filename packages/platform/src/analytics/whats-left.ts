@@ -6,18 +6,18 @@ export type OpenUnitView = {
   questionId: string;
   questionText: string;
   objectiveId: string;
-  /** The authored role's display NAME, resolved from workbook.roles (ADR-0003). */
+  // The authored role's display NAME, resolved from workbook.roles.
   roleName: string;
-  /** The unit's label from utils/target-label: a party name, `Storage · chips`,
-   *  a dimension name, or `whole estate`. */
+  // The unit's label from utils/target-label: a party name, `Storage · chips`,
+  // a dimension name, or `whole estate`.
   label: string;
 };
 
-/** Open units sharing one subject — a party, a dimension, or the whole estate. */
+// Open units sharing one subject — a party, a dimension, or the whole estate.
 export type OpenGroup = {
-  /** `party:<id>` | `dimension:<id>` | `assessment`. */
+  // `party:<id>` | `dimension:<id>` | `assessment`.
   key: string;
-  /** The subject's display name; `The estate` for the assessment target. */
+  // The subject's display name; `The estate` for the assessment target.
   label: string;
   units: OpenUnitView[];
 };
@@ -25,22 +25,22 @@ export type OpenGroup = {
 export type WhatsLeftTile = {
   open: number;
   total: number;
-  /** Largest group first, ties in first-appearance order; [] when nothing is open. */
+  // Largest group first, ties in first-appearance order; [] when nothing is open.
   groups: OpenGroup[];
 };
 
-/** The backlog as the rail reads it: one owner, or the whole chase. */
+// The backlog as the rail reads it: one owner, or the whole chase.
 export type OpenUnitsInspection = {
-  /** Open units in this reading — the owner's, or the whole backlog's. */
+  // Open units in this reading — the owner's, or the whole backlog's.
   open: number;
   total: number;
-  /** The owner being read, or null for the whole chase. */
+  // The owner being read, or null for the whole chase.
   groupLabel: string | null;
   groups: OpenGroup[];
 };
 
-/** The resolver seam: a key the reading no longer has (party removed, last unit
- *  answered) resolves to null, never to an empty panel that reads as finished. */
+// The resolver seam: a key the reading no longer has (party removed, last unit
+// answered) resolves to null, never to an empty panel that reads as finished.
 export function openUnitsInspection(
   tile: WhatsLeftTile,
   groupKey: string | null,

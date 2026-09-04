@@ -2,10 +2,10 @@
   import type { Participant, WorkbookAssessment } from '../../schema';
   import { TextField } from '../forms';
 
-  // The identity prompt (delivery §4.2): a participant who opened a
+  // The identity prompt: a participant who opened a
   // workbook-assessment declares who they are — just their name (roles retired,
-  // ADR-0005). It lives inline on the Overview page, not a wizard step: there is
-  // no "start" button; entering a name (Enter or blur) declares you and opens the
+  // ). It lives inline on the Overview page, not a wizard step: there is
+  // no "start" button. entering a name (Enter or blur) declares you and opens the
   // Claims and Questions sections. Claims are composed next, in their own section.
   type Props = {
     workbookAssessment: WorkbookAssessment;

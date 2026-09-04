@@ -26,8 +26,8 @@ export type StageView =
       section: FacilitatorSection;
       selection: InspectSelection | null;
       history: HistoryView | null;
-      /** The destination shown instead of the section, or null for the section
-       *  itself. */
+      // The destination shown instead of the section, or null for the section
+      // itself.
       overlay: FacilitatorOverlayKind | null;
     };
 

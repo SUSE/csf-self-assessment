@@ -1,13 +1,12 @@
 import type { Seal, Workbook } from '../schema';
 
-// Ladder lint (spec §4.3c/§4.5, audit D8 / F-10(b)): five deterministic
-// checks over the definition. Sparse ladders are GAPS, never findings
-// (spec §4.3c). The schema requires `role`, so the spec's "missing
-// why-line/role" reduces to lint on the why-line. The hedged-quantifier
-// pattern is the audit's F-10(b) regex, verbatim — its ground truth on the
-// canonical workbook is 71 of 270 rungs.
+// Ladder lint: five deterministic checks over the definition. Sparse ladders
+// are GAPS, never findings.
+// The schema requires `role`, so the spec's "missing why-line/role" reduces to
+// lint on the why-line. The hedged-quantifier pattern is the audit's F-10(b)
+// regex, verbatim — its ground truth on the canonical workbook is 71 of 270 rungs.
 // NOTE: HEDGED_QUANTIFIERS is /g — use String.match(), never regex.test()
-// (a global regex's lastIndex makes .test() stateful).
+// (a global regex's lastIndex makes.test() stateful).
 export const HEDGED_QUANTIFIERS =
   /\b(most|majority|nearly all|nearly the entire|some|minor|meaningful|limited|narrow|partial(ly)?|marginal|small number|occasionally|regular(ly)?|ad hoc)\b/gi;
 
@@ -16,12 +15,12 @@ const COMPOUND_STEM = /\band\b/i;
 export type LintFinding =
   | { kind: 'missing-why' }
   | { kind: 'compound-stem' }
-  /** Every rung on this question carries this one SEAL: the floor cannot move
-   *  here (spec §4.5). Fires only on a ladder of 2 or more rungs. */
+  // Every rung on this question carries this one SEAL: the floor cannot move
+  // here. Fires only on a ladder of 2 or more rungs.
   | { kind: 'flat-ladder'; seal: Seal }
-  /** Two rungs read the same. `rungIds` is the stable key (spec §3.4);
-   *  `positions` is the 1-based authored-order handle the pill prints, because
-   *  a rung id is never shown to an author (spec §4.4). */
+  // Two rungs read the same. `rungIds` is the stable key (spec §3.4);
+  // `positions` is the 1-based authored-order handle the pill prints, because
+  // a rung id is never shown to an author.
   | { kind: 'duplicate-rung-text'; rungIds: [string, string]; positions: [number, number] }
   | { kind: 'hedged-quantifier'; rungId: string; position: number; words: string[] };
 

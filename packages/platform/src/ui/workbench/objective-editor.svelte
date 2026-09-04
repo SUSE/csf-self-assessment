@@ -11,15 +11,15 @@
   // The workbench's single-objective focus: identity, weight, the objective's
   // question list, and the recommendations linked to it. It holds NO edit logic
   // and NO validation — pure ops build the next draft, and the strict issues
-  // arrive pre-computed from the stage. Identity fields commit on change; the
+  // arrive pre-computed from the stage. Identity fields commit on change. the
   // name streams on input.
   type Props = {
     draft: Workbook;
     objective: Objective;
-    /** The full strict-issue list — the editor scopes it by its own index. */
+    /** The full strict-issue list — the editor scopes it by its own index.*/
     issues: ZodIssue[];
     onDraft: (next: Workbook) => void;
-    /** Open one of this objective's questions in the QuestionEditor. */
+    /** Open one of this objective's questions in the QuestionEditor.*/
     onOpenQuestion: (id: string) => void;
     onOpenRecommendation: (id: string) => void;
   };

@@ -13,7 +13,7 @@
     result: EngineResult | null;
     workbook: Workbook | null;
     parties: Party[];
-    /** The pressed tread's rung. */
+    /** The pressed tread's rung.*/
     floor: Seal;
     onOpenQuestion?: ((id: string) => void) | undefined;
   };

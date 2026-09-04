@@ -7,13 +7,13 @@
   // One answerer role. Two cells answer to the same fact — the questions using this
   // role: the code freezes once any question names it (a rename would orphan them)
   // and the delete is barred for the same reason. The `load` cell is where that fact
-  // is STATED, so the barred delete needs no copy of its own; it greys out and the
+  // is STATED, so the barred delete needs no copy of its own. it greys out and the
   // cell titles carry the reason on hover.
   type Props = {
     role: RoleDef;
-    /** Question ids naming this role. Non-empty freezes the code AND the delete. */
+    /** Question ids naming this role. Non-empty freezes the code AND the delete.*/
     usedBy: string[];
-    /** Estimated workshop minutes for this role (roles.md §4). */
+    /** Estimated workshop minutes for this role (roles.md §4).*/
     estimatedMinutes: number;
     onUpdate: (patch: Partial<RoleDef>) => void;
     onRemove: () => void;

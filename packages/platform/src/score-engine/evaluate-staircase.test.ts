@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { A, MAT2, WB2, dim, dunno, runD, runOn } from './fixtures';
 
-/** A staircase binding with the fields this section does not vary already filled in. */
+// A staircase binding with the fields this section does not vary already filled in.
 const binding = (fields: Record<string, unknown>) => ({
   objectiveId: 'O',
   role: 'ARCH',

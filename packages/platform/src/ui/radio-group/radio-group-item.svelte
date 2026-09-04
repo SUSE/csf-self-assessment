@@ -2,10 +2,10 @@
   import { RadioGroup as RadioGroupPrimitive } from 'bits-ui';
   import { cn, type WithoutChildrenOrChild } from '../../utils/cn';
 
-  // The dot. Selection is the filled circle; focus is the thick ring, per the
+  // The dot. Selection is the filled circle. focus is the thick ring, per the
   // theme's one-thick-ring rule. A cell-shaped member of the same group is
   // ui/seal-selector, not a variant here — this one is always the dot.
-  //
+  
   // The state hook is `data-[state=checked]`, NOT `data-checked`: this bits-ui
   // (2.18) sets `data-state="checked"|"unchecked"`, while the shadcn-svelte
   // registry snippet is written against a build that sets a bare `data-checked`.

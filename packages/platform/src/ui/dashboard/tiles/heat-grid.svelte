@@ -6,12 +6,12 @@
   type Props = {
     view: HeatTileView;
     /** The mark selected in this grid, or null. Null is the paper reading: a
-     *  document has no selection. */
+     * document has no selection.*/
     selected: string | null;
     tint: boolean;
     /** null = the grid is a static drawing — no press, no inspector, no button
-     *  semantics. That is what lets the Report import the figure without the
-     *  dashboard's selection vocabulary (report.md §3.3). */
+     * semantics. That is what lets the Report import the figure without the
+     * dashboard's selection vocabulary (report.md §3.3).*/
     onSelect: ((key: string) => void) | null;
   };
   let { view, selected, tint, onSelect }: Props = $props();
@@ -21,8 +21,8 @@
   <p data-heat-empty class="text-sm text-muted-foreground">{view.reason}</p>
 {:else}
   <!-- The grid scrolls in its own box rather than clipping at the card edge: eleven
-       dimension columns need ~645px of min-content, which is more than a `half`
-       tile gets at any window width. -->
+     dimension columns need ~645px of min-content, which is more than a `half`
+     tile gets at any window width. -->
   <div data-heat-scroll class="overflow-x-auto">
     <table class="w-full border-separate border-spacing-1 text-xs">
       <thead>

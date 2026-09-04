@@ -215,7 +215,7 @@ describe('sample workbook — the S7 strata demo (sovereign software on compelle
 describe('sample workbook — the S8 credibility demo (identical numbers, different credibility)', () => {
   // SPRAYED: every gesture a group sweep, zero evidence. CONSIDERED: the same seals
   // placed chip by chip, every gating answer evidenced. The engine scores them
-  // identically (invariant #4) — only the lens tells them apart.
+  // identically — only the lens tells them apart.
   const sprayed: Answer[] = [
     ...placeGroupParty([], PARTIES, 'SOV-2.q1', { state: 'answered', rungId: rungIdFor('SOV-2.q1', 4) }, 'g1'),
     ...placeGroupParty([], PARTIES, 'SOV-2.q2', { state: 'answered', rungId: rungIdFor('SOV-2.q2', 3) }, 'g2'),

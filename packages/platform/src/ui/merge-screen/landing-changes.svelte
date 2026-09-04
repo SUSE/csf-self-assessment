@@ -16,7 +16,7 @@
     selected: RecordRef | null;
     filtered: boolean;
     /** Collapsing the group that HOLDS the anchored record drops the anchor —
-     *  otherwise `holdsSelected` keeps forcing it open and the control is dead. */
+     * otherwise `holdsSelected` keeps forcing it open and the control is dead.*/
     onSelect: (ref: RecordRef | null) => void;
     onOpenQuestion: (questionId: string, target: Target) => void;
   };

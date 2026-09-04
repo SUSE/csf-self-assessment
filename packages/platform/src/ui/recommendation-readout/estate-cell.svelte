@@ -1,7 +1,7 @@
 <script lang="ts">
   // One test estate's hearing: the estate, and how many of the authored offers it
   // would be shown. Internal to recommendation-readout.
-  //
+  
   // These were full-width rows with the count pushed to the far edge, which at a
   // wide viewport left ~1700px between an estate's name and its own number — a
   // pair the eye cannot read as a pair. As cells in a wrapping row they sit three

@@ -6,12 +6,12 @@
   import { PALETTES, theme } from './theme.svelte';
 
   // Palette picker for the app header — the *what colours* axis. Light/dark is
-  // the separate ThemeToggle beside it; the two are deliberately not merged into
+  // the separate ThemeToggle beside it. the two are deliberately not merged into
   // one list of eight, so the mode toggle stays a single-click affordance.
-  //
+  
   // An anchored popover, not a modal (a palette switch is a lightweight
   // preference), and a real <button> per option so it is keyboard-complete
-  // (invariant #8). Choosing does NOT dismiss: switching palette repaints the
+  // . Choosing does NOT dismiss: switching palette repaints the
   // whole app behind the popover, and staying open is what lets you flick
   // between palettes and compare.
 
@@ -22,7 +22,7 @@
 
 <Popover.Root bind:open>
   <!-- Popover.Trigger renders its own <button>, so it takes the Button recipe as
-       classes rather than wrapping a <Button> — the same idiom as question-nav. -->
+     classes rather than wrapping a <Button> — the same idiom as question-nav. -->
   <Popover.Trigger
     class={buttonVariants({ variant: 'ghost', size: 'icon' })}
     aria-label="Change colour palette"

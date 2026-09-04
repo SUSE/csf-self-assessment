@@ -8,18 +8,18 @@
   // One rung of the binding ramp. The header is the finding and the questions are
   // its evidence, so the header is the disclosure — flat, five rungs bury the bars
   // under two dozen grey lines in an 18rem rail.
-  //
+  
   // Rows carry no seal: the rung above them is already the badge.
   type Props = {
     seal: Seal;
-    /** The rung's authored name, blank when the workbook does not name it. */
+    /** The rung's authored name, blank when the workbook does not name it.*/
     name: string;
     questions: Question[];
-    /** This rung's share of the binding answers, for the bar's width. */
+    /** This rung's share of the binding answers, for the bar's width.*/
     share: number;
-    /** Open at rest — the cap rung is the one the reader came for. */
+    /** Open at rest — the cap rung is the one the reader came for.*/
     open?: boolean;
-    /** Given, each question is the control that opens it on the fill surface. */
+    /** Given, each question is the control that opens it on the fill surface.*/
     onOpenQuestion?: ((id: string) => void) | undefined;
   };
   let { seal, name, questions, share, open = false, onOpenQuestion }: Props = $props();

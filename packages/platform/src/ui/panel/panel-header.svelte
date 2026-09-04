@@ -9,15 +9,15 @@
   export type PanelHeaderProps = {
     title: string;
     /** `eyebrow` is the author side's register, `plain` the Merge side's. Both
-     *  are preserved verbatim — see variants.ts on why the casing question is a
-     *  separate decision. */
+     * are preserved verbatim — see variants.ts on why the casing question is a
+     * separate decision.*/
     tone?: PanelHeaderTone;
     /** Heading rank. A panel that is one of a screen's top-level sections is a
-     *  2; a panel nested inside one of those is a 3 (the default, and what the
-     *  Merge review's sections are). */
+     * 2. a panel nested inside one of those is a 3 (the default, and what the
+     * Merge review's sections are).*/
     level?: 2 | 3;
     description?: string;
-    /** Right-aligned controls: the panel's own add/toggle/filter buttons. */
+    /** Right-aligned controls: the panel's own add/toggle/filter buttons.*/
     actions?: Snippet;
     class?: string;
   };
@@ -37,8 +37,8 @@
 <div class={cn('flex flex-wrap items-center gap-3', className)} data-slot="panel-header">
   <div class="min-w-0 flex-1 space-y-1">
     <!-- The rank is a prop rather than a fixed tag because the visual register
-         and the document outline are different questions: an eyebrow can head a
-         top-level section or a nested one, and only the caller knows which. -->
+     and the document outline are different questions: an eyebrow can head a
+     top-level section or a nested one, and only the caller knows which. -->
     <svelte:element this={`h${level}`} class={headerVariants({ tone })}>{title}</svelte:element>
     {#if description}
       <p class="text-sm text-muted-foreground">{description}</p>

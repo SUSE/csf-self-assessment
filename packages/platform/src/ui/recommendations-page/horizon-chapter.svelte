@@ -11,7 +11,7 @@
   }: {
     chapter: HorizonChapter;
     /** Where this chapter starts in the vendor series, so no two adjacent offers
-     *  wear the same hue across the page. */
+     * wear the same hue across the page.*/
     accentFrom: number;
   } = $props();
 </script>

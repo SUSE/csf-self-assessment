@@ -1,15 +1,15 @@
 import type { ReportVendor } from './vendor';
 
-/** Which offers answer which reading, by the reading's own id. A reading names
- *  questions; an offer's TRIGGER covers questions (`RecommendationCard.questions`,
- *  specs/recommendations.md §4.3); where the two meet, the finding can point at
- *  the offer without the offer moving into the finding.
- *
- *  Values are the offer ORDINALS the vendor chapter prints — the reader's handle
- *  on the page, and the only number the pointer carries. */
+// Which offers answer which reading, by the reading's own id. A reading names
+// questions; an offer's TRIGGER covers questions (`RecommendationCard.questions`)
+// Where the two meet, the finding can point at the offer without the offer moving
+// into the finding.
+//
+// Values are the offer ORDINALS the vendor chapter prints — the reader's handle
+// on the page, and the only number the pointer carries.
 export type OfferPointers = Readonly<Record<string, number[]>>;
 
-/** question id → the ordinals of every offer whose trigger covers it. */
+// question id → the ordinals of every offer whose trigger covers it.
 function ordinalsByQuestion(vendor: ReportVendor | null): Map<string, number[]> {
   const byQuestion = new Map<string, number[]>();
   if (vendor === null) return byQuestion;
@@ -27,8 +27,8 @@ function ordinalsByQuestion(vendor: ReportVendor | null): Map<string, number[]> 
   return byQuestion;
 }
 
-/** The pointers for one document: reading id → offer ordinals, ascending. A
- *  reading with no offer behind it is absent rather than empty. */
+// The pointers for one document: reading id → offer ordinals, ascending. A
+// reading with no offer behind it is absent rather than empty.
 export function offerPointers(
   vendor: ReportVendor | null,
   questionsByReading: Readonly<Record<string, string[]>>,

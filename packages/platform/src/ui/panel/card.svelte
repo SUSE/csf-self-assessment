@@ -10,12 +10,12 @@
 
   // The object a person reads and acts on. Sits UP out of a well, back at the
   // panel's own surface.
-  //
+  
   // `state` is the one place a surface carries meaning: `open` puts `--warning`
   // on the perimeter so the remaining work in a long queue is scannable,
   // `settled` drops the lift so a worked-down queue visibly flattens. Colour is
   // never the only carrier — every site that passes `state` also shows the word.
-  //
+  
   // Defaults to `article` because a card is nearly always a self-contained item
   // in a list.
   export type CardProps = SurfaceAttributes & {

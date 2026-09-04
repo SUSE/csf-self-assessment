@@ -8,8 +8,8 @@
   // One provenance ratio: what it describes, what it measures, and the share drawn
   // under it. Two lines, whatever the estate — the sentence these replace grew with
   // the numbers in it and wrapped to three at a third of the row.
-  //
-  // The whole row is the hit target; where no session runs it is plain text, never a
+  
+  // The whole row is the hit target. where no session runs it is plain text, never a
   // control that no-ops.
   let {
     label,
@@ -18,10 +18,10 @@
     mark,
   }: {
     label: string;
-    /** The measurement in words — `9 of 84 · 10.7%`. */
+    /** The measurement in words — `9 of 84 · 10.7%`.*/
     value: string;
     fraction: number;
-    /** Which ratio this is: the `data-credibility-*` hook AND the rail's own id. */
+    /** Which ratio this is: the `data-credibility-*` hook AND the rail's own id.*/
     mark: ProvenanceFact;
   } = $props();
 
@@ -36,7 +36,7 @@
     <span class="shrink-0 text-muted-foreground tabular-nums">{value}</span>
   </p>
   <!-- The measured part takes the series colour, so the reading is the coloured
-       run rather than a grey bar the eye has to compare against its own track. -->
+     run rather than a grey bar the eye has to compare against its own track. -->
   <RatioBar {fraction} fill="series" class="mt-1 w-full" data-credibility-bar={mark} />
 {/snippet}
 

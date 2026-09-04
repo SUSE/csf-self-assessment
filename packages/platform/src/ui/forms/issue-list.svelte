@@ -7,7 +7,7 @@
   // per message — was written out ten times across the workbench, the editors and
   // both panels. It renders nothing when there is nothing wrong, so a caller can
   // place it unconditionally.
-  //
+  
   // Scoping stays with the caller: only the section knows which issue paths are
   // its own, and a section that shows an issue it doesn't own sends the author
   // to the wrong control.

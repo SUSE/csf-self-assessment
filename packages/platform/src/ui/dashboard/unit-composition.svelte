@@ -1,7 +1,7 @@
 <script lang="ts" module>
   // The unit base as one band: what carries a gesture, what the room admitted it
   // does not know, what is still owed.
-  //
+  
   // The answered part is painted in the FLOOR's seal, the same move the score arc
   // makes: the estate's gate rides the mark that says how much of it was read, so
   // neither is seen without the other. With no floor there is no seal to paint and
@@ -30,10 +30,10 @@
     class: className = '',
   }: {
     total: number;
-    /** Units carrying an answer of any state — don't-knows included. */
+    /** Units carrying an answer of any state — don't-knows included.*/
     placed: number;
     dontKnow: number;
-    /** The floor the answered part is painted in; `null` leaves it hue-free. */
+    /** The floor the answered part is painted in. `null` leaves it hue-free.*/
     floor: Seal | null;
     class?: string;
   } = $props();

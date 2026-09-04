@@ -9,7 +9,7 @@ describe('the Alex/Jane fixture pair, classified', () => {
     expect(ALEX.claims).toHaveLength(4);
     expect(JANE.answers).toHaveLength(61);
     // Four narrowed claims plus a blanket one; without it 33 of her answers
-    // would be `out-of-claim`, a state answering cannot produce (delivery §2.3.4).
+    // would be `out-of-claim`, a state answering cannot produce.
     expect(JANE.claims).toHaveLength(5);
     for (const partial of [ALEX, JANE]) {
       expect(partial.meta.workbookAssessment).toBe('wa-2026-08-07T16:13:36.472Z');

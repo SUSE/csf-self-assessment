@@ -1,6 +1,6 @@
 // A ONE-OFF conversion script: it turns docs/eu-csf/calculator.xlsx into
 // samples/ec-guidance-complete/workbook.json, which is committed and is what the
-// product loads. The product never parses a spreadsheet (invariant #15), and
+// product loads. The product never parses a spreadsheet , and
 // docs/eu-csf/calculator.xlsx is read-only (it is never written by this tool).
 // Run as `node tools/ec-calculator-workbook.mjs` from the repo root.
 
@@ -9,10 +9,10 @@ import { fileURLToPath } from 'node:url';
 
 import { extractSource } from './ec-calculator-source.mjs';
 
-/** The five questions that score but never gate (spec §2.8). */
+// The five questions that score but never gate.
 export const RANKING_QUESTION_IDS = ['SOV-3.5', 'SOV-5.1', 'SOV-5.2', 'SOV-5.3', 'SOV-6.5'];
 
-/** Repo-relative output path. */
+// Repo-relative output path.
 export const OUTPUT_PATH = 'samples/ec-guidance-complete/workbook.json';
 
 const SOURCE_PATH = 'docs/eu-csf/calculator.xlsx';
@@ -91,7 +91,7 @@ function estate(id, name, description, answers) {
   };
 }
 
-/** @returns {object} the workbook, ready for JSON.stringify — WorkbookSchema-valid. */
+// @returns {object} the workbook, ready for JSON.stringify — WorkbookSchema-valid.
 export function buildWorkbook(source) {
   const objectives = source.objectives.map((objective) => ({
     id: objective.id,

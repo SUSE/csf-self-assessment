@@ -19,33 +19,31 @@ import { WhatsLeftTile } from './tiles/whats-left-tile';
 
 export type TileEntry = { def: TileDef; component: Component<TileProps> };
 
-/**
- * Tiles are code, not data (analytics invariant #6): a typed array of
- * components. No layout persistence, no configuration format, ever.
- *
- * `width` / `grow` / `min` are claims about a tile's CONTENT, not layout
- * preferences (tile-width.ts). Read them that way when changing one:
- *
- * - `half` is what the four heat tiles share, because they are one component on
- *   four axes and placing them as anything but equals would rank them. `floor`
- *   and `score` pair the same way: the two numbers the product refuses to
- *   collapse (product principle #1) are declared equal and read as equal.
- * - `full` is for a band whose answer runs across the row — an owner ledger, a
- *   ranked list of moves. No tile claims it today.
- * - `grow` is for a body that can spend surplus width on more content, not on
- *   more air. `floor` carries a level name and a paragraph under its number, so
- *   it can; a figure never can, and the type forbids it saying otherwise.
- * - `min` is measured, not preferred. The four heat tiles share one floor rather
- *   than each taking its own from its pivot count: with `heat-dimension`'s
- *   eleven columns set higher than the rest, a narrowing row broke the set into
- *   1 / 2 / 1 — four equals reflowing as three unequal lines. A set wraps as a
- *   set, so the binding floor is the set's floor.
- *
- * No tile currently declares `sixth`. It stayed in the vocabulary because the
- * module needs a unit, but the first attempt at this registry spent it on
- * `floor` and `score` and it was wrong — 187px is a sliver for a number that
- * carries a sentence. Reach for it only for something genuinely wordless.
- */
+// Tiles are code, not data (analytics): a typed array of
+// components. No layout persistence, no configuration format, ever.
+//
+// `width` / `grow` / `min` are claims about a tile's CONTENT, not layout
+// preferences (tile-width.ts). Read them that way when changing one:
+//
+// - `half` is what the four heat tiles share, because they are one component on
+// four axes and placing them as anything but equals would rank them. `floor`
+// and `score` pair the same way: the two numbers the product refuses to
+// collapse (product principle #1) are declared equal and read as equal.
+// - `full` is for a band whose answer runs across the row — an owner ledger, a
+// ranked list of moves. No tile claims it today.
+// - `grow` is for a body that can spend surplus width on more content, not on
+// more air. `floor` carries a level name and a paragraph under its number, so
+// it can; a figure never can, and the type forbids it saying otherwise.
+// - `min` is measured, not preferred. The four heat tiles share one floor rather
+// than each taking its own from its pivot count: with `heat-dimension`'s
+// eleven columns set higher than the rest, a narrowing row broke the set into
+// 1 / 2 / 1 — four equals reflowing as three unequal lines. A set wraps as a
+// set, so the binding floor is the set's floor.
+//
+// No tile currently declares `sixth`. It stayed in the vocabulary because the
+// module needs a unit, but the first attempt at this registry spent it on
+// `floor` and `score` and it was wrong — 187px is a sliver for a number that
+// carries a sentence. Reach for it only for something genuinely wordless.
 export const TILES: readonly TileEntry[] = [
   {
     def: {
@@ -150,7 +148,7 @@ export const TILES: readonly TileEntry[] = [
       grow: true,
       min: 26,
       tints: true,
-      // A cell press inspects the answers behind it; row labels are spelled out at
+      // A cell press inspects the answers behind it. row labels are spelled out at
       // every width now, so nothing is left for a maximised grid to add.
       maximises: false,
     },
@@ -166,7 +164,7 @@ export const TILES: readonly TileEntry[] = [
       grow: true,
       min: 26,
       tints: true,
-      // A cell press inspects the answers behind it; row labels are spelled out at
+      // A cell press inspects the answers behind it. row labels are spelled out at
       // every width now, so nothing is left for a maximised grid to add.
       maximises: false,
     },
@@ -182,7 +180,7 @@ export const TILES: readonly TileEntry[] = [
       grow: true,
       min: 26,
       tints: true,
-      // A cell press inspects the answers behind it; row labels are spelled out at
+      // A cell press inspects the answers behind it. row labels are spelled out at
       // every width now, so nothing is left for a maximised grid to add.
       maximises: false,
     },
@@ -198,7 +196,7 @@ export const TILES: readonly TileEntry[] = [
       grow: true,
       min: 26,
       tints: true,
-      // A cell press inspects the answers behind it; row labels are spelled out at
+      // A cell press inspects the answers behind it. row labels are spelled out at
       // every width now, so nothing is left for a maximised grid to add.
       maximises: false,
     },

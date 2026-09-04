@@ -3,86 +3,86 @@ import { gates, scores, type ExposureEdge } from '../../score-engine';
 import { attainablePoints, findAnswer, questionUnits, rungIn, sealOfAnswer, targetKey } from '../../assessment';
 import { exposureReader, informative, type ExposureMarker } from '../wheel';
 
-// The pure model behind QuestionWheel (spec §4.1, delivery §4.2). One question's
+// The pure model behind QuestionWheel. One question's
 // fan-out laid out as spokes: the ANGLE is the target unit, the RADIUS is the SEAL
-// rung placed on it (rung position IS the level, CONTEXT.md §Rung), so an unplaced
+// rung placed on it (rung position IS the level, ), so an unplaced
 // unit is a spoke with no dot and the units that gate collapse visually onto the
 // innermost dot.
-//
+
 // Units come from `questionUnits()` — the same function the fill surface walks — so
 // the wheel never invents its own fan-out and inherits split semantics for free
-// (spec §5.1: once a stratum refinement exists, the dimension is assessed per
+// (: once a stratum refinement exists, the dimension is assessed per
 // stratum and the whole-dimension answer is superseded).
-//
+
 // OUTSIDE the rim sits the `serves` EDGES (ui/wheel/exposure) — what the heat map
 // structurally cannot show, since party answers report into the objective column
-// and are never painted across dimension rows (spec §2.2.6).
-//
+// and are never painted across dimension rows.
+
 // This module computes NO estate truth. `bindingPotential` is the minimum over
 // THIS question's gating units — the "per-answer binding potential" the fill
-// surface is explicitly allowed to show (delivery §4.2). It is not the estate
+// surface is explicitly allowed to show. It is not the estate
 // floor: only a finalized assessment carries one, and only `evaluate()` computes
-// it (invariant #3). Marker seals are likewise an INPUT, taken from the engine's
+// it. Marker seals are likewise an INPUT, taken from the engine's
 // exposure result; the wheel never derives a party's compellability itself.
 
 export type WheelUnitState = 'unanswered' | 'answered' | 'dont-know' | 'na';
 
 export type WheelUnit = {
-  /** `targetKey(target)` — stable across renders. */
+  // `targetKey(target)` — stable across renders.
   key: string;
   target: Target;
-  /** Chip name: the dimension, the party, or the estate. */
+  // Chip name: the dimension, the party, or the estate.
   label: string;
-  /** Second line: the stratum, the party type, or ''. */
+  // Second line: the stratum, the party type, or ''.
   sub: string;
-  /** Whether a bad answer here can floor the estate: critical dimensions, every
-   * party unit, and the assessment unit — and only while the question is material. */
+  // Whether a bad answer here can floor the estate: critical dimensions, every
+  // party unit, and the assessment unit — and only while the question is material.
   gates: boolean;
   state: WheelUnitState;
   seal: Seal | null;
-  /** An answered unit carrying an evidence note (spec §5.3). */
+  // An answered unit carrying an evidence note.
   evidence: boolean;
-  /** Placed by a group gesture — the swept share the credibility lens reports
-   * (spec §5.2). Description, never judgment: the engine scores it identically. */
+  // Placed by a group gesture — the swept share the credibility lens reports
+  // . Description, never judgment: the engine scores it identically.
   swept: boolean;
-  /** Third parties serving this unit's dimension. Empty on party and assessment
-   * units, and empty whenever no exposure edges were supplied. */
+  // Third parties serving this unit's dimension. Empty on party and assessment
+  // units, and empty whenever no exposure edges were supplied.
   exposure: ExposureMarker[];
 };
 
 export type WheelModel = {
   units: WheelUnit[];
-  /** Whether this question's answers can gate the estate floor at all — the
-   *  per-unit `gates` also requires a critical dimension. Replaces `material`. */
+  // Whether this question's answers can gate the estate floor at all — the
+  // per-unit `gates` also requires a critical dimension. Replaces `material`.
   gatesFloor: boolean;
-  /** Minimum over gating ANSWERED units. Not the estate floor — see module note. */
+  // Minimum over gating ANSWERED units. Not the estate floor — see module note.
   bindingPotential: Seal | null;
-  /** Don't-knows on gating units: the holes that travel with the floor
-   * inseparably ("SEAL-2 · 1 unknown", invariant #5). */
+  // Don't-knows on gating units: the holes that travel with the floor
+  // inseparably ("SEAL-2 · 1 unknown",).
   unknowns: number;
-  /** Every don't-know on this question, gating or not. */
+  // Every don't-know on this question, gating or not.
   dontKnowTotal: number;
-  /** Units with no record at all — a progress state, never a zero. */
+  // Units with no record at all — a progress state, never a zero.
   open: number;
   na: number;
   placed: number;
   gating: number;
   evidenced: number;
   swept: number;
-  /** The answered units' authored rung points (rulebook §6). */
+  // The answered units' authored rung points (rulebook §6).
   earned: number;
-  /** max(rung.points) per unit still in the denominator: answered and unanswered
-   * count, don't-know and n/a are removed. */
+  // max(rung.points) per unit still in the denominator: answered and unanswered
+  // count, don't-know and n/a are removed.
   attainable: number;
-  /** The widest marker stack on any unit — what the label ring must clear. A
-   * don't-know takes the first slot (it sits outside the ladder, not on a rung),
-   * then the served parties stack outward behind it. */
+  // The widest marker stack on any unit — what the label ring must clear. A
+  // don't-know takes the first slot (it sits outside the ladder, not on a rung),
+  // then the served parties stack outward behind it.
   maxMarkerStack: number;
-  /** The widest served-party stack alone. */
+  // The widest served-party stack alone.
   maxExposure: number;
-  /** False when every unit would show an identical marker set: with one provider
-   * serving everything the ring is noise, so hosts default to hiding it. A
-   * single-unit question is always informative — there is nothing to compare. */
+  // False when every unit would show an identical marker set: with one provider
+  // serving everything the ring is noise, so hosts default to hiding it. A
+  // single-unit question is always informative — there is nothing to compare.
   exposureInformative: boolean;
 };
 
@@ -219,7 +219,7 @@ export function unitTitle(unit: WheelUnit): string {
   return `${name} — no record yet, ${gate}${served}`;
 }
 
-/** The <desc> prose: what the picture says, for a screen reader. */
+// The <desc> prose: what the picture says, for a screen reader.
 export function wheelSummary(model: WheelModel, exposed: boolean): string {
   const undefended = model.gating - model.evidenced;
   const ring = exposed
@@ -233,8 +233,8 @@ export function wheelSummary(model: WheelModel, exposed: boolean): string {
   );
 }
 
-/** True when this unit's dot sits on the question's binding rung and the host
- *  asked for the binding ring. */
+// True when this unit's dot sits on the question's binding rung and the host
+// asked for the binding ring.
 export function isBinding(model: WheelModel, unit: WheelUnit, showBinding: boolean): boolean {
   return (
     showBinding &&

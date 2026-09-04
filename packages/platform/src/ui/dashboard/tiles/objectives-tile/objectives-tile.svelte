@@ -7,7 +7,7 @@
   // its authored weight and as long as its SEAL standing. The model owns every
   // string — the headline is the tile's answer in words, the caption is how to
   // read the figure.
-  //
+  
   // The tile declares `maximises: false` (registry.ts): the ring already labels
   // every wedge with its name and `20% · SEAL-1`, so the four-column table this
   // used to gain maximised restated the figure it sat under.

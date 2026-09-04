@@ -12,12 +12,12 @@
   // The workbench's Dimensions focus: the table of dimensions with their strata
   // and the critical flag. It holds NO edit logic and NO validation — pure ops
   // build the next draft, and the strict issues under `dimensions` arrive
-  // pre-computed from the stage. RecordTable owns the table shell; this file is
+  // pre-computed from the stage. RecordTable owns the table shell. this file is
   // the columns, the copy and the wiring.
   type Props = {
     draft: Workbook;
     issues: ZodIssue[];
-    /** A row id to flash when the overview's instrument wheel deep-links here. */
+    /** A row id to flash when the overview's instrument wheel deep-links here.*/
     highlight?: string | null;
     onDraft: (next: Workbook) => void;
   };

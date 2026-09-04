@@ -5,12 +5,12 @@
   // A ratio drawn as a track and a fill. What the fill means is the caller's claim
   // — the same three-way choice `unit-composition` makes on its band: a seal, the
   // act-here amber for a tail owed (a backlog is not a level), or structural ink.
-  //
+  
   // `align="end"` parks the fill at the far end of the track, for a share that
   // is the tail left of a whole rather than progress made: a 3%-filled bar
   // growing from the left beside "3 of 90 units" reads as "almost nothing done"
   // when the truth is the opposite.
-  //
+  
   // Any extra attributes land on the fill, which is the part a test looks for.
   let {
     fraction,
@@ -21,7 +21,7 @@
   }: {
     fraction: number;
     align?: 'start' | 'end';
-    /** The seal this share stands at, `open` for a tail owed, `ink` for neither. */
+    /** The seal this share stands at, `open` for a tail owed, `ink` for neither.*/
     fill?: ShareFill;
     class?: string;
     [attr: string]: unknown;

@@ -3,14 +3,14 @@ import { choiceKey } from './choices';
 import type { LandingClash, ReviewCandidate, UnitClash } from './clash-types';
 import { describeTarget } from './index';
 
-// What the merge core suggests on a clash (merge.md §2.2/§2.3): the ladder on a
+// What the merge core suggests on a clash: the ladder on a
 // divergence, the class's own default otherwise. A suggestion is never a
-// decision — `land` still counts an unclicked clash undecided (invariant #1).
+// decision — `land` still counts an unclicked clash undecided.
 
-/** Why a choice is suggested. `authority` carries the ladder verdict (a
- *  winner's tier is never `out-of-claim` — that rung outranks nothing);
- *  `evidence` is the within-tier tiebreak; the last three are the class's own
- *  default (merge.md §2.2). */
+// Why a choice is suggested. `authority` carries the ladder verdict (a
+// winner's tier is never `out-of-claim` — that rung outranks nothing);
+// `evidence` is the within-tier tiebreak; the last three are the class's own
+// default.
 export type SuggestionBasis =
   | { kind: 'authority'; tier: 'owner' | 'blanket'; winner: string; loser: string }
   | { kind: 'evidence'; winner: string }
@@ -18,9 +18,9 @@ export type SuggestionBasis =
   | { kind: 'scope'; excludedBy: string }
   | { kind: 'grain' };
 
-/** The pre-selected choice on a clash. `key` matches the `key` of the
- *  `ClashOption` it suggests, so a component compares keys and computes
- *  nothing. */
+// The pre-selected choice on a clash. `key` matches the `key` of the
+// `ClashOption` it suggests, so a component compares keys and computes
+// nothing.
 export type Suggestion = { key: string; choice: ClashChoice; basis: SuggestionBasis };
 
 const RUNG: Record<Authority, number> = { owner: 2, blanket: 1, 'out-of-claim': 0 };
@@ -32,8 +32,8 @@ const takeFrom = (candidate: ReviewCandidate, basis: SuggestionBasis): Suggestio
   return { key: choiceKey(choice), choice, basis };
 };
 
-/** The suggested choice, or null on a full tie (merge.md §2.3.1). Never
- *  applied — `land` still counts an unclicked clash undecided (invariant #1). */
+// The suggested choice, or null on a full tie (merge.md §2.3.1). Never
+// applied — `land` still counts an unclicked clash undecided.
 export function suggest(clash: LandingClash): Suggestion | null {
   if (clash.kind === 'grain-clash') {
     const choice: ClashChoice = { kind: 'grain', keep: 'strata' };
@@ -61,11 +61,11 @@ function ladder(clash: UnitClash): Suggestion | null {
     return winner.authority === 'out-of-claim'
       ? null
       : takeFrom(winner, {
-          kind: 'authority',
-          tier: winner.authority,
-          winner: winner.from,
-          loser: loser.from,
-        });
+        kind: 'authority',
+        tier: winner.authority,
+        winner: winner.from,
+        loser: loser.from,
+      });
   }
   const baseEvidence = hasEvidence(base.answer);
   const incomingEvidence = hasEvidence(incoming.answer);
@@ -74,9 +74,9 @@ function ladder(clash: UnitClash): Suggestion | null {
   return takeFrom(winner, { kind: 'evidence', winner: winner.from });
 }
 
-/** A suggestion rendered for the card: the option to pre-select and the
- *  reason that must be visible beside it (merge.md §2.3.2 — never a bare
- *  pre-selection). Null when there is no suggestion. */
+// A suggestion rendered for the card: the option to pre-select and the
+// reason that must be visible beside it ( — never a bare
+// pre-selection). Null when there is no suggestion.
 export type SuggestedChoice = { key: string; reason: string };
 
 export function suggestedChoice(clash: LandingClash, wa: WorkbookAssessment): SuggestedChoice | null {

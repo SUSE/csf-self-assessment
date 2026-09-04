@@ -24,8 +24,8 @@ export const SealLevelSchema = z.object({
 });
 
 // A canonical technical dimension. `strata` names the layers it can split into
-// (spec §2.3); absent = unsplittable. `critical` is the FIRM authored flag the
-// SEAL gate reads directly (delivery §2.1) — every authored dimension is in
+// . absent = unsplittable. `critical` is the FIRM authored flag the
+// SEAL gate reads directly — every authored dimension is in
 // scope, so there is no "declared" flag and no structural n/a.
 export const DimensionSchema = z.object({
   id: z.string().min(1),
@@ -34,7 +34,7 @@ export const DimensionSchema = z.object({
   critical: z.boolean().default(false),
 });
 
-// A rung is a thing in its own right (ADR-0022): a frozen id, its text, its
+// A rung is a thing in its own right: a frozen id, its text, its
 // authored points (the ranking currency) and its SEAL tag (the gating axis).
 // Neither axis is derived from the other; neither identifies the rung.
 export const RungSchema = z.object({
@@ -60,7 +60,7 @@ export const PartyQuestionSchema = z.object({
 });
 
 // Dimension grain: answered once per applicable dimension, which `appliesTo`
-// names (grain↔appliesTo consistency, spec §3).
+// names (grain↔appliesTo consistency, ).
 export const DimensionQuestionSchema = z.object({
   id: z.string().min(1),
   grain: z.literal('dimension'),
@@ -82,7 +82,7 @@ export const QuestionSchema = z.discriminatedUnion('grain', [
 export const ObjectiveSchema = z.object({
   id: z.string().min(1),
   name: z.string().min(1),
-  // Optional: a required '' would be a lie (spec §5). Absent = no description.
+  // Optional: a required '' would be a lie. Absent = no description.
   description: z.string().min(1).optional(),
   weight: z.number().int().min(0).max(100),
   questions: z.array(QuestionSchema).min(1, {
@@ -103,7 +103,7 @@ export const TestEstateAnswerSchema = z.object({
 
 // A reference estate the author tests the workbook against: a name + story, its
 // concrete PARTIES (for the exposure map), and sparse answers. Every workbook
-// dimension is in scope and criticality is authored (delivery §2.1), so there is
+// dimension is in scope and criticality is authored, so there is
 // no per-estate profile. Workbook data; the participant app ignores it.
 export const TestEstateSchema = z.object({
   id: z.string().min(1),
@@ -116,11 +116,11 @@ export const TestEstateSchema = z.object({
 // --- recommendations -----------------------------------------------------
 
 // The authored band a recommendation belongs to, 1:1 with the two band tiles —
-// the typed replacement for the reference's magic `quick-win` tag (ADR-0016).
+// the typed replacement for the reference's magic `quick-win` tag.
 export const HorizonSchema = z.enum(['renewal', 'strategic']);
 
 // The authored, typed pointer from a recommendation to what it speaks to
-// (ADR-0016). Several links mean UNION — never a boolean expression.
+// . Several links mean UNION — never a boolean expression.
 export const RecommendationLinkSchema = z.discriminatedUnion('kind', [
   z.object({ kind: z.literal('question'), id: z.string().min(1) }),
   z.object({ kind: z.literal('dimension'), id: z.string().min(1) }),

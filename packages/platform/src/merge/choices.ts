@@ -3,17 +3,17 @@ import { targetKey } from '../assessment';
 import { answerLabel, rungLabel } from '../utils/answer-label';
 import type { LandingClash, ReviewCandidate, UnitClash } from './clash-types';
 
-// The enumerated resolutions a clash offers (merge.md §2.2, invariant #9) and
+// The enumerated resolutions a clash offers and
 // the decision list they accumulate into: the set IS the truth, and these labels
 // are the ledger's vocabulary. Components render them; nothing invents an option
 // in markup.
 
 const unitKey = (questionId: string, target: Target): string => `${questionId} ${targetKey(target)}`;
 
-/** Record a decision: the resolutions with any previous decision on the same
- *  unit replaced, the new one appended last. A changed mind is a replacement
- *  here and an appended RECORD at landing — the ledger is what is append-only
- *  (merge.md §2.4.4), not the undecided draft. */
+// Record a decision: the resolutions with any previous decision on the same
+// unit replaced, the new one appended last. A changed mind is a replacement
+// here and an appended RECORD at landing — the ledger is what is append-only,
+// not the undecided draft.
 export function upsertResolution(
   resolutions: ClashResolution[],
   resolution: ClashResolution,
@@ -22,9 +22,9 @@ export function upsertResolution(
   return [...resolutions.filter((r) => unitKey(r.questionId, r.target) !== key), resolution];
 }
 
-/** One enumerated resolution a facilitator may pick for a clash (merge.md §2.2).
- *  `key` identifies the option in the radio group AND matches an existing
- *  resolution's choice. */
+// One enumerated resolution a facilitator may pick for a clash (merge.md §2.2).
+// `key` identifies the option in the radio group AND matches an existing
+// resolution's choice.
 export type ClashOption = { key: string; label: string; choice: ClashChoice };
 
 export function choiceKey(choice: ClashChoice): string {
@@ -44,8 +44,8 @@ const take = (candidate: ReviewCandidate, label: string): ClashOption => ({
   choice: { kind: 'take', from: candidate.from },
 });
 
-/** The choices this clash offers, in presentation order. A resolution the engine
- *  would override is never among them (invariant #9). */
+// The choices this clash offers, in presentation order. A resolution the engine
+// would override is never among them.
 export function optionsFor(clash: LandingClash, question: Question): ClashOption[] {
   if (clash.kind === 'grain-clash') {
     const count = clash.strata.length;
@@ -100,22 +100,22 @@ function scopeOptions(clash: UnitClash, question: Question): ClashOption[] {
   ];
 }
 
-/** One re-answer option resolved against the rung it names — one cell of the
- *  queue's re-answer strip. `position` is what the cell PRINTS, because a
- *  repeated SEAL makes the SEAL digit name nothing (instrument.md §4.1–4.2). */
+// One re-answer option resolved against the rung it names — one cell of the
+// queue's re-answer strip. `position` is what the cell PRINTS, because a
+// repeated SEAL makes the SEAL digit name nothing.
 export type ReanswerCell = {
   key: string;
   rungId: string;
-  /** 1-based authored position. */
+  // 1-based authored position.
   position: number;
   seal: Seal;
-  /** The option's full sentence — the cell's accessible name. */
+  // The option's full sentence — the cell's accessible name.
   label: string;
 };
 
-/** `optionsFor`'s re-answer options paired with their rungs, in authored ladder
- *  order. An option naming no rung of this question is dropped, so no cell can
- *  fall back to a SEAL it did not read. */
+// `optionsFor`'s re-answer options paired with their rungs, in authored ladder
+// order. An option naming no rung of this question is dropped, so no cell can
+// fall back to a SEAL it did not read.
 export function reanswerCells(
   options: ClashOption[],
   question: Pick<Question, 'ladder'>,

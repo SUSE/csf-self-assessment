@@ -7,7 +7,7 @@
   // The sticky navigator over one Landing's affected records (landing-history §4.5):
   // Parties, then the objectives in workbook order, then the agreements — with a
   // search over the same records the changes column shows. Selecting an entry is the
-  // shell's business; this reports it and marks what is current.
+  // shell's business. this reports it and marks what is current.
   type Props = {
     groups: DetailGroup[];
     shown: number;
@@ -34,7 +34,7 @@
 >
   <h4 class={eyebrowVariants({ weight: 'medium' })}>Affected records</h4>
   <!-- The `forms` primitive rather than a hand-rolled input: it is the control
-       the rest of the merge surface uses, and it carries the focus ring. -->
+     the rest of the merge surface uses, and it carries the focus ring. -->
   <Input
     density="compact"
     aria-label="Search affected records"

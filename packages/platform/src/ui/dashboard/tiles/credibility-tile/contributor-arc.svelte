@@ -15,8 +15,8 @@
   // so the slice is `aria-hidden` and not a tab stop — two hit targets, one control,
   // rather than ten tab stops in one tile. The keyboard handler is still wired,
   // because the arc can be reached programmatically.
-  //
-  // The pressed state shows on the legend line, which has a box to fill; a slice of
+  
+  // The pressed state shows on the legend line, which has a box to fill. a slice of
   // a ring has neither a rest state to leave nor room for a ring of its own.
   let {
     row,
@@ -25,10 +25,10 @@
     thickness,
   }: {
     row: ContributorRow;
-    /** One `arcs` entry from layerchart's Pie: the angles this slice occupies. */
+    /** One `arcs` entry from layerchart's Pie: the angles this slice occupies.*/
     arc: { startAngle: number; endAngle: number; padAngle: number };
     ink: string;
-    /** Offset from the outer radius — the ring's weight, owned by the dial. */
+    /** Offset from the outer radius — the ring's weight, owned by the dial.*/
     thickness: number;
   } = $props();
 

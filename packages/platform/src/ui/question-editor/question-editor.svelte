@@ -25,22 +25,22 @@
   import RungRow from './rung-row.svelte';
   import { QUIET_FIELD } from './quiet-field';
 
-  // WYSIWYG question editing (spec §4.4): the ladder editor IS the ladder — the
+  // WYSIWYG question editing: the ladder editor IS the ladder — the
   // rungs that exist, in authored order, applicability picked as dimension chips,
   // grain toggled on the card, role badge and why-line edited where the
   // participant reads them.
-  //
+  
   // The card therefore wears the PARTICIPANT'S GEOMETRY, not a form's: the fill
   // card's header (identity strip → the question, loud → the why in its left-ruled
   // aside) over the fill card's body split (ui/answer-columns: the graded scale
   // left, everything that qualifies it right). Preview flips the card from edit to
   // fill, not a separate world — so the flip has to change the affordances and
   // leave the layout where it was.
-  //
+  
   // The split is flex-wrap, not a `lg:` grid, because the width this card gets is a
   // function of the two collapsible side panels rather than of the viewport: the
   // columns must fold when the rail narrows, whoever narrowed it.
-  //
+  
   // The editor holds NO edit logic — every change calls a pure op and emits the
   // whole next Workbook (design rule 1) — and every repeated part is a sibling
   // component (the strip, a rung, an estate's answer, a dimension), so this file
@@ -50,7 +50,7 @@
     question: Question;
     issues: ZodIssue[]; // already scoped to this question by the caller
     onDraft: (next: Workbook) => void;
-    /** Open a linked recommendation's own editor (the links row's titles). */
+    /** Open a linked recommendation's own editor (the links row's titles).*/
     onOpenRecommendation?: ((recommendationId: string) => void) | undefined;
   };
   let { draft, question, issues, onDraft, onOpenRecommendation }: Props = $props();
@@ -61,7 +61,7 @@
   let previewing = $state(false);
   let previewAnswers = $state<Answer[]>([]);
 
-  // The fill face previews against the workbook's own defaults (spec §4.3) — no
+  // The fill face previews against the workbook's own defaults — no
   // wizard inside a card. A card can flip only when the question alone is
   // schema-valid: the flip renders real participant components, which assume a
   // parsed question.
@@ -93,7 +93,7 @@
 {#if previewing}
   <div class="space-y-3">
     <!-- `px-6` matches the card's own padding, so the strip does not shift
-         sideways as the card flips out from under it. -->
+     sideways as the card flips out from under it. -->
     <div class="px-6">{@render metaStrip()}</div>
     <QuestionFill
       workbook={draft}
@@ -109,8 +109,8 @@
     {@render metaStrip()}
 
     <!-- The header block, measured. Capped at 72ch so the question breaks where a
-         sentence read aloud breaks (~50 characters at this size) and the why line
-         lands inside the 65–75ch a reader can track, however wide the stage gets. -->
+     sentence read aloud breaks (~50 characters at this size) and the why line
+     lands inside the 65–75ch a reader can track, however wide the stage gets. -->
     <div class="max-w-[72ch] space-y-2">
       <Textarea
         rows={2}
@@ -122,8 +122,8 @@
         oninput={(e) => onDraft(updateQuestion(draft, question.id, { text: e.currentTarget.value }))}
       />
       <!-- The `why` keeps the left-ruled aside it is read from (ui/question-header),
-           and states its own standing on hover rather than spending a caption line
-           on it at rest. -->
+     and states its own standing on hover rather than spending a caption line
+     on it at rest. -->
       <div class="group border-l-2 border-border pl-2" data-rule="why">
         <Textarea
           rows={2}
@@ -141,7 +141,7 @@
 
     <div class="flex flex-wrap items-start gap-x-6 gap-y-8">
       <!-- LEFT — the graded scale, the card's subject: what fans out, then the
-           ladder itself. -->
+     ladder itself. -->
       <div class="min-w-0 grow-[3] basis-[34rem] space-y-4">
         {#if dimensionQ}
           <div class="space-y-1.5" data-rule="3.6">
@@ -188,7 +188,7 @@
       </div>
 
       <!-- RIGHT — what qualifies the ladder: what is wrong with it, how the
-           reference estates answer it, and which offers point here. -->
+     reference estates answer it, and which offers point here. -->
       <div class="min-w-0 grow basis-[18rem] space-y-4">
         {#if issues.length > 0}
           <Inset density="xs" class="space-y-1">

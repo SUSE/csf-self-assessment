@@ -5,16 +5,16 @@
 
   // The previewed floor as a POSITION on the 0→4 scale, not as a word. ONE mark
   // only: the floor's own cell, at its own ramp intensity, so a low floor reads
-  // pale and a high one vivid; every other rung sits in the inert palest fill.
+  // pale and a high one vivid. every other rung sits in the inert palest fill.
   // Anything else on the strip competes with the mark — inking the whole ramp put
   // the vivid top cell ahead of the marked one, and a dashed outline on the rung
   // that lifting would reach was a second thing to decode. Where lifting leads is
   // said in words underneath instead. Computes nothing.
-  //
+  
   // The marked cell IS the disclosure control for the answers pinning the floor —
   // you open them from the thing they hold down, so there is no separate expand
   // button. It must therefore render inside the panel's `Collapsible.Root`, which
-  // owns `open`; this component only reads it to word the control.
+  // owns `open`. this component only reads it to word the control.
   type Props = { floor: LandingChecksView['floor']; open: boolean };
   let { floor, open }: Props = $props();
 

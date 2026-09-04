@@ -11,7 +11,7 @@
   // it for assistive tech only.
   type Props = {
     value: number;
-    /** Value over the column's maximum. */
+    /** Value over the column's maximum.*/
     fraction: number;
     unit: string;
   };

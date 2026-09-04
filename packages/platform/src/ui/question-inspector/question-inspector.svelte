@@ -26,20 +26,20 @@
   // this question's floor from it), each covered dimension / party / stratum with
   // its own selected seal, and the answer ladder with the chosen rung(s) marked —
   // so the list badge, the per-unit seals, and the ladder all read as one glance.
-  // It COUNTS nothing and never edits; the shaping is pure (see ./model) and the
+  // It COUNTS nothing and never edits. the shaping is pure (see ./model) and the
   // seals come from `answers` verbatim. This file is composition only.
   type Props = {
     workbook: Workbook;
     question: Question;
-    /** Concrete declared parties (party-axis fans over these). [] = none loaded. */
+    /** Concrete declared parties (party-axis fans over these). = none loaded.*/
     parties?: Party[];
-    /** The loaded assessment's answers. [] = a bare workbook, nothing selected. */
+    /** The loaded assessment's answers. = a bare workbook, nothing selected.*/
     answers?: Answer[];
-    /** The merge ledger behind the loaded assessment. [] = nothing landed, and
-     *  the blame section does not render. */
+    /** The merge ledger behind the loaded assessment. = nothing landed, and
+     * the blame section does not render.*/
     ledger?: Landing[];
     /** The exact answer unit to select, when the rail was opened from a Landing
-     *  panel (§4.6). Null = the whole question. */
+     * panel (§4.6). Null = the whole question.*/
     target?: Target | null;
   };
   let { workbook, question, parties = [], answers = [], ledger = [], target = null }: Props =
@@ -127,7 +127,7 @@
     </section>
 
     <!-- The answer ladder: the rungs a participant chooses between (SEAL-0 → 4),
-         with the selected rung(s) marked and the lowest flagged as binding. -->
+     with the selected rung(s) marked and the lowest flagged as binding. -->
     <AnswerLadder {rungs} />
 
     {#if blame.length > 0}

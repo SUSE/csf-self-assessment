@@ -9,14 +9,14 @@
   // registry (see InspectorViews), so a new inspectable surface costs a subject
   // kind and a view, not an `{#if}` in an App shell.
   type Props = {
-    /** The live session's selection (`inspector.selection`). */
+    /** The live session's selection (`inspector.selection`).*/
     selection: InspectSelection | null;
     /** What this page reads when nothing is selected — an estate reading, or the
-     *  line naming what to click. Re-declared by the screen every render. */
+     * line naming what to click. Re-declared by the screen every render.*/
     page?: InspectSubject | null;
     views: InspectorViews;
     /** Last resort: nothing selected, no page subject, or a kind this app has no
-     *  view for. */
+     * view for.*/
     hint?: string | undefined;
   };
   let { selection, page = null, views, hint }: Props = $props();

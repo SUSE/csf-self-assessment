@@ -7,7 +7,7 @@ import { IDLE, step, type GestureCommand, type GestureEvent, type GestureState }
 // `gesture-machine`, and the `executor` carries out the commands it returns
 // against the environment built here. This file holds no decisions and no
 // bookkeeping — only browser access.
-//
+
 // It works on POINTER events (mouse + touch + pen — spec: works on a
 // facilitator's tablet). The node's touch-action is `pan-y`, so a vertical touch
 // scrolls the page until the hold arms a drag. It listens on `window` while a
@@ -19,7 +19,7 @@ import { IDLE, step, type GestureCommand, type GestureEvent, type GestureState }
 
 export type DraggableParams<P extends DragPayload> = {
   session: DndSession<P> | undefined;
-  /** Stable key identifying this chip (also its data-chip-key in the card). */
+  // Stable key identifying this chip (also its data-chip-key in the card).
   key: string;
   payload: P;
 };

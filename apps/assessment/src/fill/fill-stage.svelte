@@ -18,15 +18,15 @@
   import PartiesSection from './parties-section.svelte';
   import type { Fill } from './fill.svelte';
 
-  // The answering stage (delivery §2): Overview orients, Claims chooses scope,
+  // The answering stage: Overview orients, Claims chooses scope,
   // Parties manages the roster, Questions is the fill surface — under one toolbar,
   // over a stage that slides between them. Read swaps the stage for the dashboard,
   // and the toolbar's Recommendations destination for the vendor page.
   type Props = {
     fill: Fill;
-    /** The reader's calendar, stamped by the shell — the Report reads its date in it. */
+    /** The reader's calendar, stamped by the shell — the Report reads its date in it.*/
     viewer: Viewer;
-    /** A load refusal, shown above the stage. */
+    /** A load refusal, shown above the stage.*/
     error: string | null;
   };
   let { fill, viewer, error }: Props = $props();

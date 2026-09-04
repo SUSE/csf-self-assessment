@@ -28,9 +28,9 @@
     >{dealt}/{reading.units.total} units</span>
   {#if reading.overall.binding.length > 0}
     <!-- What the floor is bound by is the reading's reason, so it takes its own
-         line rather than being pushed past the counts — but ONE line: eleven
-         question ids wrapped to two rows and outweighed the reading itself. The
-         count leads, the whole set rides the tooltip. -->
+     line rather than being pushed past the counts — but ONE line: eleven
+     question ids wrapped to two rows and outweighed the reading itself. The
+     count leads, the whole set rides the tooltip. -->
     <span
       class="min-w-0 basis-full truncate text-2xs text-muted-foreground"
       title={reading.overall.binding.join(', ')}

@@ -11,10 +11,10 @@
   // QUALIFIES a placement — the evidence strip and the n/a reason field. Moving the
   // off-ladder rows here uses the horizontal real estate instead of stacking them
   // above/below the ladder and forcing a vertical scroll.
-  //
+  
   // The QuestionHeader sits full-width ABOVE this, never inside it. Below `lg` the
   // grid collapses to one column. The right column is a `@container` so its content
-  // adapts to the RAIL width — never to the viewport. STATELESS; pure layout.
+  // adapts to the RAIL width — never to the viewport. STATELESS. pure layout.
   type Props = {
     scale: Snippet;      // left — the graded scale: tray + ladder (rungs)
     qualify: Snippet;    // right — off-ladder rows + CommitStrip? + the n/a reason field

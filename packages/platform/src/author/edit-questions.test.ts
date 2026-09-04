@@ -18,7 +18,7 @@ import { starterWorkbook } from './starter';
 const sov6 = (wb: ReturnType<typeof starterWorkbook>) => wb.objectives.find((o) => o.id === 'SOV-6');
 const firstQuestion = (wb: ReturnType<typeof starterWorkbook>) => sov6(wb)?.questions[0];
 
-/** One blank dimension question (q-1) applying to compute + storage. */
+// One blank dimension question (q-1) applying to compute + storage.
 function withAppliesTo() {
   let wb = addQuestion(starterWorkbook(), 'SOV-6', 'dimension');
   wb = toggleAppliesTo(wb, 'q-1', 'compute');
@@ -109,7 +109,7 @@ describe('dimension edits cascade into the questions', () => {
 });
 
 describe('rung list edits', () => {
-  /** q-1 with a two-rung ladder: bottom at SEAL-0, top at SEAL-4. */
+  // q-1 with a two-rung ladder: bottom at SEAL-0, top at SEAL-4.
   function twoRung() {
     let wb = addQuestion(starterWorkbook(), 'SOV-6', 'dimension');
     wb = addRung(wb, 'q-1');
@@ -119,7 +119,7 @@ describe('rung list edits', () => {
     return wb;
   }
 
-  /** twoRung() plus a third rung at the top: choice-1 / choice-2 / choice-3. */
+  // twoRung() plus a third rung at the top: choice-1 / choice-2 / choice-3.
   function threeRung() {
     return updateRung(addRung(twoRung(), 'q-1'), 'q-1', 'choice-3', { description: 'peak', points: 200 });
   }

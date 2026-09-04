@@ -14,15 +14,15 @@
   // The catalogue's narrowing controls: a search over everything a row carries
   // — including the questions attached to it — plus two labelled option strips,
   // every option showing the count it would leave, and the resulting tally.
-  //
+  
   // ONE line, not a stack of FilterRows. Two narrowings and a search over eleven
   // rows do not earn four full-width strips of chrome above the content they
-  // narrow; stacked, the controls outweighed the catalogue and stretched a
+  // narrow. stacked, the controls outweighed the catalogue and stretched a
   // short query across the whole stage. The labels stay — two unlabelled strips
   // that both start with "All" say nothing about what they select — but they sit
   // beside their options instead of in a fixed column, and the tally rides the
   // same line, at the right, directly over the rows it counts.
-  //
+  
   // The bar computes nothing: every label, count and sentence arrives from
   // `author/recommendation-list.ts`.
   type Props = {
@@ -46,8 +46,8 @@
 
 <div class="flex flex-wrap items-center gap-x-4 gap-y-2" data-recommendation-filters>
   <!-- The search field labels itself: a `type="search"` box whose placeholder
-       names every field it looks in. It is sized to the query, not to the
-       stage. -->
+     names every field it looks in. It is sized to the query, not to the
+     stage. -->
   <Input
     class="w-72 shrink-0"
     density="compact"

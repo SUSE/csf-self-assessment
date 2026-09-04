@@ -10,19 +10,19 @@
   // the section that owns it, the facilitator omits it and gets the read-only face.
   // It counts NOTHING itself (the InstrumentInspection is computed by the pure
   // inspectChip in the app shell, which is also what resolves a chip the workbook
-  // no longer has); this is presentation only. Each question row deep-links, so
+  // no longer has). this is presentation only. Each question row deep-links, so
   // inspecting never traps you away from managing.
   type Props = {
-    /** The computed inspection, or null when nothing is selected yet. */
+    /** The computed inspection, or null when nothing is selected yet.*/
     inspection: InstrumentInspection | null;
-    /** Deep-link a question into its editor (jumps the stage). */
+    /** Deep-link a question into its editor (jumps the stage).*/
     onInspectQuestion?: ((id: string) => void) | undefined;
-    /** Jump to the section that owns this chip (Dimensions / Party types / …). */
+    /** Jump to the section that owns this chip (Dimensions / Party types / …).*/
     onManage?: ((section: InstrumentSection) => void) | undefined;
   };
   let { inspection, onInspectQuestion, onManage }: Props = $props();
 
-  // The chip's own inspection already groups by objective; adapt it to the shared shape.
+  // The chip's own inspection already groups by objective. adapt it to the shared shape.
   const groups = $derived<ObjectiveGroupView[]>(
     (inspection?.groups ?? []).map((group) => ({
       objectiveId: group.objectiveId,

@@ -27,9 +27,9 @@ export function declaredPartiesOf(parties: Party[], scope: Scope): DeclaredParty
   }));
 }
 
-/** One edge per (declared THIRD-PARTY, served declared dimension). The colour is
- *  the party's worst party-axis seal — one compellability fact repeated over its
- *  served columns, NEVER written into heatmap[]. */
+// One edge per (declared THIRD-PARTY, served declared dimension). The colour is
+// the party's worst party-axis seal — one compellability fact repeated over its
+// served columns, NEVER written into heatmap[].
 export function exposureOf(
   parties: DeclaredParty[],
   gating: StaircaseBinding[],
@@ -51,8 +51,8 @@ export function exposureOf(
     );
 }
 
-/** The binding-constraint climb: each distinct gating level below SEAL-4 is a rung
- *  — the answers pinned there and the floor lifting them all would unlock. */
+// The binding-constraint climb: each distinct gating level below SEAL-4 is a rung
+// — the answers pinned there and the floor lifting them all would unlock.
 export function staircaseOf(gating: StaircaseBinding[]): StaircaseStep[] {
   const levels = [...new Set(gating.map((b) => b.seal))].sort((a, b) => a - b);
   return levels
@@ -64,9 +64,9 @@ export function staircaseOf(gating: StaircaseBinding[]): StaircaseStep[] {
     }));
 }
 
-/** How the file was produced (invariant #4 — none of it moves a score): the
- *  group-placed share of in-scope answered answers (null, never NaN, when none
- *  are), the don't-know grand total, and evidence presence over the gating set. */
+// How the file was produced (invariant #4 — none of it moves a score): the
+// group-placed share of in-scope answered answers (null, never NaN, when none
+// are), the don't-know grand total, and evidence presence over the gating set.
 export function credibilityOf(
   answers: Answer[],
   ledger: Landing[],

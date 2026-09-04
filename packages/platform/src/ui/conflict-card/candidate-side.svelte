@@ -7,7 +7,7 @@
 
   // One candidate in one column: who said what, the evidence behind it, and the
   // standing the claim behind it confers.
-  //
+  
   // Content, not a container: the Inset it sits in belongs to conflict-layout,
   // which is the only thing that sees both sides and can keep them peers.
   type Props = { candidate: ReviewCandidate; question: Pick<Question, 'ladder'> };
@@ -17,15 +17,15 @@
   // that differs between the two sides — "who had the right to answer here" is
   // the first question a clash asks, and the suggestion engine reasons from this
   // same field ("Jane's claim names modelhouse").
-  //
+  
   // `out-of-claim` renders NOTHING. A participant cannot produce one by
   // answering: `claimWalk` filters the walk to the active claim and narrows both
   // `appliesTo` and the party list, so a unit outside their claims is never shown
   // to them. It survives only as an integrity artefact — a claim removed or
-  // narrowed after answering (delivery §2.3.4: removing a claim never deletes
+  // narrowed after answering (: removing a claim never deletes
   // answers), or a partial whose workbook has drifted. Landing checks already
   // reports exactly that, as a count, in the "Recorded · does not block"
-  // register, which is where a file-integrity note belongs; a per-candidate chip
+  // register, which is where a file-integrity note belongs. a per-candidate chip
   // was a second rendering of it in the one place it can only ever be noise.
   const TONE: Record<Exclude<Authority, 'out-of-claim'>, ChipTone> = {
     owner: 'strong',

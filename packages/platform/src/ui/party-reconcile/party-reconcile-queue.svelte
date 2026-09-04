@@ -6,7 +6,7 @@
 
   // The party axis of one landing, decided before the answers: a party decision
   // rewrites answer targets, so it manufactures — or spares — clashes downstream
-  // (merge.md §2.5). Owns view state only; every list comes from merge/parties.ts.
+  // . Owns view state only. every list comes from merge/parties.ts.
   type Props = {
     workbookAssessment: WorkbookAssessment;
     pairs: PartyPair[];
@@ -53,11 +53,11 @@
 <Panel class="space-y-4" aria-label="Party reconcile" data-party-queue>
   <div class="space-y-1">
     <!-- "Parties", not "Providers": the roster carries the assessed institution
-         alongside the third parties, and provider is only one of the workbook's
-         party types (CONTEXT.md's ubiquitous language). -->
+     alongside the third parties, and provider is only one of the workbook's
+     party types (CONTEXT.md's ubiquitous language). -->
     <PanelHeader title="Parties" />
     <!-- Not PanelHeader's `description`: the count is a probe target
-         (`data-party-count`), and the header's description is a plain string. -->
+     (`data-party-count`), and the header's description is a plain string. -->
     <p class="text-sm text-muted-foreground" data-party-count>
       {pairs.length} pair{pairs.length === 1 ? '' : 's'} to reconcile ·
       {parties.length} estate part{parties.length === 1 ? 'y' : 'ies'}
@@ -65,8 +65,8 @@
   </div>
 
   <!-- The ordering instruction belongs to the pairs and is rendered with them.
-       Standing over an empty queue it was the panel's most emphatic sentence
-       pointing at no work — "decide these first" with no `these`. -->
+     Standing over an empty queue it was the panel's most emphatic sentence
+     pointing at no work — "decide these first" with no `these`. -->
   {#if pairs.length > 0}
     <div class="space-y-2">
       <p class="max-w-[68ch] text-xs text-muted-foreground">
@@ -92,18 +92,18 @@
   {/if}
 
   <!-- Additions are a MANIFEST, not a queue: each is a fact that needs nothing
-       from the facilitator, so it gets a register — an eyebrow that says once
-       what every row used to repeat ("joins as a new party"), and rows carrying
-       only what differs. They flow into columns on the panel's own width rather
-       than stacking as one full-bleed box per name, because a boxed row spanning
-       the stage for thirty characters both wastes the width and promises a
-       control that isn't there. The hairline above each row is the separator the
-       box used to be, and it lines the columns up as one register.
-       `auto-fill` rather than a breakpoint: the column COUNT follows the width on
-       its own — two on a squeezed panel, six on a wide stage — so a track stays
-       near a name's own length at every size and nothing has to guess. The type
-       sits beside its name rather than at the track's far edge: at this item
-       count a leader gap costs more than the alignment it would buy. -->
+     from the facilitator, so it gets a register — an eyebrow that says once
+     what every row used to repeat ("joins as a new party"), and rows carrying
+     only what differs. They flow into columns on the panel's own width rather
+     than stacking as one full-bleed box per name, because a boxed row spanning
+     the stage for thirty characters both wastes the width and promises a
+     control that isn't there. The hairline above each row is the separator the
+     box used to be, and it lines the columns up as one register.
+     `auto-fill` rather than a breakpoint: the column COUNT follows the width on
+     its own — two on a squeezed panel, six on a wide stage — so a track stays
+     near a name's own length at every size and nothing has to guess. The type
+     sits beside its name rather than at the track's far edge: at this item
+     count a leader gap costs more than the alignment it would buy. -->
   {#if additions.length > 0}
     <div class="space-y-2">
       <p class={label}>Joining the estate · no decision needed</p>

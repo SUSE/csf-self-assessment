@@ -5,15 +5,15 @@
   import ObjectiveGroups from './objective-groups.svelte';
 
   // ONE Inspector view (ui/inspector): a readings-ledger row read as what it
-  // counted. The row says "10 dimensions, 6 critical"; this names them and marks
+  // counted. The row says "10 dimensions, 6 critical". this names them and marks
   // the one no question reaches. It counts nothing itself — the pure
   // readingInspection in instrument-wheel does, and it is also what resolves a
   // reading the workbook no longer produces.
   type Props = {
     inspection: ReadingInspection | null;
-    /** Jump to the section that owns this reading. Absent = read-only face. */
+    /** Jump to the section that owns this reading. Absent = read-only face.*/
     onManage?: ((section: InstrumentSection) => void) | undefined;
-    /** Deep-link a question into its editor. Only the questions reading lists any. */
+    /** Deep-link a question into its editor. Only the questions reading lists any.*/
     onOpenQuestion?: ((id: string) => void) | undefined;
   };
   let { inspection, onManage, onOpenQuestion }: Props = $props();

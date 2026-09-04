@@ -12,9 +12,9 @@
   // tooltip says what it unlocks.
   export type ValidityStatusProps = {
     class?: string | undefined;
-    /** Strict-validation issues on the draft; zero means it parses. */
+    /** Strict-validation issues on the draft. zero means it parses.*/
     issueCount: number;
-    /** Jump to the first issue. Only reachable in the failing state. */
+    /** Jump to the first issue. Only reachable in the failing state.*/
     onGoToIssue: () => void;
   };
 </script>

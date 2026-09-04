@@ -4,7 +4,7 @@
   import { sealSwatchClass } from '../../utils/seal-color';
 
   // One link that fired, worded once. The trigger is the only part of an offer that
-  // carries the seal hue (analytics invariant #7); the rest are plain chips.
+  // carries the seal hue (analytics). the rest are plain chips.
   let { fired, trigger = false }: { fired: FiredLink; trigger?: boolean } = $props();
 </script>
 

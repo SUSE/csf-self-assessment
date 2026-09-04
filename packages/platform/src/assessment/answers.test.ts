@@ -14,11 +14,11 @@ import { ASSESSMENT, DIM_WB, G, STRAT_WB, dq, sdq } from './fixtures';
 
 const TWO = { state: 'answered', rungId: 'choice-2' } as const;
 
-/** Both dimensions of `SOV-6.d1` placed as one group, the usual starting point. */
+// Both dimensions of `SOV-6.d1` placed as one group, the usual starting point.
 const grouped = (groupId = 'g1') =>
   applyPlacement([], dq, DIM_WB, { kind: 'group', choice: TWO, splitDimensions: [] }, groupId);
 
-/** The same, with compute fanned over its two strata. */
+// The same, with compute fanned over its two strata.
 const groupedSplit = () =>
   applyPlacement([], sdq, STRAT_WB, { kind: 'group', choice: TWO, splitDimensions: ['compute'] }, 'g1');
 

@@ -8,7 +8,7 @@
   // One of the five checks, at tile size: its dial, its name, and what its ratio
   // counts. Pressing it puts the check's own words in the rail — the two facts, the
   // question, and the units to ask about.
-  //
+  
   // A clear check is a mark, never a control: there is nothing to read behind it.
   let {
     id,
@@ -18,9 +18,9 @@
   }: {
     id: CheckId;
     title: string;
-    /** What the ratio counts — `critical dimensions`, `gating claims`. */
+    /** What the ratio counts — `critical dimensions`, `gating claims`.*/
     subject: string;
-    /** Null where the check found nothing to ask about. */
+    /** Null where the check found nothing to ask about.*/
     check: ConsistencyCheck | null;
   } = $props();
 

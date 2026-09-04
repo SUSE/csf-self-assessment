@@ -1,7 +1,7 @@
 // The layer every radial figure sits on: one coordinate space, one label
 // de-collision rule, one chip taxonomy, one exposure reading. A wheel module owns
 // only what makes it that wheel.
-//
+
 // Pure TypeScript only — the shared marks (MagnitudeRings, ArcDivider, WheelHub,
 // HitLane) are imported by path, because the wheel MODELS import this barrel and
 // they are compiled without the Svelte plugin.

@@ -50,7 +50,7 @@ describe('the authority ladder over the Alex/Jane pair', () => {
     // Both sides answer under a blanket claim on the other 12, so the ladder
     // falls through to the evidence tiebreak: Alex carries evidence on 3.
     expect(keys.filter((k) => k === 'take:Alex')).toHaveLength(3);
-    // The last 9 tie on both rungs, so `suggest` returns null (merge.md §2.3.1)
+    // The last 9 tie on both rungs, so `suggest` returns null
     // and the facilitator decides. A suggestion is never a decision.
     expect(keys.filter((k) => k === null)).toHaveLength(9);
 

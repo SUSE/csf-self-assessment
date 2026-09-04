@@ -23,11 +23,11 @@ export function labelRadiusOf(chip: InstrumentChip): number {
   return chip.kind === 'assessment' ? LABEL_R + POLE_LIFT : LABEL_R;
 }
 
-/** How far down the label band can reach, and therefore how tall this figure has
- *  to be. The shared viewBox is 420 tall for the merge wheel, which draws more
- *  below the rim; at 420 this one carried ~60 units of empty floor that stranded
- *  the legend. `placeLabels` gets `maxSpan: height - 72` centred on CY, so no
- *  label lands below `CY + maxSpan / 2` — that bound plus a descent allowance. */
+// How far down the label band can reach, and therefore how tall this figure has
+// to be. The shared viewBox is 420 tall for the merge wheel, which draws more
+// below the rim; at 420 this one carried ~60 units of empty floor that stranded
+// the legend. `placeLabels` gets `maxSpan: height - 72` centred on CY, so no
+// label lands below `CY + maxSpan / 2` — that bound plus a descent allowance.
 export const FIGURE_HEIGHT = CY + (WHEEL_VIEWBOX.height - 72) / 2 + 10;
 
 // ---- ink ---------------------------------------------------------------------

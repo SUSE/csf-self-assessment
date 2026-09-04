@@ -1,7 +1,7 @@
 import type { Materiality, Objective, Question, Role, Rung, Workbook } from '../schema';
 import { allQuestionIds, filterLinks, mapQuestions, nextId, renameLinks } from './links';
 
-// Objectives, their questions, and each question's SEAL ladder (see ./links for
+// Objectives, their questions, and each question's SEAL ladder (see./links for
 // the preamble).
 
 export function addObjective(wb: Workbook): Workbook {
@@ -59,7 +59,7 @@ export function removeObjective(wb: Workbook, objectiveId: string): Workbook {
 
 // A new question, draft-blank: empty text and no why (both glow until written), the
 // ladder EMPTY (rungs appear as the author types into a SEAL slot — sparse
-// ladders are gaps, spec §4.3c), material by default, the workbook's first
+// ladders are gaps), material by default, the workbook's first
 // authored role as a neutral default (empty string when the author has defined
 // no roles yet — the question then glows until a role exists to name). Dimension
 // grain starts applying to nothing — picking chips is authoring, not a default.
@@ -176,20 +176,20 @@ export function toggleAppliesTo(
   });
 }
 
-/** The editable half of a rung. `id` is absent by design: identity is minted
- *  once and no surface edits it (invariant #1). */
+// The editable half of a rung. `id` is absent by design: identity is minted
+// once and no surface edits it.
 export type RungPatch = Partial<Pick<Rung, 'description' | 'points' | 'seal'>>;
 
-/** Where a rung moves in AUTHORED ORDER: 'earlier' is one index toward the
- *  ladder's bottom (index 0), 'later' one index toward its top. Named in
- *  ladder terms, not screen terms, so no caller has to guess which way is up. */
+// Where a rung moves in AUTHORED ORDER: 'earlier' is one index toward the
+// ladder's bottom (index 0), 'later' one index toward its top. Named in
+// ladder terms, not screen terms, so no caller has to guess which way is up.
 export type RungMove = 'earlier' | 'later';
 
 // Append a blank rung at the current top's points and SEAL, so a new rung can
 // never break R22/R23 the moment it appears. Its id is the highest SURVIVING
 // `choice-N` suffix plus one, so it can never collide with a rung that exists.
 // A trailing id freed by a removal may be re-minted: safe, because a stored
-// `rungId` is only ever resolved against the workbook it lives in (spec §2.2).
+// `rungId` is only ever resolved against the workbook it lives in.
 export function addRung(wb: Workbook, questionId: string): Workbook {
   return mapQuestions(wb, (q) => {
     if (q.id !== questionId) return q;
@@ -208,9 +208,9 @@ export function addRung(wb: Workbook, questionId: string): Workbook {
   });
 }
 
-// Patch one rung in place. Nothing sorts: authored order IS the ladder
-// (invariant #4), so a rung whose SEAL now falls stays where the author put it
-// and R23 glows. An emptied description keeps the rung (spec §4.4).
+// Patch one rung in place. Nothing sorts: authored order IS the ladder,
+// so a rung whose SEAL now falls stays where the author put it
+// and R23 glows. An emptied description keeps the rung.
 export function updateRung(
   wb: Workbook,
   questionId: string,

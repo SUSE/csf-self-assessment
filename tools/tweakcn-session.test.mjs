@@ -88,7 +88,7 @@ test('managed browser workflow splits request observation, preset selection, and
   const finish = requestObservationFinishSource();
 
   assert.match(start, /page\.__csfForbiddenRequests = \[\]/);
-  assert.match(selection, /http:\/\/localhost:3000\//);
+  assert.match(selection, /http:\/\/localhost:3000\// );
   assert.match(selection, /pathname !== '\/'/);
   assert.match(selection, /redirected away from/);
   assert.match(selection, /CSF-SUSE/);

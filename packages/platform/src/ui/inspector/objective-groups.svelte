@@ -5,7 +5,7 @@
 
   // Questions grouped by the objective (SOV) that owns them — the shape any rail
   // listing questions from across the instrument wants. Build the groups with
-  // `byObjective`; this renders them and decides nothing.
+  // `byObjective`. this renders them and decides nothing.
   let {
     groups,
     onOpen,
@@ -13,7 +13,7 @@
   }: {
     groups: ObjectiveGroupView[];
     onOpen?: ((id: string) => void) | undefined;
-    /** Shown when no objective has anything to list. */
+    /** Shown when no objective has anything to list.*/
     empty?: string | undefined;
   } = $props();
 </script>

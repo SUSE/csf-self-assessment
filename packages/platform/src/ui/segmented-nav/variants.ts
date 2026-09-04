@@ -8,7 +8,7 @@ import { tv } from 'tailwind-variants';
 export const segmentedStripVariants = tv({
   base: 'gap-1 rounded-md border border-border p-0.5',
   variants: {
-    /** Segments share the strip's width — for a strip that fills its column. */
+    // Segments share the strip's width — for a strip that fills its column.
     grow: {
       // `shrink-0` because a filling strip sits in a flex COLUMN, where it would
       // otherwise be squeezed by the scrolling pane beneath it.

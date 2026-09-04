@@ -24,7 +24,7 @@ const band = (
   parties: Party[],
 ): BandView =>
   recommendationsPage(result, workbook, parties).chapters.find((c) => c.horizon === horizon)!.band;
-/** Every answered target on a card, across its grouped questions. */
+// Every answered target on a card, across its grouped questions.
 const targetsOf = (card: RecommendationCard): TriggerTarget[] =>
   card.questions.flatMap((q) => q.targets);
 const quickWins = (result: EngineResult, workbook: Workbook, parties: Party[]): BandView =>
@@ -290,7 +290,7 @@ describe('recommenderReading', () => {
     });
   });
 
-  // The contact is optional (spec §2.4, ADR-0018): attribution still reads in
+  // The contact is optional: attribution still reads in
   // full, and `contact: null` is what makes both surfaces drop their button.
   it('reads a recommender that offers no contact', () => {
     const wb = WorkbookSchema.parse({

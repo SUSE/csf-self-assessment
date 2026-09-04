@@ -5,7 +5,7 @@ import type { Workbook } from './workbook';
 // check on its own: weights that must total, ids that must be unique, and every
 // reference that must resolve inside the OWNING workbook. Attached to
 // WorkbookSchema via superRefine.
-//
+
 // The rule numbers are cited by the authoring rulebook and the tests, so they
 // are stable identifiers — R12 is retired and the gap is deliberate. They live
 // here as a table, not as comments, so one rule is one named unit a test can run
@@ -293,7 +293,7 @@ export const WORKBOOK_RULES: WorkbookRule[] = [
     name: 'estatePartiesResolve',
     check(wb, ctx) {
       // No assessed-count check: test estates are references, not assessments,
-      // so parties.md invariant #4 does not scope to them.
+      // so parties.md does not scope to them.
       const partyTypeIds = new Set(wb.parties.map((p) => p.id));
       const dimIds = dimensionIds(wb);
       wb.testEstates.forEach((estate, ei) => {

@@ -10,10 +10,10 @@
   import { Card, eyebrowVariants } from '../panel';
   import * as RadioGroup from '../radio-group';
 
-  // One candidate pair as a card (merge.md §2.5): both sides side by side, what
+  // One candidate pair as a card: both sides side by side, what
   // an absorb would inherit, and the enumerated choices. The party axis has no
   // authority ladder, so nothing is pre-selected and nothing is suggested —
-  // every collapse is a bare human decision (invariant #1).
+  // every collapse is a bare human decision .
   type Props = {
     pair: PartyPair;
     workbookAssessment: WorkbookAssessment;
@@ -38,7 +38,7 @@
     return names.length === 0 ? empty : names.join(', ');
   };
 
-  // Party ids are author-typed, so an id can carry whitespace; a DOM id cannot.
+  // Party ids are author-typed, so an id can carry whitespace. a DOM id cannot.
   const rowId = (key: string): string => `${group}:${key}`.replace(/\s+/g, '-');
 
   function choose(key: string): void {
@@ -74,16 +74,16 @@
   </div>
 
   <!-- ONE grid for the whole pair, not three stacked rows: each side, the serves
-       reconciliation and the decision are columns of a single register, so a
-       stage-width card is read across instead of leaving two thirds of its width
-       empty under a left-packed stack.
-       The two sides keep their CAP at every size — split 50/50 across a stage
-       they sat ~900px apart, which is the one arrangement that stops a reader
-       comparing them — and the serves column keeps a reading measure. The
-       decision track is the `1fr`, so it absorbs whatever the stage is wider
-       than the facts, instead of leaving a gap at the card's right edge.
-       Below xl the row folds: sides side-by-side from sm, serves and decision
-       spanning both tracks beneath them. -->
+     reconciliation and the decision are columns of a single register, so a
+     stage-width card is read across instead of leaving two thirds of its width
+     empty under a left-packed stack.
+     The two sides keep their CAP at every size — split 50/50 across a stage
+     they sat ~900px apart, which is the one arrangement that stops a reader
+     comparing them — and the serves column keeps a reading measure. The
+     decision track is the `1fr`, so it absorbs whatever the stage is wider
+     than the facts, instead of leaving a gap at the card's right edge.
+     Below xl the row folds: sides side-by-side from sm, serves and decision
+     spanning both tracks beneath them. -->
   <div
     class="grid gap-x-6 gap-y-3 sm:grid-cols-[repeat(2,minmax(0,18rem))] xl:grid-cols-[repeat(2,minmax(0,18rem))_minmax(0,22rem)_minmax(0,1fr)]"
   >
@@ -116,14 +116,14 @@
     >
       <legend class="text-xs font-medium text-foreground">Decision</legend>
       <!-- The same control as the clash card's Resolution (ui/conflict-card):
-           one `RadioGroup.Root` owning the value, with a `<Label for>` carrying
-           each option's sentence so the words are part of the radio's hit area.
-           `onclick` as well as `onValueChange` because pressing the option that
-           already IS the value changes nothing, so bits-ui rightly stays silent —
-           here that re-affirms a decision already taken, which `upsertPartyDecision`
-           treats as the same decision.
-           Nothing is pre-selected on this axis: the party pair has no authority
-           ladder, so `value` is empty until a human picks (invariant #1). -->
+     one `RadioGroup.Root` owning the value, with a `<Label for>` carrying
+     each option's sentence so the words are part of the radio's hit area.
+     `onclick` as well as `onValueChange` because pressing the option that
+     already IS the value changes nothing, so bits-ui rightly stays silent —
+     here that re-affirms a decision already taken, which `upsertPartyDecision`
+     treats as the same decision.
+     Nothing is pre-selected on this axis: the party pair has no authority
+     ladder, so `value` is empty until a human picks . -->
       <RadioGroup.Root
         value={selected ?? ''}
         onValueChange={choose}
@@ -145,8 +145,8 @@
         {/each}
       </RadioGroup.Root>
       <!-- The same closing beat as the clash card's, from one component: what was
-           decided, then the ledger note. The party axis has no suggestion, so it
-           passes no `pending`. -->
+     decided, then the ledger note. The party axis has no suggestion, so it
+     passes no `pending`. -->
       <DecisionNote
         decided={decision === undefined ? null : decidedLabel}
         noteLabel={`Party note for ${group}`}

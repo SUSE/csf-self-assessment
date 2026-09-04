@@ -7,7 +7,7 @@
   // What a record left STANDING, on the shared reading mark (ReadingMark) so the
   // ledger's chip column is the same vocabulary as the rails. `null` is a record that
   // emptied the unit — nothing stands, so a bare muted dash.
-  //
+  
   // A superseded mark fades rather than changing colour: the chip column is what gets
   // scanned, so the record that STANDS has to be the strong one, and dimming keeps the
   // ramp's order intact where a recolour would break it.

@@ -7,7 +7,7 @@
   // selects rather than two bare boxes — an unlabelled pair reading "Question"
   // and a question's text says nothing about which is the kind and which the
   // choice, and this row sits directly under a list where both already appear.
-  //
+  
   // It holds no link state of its own: the kind and the picked target live in
   // the section above, because resetting the target when the kind changes is
   // that section's rule to keep.

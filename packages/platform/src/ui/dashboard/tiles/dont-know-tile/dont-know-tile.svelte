@@ -7,9 +7,9 @@
   import AdmittedReading from './admitted-reading.svelte';
   import EmptyReading from './empty-reading.svelte';
 
-  // What do we admit we don't know? Floor holes lead; the rest are counted but move no
+  // What do we admit we don't know? Floor holes lead. the rest are counted but move no
   // number. A don't-know is neither a seal nor absence — no seal colour.
-  //
+  
   // Pressing the reading puts the admitted units in the rail, which is what this tile
   // has instead of a maximised state. With no session it is plain marks.
   let { result, workbook, parties }: TileProps = $props();

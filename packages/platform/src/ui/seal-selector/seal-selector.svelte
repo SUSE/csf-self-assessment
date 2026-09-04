@@ -6,13 +6,13 @@
 
   // A gauge face you can press: the ladder's rungs as one row of cells, each in
   // its own step of the SEAL fill ramp, exactly one of them selectable.
-  //
+  
   // It renders ITEMS, not a group — it must sit inside a `RadioGroup.Root`, the
   // same way a `RadioGroupItem` does. That is the point: the cells then share one
   // value with whatever other options the host lists (Merge's two "Take …" rows),
   // so picking a rung deselects them and one arrow-key sweep covers all of them.
   // For a standalone selector, wrap it in a `RadioGroup.Root` of its own.
-  //
+  
   // The mark alone is not a name a screen reader can use, so each cell carries
   // the choice's full sentence as its label and shows only the mark.
   // `onPick` fires on every press, including a press on the cell that is already

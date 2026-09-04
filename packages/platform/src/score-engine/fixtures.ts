@@ -29,7 +29,7 @@ const rungIdFor = (id: string, seal: Seal): string => {
   return `choice-${i + 1}`;
 };
 
-/** An assessment-axis party question. */
+// An assessment-axis party question.
 export const q = (id: string, materiality: string, seals: number[]) => ({
   id,
   grain: 'party',
@@ -40,7 +40,7 @@ export const q = (id: string, materiality: string, seals: number[]) => ({
   ladder: rungs(ladderFor(id, seals)),
 });
 
-/** A dimension question over the named dimensions. */
+// A dimension question over the named dimensions.
 export const dimensionQ = (id: string, appliesTo: string[], materiality = 'material') => ({
   id,
   grain: 'dimension',
@@ -73,7 +73,7 @@ export function wb(objectives: object[], dimensions: object[] = []): Workbook {
   });
 }
 
-/** Single objective at weight 100: two material questions / one informational / one n/a-materiality. */
+// Single objective at weight 100: two material questions / one informational / one n/a-materiality.
 export const MAT2 = wb([obj('O', 100, [q('q1', 'material', FULL), q('q2', 'material', FULL)])]);
 export const INFO = wb([obj('O', 100, [q('q1', 'material', FULL), q('q2', 'informational', FULL)])]);
 export const NAM = wb([obj('O', 100, [q('q1', 'material', FULL), q('q2', 'na', FULL)])]);
@@ -81,7 +81,7 @@ export const RANK = wb([obj('O', 100, [q('q1', 'material', FULL), q('q2', 'ranki
 export const RANKONLY = wb([obj('O', 100, [q('q1', 'ranking', FULL)])]);
 export const SPARSE = wb([obj('O', 100, [q('sparse.q1', 'material', [0, 1, 3])])]);
 
-/** Two objectives at 75 / 25, for weighting and renormalisation. */
+// Two objectives at 75 / 25, for weighting and renormalisation.
 export const WB2 = wb([obj('A', 75, [q('A.q1', 'material', FULL)]), obj('B', 25, [q('B.q1', 'material', FULL)])]);
 export const WB3 = wb([obj('A', 75, [q('A.q1', 'material', FULL)]), obj('B', 25, [q('B.q1', 'na', FULL)])]);
 
@@ -96,10 +96,8 @@ export const na = (id: string): Answer => answerFor(id, T, { state: 'na' }, G);
 export const runOn = (workbook: Workbook, answers: Answer[]) =>
   evaluate(workbook, assessmentOf(workbook, 'u', [], answers, AUTHOR_QA_PROVENANCE));
 
-/**
- * One dimension question over compute / network / edge, full ladders. Criticality is
- * the firm workbook flag (delivery-S2): compute + network critical, edge in scope but not.
- */
+// One dimension question over compute / network / edge, full ladders. Criticality is
+// the firm workbook flag: compute + network critical, edge in scope but not.
 export const DW = wb([obj('O', 100, [dimensionQ('O.d1', ['compute', 'network', 'edge'])])], [
   { id: 'compute', name: 'Compute', critical: true },
   { id: 'network', name: 'Network', critical: true },

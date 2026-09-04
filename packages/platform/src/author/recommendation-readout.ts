@@ -2,31 +2,29 @@ import type { Workbook } from '../schema';
 import { firedLinks } from '../analytics/recommendations';
 import { evaluateTestEstate } from './estates';
 
-/** One authored recommendation, named for the readout's rows. */
+// One authored recommendation, named for the readout's rows.
 export type ReadoutRecommendation = { id: string; title: string };
 
-/** One test estate's standing: which of the catalogue its answers would fire. */
+// One test estate's standing: which of the catalogue its answers would fire.
 export type EstateFiring = {
   estateId: string;
   name: string;
-  /** The recommendations that fire on this estate, in catalogue order. */
+  // The recommendations that fire on this estate, in catalogue order.
   fired: ReadoutRecommendation[];
 };
 
-/**
- * The dead-ad gauge (docs/specs/recommendations.md §4.5, §5): every authored
- * recommendation run against every test estate through the REAL engine, so an
- * author can see which offer no profile in this workbook would ever hear.
- * Informational like the role readout — it flags nothing and gates nothing.
- */
+// The dead-ad gauge (docs/specs/recommendations.md §4.5, §5): every authored
+// recommendation run against every test estate through the REAL engine, so an
+// author can see which offer no profile in this workbook would ever hear.
+// Informational like the role readout — it flags nothing and gates nothing.
 export type RecommendationReadout =
   | {
       kind: 'readout';
-      /** One row per test estate, in workbook order. */
+      // One row per test estate, in workbook order.
       perEstate: EstateFiring[];
-      /** Authored recommendations firing on NO test estate — the dead ads. */
+      // Authored recommendations firing on NO test estate — the dead ads.
       neverFires: ReadoutRecommendation[];
-      /** The whole catalogue, in authored order — the rows' denominator. */
+      // The whole catalogue, in authored order — the rows' denominator.
       catalogue: ReadoutRecommendation[];
     }
   | { kind: 'none-authored' }

@@ -5,11 +5,9 @@ import { snapshotOf } from '../merge/snapshot';
 import { evaluate } from './index';
 import { G, MAT2, T, dimensionQ, obj, q, runOn, wb, FULL } from './fixtures';
 
-/**
- * A dimension question over compute (critical, splittable) and network (in scope, NOT
- * critical), plus a material assessment-axis question — so gating (compute, O.e1) and
- * non-gating (network) answers coexist.
- */
+// A dimension question over compute (critical, splittable) and network (in scope, NOT
+// critical), plus a material assessment-axis question — so gating (compute, O.e1) and
+// non-gating (network) answers coexist.
 const CRED_WB = wb([obj('O', 100, [dimensionQ('O.d1', ['compute', 'network']), q('O.e1', 'material', FULL)])], [
   { id: 'compute', name: 'Compute', strata: ['software', 'chips'], critical: true },
   { id: 'network', name: 'Network', critical: false },

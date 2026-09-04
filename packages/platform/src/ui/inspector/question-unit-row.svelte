@@ -5,7 +5,7 @@
 
   // One unit of a question in the rail: the mark carries the reading, the line names
   // what the unit is. Rendered plain — the block it sits in is the recessed surface.
-  //
+  
   // `inline` is a question with a single unit whose facts are all stated above it —
   // the mark joins the identity line instead of sitting alone in a well. Otherwise a
   // row always says a word, so an empty `facet` falls back to the reading's own.

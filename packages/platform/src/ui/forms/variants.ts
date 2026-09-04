@@ -1,10 +1,10 @@
 import { tv, type VariantProps } from 'tailwind-variants';
 
 // Shared styling for the form input primitives, in design tokens. Two knobs:
-//   density — `default` for standalone forms, `compact` to sit in a card row
-//             next to DetailFields (matches their tighter rhythm).
-//   invalid — swaps the neutral border/ring for the destructive ones, so an
-//             errored field reads red on its outline and on focus.
+// density — `default` for standalone forms, `compact` to sit in a card row
+// next to DetailFields (matches their tighter rhythm).
+// invalid — swaps the neutral border/ring for the destructive ones, so an
+// errored field reads red on its outline and on focus.
 // Disabled and read-only inert styling is owned globally by theme.css (unlayered
 // rules), so it is deliberately NOT a variant here — never add `disabled:` /
 // read-only utilities to a control, they would be overridden anyway.

@@ -7,7 +7,7 @@
   import { cn } from '../../utils/cn';
 
   // How every answer unit this question ever touched came to stand as it does
-  // (merge.md §4.1, invariant #5) — read off the ledger, so a unit a grain
+  // — read off the ledger, so a unit a grain
   // decision emptied is still explained. Data, not judgment. `selected` is the exact
   // unit the rail was opened on (landing-history §4.6): marked, and scrolled to.
   type Props = { blame: BlameUnit[]; question: Question; selected: Target | null };
@@ -29,7 +29,7 @@
   bind:this={section}
 >
   <!-- Ruled rather than bigger: the unit labels below are eyebrows too, so this one
-       outranks them by the rule under it, not by a size step off the ramp. -->
+     outranks them by the rule under it, not by a size step off the ramp. -->
   <h4 class={cn(eyebrowVariants(), 'border-b border-border pb-1')}>How these answers came to be</h4>
   {#each blame as unit (targetKey(unit.target))}
     {@const current = selected !== null && targetKey(selected) === targetKey(unit.target)}

@@ -2,14 +2,14 @@
   import { cn } from '../../utils/cn';
 
   // The logo "token": a placeholder brand mark for a real logo image. It is an
-  // inline SVG (no remote asset — invariant #7) whose fills read the theme
+  // inline SVG (no remote asset —) whose fills read the theme
   // tokens directly (`--primary` / `--primary-foreground`), so it recolours
   // with the theme like everything else. Swap this component's markup for the
-  // real logo later; the header contract (a themeable mark) stays the same.
+  // real logo later. the header contract (a themeable mark) stays the same.
 
   type Props = {
     label?: string;
-    /** Hide the wordmark, showing the mark tile alone (e.g. a collapsed rail). */
+    /** Hide the wordmark, showing the mark tile alone (e.g. a collapsed rail).*/
     markOnly?: boolean;
     class?: string;
   };

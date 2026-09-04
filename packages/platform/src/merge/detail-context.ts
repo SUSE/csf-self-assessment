@@ -6,14 +6,14 @@ import { landingSummary, shortLandingId } from './ledger';
 // Reading ONE Landing as its semantic before and after (landing-history §4.4-§4.8):
 // the header sentence, the affected records grouped the way the navigator reads
 // them, and each record as two labelled peer snapshots with the human action
-// between. Pure — the viewer's calendar arrives as an argument (invariant #3).
-//
+// between. Pure — the viewer's calendar arrives as an argument.
+
 // This module is the Landing's frame: its recorded-order neighbours, the context
 // every panel builder reads, and the sticky heading.
 
-/** Recorded-order neighbours (§2.5.3, invariant #11): array position, never time.
- *  `previous` is the earlier Landing, `next` the later one. Both null when the id
- *  names none. */
+// Recorded-order neighbours (§2.5.3, invariant #11): array position, never time.
+// `previous` is the earlier Landing, `next` the later one. Both null when the id
+// names none.
 export type LandingNeighbors = { previous: LandingEnvelope | null; next: LandingEnvelope | null };
 
 const envelopeOf = (landing: Landing | undefined): LandingEnvelope | null => {
@@ -28,28 +28,28 @@ export function landingNeighbors(ledger: readonly Landing[], id: string): Landin
   return { previous: envelopeOf(ledger[at - 1]), next: envelopeOf(ledger[at + 1]) };
 }
 
-/** Everything the detail needs beyond the Landing: the anchor (its workbook names
- *  objectives, questions, SEAL levels and party types; its meta names the
- *  workbook-assessment), the estate roster that names party targets, and the viewer's
- *  calendar (invariant #3 — the core reads no clock). */
+// Everything the detail needs beyond the Landing: the anchor (its workbook names
+// objectives, questions, SEAL levels and party types; its meta names the
+// workbook-assessment), the estate roster that names party targets, and the viewer's
+// calendar ( — the core reads no clock).
 export type DetailContext = {
   workbookAssessment: WorkbookAssessment;
   parties: readonly Party[];
   viewer: Viewer;
 };
 
-/** The sticky detail header (§4.4). `note` and every count are derived. */
+// The sticky detail header (§4.4). `note` and every count are derived.
 export type LandingHeading = {
   id: string;
   shortId: string;
   title: string;
   note: string | null;
-  /** `Jane landed this partial on ` — everything the sentence says before the
-   *  instant, trailing space included (§4.4). */
+  // `Jane landed this partial on ` — everything the sentence says before the
+  // instant, trailing space included.
   landedPrefix: string;
-  /** `10 August 2026 at 14:32` — the viewer-local instant, the `<time>` text. */
+  // `10 August 2026 at 14:32` — the viewer-local instant, the `<time>` text.
   landedWhen: string;
-  /** The raw ISO instant: the `datetime` attribute AND the tooltip (§2.5.2). */
+  // The raw ISO instant: the `datetime` attribute AND the tooltip (§2.5.2).
   instant: string;
   anchor: string;
   unitsReviewed: number;

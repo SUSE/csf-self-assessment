@@ -5,7 +5,7 @@ import type { DuplicateWarning, LintFinding, QuestionLint } from '../../author';
 // not a validation failure. Keeping the phrasing here makes it testable and keeps
 // the panel presentation-only.
 
-/** One finding, as the pill a reader scans. */
+// One finding, as the pill a reader scans.
 export function lintLabel(finding: LintFinding): string {
   if (finding.kind === 'missing-why') return 'missing why';
   if (finding.kind === 'compound-stem') return 'compound stem';
@@ -15,7 +15,7 @@ export function lintLabel(finding: LintFinding): string {
   return `rung ${finding.position}: ${finding.words.join(', ')}`;
 }
 
-/** Why the finding is a finding — the pill's tooltip. */
+// Why the finding is a finding — the pill's tooltip.
 export function lintReason(finding: LintFinding): string {
   if (finding.kind === 'missing-why')
     return 'No why-line: the room is told what to answer but not why it is asked.';
@@ -28,10 +28,8 @@ export function lintReason(finding: LintFinding): string {
   return 'A hedged quantifier makes the rung arguable rather than checkable.';
 }
 
-/**
- * The panel's conclusion in one sentence — the same shape the recommendation
- * readout uses, so a reader reaches the verdict without passing the lists.
- */
+// The panel's conclusion in one sentence — the same shape the recommendation
+// readout uses, so a reader reaches the verdict without passing the lists.
 export function checksVerdict(
   lint: QuestionLint[],
   duplicates: DuplicateWarning[],

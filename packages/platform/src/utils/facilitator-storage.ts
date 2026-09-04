@@ -1,5 +1,5 @@
 // Local persistence for the facilitator's in-progress work, so a page refresh
-// resumes exactly where you were (invariant #7 — offline-safe, no network). The
+// resumes exactly where you were ( — offline-safe, no network). The
 // third member of the storage family, alongside the assessor's participant store
 // (participant-storage.ts) and the Author's workbook draft (workbook-storage.ts).
 // The facilitator stage has no view-store entry of its own, so — unlike the

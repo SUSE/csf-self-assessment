@@ -9,7 +9,7 @@
   // 4px radius and a size down from Input's — so a select standing next to an
   // `Input density="compact"` in the same row read as a different control from a
   // different system. Sharing `inputVariants` makes them the same box.
-  //
+  
   // Native on purpose: a target list can run to every question in the workbook,
   // and the platform's own listbox handles that better than anything reimplemented
   // here. Where the choice needs more than a string per row, reach for a popover

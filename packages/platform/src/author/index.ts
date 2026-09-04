@@ -1,4 +1,4 @@
-// The Author app's pure core (spec §4.3c / §9 S9, S9b): structural gauges,
+// The Author app's pure core: structural gauges,
 // the quality gauges (duplicate radar, ladder lint, test estates), the
 // starter definition, and the workbook edit ops. DOM-free like the engine —
 // enforced by the same eslint rule (see eslint.config.js).

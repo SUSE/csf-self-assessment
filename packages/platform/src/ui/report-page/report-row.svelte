@@ -8,10 +8,10 @@
   type Props = {
     question: string;
     meta: string;
-    /** Inks the meta line; null = the row has no asserted seal (a don't-know, an
-     *  unanswered unit). Never rendered as SEAL-0. */
+    /** Inks the meta line. null = the row has no asserted seal (a don't-know, an
+     * unanswered unit). Never rendered as SEAL-0.*/
     seal: Seal | null;
-    /** A short note — `evidence recorded`, `gates the floor`. */
+    /** A short note — `evidence recorded`, `gates the floor`.*/
     flag: string | null;
   };
   let { question, meta, seal, flag }: Props = $props();

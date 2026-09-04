@@ -4,13 +4,13 @@
   import SealLadderRung from './seal-ladder-rung.svelte';
 
   // The instrument's SEAL scale, explained — a workbook fact like its dimensions.
-  //
+  
   // The scale is a DEFINITION, not a reading: `floor` only marks a rung, and the
   // caller resolves it against the live result rather than remembering one.
   type Props = {
     sealLevels: SealLevel[];
     /** The reading's floor, marked on its rung. Null = nothing gates yet, which is
-     *  not SEAL-0 (analytics invariant #2), so no rung is marked. */
+     * not SEAL-0 (analytics), so no rung is marked.*/
     floor?: Seal | null;
     title?: string;
   };

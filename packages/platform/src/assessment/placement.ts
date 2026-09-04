@@ -34,23 +34,23 @@ export function questionOf(workbook: Pick<Workbook, 'objectives'>, questionId: s
   return undefined;
 }
 
-/** The state-and-rung facts every answered value carries. An `Answer`, an
- *  `AnswerSnapshot` and a `LadderChoice` all satisfy it structurally, so one
- *  resolver serves standing answers, ledger snapshots and card emissions alike. */
+// The state-and-rung facts every answered value carries. An `Answer`, an
+// `AnswerSnapshot` and a `LadderChoice` all satisfy it structurally, so one
+// resolver serves standing answers, ledger snapshots and card emissions alike.
 export type AnswerValue =
   | { state: 'answered'; rungId: string }
   | { state: 'dont-know' }
   | { state: 'na' };
 
-/** The rung a question authors under this id, or `undefined` when the id names
- *  no rung on that ladder (workbook rule R5 keeps ids unique within a question). */
+// The rung a question authors under this id, or `undefined` when the id names
+// no rung on that ladder (workbook rule R5 keeps ids unique within a question).
 export function rungIn(question: Pick<Question, 'ladder'>, rungId: string): Rung | undefined {
   return question.ladder.find((rung) => rung.id === rungId);
 }
 
-/** The rung at 1-based authored `position` — `1` is the ladder's bottom rung
- *  (ADR-0023). `undefined` past either end of the ladder, so a digit naming no
- *  rung is a no-op and never a nearest match. */
+// The rung at 1-based authored `position` — `1` is the ladder's bottom rung.
+// `undefined` past either end of the ladder, so a digit naming no
+// rung is a no-op and never a nearest match.
 export function rungAtPosition(
   question: Pick<Question, 'ladder'>,
   position: number,
@@ -58,8 +58,8 @@ export function rungAtPosition(
   return position < 1 ? undefined : question.ladder[position - 1];
 }
 
-/** `rungIn` reached through `questionOf` — for callers holding a workbook and an
- *  id rather than the question itself. */
+// `rungIn` reached through `questionOf` — for callers holding a workbook and an
+// id rather than the question itself.
 export function rungOf(
   workbook: Pick<Workbook, 'objectives'>,
   questionId: string,
@@ -69,21 +69,21 @@ export function rungOf(
   return question === undefined ? undefined : rungIn(question, rungId);
 }
 
-/** The SEAL an answered value asserts, resolved from the embedded workbook;
- *  `null` for don't-know, n/a, and an unresolvable rung id. */
+// The SEAL an answered value asserts, resolved from the embedded workbook;
+// `null` for don't-know, n/a, and an unresolvable rung id.
 export function sealOfAnswer(question: Pick<Question, 'ladder'>, value: AnswerValue): Seal | null {
   if (value.state !== 'answered') return null;
   return rungIn(question, value.rungId)?.seal ?? null;
 }
 
-/** A ladder's attainable points: `max(rung.points)` (spec §2.3.4). Replaces
- *  `maxPointsForLadder`, which multiplied the top SEAL by 25. */
+// A ladder's attainable points: `max(rung.points)` (spec §2.3.4). Replaces
+// `maxPointsForLadder`, which multiplied the top SEAL by 25.
 export function attainablePoints(question: Pick<Question, 'ladder'>): number {
   return Math.max(...question.ladder.map((rung) => rung.points));
 }
 
 // The dimensions a question holds stratum refinements for, in first-appearance
-// order — the split state, derived from answers (invariant #2), never stored.
+// order — the split state, derived from answers, never stored.
 export function splitDimensionsOf(answers: Answer[], questionId: string): string[] {
   const dims: string[] = [];
   for (const a of answers) {
@@ -95,7 +95,7 @@ export function splitDimensionsOf(answers: Answer[], questionId: string): string
 
 // Placing at dimension level retracts the strata beneath it; placing at stratum
 // level retracts the whole-dimension answer. One (question, dimension) never holds
-// both grains at once (invariant #2).
+// both grains at once.
 function dropSuperseded(
   answers: Answer[],
   questionId: string,
@@ -110,9 +110,9 @@ function dropSuperseded(
   });
 }
 
-// The one transition for a dimension-grain choice (spec §4.1): group fans the choice
+// The one transition for a dimension-grain choice: group fans the choice
 // to every applicable dimension still UNPLACED (a resting chip is never disturbed —
-// ADR-0008), splitting a named dimension into per-stratum answers; individual and
+// splitting a named dimension into per-stratum answers. individual and
 // individual-stratum peel one chip and retract the grain they supersede.
 export function applyPlacement(
   answers: Answer[],

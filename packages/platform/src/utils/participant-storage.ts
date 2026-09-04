@@ -1,5 +1,5 @@
 // Local persistence for the participant's in-progress work, so a page refresh
-// resumes exactly where you were (invariant #7 — offline-safe, no network). The
+// resumes exactly where you were ( — offline-safe, no network). The
 // mirror of the Author draft store (see workbook-storage.ts). A loaded
 // workbook-assessment is adopted straight into an assessment model (name + claims
 // + answers filled independently), so the ONE stored shape is that model. Empty

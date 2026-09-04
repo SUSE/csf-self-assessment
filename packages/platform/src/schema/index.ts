@@ -2,7 +2,7 @@
 // shares, the answer unit, the authored workbook (+ its cross-record rules), the
 // merge ledger, and the two estate-bearing records built on top. zod schemas are
 // the single source of truth; every static type is z.infer.
-//
+
 // Discriminated unions here grow by ADDING members, never by rewriting the union.
 
 export * from './primitives';

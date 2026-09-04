@@ -8,7 +8,7 @@
   // One chip in the chase, inspector-aware: pressing it puts that slice of the
   // backlog in the rail. With no session it is a plain word, not a dead control.
   type Props = {
-    /** The owner's group key, or null for the whole chase. */
+    /** The owner's group key, or null for the whole chase.*/
     group: string | null;
     tone: ChipTone;
     title: string;

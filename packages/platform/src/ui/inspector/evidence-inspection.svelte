@@ -11,8 +11,8 @@
   // questions they answer and grouped by objective. This is what the tile has instead
   // of a maximised state — 62 flat rows are a list, the same rows under their SOV are
   // a reading of where the estate is undefended.
-  //
-  // `objectiveId` narrows it to the badge that was pressed; null is the whole set.
+  
+  // `objectiveId` narrows it to the badge that was pressed. null is the whole set.
   type Props = {
     result: EngineResult | null;
     workbook: Workbook | null;
@@ -54,7 +54,7 @@
 
     <div class="min-h-0 flex-1 space-y-6 overflow-y-auto overflow-x-hidden pt-3">
       <!-- Narrowed, the header already names the objective, so its group heading would
-           only repeat it. -->
+     only repeat it. -->
       {#if objectiveId === null}
         <ObjectiveGroups
           {groups}

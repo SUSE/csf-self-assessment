@@ -4,9 +4,9 @@
   import type { Provenance } from '../../utils/provenance-lens';
 
   // A reading aid over the marks that carry a gesture (analytics §4.6): how each
-  // answer was placed. It is description, never judgment (product invariant #4) —
+  // answer was placed. It is description, never judgment (product) —
   // the engine reads a swept answer and an individual one identically, so this
-  // moves no number. The host decides where it sits; it renders beside the tiles
+  // moves no number. The host decides where it sits. it renders beside the tiles
   // that answer to it, never over the whole grid.
   let {
     tint,

@@ -150,7 +150,7 @@ describe('every tile over SUBJECT_EMPTY (analytics-S7)', () => {
   });
 });
 
-// instrument-S5 (invariant #13): the EC calculator declares NO dimensions, so
+// instrument-S5: the EC calculator declares NO dimensions, so
 // the three dimension-driven tiles must say so — and the tiles that are already
 // honest with zero dimensions must keep rendering without inventing an axis.
 describe('every dimension-driven tile over SUBJECT_NO_DIMENSIONS (instrument-S5)', () => {

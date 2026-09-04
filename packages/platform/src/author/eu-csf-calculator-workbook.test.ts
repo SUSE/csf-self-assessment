@@ -6,7 +6,7 @@ import { ladderLint } from './lint';
 import { euCsfCalculatorWorkbookRaw } from '../test-fixtures';
 
 // instrument-S5: the imported EC calculator, pinned to its source readings. The
-// two scores are quoted from spec §9 / §2.8 at four decimal places — they are
+// two scores are quoted from at four decimal places — they are
 // the published numbers this conversion has to reproduce, which is why they live
 // here and not in score-engine/checked-in-fixtures.test.ts, whose table pins
 // full-precision doubles measured from our own fixtures.

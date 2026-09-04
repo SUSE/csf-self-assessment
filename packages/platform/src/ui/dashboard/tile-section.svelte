@@ -7,7 +7,7 @@
 
   // One section of the dashboard: its heading, the tint control when this is the
   // heading that carries it, and the tiles under it.
-  //
+  
   // The control is placed by the dashboard, which is the only thing that can see
   // all the sections at once and pick the FIRST one holding a tile the control
   // bites on — so this component is told, never asked.

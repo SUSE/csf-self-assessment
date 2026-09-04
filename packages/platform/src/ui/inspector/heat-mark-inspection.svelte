@@ -14,7 +14,7 @@
     workbook: Workbook | null;
     parties: Party[];
     axis: HeatAxisId;
-    /** The pressed mark's key (heatMarkKey). */
+    /** The pressed mark's key (heatMarkKey).*/
     mark: string;
     onOpenQuestion?: ((id: string) => void) | undefined;
   };

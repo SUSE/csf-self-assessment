@@ -2,7 +2,7 @@ import { z } from 'zod';
 import type { Party, PartyType } from './primitives';
 
 // The concrete-party rules an estate-bearing record must satisfy (parties.md
-// invariant #4): every party's `type` resolves against the owning workbook's
+// ): every party's `type` resolves against the owning workbook's
 // party types, and exactly one party is the assessed "us". Shared verbatim by
 // AssessmentSchema and WorkbookAssessmentSchema — the same estate, one rule.
 

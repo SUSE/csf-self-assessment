@@ -22,8 +22,8 @@ export class StageRouter {
   readonly #history: ReturnType<typeof createViewHistory<StageView>>;
   #lastScreen: string | null = null;
 
-  /** Snapshotted, not the raw proxy: history.state is structured-cloned, and a
-   *  `$state` proxy throws DataCloneError there. */
+  // Snapshotted, not the raw proxy: history.state is structured-cloned, and a
+  // `$state` proxy throws DataCloneError there.
   get view(): StageView {
     const { fill, facilitator, inspector } = this.#deps;
     if (facilitator.active) {
@@ -71,14 +71,14 @@ export class StageRouter {
     });
   }
 
-  /** Every load calls this: Back must not return to a view that referenced the
-   *  artifact just discarded. */
+  // Every load calls this: Back must not return to a view that referenced the
+  // artifact just discarded.
   baseline(): void {
     this.#history.baseline(this.view);
   }
 
-  /** The scroll is captured into the LIST entry before the detail entry is pushed,
-   *  so Back returns to where the reader actually was. */
+  // The scroll is captured into the LIST entry before the detail entry is pushed,
+  // so Back returns to where the reader actually was.
   openLanding(id: string, scroll: number): void {
     const { facilitator } = this.#deps;
     const base = facilitator.merge.historySnapshot() ?? NO_HISTORY_VIEW;
@@ -92,8 +92,8 @@ export class StageRouter {
     facilitator.merge.history = { ...base, landing: id, scroll, record: null };
   }
 
-  /** The entry Back returns to must already name the panel, so it is replaced
-   *  before the section change pushes the Questions entry (the openLanding pattern). */
+  // The entry Back returns to must already name the panel, so it is replaced
+  // before the section change pushes the Questions entry (the openLanding pattern).
   inspectFromLanding(questionId: string, target: Target): void {
     const { facilitator, inspector } = this.#deps;
     const unitTarget: Target = $state.snapshot(target);

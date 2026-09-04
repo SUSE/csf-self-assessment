@@ -2,7 +2,7 @@ import type { Answer, Claim, DimensionQuestion, Party, Question, Target, Workboo
 import { applicableDimensionsOf } from './placement';
 
 // The active claim filters the walk; the claim LOG accumulates claims, the walk shows
-// one (delivery §2.3).
+// one.
 export type WalkSection = {
   objectiveId: string;
   objectiveName: string;
@@ -53,7 +53,7 @@ export function claimCoversUnit(claim: Claim, question: Question, target: Target
   }
 }
 
-// The dimension ids a question exposes under a claim (delivery §2.3.3): all of
+// The dimension ids a question exposes under a claim: all of
 // appliesTo under a whole subject, else only the appliesTo dimensions it names.
 export function claimVisibleDimensions(claim: Claim, question: DimensionQuestion): string[] {
   if (claim.dimensions.length === 0 && claim.parties.length === 0) return applicableDimensionsOf(question);
@@ -69,13 +69,13 @@ export function claimVisibleParties(parties: Party[], claim: Claim): Party[] {
   return parties.filter((p) => partySet.has(p.id));
 }
 
-// A provider is claimed iff some claim names it (delivery §2.6.5, invariant #3). The
+// A provider is claimed iff some claim names it. The
 // Parties page blocks removing a claimed provider — the claim log must never lie.
 export function partyClaimed(claims: Claim[], partyId: string): boolean {
   return claims.some((claim) => claim.parties.includes(partyId));
 }
 
-// The answer half of the removal guard (spec §4.9): a provider has an answer iff some
+// The answer half of the removal guard: a provider has an answer iff some
 // party-target answer names it, any state.
 export function partyAnswered(answers: Answer[], partyId: string): boolean {
   return answers.some((a) => a.target.kind === 'party' && a.target.party === partyId);

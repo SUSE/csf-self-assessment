@@ -2,29 +2,28 @@ import type { Horizon, Party, Recommendation, RecommendationLink, Seal, Workbook
 import type { EngineResult, HeatFact } from '../score-engine';
 import { targetLabel } from '../utils/target-label';
 
-/** One link that fired, with the reading that fired it. `label` is the authored
- *  NAME for a dimension or objective link and the question ID for a question
- *  link — a question's text is a sentence, too long for a chip, and the id is
- *  the sharpest handle an author has. */
+// One link that fired, with the reading that fired it. `label` is the authored
+// NAME for a dimension or objective link and the question ID for a question
+// link — a question's text is a sentence, too long for a chip, and the id is
+// the sharpest handle an author has.
 export type FiredLink = { link: RecommendationLink; label: string; seal: Seal };
 
-/** One answered target behind the trigger — the heat detail row idiom
- *  (docs/specs/recommendations.md §4.3). */
+// One answered target behind the trigger
 export type TriggerTarget = {
-  /** `<questionId>|<dimension>|<stratum>|<party>` — the StaircaseRowView idiom. */
+  // `<questionId>|<dimension>|<stratum>|<party>` — the StaircaseRowView idiom.
   key: string;
   targetLabel: string;
   seal: Seal;
 };
 
-/** The answers behind the trigger, grouped by the QUESTION that carries them. A
- *  dimension-grain question answered across eleven dimensions is one sentence
- *  eleven times if it is not grouped, which is what the evidence panel showed
- *  before the page had room to say it properly. */
+// The answers behind the trigger, grouped by the QUESTION that carries them. A
+// dimension-grain question answered across eleven dimensions is one sentence
+// eleven times if it is not grouped, which is what the evidence panel showed
+// before the page had room to say it properly.
 export type TriggerQuestion = {
   questionId: string;
   questionText: string;
-  /** The weakest seal among `targets` — what this question contributes. */
+  // The weakest seal among `targets` — what this question contributes.
   seal: Seal;
   targets: TriggerTarget[];
 };
@@ -35,12 +34,12 @@ export type RecommendationCard = {
   action: string;
   body: string[];
   horizon: Horizon;
-  /** The lowest-sealed link that fired — the trigger chip at tile size. Ties
-   *  break on authored link order. */
+  // The lowest-sealed link that fired — the trigger chip at tile size. Ties
+  // break on authored link order.
   trigger: FiredLink;
-  /** Every link that fired, in authored order. */
+  // Every link that fired, in authored order.
   fired: FiredLink[];
-  /** The answered facts the TRIGGER link covers, weakest question first. */
+  // The answered facts the TRIGGER link covers, weakest question first.
   questions: TriggerQuestion[];
 };
 
@@ -49,19 +48,19 @@ export type BandView =
   | { kind: 'none-authored'; reason: string }
   | { kind: 'none-fired'; authored: number; reason: string };
 
-/** One horizon's chapter of the Recommendations page, with the wording it is read
- *  under — the page composes no strings of its own. */
+// One horizon's chapter of the Recommendations page, with the wording it is read
+// under — the page composes no strings of its own.
 export type HorizonChapter = {
   horizon: Horizon;
   title: string;
-  /** The question this chapter answers, the dashboard tile's `asks` idiom. */
+  // The question this chapter answers, the dashboard tile's `asks` idiom.
   asks: string;
-  /** When the reader would act on it. */
+  // When the reader would act on it.
   when: string;
   band: BandView;
 };
 
-/** The whole page: who is offering, then the two horizons in reading order. */
+// The whole page: who is offering, then the two horizons in reading order.
 export type RecommendationsPage = {
   recommender: RecommenderReading;
   chapters: HorizonChapter[];
@@ -69,21 +68,21 @@ export type RecommendationsPage = {
 
 export type RecommenderReading =
   | {
-      kind: 'recommender';
-      name: string;
-      /** `Recommendations from SUSE`. */
-      headline: string;
-      disclosure: string;
-      contact: { label: string; url: string } | null;
-      live: number;
-      catalogue: number;
-      /** `1 of 1 live on this estate`. */
-      reading: string;
-    }
+    kind: 'recommender';
+    name: string;
+    // `Recommendations from SUSE`.
+    headline: string;
+    disclosure: string;
+    contact: { label: string; url: string } | null;
+    live: number;
+    catalogue: number;
+    // `1 of 1 live on this estate`.
+    reading: string;
+  }
   | { kind: 'absent'; reason: string };
 
-/** One paragraph of a `body`, already classified for rendering: a run of
- *  consecutive `'- '` lines becomes one bullets block. */
+// One paragraph of a `body`, already classified for rendering: a run of
+// consecutive `'- '` lines becomes one bullets block.
 export type BodyBlock =
   | { kind: 'paragraph'; key: string; text: string }
   | { kind: 'bullets'; key: string; items: string[] };
@@ -136,8 +135,8 @@ function linkLabel(workbook: Workbook, link: RecommendationLink): string {
   }
 }
 
-/** Every link of `recommendation` that fires, in authored order (§2.3). Empty =
- *  the recommendation is silent on this estate. */
+// Every link of `recommendation` that fires, in authored order (§2.3). Empty =
+// the recommendation is silent on this estate.
 export function firedLinks(
   recommendation: Recommendation,
   facts: readonly HeatFact[],
@@ -226,9 +225,8 @@ function bandView(
     return {
       kind: 'none-fired',
       authored: n,
-      reason: `${n} ${BAND_WORD[horizon]} ${
-        n === 1 ? 'recommendation is' : 'recommendations are'
-      } authored; none matches this estate’s answers yet.`,
+      reason: `${n} ${BAND_WORD[horizon]} ${n === 1 ? 'recommendation is' : 'recommendations are'
+        } authored; none matches this estate’s answers yet.`,
     };
   }
   return { kind: 'cards', cards };

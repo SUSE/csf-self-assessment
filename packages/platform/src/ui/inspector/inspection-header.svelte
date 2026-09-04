@@ -4,7 +4,7 @@
   // same way.
   type Props = {
     title: string;
-    /** The count chip's text — `9 of 57`, `2 answers`. Omit for no chip. */
+    /** The count chip's text — `9 of 57`, `2 answers`. Omit for no chip.*/
     count?: string | undefined;
     note: string;
   };

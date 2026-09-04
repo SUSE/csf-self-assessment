@@ -5,13 +5,13 @@
   // The reading of what is left: the count, and the population it is a count of.
   // Both ledgers (owner chips at rest, OpenGroup sections maximised) are read
   // under this, so it is one component rather than a branch in each of them.
-  //
+  
   // Why the field replaces the bar. A 4.5% ratio bar says "nothing has happened"
   // for a standing that is "almost everything has" — the reason `align="end"`
   // was there at all. The field is read correctly at a glance, and the bar comes
   // back, unchanged, for populations too large to draw a cell each (see
   // unit-field.svelte's CAP).
-  //
+  
   // The rail may shrink below its 16rem basis (`min-w-0`, no `shrink-0`): at the
   // narrow end a rail that refuses to give ground pushes the card into overflow,
   // and the field inside it wraps to more rows quite happily. `max-w-md` is the

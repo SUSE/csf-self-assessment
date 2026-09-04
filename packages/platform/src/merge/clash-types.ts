@@ -15,13 +15,13 @@ import { candidateProvenance } from './authority';
 import { standingCandidate, unitHistory } from './ledger';
 
 // Judging one incoming partial's answer units against the estate base
-// (merge.md §2.5) — the unit vocabulary and the classifier itself. Pure — no
+// — the unit vocabulary and the classifier itself. Pure — no
 // clock, no ids minted.
 
 const BASE_SOURCE = 'the estate base';
 
-/** One candidate as the REVIEW holds it: a whole `Answer`, because a resolution
- *  folds it onto the base. `LedgerCandidate` (schema) is the persisted twin. */
+// One candidate as the REVIEW holds it: a whole `Answer`, because a resolution
+// folds it onto the base. `LedgerCandidate` (schema) is the persisted twin.
 export type ReviewCandidate = {
   from: string;
   answer: Answer;
@@ -48,7 +48,7 @@ export type SoleSourceUnit = {
   candidate: ReviewCandidate;
 };
 
-/** One answer unit the base and the incoming partial answer differently. */
+// One answer unit the base and the incoming partial answer differently.
 export type UnitClash = {
   kind: 'unit-clash';
   clash: Exclude<ClashClass, 'grain'>;
@@ -64,10 +64,10 @@ export type GrainStratum = {
   candidate: ReviewCandidate;
 };
 
-/** The same question about the same dimension answered at different depths —
- *  a whole-dimension roll-up on one side, stratum refinements on the other. It
- *  spans the roll-up unit AND every stratum unit; its resolution is keyed by
- *  the roll-up target. */
+// The same question about the same dimension answered at different depths —
+// a whole-dimension roll-up on one side, stratum refinements on the other. It
+// spans the roll-up unit AND every stratum unit; its resolution is keyed by
+// the roll-up target.
 export type GrainClash = {
   kind: 'grain-clash';
   clash: 'grain';
@@ -75,9 +75,9 @@ export type GrainClash = {
   dimension: string;
   target: DimensionTarget;
   rollUp: ReviewCandidate;
-  /** In workbook stratum order. */
+  // In workbook stratum order.
   strata: GrainStratum[];
-  /** Which side of this landing supplied the roll-up; the strata came from the other. */
+  // Which side of this landing supplied the roll-up; the strata came from the other.
   rollUpSide: 'base' | 'incoming';
 };
 
@@ -88,7 +88,7 @@ export function isClash(unit: LandingUnit): unit is LandingClash {
   return unit.kind === 'unit-clash' || unit.kind === 'grain-clash';
 }
 
-/** Every candidate answer a clash puts in play — the wheel's conflict markers. */
+// Every candidate answer a clash puts in play — the wheel's conflict markers.
 export function clashCandidates(clash: LandingClash): ReviewCandidate[] {
   return clash.kind === 'unit-clash'
     ? [clash.base, clash.incoming]
@@ -103,9 +103,9 @@ function classOf(base: Answer, incoming: Answer): Exclude<ClashClass, 'grain'> {
   return 'divergence';
 }
 
-/** Every answer unit the incoming partial touches, judged against the base.
- *  Party ids are assumed already reconciled — call `reviewLanding` for the
- *  whole picture. */
+// Every answer unit the incoming partial touches, judged against the base.
+// Party ids are assumed already reconciled — call `reviewLanding` for the
+// whole picture.
 export function classify(
   base: EstateBase,
   ledger: readonly Landing[],

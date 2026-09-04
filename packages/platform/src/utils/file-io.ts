@@ -1,6 +1,6 @@
 import './fs-access';
 
-// File I/O for the thin app shells (spec §3), shared by both apps. File System
+// File I/O for the thin app shells, shared by both apps. File System
 // Access API when the browser has it (Chrome/Edge), <a download> / <input
 // type=file> fallback (Firefox/Safari). Returns raw text on open — JSON.parse
 // and schema validation are the app's + platform's job. No network of any kind.

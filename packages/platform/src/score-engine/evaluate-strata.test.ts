@@ -3,10 +3,8 @@ import type { Answer, Seal } from '../schema';
 import { answerFor } from '../assessment';
 import { G, dimensionQ, obj, runOn, wb } from './fixtures';
 
-/**
- * One dimension question over compute / network, full ladders (ladderMax 100 per unit).
- * compute splits into software / chips; both dimensions are critical.
- */
+// One dimension question over compute / network, full ladders (ladderMax 100 per unit).
+// compute splits into software / chips; both dimensions are critical.
 const SW = wb([obj('O', 100, [dimensionQ('O.d1', ['compute', 'network'])])], [
   { id: 'compute', name: 'Compute', strata: ['software', 'chips'], critical: true },
   { id: 'network', name: 'Network', critical: true },

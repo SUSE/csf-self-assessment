@@ -5,13 +5,13 @@
   import QuestionFill from './question-fill.svelte';
   import StageNav from './stage-nav.svelte';
 
-  // The participant's filling UI (spec §3), redesigned to a SINGLE-FOCUS stage
+  // The participant's filling UI, redesigned to a SINGLE-FOCUS stage
   // (the workbench stage-header concept): a StageNav (SOV selector + question
   // slider + Prev/Next) drives which ONE question is shown, so the participant
   // navigates instead of scrolling every card. The walk is the active claim's
-  // `sections` (delivery §2.3), already narrowed to the claimed units (each
+  // `sections`, already narrowed to the claimed units (each
   // dimension question carries a claim-narrowed appliesTo) — the participant
-  // answers only what the claim covers, in workbook order; a finalized or the
+  // answers only what the claim covers, in workbook order. a finalized or the
   // Author Preview passes the full walk. CONTROLLED: the parent owns the focused
   // question (`focusId` in /
   // `onFocus` out) as well as the answers, so browser Back can retrace navigation.
@@ -24,7 +24,7 @@
     onChange: (answers: Answer[]) => void;
     onFocus: (id: string) => void;
     /** Render the built-in StageNav. False when the host (the assessment app)
-        lifts the SOV/question navigation into its own toolbar. */
+lifts the SOV/question navigation into its own toolbar.*/
     showNav?: boolean;
   };
   let { workbook, parties, answers, sections, focusId, onChange, onFocus, showNav = true }: Props = $props();
@@ -40,10 +40,10 @@
   );
   const current = $derived(allQuestions.find((q) => q.id === resolvedId) ?? null);
 
-  // --- carousel navigation --------------------------------------------------
+  // -- carousel navigation -------------------------------------------------
   // Moving forward (to a higher question index — Next, a slider jump forward, or
   // an auto-advance) slides the incoming card in from the RIGHT while the old
-  // leaves left; moving back slides in from the LEFT while the old leaves right —
+  // leaves left. moving back slides in from the LEFT while the old leaves right —
   // a slideshow. `slideDir` is +1 forward, -1 back, set on every navigation
   // BEFORE focus changes so the {#key} block reads the right direction.
   let slideDir = $state(1);

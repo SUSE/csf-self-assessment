@@ -19,12 +19,12 @@
     onclick={() => onOpen(row.questionId)}
   >
     <!-- Wide enough for a real question id: at `w-24` every one of the estate
-         workbook's ids clipped to `SOV-1.decisi…`, which names nothing. -->
+     workbook's ids clipped to `SOV-1.decisi…`, which names nothing. -->
     <span class="w-48 shrink-0 truncate font-mono text-xs text-muted-foreground">{row.questionId}</span>
     <span class="min-w-0 grow truncate text-sm text-foreground" title={row.text}>{row.text}</span>
     <!-- The chips are their own group, right-aligned: as siblings in a wrapping row
-         they broke to the FAR LEFT of the next line, under the id, reading as a
-         second row belonging to nothing. -->
+     they broke to the FAR LEFT of the next line, under the id, reading as a
+     second row belonging to nothing. -->
     <span class="flex max-w-[45%] shrink-0 flex-wrap justify-end gap-1">
       <Chip tone="mono" size="sm" title={`Answered by ${row.roleId}`}>{row.roleName}</Chip>
       {#if row.viaKind === 'party'}

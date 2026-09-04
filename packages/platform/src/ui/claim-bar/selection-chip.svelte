@@ -3,7 +3,7 @@
   import { Chip } from '../chip';
 
   // One toggle chip — the single selection idiom across roles, dimensions and
-  // parties. Selected reads affirmative; the check is the non-colour signal so
+  // parties. Selected reads affirmative. the check is the non-colour signal so
   // selection survives a mono/high-contrast view.
   type Props = {
     label: string;

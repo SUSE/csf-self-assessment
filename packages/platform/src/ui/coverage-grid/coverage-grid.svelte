@@ -12,14 +12,14 @@
   // because it is the one reading no other surface gives — the instrument wheel
   // shows a dimension's TOTAL and draws the uncovered ones as stubs, but only the
   // cross-tab says WHICH objective leaves a hole.
-  //
+  
   // Presentation only: every value comes off `coverageGridModel`.
   type Props = {
     coverage: CoverageGauge;
     workbook: Workbook;
-    /** Open the Dimensions page, flashing the named row. */
+    /** Open the Dimensions page, flashing the named row.*/
     onOpenDimension: (dimensionId: string) => void;
-    /** Open one objective's editor. */
+    /** Open one objective's editor.*/
     onOpenObjective: (objectiveId: string) => void;
   };
   let { coverage, workbook, onOpenDimension, onOpenObjective }: Props = $props();
@@ -33,7 +33,7 @@
   </PanelHeader>
 
   <!-- Intro and verdict on one line, the shape the recommendation readout uses:
-       the reader should not have to pass the grid to reach its conclusion. -->
+     the reader should not have to pass the grid to reach its conclusion. -->
   <div class="flex flex-wrap items-baseline gap-x-6 gap-y-1 text-xs">
     <p class="text-muted-foreground">
       Every dimension-grain question, counted against the dimension it reaches. A
@@ -52,9 +52,9 @@
     </Well>
   {:else}
     <!-- NO `w-full`: a cross-tab of single digits has a natural size, so the table
-         shrink-wraps to its ids and there is no surplus width for auto layout to
-         spend as 300px of inter-column padding. Each head caps its own width
-         instead, so one long dimension id cannot stretch the stage. -->
+     shrink-wraps to its ids and there is no surplus width for auto layout to
+     spend as 300px of inter-column padding. Each head caps its own width
+     instead, so one long dimension id cannot stretch the stage. -->
     <div class="overflow-x-auto">
       <table class="text-xs">
         <thead>

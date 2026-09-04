@@ -2,7 +2,7 @@ import { getContext, setContext } from 'svelte';
 import { SvelteMap } from 'svelte/reactivity';
 
 // A pointer-drag SESSION shared by the draggable chips and drop targets of ONE
-// card (spec §4.8 drag-first fan-out). Deliberately DOM-free: the `draggable` /
+// card. Deliberately DOM-free: the `draggable` /
 // `dropTarget` actions own the pointer wiring and `elementFromPoint` hit-test and
 // call INTO this state core, so the transitions (begin → track → drop / cancel)
 // stay unit-testable in the repo's node-only test env. Provided via Svelte
@@ -15,11 +15,11 @@ export type DragPayload = { label: string; critical?: boolean };
 type DropHandler<P extends DragPayload> = (payload: P) => void;
 
 export class DndSession<P extends DragPayload = DragPayload> {
-  /** The chip being dragged: its stable `key` and payload, or null when idle. */
+  // The chip being dragged: its stable `key` and payload, or null when idle.
   active = $state<{ key: string; payload: P } | null>(null);
-  /** The drop-target key currently under the pointer, or null. */
+  // The drop-target key currently under the pointer, or null.
   over = $state<string | null>(null);
-  /** Viewport coords of the pointer while dragging (drives the ghost), or null. */
+  // Viewport coords of the pointer while dragging (drives the ghost), or null.
   pos = $state<{ x: number; y: number } | null>(null);
 
   // Drop targets register a handler keyed by their drop-key; separate namespace
@@ -39,13 +39,13 @@ export class DndSession<P extends DragPayload = DragPayload> {
     this.pos = { x, y };
     this.over = null;
   }
-  /** Track the pointer and the target beneath it as the drag moves. */
+  // Track the pointer and the target beneath it as the drag moves.
   track(x: number, y: number, overKey: string | null): void {
     if (this.active === null) return;
     this.pos = { x, y };
     this.over = overKey;
   }
-  /** Drop the active payload on the current `over` target, then go idle. */
+  // Drop the active payload on the current `over` target, then go idle.
   drop(): void {
     const target = this.over;
     const active = this.active;
@@ -74,8 +74,8 @@ export function createDnd<P extends DragPayload>(): DndSession<P> {
   return session;
 }
 
-/** The card's session, or undefined when rendered outside a provider (e.g. the
-    single-unit ladder-card, which has no fan-out to drag). */
+// The card's session, or undefined when rendered outside a provider (e.g. the
+//    single-unit ladder-card, which has no fan-out to drag).
 export function getDnd<P extends DragPayload = DragPayload>(): DndSession<P> | undefined {
   return getContext<DndSession<P> | undefined>(KEY);
 }

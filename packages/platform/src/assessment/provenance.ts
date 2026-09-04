@@ -2,17 +2,17 @@ import type { Answer, Assessment, Claim, Landing, Participant, Party, Workbook }
 
 // partial: one participant's file (claim log + parties they added, never a ledger).
 // finalized: the facilitator's assembled record, or an Author-QA reading. Every
-// assessment carries workshop lineage — there is no lineage-free kind (ADR-0007).
+// assessment carries workshop lineage — there is no lineage-free kind.
 export type AssessmentProvenance =
   | { kind: 'partial'; workbookAssessment: string; participant: Participant; claims: Claim[]; partiesAdded: Party[] }
   | { kind: 'finalized'; workbookAssessment: string; ledger: Landing[] };
 
-// Result of the version-match guard (spec §3 / ADR-0001).
+// Result of the version-match guard.
 export type IntegrityResult =
   | { ok: true }
   | { ok: false; declared: { id: string; version: string }; embedded: { id: string; version: string } };
 
-// The finalized reading the Author app scores for instrument-QA (ADR-0007). The
+// The finalized reading the Author app scores for instrument-QA. The
 // lineage id is synthetic and in-memory only — fed straight to evaluate(), never
 // persisted or round-tripped through AssessmentSchema.
 export const AUTHOR_QA_PROVENANCE: AssessmentProvenance = {
@@ -56,7 +56,7 @@ export function assessmentOf(
   }
 }
 
-// The graceful-default seed (delivery §4.1): the assessed party plus a first
+// The graceful-default seed: the assessed party plus a first
 // third-party provider serving every dimension. An institution-only workbook
 // yields just the assessed party.
 export function defaultParties(workbook: Workbook): Party[] {
@@ -74,7 +74,7 @@ export function defaultParties(workbook: Workbook): Party[] {
   return parties;
 }
 
-// The added-provider id algorithm (delivery §2.6.5): `<participant>:party-<n>`,
+// The added-provider id algorithm: `<participant>:party-<n>`,
 // one past the highest un-taken n. Shared so both add doorways mint identical ids.
 export function nextAddedPartyId(existing: Party[], participantName: string): string {
   const taken = new Set(existing.map((p) => p.id));
@@ -83,7 +83,7 @@ export function nextAddedPartyId(existing: Party[], participantName: string): st
   return `${participantName}:party-${n}`;
 }
 
-// A name-only third party for partiesAdded (spec §4.9), taking the workbook's first
+// A name-only third party for partiesAdded, taking the workbook's first
 // third-party type and serving nothing (the engine reads kind, never the type id).
 // null when the name is blank or no third-party type exists, so the caller never
 // appends a malformed party.

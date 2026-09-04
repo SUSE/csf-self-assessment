@@ -4,7 +4,7 @@
 
   // Where the debt sits. The counts are questions, and the line above says so — the
   // headline above THAT counts answers.
-  //
+  
   // Read in objective order, not weight order: the chips are a strip of instrument
   // ids, and a strip that reorders itself as answers land is harder to scan than one
   // that always sits where the instrument puts it. The count is on each chip.

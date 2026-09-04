@@ -10,10 +10,10 @@
     summitName: string;
     climb: string;
     /** The tread selected in this figure, or null. Null is the paper reading: a
-     *  document has no selection. */
+     * document has no selection.*/
     selected: string | null;
     /** null = a static drawing: no tread is a control, and the caption stops
-     *  naming a gesture the reader of a page cannot make (report.md §3.3). */
+     * naming a gesture the reader of a page cannot make (report.md §3.3).*/
     onSelect: ((mark: string) => void) | null;
   };
   let { steps, summitName, climb, selected, onSelect }: Props = $props();

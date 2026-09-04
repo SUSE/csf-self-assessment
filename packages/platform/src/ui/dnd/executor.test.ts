@@ -77,9 +77,9 @@ function drive(over: string | null = null) {
     params,
     executor,
     phase: () => state.phase,
-    /** The effects since the last read, then clear. */
+    // The effects since the last read, then clear.
     take: (): string[] => log.splice(0, log.length),
-    /** What the next hit-test will report. */
+    // What the next hit-test will report.
     hover: (key: string | null): void => {
       dropKey = key;
     },

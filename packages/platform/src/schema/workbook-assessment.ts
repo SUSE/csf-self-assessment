@@ -3,7 +3,7 @@ import { PartySchema } from './primitives';
 import { WorkbookSchema } from './workbook';
 import { refineEstateParties } from './party-rules';
 
-// The facilitator's distributable artifact (delivery §2.2, ADR-0005): a workbook
+// The facilitator's distributable artifact: a workbook
 // prepared for one named estate, with the seeded parties. The workbook is
 // embedded verbatim so the version-match refusal is checkable from the file
 // alone. The app shell stamps `id` and `createdAt` — the pure core never reads

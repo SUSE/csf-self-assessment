@@ -1,7 +1,7 @@
 import type { Answer, Gesture, Target } from '../schema';
 
 // What the LadderCard / fan-out card emits — a choice minus its (questionId,
-// target, gesture) context, which placement supplies. `evidence` (spec §4.1) rides
+// target, gesture) context, which placement supplies. `evidence` rides
 // an answered choice only and attaches to every answer the gesture produces.
 export type LadderChoice =
   | { state: 'answered'; rungId: string; evidence?: string }
@@ -44,7 +44,7 @@ export function answerFor(
 }
 
 // Rewrite the evidence note on every answered answer sharing (questionId, groupId)
-// — a whole-group rewrite (spec §2.2, invariant 5). Empty/whitespace drops the key;
+// — a whole-group rewrite. Empty/whitespace drops the key.
 // the groupId is preserved. Non-answered answers are left untouched.
 export function setEvidence(answers: Answer[], questionId: string, groupId: string, note: string): Answer[] {
   const empty = note.trim() === '';
@@ -55,7 +55,7 @@ export function setEvidence(answers: Answer[], questionId: string, groupId: stri
   });
 }
 
-// The na-twin of setEvidence (spec §2.1, invariant 6): rewrite the reason on every
+// The na-twin of setEvidence: rewrite the reason on every
 // 'na' answer sharing (questionId, groupId). Engine-invisible.
 export function setNaReason(answers: Answer[], questionId: string, groupId: string, reason: string): Answer[] {
   const empty = reason.trim() === '';
@@ -86,8 +86,8 @@ export function setAnswers(answers: Answer[], next: Answer[]): Answer[] {
   return next.reduce(setAnswer, answers);
 }
 
-// Lift the one placed unit at (questionId, target) back to the tray (spec §4.8,
-// ADR-0008 invariant 4). No-op when the target holds no answer. Immutable.
+// Lift the one placed unit at (questionId, target) back to the tray.
+// No-op when the target holds no answer. Immutable.
 export function retractPlacement(answers: Answer[], questionId: string, target: Target): Answer[] {
   const key = targetKey(target);
   return answers.filter((a) => !(a.questionId === questionId && targetKey(a.target) === key));

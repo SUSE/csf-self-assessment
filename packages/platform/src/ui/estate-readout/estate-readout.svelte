@@ -11,14 +11,14 @@
   // Author HUD existed for — nothing else in the app shows every estate's floor at
   // once (the QA Dashboard reads one estate, in another mode), and it is the
   // author's feedback loop: rewrite a rung, watch a floor move.
-  //
+  
   // Presentation only — the engine runs in the app shell (design rule 4).
   type Props = {
-    /** null while the draft has strict issues: the engine evaluates real workbooks. */
+    /** null while the draft has strict issues: the engine evaluates real workbooks.*/
     readings: TestEstateReading[] | null;
-    /** Floor changes between the last two valid evaluations. */
+    /** Floor changes between the last two valid evaluations.*/
     flips: EstateFloorFlip[];
-    /** Open the Test estates page — where an estate is added or its answers set. */
+    /** Open the Test estates page — where an estate is added or its answers set.*/
     onOpen: () => void;
   };
   let { readings, flips, onOpen }: Props = $props();

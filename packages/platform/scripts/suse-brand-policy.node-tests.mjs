@@ -237,7 +237,7 @@ test('brand palettes carry a seal hue, a radius, and the fixed categorical serie
     // Only the light block declares the hue: both selectors match the same <html>,
     // so the dark twin inherits it and cannot drift out of step.
     assert.ok(!dark.has('seal-hue'), `${pair.id} dark re-declares --seal-hue`);
-    // ADR-0014: the ramp hue IS the palette's own --primary hue, derived rather than
+    // The ramp hue IS the palette's own --primary hue, derived rather than
     // authored, so the ordinal and the palette can never disagree about what "this
     // palette's hue" is. The tweakcn bridge enforces this for the pairs it manages by
     // rewriting the value on apply; a hand-authored brand pair has no such backstop,
@@ -355,7 +355,7 @@ test('readable links and affirmative labels do not use text-primary', async () =
   const offenders = [];
   for (const [file, source] of await sourceText()) {
     source.split('\n').forEach((line, index) => {
-      if (!line.includes('text-primary') || line.trimStart().startsWith('//') || line.includes('<!--')) return;
+      if (!line.includes('text-primary') || line.trimStart().startsWith('// ') || line.includes('<!--')) return;
       const readable = /(?:link:|underline|Complete|positive:|<span[^>]+text-primary)/i.test(line);
       if (readable) offenders.push(`${file}:${index + 1}: ${line.trim()}`);
     });

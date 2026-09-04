@@ -1,6 +1,6 @@
 import type { Recommendation, Workbook } from '../schema';
 
-/** Two dimensions, one objective, one question — the smallest workbook a link can point into. */
+// Two dimensions, one objective, one question — the smallest workbook a link can point into.
 export const linkableWorkbook = (): Workbook => ({
   meta: { id: 'wb', version: '1.0.0', title: 'T' },
   frontSheet: [],

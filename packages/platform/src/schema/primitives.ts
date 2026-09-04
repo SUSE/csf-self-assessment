@@ -11,28 +11,28 @@ export const SealSchema = z.union([
   z.literal(4),
 ]);
 
-// A workshop-answerer role (docs/specs/roles.md, ADR-0003): workbook-authored
+// A workshop-answerer role (docs/specs/roles.md, ): workbook-authored
 // content, the twin of DimensionSchema, not a fixed vocabulary. `id` is the
 // stable badge every question.role and claim role resolves against, in the
-// OWNING workbook's roles (invariant #2). There is no global set.
+// OWNING workbook's roles. There is no global set.
 export const RoleDefSchema = z.object({
   id: z.string().min(1),
   name: z.string().min(1),
   description: z.string().min(1).optional(),
 });
 
-// Two independent axes — does it score, does it gate (ADR-0024, instrument.md
+// Two independent axes — does it score, does it gate (, instrument.md
 // §2.5). Order is the authoring order the workbench offers.
 export const MaterialitySchema = z.enum(['material', 'ranking', 'informational', 'na']);
 
-// Identity is the participant's NAME, unique within an estate (delivery §2.4).
+// Identity is the participant's NAME, unique within an estate.
 // An in-progress model may carry an empty name; the app requires one only
 // before EXPORT, where merge identifies partials by it.
 export const ParticipantSchema = z.object({
   name: z.string(),
 });
 
-// A claim (delivery §2.3, ADR-0006): one owner-gated slice a participant
+// A claim: one owner-gated slice a participant
 // composes to answer. `roles` is the gate; `dimensions ∪ parties` is the
 // SUBJECT (OR'd; both empty = everything for those roles).
 export const ClaimSchema = z.object({
@@ -43,7 +43,7 @@ export const ClaimSchema = z.object({
 
 // The engine-read structural class of a party type (docs/specs/parties.md
 // §2.2): `assessed` = the estate owner, `third-party` = the compellable supply
-// chain. The engine branches on `kind`, never on a party-type id (invariant #5).
+// chain. The engine branches on `kind`, never on a party-type id.
 export const PartyKindSchema = z.enum(['assessed', 'third-party']);
 
 // A workbook-authored party TYPE (docs/specs/parties.md §2.2): a class of party
@@ -67,7 +67,7 @@ export const PartySchema = z.object({
 });
 
 export type Seal = z.infer<typeof SealSchema>;
-// A role id, resolved against the owning workbook's `roles` (ADR-0003). Not a
+// A role id, resolved against the owning workbook's `roles`. Not a
 // global vocabulary — there is no RoleSchema enum.
 export type Role = string;
 export type RoleDef = z.infer<typeof RoleDefSchema>;

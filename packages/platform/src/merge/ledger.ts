@@ -40,8 +40,8 @@ export function effectOf(record: AnswerLedgerRecord): LandingEffect {
   return 'changed';
 }
 
-/** One Landing's derived reading (§2.4). Nothing here is stored. The four effect
- *  counts partition `unitsReviewed`; the process counts overlay it. */
+// One Landing's derived reading (§2.4). Nothing here is stored. The four effect
+// counts partition `unitsReviewed`; the process counts overlay it.
 export type LandingSummary = {
   unitsReviewed: number;
   newUnits: number;
@@ -90,13 +90,13 @@ export function landingSummary(landing: Landing): LandingSummary {
   return summary;
 }
 
-/** The first seven characters — display shorthand only (§2.1.9). */
+// The first seven characters — display shorthand only (§2.1.9).
 export function shortLandingId(id: string): string {
   return id.slice(0, 7);
 }
 
-/** The candidate that produced this record's standing answer, or null when the
- *  record emptied the unit. */
+// The candidate that produced this record's standing answer, or null when the
+// record emptied the unit.
 export function standingCandidate(record: AnswerLedgerRecord): LedgerCandidate | null {
   const standing = record.after;
   if (standing === null) return null;
@@ -130,7 +130,7 @@ function candidateFrom(
 const standingLabel = (question: Pick<Question, 'ladder'>, answer: AnswerSnapshot | null): string =>
   answer === null ? 'nothing stands here' : answerLabel(question, answer);
 
-/** How a clash was settled, in words — `kept Jane`, `re-answered at “r2” (SEAL 2)`. */
+// How a clash was settled, in words — `kept Jane`, `re-answered at “r2” (SEAL 2)`.
 export function choiceSentence(choice: ClashChoice, question: Pick<Question, 'ladder'>): string {
   switch (choice.kind) {
     case 'take':
@@ -166,8 +166,8 @@ function partySentence(record: PartyLedgerRecord): string {
   }
 }
 
-/** One ledger record read as a sentence — the History list, the unit ledger and
- *  the credibility strip all speak with this one voice. Data, not judgment. */
+// One ledger record read as a sentence — the History list, the unit ledger and
+// the credibility strip all speak with this one voice. Data, not judgment.
 export function recordSentence(record: LedgerRecord, workbook: Pick<Workbook, 'objectives'>): string {
   if (record.kind === 'party') return partySentence(record);
   const question = questionOf(workbook, record.questionId) ?? { ladder: [] };
@@ -184,11 +184,11 @@ export function recordSentence(record: LedgerRecord, workbook: Pick<Workbook, 'o
   }
 }
 
-/** One answer record together with the Landing that carried it — the envelope
- *  only, never the whole batch. */
+// One answer record together with the Landing that carried it — the envelope
+// only, never the whole batch.
 export type UnitHistoryEntry = { landing: LandingEnvelope; record: AnswerLedgerRecord };
 
-/** One unit's full history, in ledger order — `git blame` for an answer (§3.4). */
+// One unit's full history, in ledger order — `git blame` for an answer (§3.4).
 export function unitHistory(
   ledger: readonly Landing[],
   questionId: string,
@@ -209,9 +209,9 @@ export function unitHistory(
 
 export type LedgerUnit = { questionId: string; target: Target; entries: UnitHistoryEntry[] };
 
-/** Answer records grouped by unit, units in first-appearance order across
- *  Landings and entries within a unit in ledger order. Party records are not
- *  units and are excluded. */
+// Answer records grouped by unit, units in first-appearance order across
+// Landings and entries within a unit in ledger order. Party records are not
+// units and are excluded.
 export function ledgerUnits(ledger: readonly Landing[]): LedgerUnit[] {
   const units = new Map<string, LedgerUnit>();
   for (const landing of ledger) {
@@ -231,10 +231,10 @@ export function ledgerUnits(ledger: readonly Landing[]): LedgerUnit[] {
   return [...units.values()];
 }
 
-/** The claim behind one candidate, in words: `blanket claim`,
- *  `outside their claims`, or `claim naming <subjects>` — the dimension and
- *  party NAMES the claim listed, dimensions first, each in the claim's own
- *  order. An `owner` candidate whose claim named nothing reads `claim owner`. */
+// The claim behind one candidate, in words: `blanket claim`,
+// `outside their claims`, or `claim naming <subjects>` — the dimension and
+// party NAMES the claim listed, dimensions first, each in the claim's own
+// order. An `owner` candidate whose claim named nothing reads `claim owner`.
 export function claimPhrase(
   candidate: Pick<LedgerCandidate, 'claim' | 'authority'>,
   workbook: Pick<Workbook, 'dimensions'>,
@@ -250,9 +250,9 @@ export function claimPhrase(
   return named.length === 0 ? authorityLabel('owner') : `claim naming ${named.join(', ')}`;
 }
 
-/** One entry as every ledger view reads it: its Landing, the sentence, plus one
- *  line per candidate naming WHO stood behind it and the claim that produced it
- *  (invariant #5). */
+// One entry as every ledger view reads it: its Landing, the sentence, plus one
+// line per candidate naming WHO stood behind it and the claim that produced it
+// .
 export type LedgerEntry = {
   landing: LandingEnvelope;
   record: AnswerLedgerRecord;
@@ -260,7 +260,7 @@ export type LedgerEntry = {
   sources: string[];
 };
 
-/** Unit-history entries read as ledger entries, in the order given. */
+// Unit-history entries read as ledger entries, in the order given.
 export function ledgerEntries(
   entries: readonly UnitHistoryEntry[],
   workbook: Pick<Workbook, 'dimensions' | 'objectives'>,
@@ -274,10 +274,10 @@ export function ledgerEntries(
   }));
 }
 
-/** Every answer unit ONE question ever touched, labelled and read as entries —
- *  including a unit a grain decision emptied, which is why this reads the LEDGER
- *  and never the current answers. Units in first-appearance order, entries
- *  within a unit in ledger order. */
+// Every answer unit ONE question ever touched, labelled and read as entries —
+// including a unit a grain decision emptied, which is why this reads the LEDGER
+// and never the current answers. Units in first-appearance order, entries
+// within a unit in ledger order.
 export type BlameUnit = { target: Target; label: string; entries: LedgerEntry[] };
 export function questionBlame(
   ledger: readonly Landing[],
@@ -294,23 +294,23 @@ export function questionBlame(
     }));
 }
 
-/** One unit as it STANDS: who placed the answer that holds now, what that answer
- *  says, how it settled, and the Landing that recorded it. */
+// One unit as it STANDS: who placed the answer that holds now, what that answer
+// says, how it settled, and the Landing that recorded it.
 export type StandingUnit = {
   questionId: string;
   target: Target;
-  /** The identity behind the standing answer: a participant, or `facilitator`. */
+  // The identity behind the standing answer: a participant, or `facilitator`.
   from: string;
   answer: AnswerSnapshot;
   decision: AnswerLedgerRecord['decision']['kind'];
   landing: LandingEnvelope;
 };
 
-/** Every unit that still holds an answer, read from the LAST record that touched
- *  it — so a superseded answer credits nobody and a unit a grain decision emptied
- *  is absent rather than standing for its old author. This is what makes the
- *  readings built on it summaries of the file rather than of the traffic that
- *  produced it. Units in first-appearance order. */
+// Every unit that still holds an answer, read from the LAST record that touched
+// it — so a superseded answer credits nobody and a unit a grain decision emptied
+// is absent rather than standing for its old author. This is what makes the
+// readings built on it summaries of the file rather than of the traffic that
+// produced it. Units in first-appearance order.
 export function standingUnits(ledger: readonly Landing[]): StandingUnit[] {
   const standing: StandingUnit[] = [];
   for (const unit of ledgerUnits(ledger)) {
@@ -330,14 +330,14 @@ export function standingUnits(ledger: readonly Landing[]): StandingUnit[] {
   return standing;
 }
 
-/** One contributor's authorship of the file as it stands: the units whose
- *  standing answer came from them. `facilitator` appears here like anyone else —
- *  a re-answer at the queue is authorship, and hiding it would be the one
- *  provenance omission that flatters the result. */
+// One contributor's authorship of the file as it stands: the units whose
+// standing answer came from them. `facilitator` appears here like anyone else —
+// a re-answer at the queue is authorship, and hiding it would be the one
+// provenance omission that flatters the result.
 export type StandingAuthor = { from: string; units: number };
 
-/** Who placed the answers that STAND, most units first, ties in first-appearance
- *  order. */
+// Who placed the answers that STAND, most units first, ties in first-appearance
+// order.
 export function standingAuthors(ledger: readonly Landing[]): StandingAuthor[] {
   const units = new Map<string, number>();
   for (const unit of standingUnits(ledger)) {
@@ -348,9 +348,9 @@ export function standingAuthors(ledger: readonly Landing[]): StandingAuthor[] {
     .sort((a, b) => b.units - a.units);
 }
 
-/** The ledger at a glance for the credibility lens: how many Landings, how many
- *  records they hold, how many answer units those cover, and how many were
- *  DISPUTED (a `resolved` decision). */
+// The ledger at a glance for the credibility lens: how many Landings, how many
+// records they hold, how many answer units those cover, and how many were
+// DISPUTED (a `resolved` decision).
 export type LedgerSummary = {
   landings: number;
   records: number;
@@ -366,15 +366,15 @@ export function ledgerSummary(ledger: readonly Landing[]): LedgerSummary {
   };
 }
 
-/** The sentences of the disputed records only, in ledger order — what the
- *  credibility strip lists. The whole ledger is the History tab's job. */
+// The sentences of the disputed records only, in ledger order — what the
+// credibility strip lists. The whole ledger is the History tab's job.
 export function disputedSentences(ledger: readonly Landing[], workbook: Pick<Workbook, 'objectives'>): string[] {
   return disputedRecords(ledger).map((record) => recordSentence(record, workbook));
 }
 
-/** Every record the room disagreed on, in ledger order — a `resolved` decision.
- *  Records, not units: a unit disputed twice is two of these, which is what makes
- *  the count the credibility tile reports a count of the traffic. */
+// Every record the room disagreed on, in ledger order — a `resolved` decision.
+// Records, not units: a unit disputed twice is two of these, which is what makes
+// the count the credibility tile reports a count of the traffic.
 export function disputedRecords(ledger: readonly Landing[]): AnswerLedgerRecord[] {
   return ledger.flatMap((landing) =>
     landing.records.filter(

@@ -4,8 +4,8 @@
   import ExposureNode from './exposure-node.svelte';
 
   // The bipartite party ↔ dimension map, hand-drawn from the geometry the model
-  // computed (ADR-0013). Nothing is laid out here and no truth is looked up.
-  //
+  // computed. Nothing is laid out here and no truth is looked up.
+  
   // Everything in an SVG scales with the box, labels included, so the drawing is
   // capped: past this width the type reads as a headline instead of a label.
   let { map, selected }: { map: ExposureMapView; selected: string | null } = $props();

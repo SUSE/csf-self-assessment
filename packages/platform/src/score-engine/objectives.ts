@@ -1,12 +1,12 @@
 // The scoring walk, per objective. Eligibility by (materiality, state), where
 // scoring is `material` or `ranking` and only `material` may gate:
-//   scoring + answered   → earned += rung.points ; max += ladderMax ; may gate
-//   scoring + unanswered → earned += 0       ; max += ladderMax ; never gates
-//   scoring + don't-know → off earned AND max ; a floor hole iff it would gate
-//   informational / n/a materiality / n/a answer → excluded entirely
+// scoring + answered → earned += rung.points; max += ladderMax; may gate
+// scoring + unanswered → earned += 0; max += ladderMax; never gates
+// scoring + don't-know → off earned AND max; a floor hole iff it would gate
+// informational / n/a materiality / n/a answer → excluded entirely
 // Score SWEEPS every unit; the floor GATES only where scope.gatesFloor says so.
 // A split dimension is assessed per stratum — questionUnits() expands it, so the
-// refinements supersede a lingering whole-dimension answer (invariant #2).
+// refinements supersede a lingering whole-dimension answer.
 import type { Answer, Objective, Party, Seal, Workbook } from '../schema';
 import { attainablePoints, findAnswer, questionUnits, rungIn } from '../assessment';
 import { facetsOf, gates, minSeal, provenanceOf, scores, type Scope } from './scope';
@@ -49,8 +49,8 @@ export type ObjectiveScoring = {
   heatmap: HeatCell[];
   gating: StaircaseBinding[];
   floorHoles: FloorHole[];
-  /** Weighted mean of the per-objective ratios over the covered weight, kept raw
-   *  (no ×100 round-trip — the knife-edge audit scores depend on it). */
+  // Weighted mean of the per-objective ratios over the covered weight, kept raw
+  // (no ×100 round-trip — the knife-edge audit scores depend on it).
   ratio: number | null;
 };
 
@@ -152,7 +152,7 @@ function heatCellsOf(objectiveId: string, cells: Map<string, CellAcc>, scope: Sc
     dimension,
     seal: cell.seal,
     provenance: provenanceOf(cell.placements),
-    // Asserted strata only (invariant #1 — no painting), in workbook order.
+    // Asserted strata only ( — no painting), in workbook order.
     strata: scope.strataOf(dimension).flatMap((stratum) => {
       const acc = cell.strata.get(stratum);
       return acc ? [{ stratum, seal: acc.seal, provenance: provenanceOf(acc.placements) }] : [];

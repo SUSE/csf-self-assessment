@@ -9,7 +9,7 @@
   // lines up.
   type Props = {
     recommendation: Recommendation;
-    /** The SEAL level's own name, from the workbook's sealLevels. */
+    /** The SEAL level's own name, from the workbook's sealLevels.*/
     sealName: string;
   };
   let { recommendation, sealName }: Props = $props();

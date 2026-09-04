@@ -1,7 +1,7 @@
 import type { Party, Workbook, WorkbookAssessment } from '../schema';
 import type { IntegrityResult } from '../assessment';
 
-// Pure construction and integrity of workbook-assessments (delivery §2.2 / §4.1):
+// Pure construction and integrity of workbook-assessments:
 // a workbook prepared for one named estate with its seeded providers, the
 // workbook embedded verbatim. The app shell stamps `id` and `createdAt` (the pure
 // core never reads the clock).
@@ -27,7 +27,7 @@ export function workbookAssessmentOf(parts: WorkbookAssessmentParts): WorkbookAs
   };
 }
 
-// Version-match guard (delivery §2.2.2): a workbook-assessment's declared workbook
+// Version-match guard: a workbook-assessment's declared workbook
 // identity must equal its embedded workbook's identity. A mismatch is refused.
 export function checkWorkbookAssessmentIntegrity(wa: WorkbookAssessment): IntegrityResult {
   const declared = { id: wa.meta.workbookId, version: wa.meta.workbookVersion };

@@ -10,7 +10,7 @@
   // ONE Inspector view: the slice of the credibility dial one contributor holds, read
   // as the answers standing because they placed them — grouped by how each one settled,
   // which is the provenance fact the dial cannot draw.
-  //
+  
   // Derived live, so a contributor a later landing has entirely superseded resolves to
   // nothing rather than to a stale count.
   type Props = {

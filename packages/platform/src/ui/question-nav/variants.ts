@@ -4,7 +4,7 @@ import type { NavTone } from './types';
 // The coverage/status tick shared by the crumb (mini, decorative) and the map
 // (interactive). Redundant channels on purpose: hue (tone) AND fill height (set
 // inline by the component from the fraction) — colour alone fails WCAG 1.4.1.
-//
+
 // Green is NOT baked in. `useGreen` gates ONLY the `done` hue, so the author app
 // (green-reserved: green = SEAL-3/4, and the author shows none) renders the exact
 // same tick green-free. Focus/active is a NEUTRAL foreground outline in both

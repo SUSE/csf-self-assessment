@@ -6,7 +6,7 @@
   // What contradicts itself? Five checks, five dials, always all five — the arc is the
   // share of what each check read that it is asking about, and a check that came back
   // clear is a bare ring rather than an absent one.
-  //
+  
   // The words are the rail's (ui/inspector/second-look-inspection): rendering them here
   // made five checks the longest object on the dashboard and buried the question that
   // is the point — which is also why this tile has no maximised state.

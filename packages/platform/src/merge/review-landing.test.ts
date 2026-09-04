@@ -12,7 +12,7 @@ const MH: Party = { id: 'mh', name: 'Modelhouse AI', type: 'subprocessor', serve
 const MH_ADDED: Party = { id: 'mh', name: 'Modelhouse AI GmbH', type: 'subprocessor', serves: ['aiml', 'software-supply'] };
 const COLLISION_BASE: EstateBase = { parties: [INST, MH], answers: [] };
 
-/** Jane answers one added provider and claims it. */
+// Jane answers one added provider and claims it.
 const claiming = (added: Party): Assessment =>
   partial('Jane', [onParty(added.id)], [{ roles: ['SEC'], dimensions: [], parties: [added.id] }], [added]);
 

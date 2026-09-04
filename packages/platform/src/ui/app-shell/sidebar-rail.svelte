@@ -8,13 +8,13 @@
   // app keeps reachable while the panel is shut (`rail`). Internal to app-shell.
   // Shares the open state's grid cell so the two cross-slide (see sidebar-body).
   type Props = {
-    /** Accessible name for the expand control, worded by the panel. */
+    /** Accessible name for the expand control, worded by the panel.*/
     label: string;
     icon: LucideIcon;
     width: string;
     onToggle: () => void;
     slide: { x: number; duration: number };
-    /** Collapsed-rail content; receives `expand` so an icon can open the panel. */
+    /** Collapsed-rail content. receives `expand` so an icon can open the panel.*/
     rail?: Snippet<[expand: () => void]> | undefined;
   };
   let { label, icon: Icon, width, onToggle, slide, rail }: Props = $props();

@@ -8,9 +8,9 @@
   // The picker for "which offer points here": a real list, not a native select,
   // because a bare `<option>` can carry only a string — and choosing between
   // offers means reading the horizon and the trigger SEAL beside the title. One
-  // press links; the popover closes behind it.
+  // press links. the popover closes behind it.
   type Props = {
-    /** Everything not already linked to this target, in workbook order. */
+    /** Everything not already linked to this target, in workbook order.*/
     candidates: Recommendation[];
     sealName: (seal: Seal) => string;
     onLink: (recommendationId: string) => void;

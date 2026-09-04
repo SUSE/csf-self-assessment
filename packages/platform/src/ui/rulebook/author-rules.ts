@@ -3,13 +3,13 @@ import type { RuleSection } from './content';
 // The AUTHOR's rule set — a curated, compact gloss of the canonical authoring
 // rulebook (docs/authoring-rulebook.md). Each card is keyed by an `id` a control
 // or an overview finding cites via `data-rule` / `RuleCite`. Most keys are the
-// doc's section numbers ('3.2', '6', …); where one doc section (§3.3, the
+// doc's section numbers ('3.2', '6', …). where one doc section (§3.3, the
 // Question) governs several distinct controls, it is split into field-matched
 // cards ('grain', 'role', 'question') that all still show the § 3.3 tag — so
 // hovering the grain toggle explains grain, hovering the role explains roles,
 // and neither buries the other. Ordered to follow the editor top-to-bottom,
 // which is how the resting list reads.
-//
+
 // One of three audience sets (see participant-rules / facilitator-rules): the
 // app hands the one its reader needs to `createHelp`, and every control's
 // gating follows from what that set holds.

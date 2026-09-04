@@ -9,13 +9,13 @@
 
   // ONE Inspector view: what the estate admits it does not know, read as the questions
   // it is admitted on, split into what gates the floor and what moves no number
-  // (product invariant #5). Derived live, so an admission since answered resolves away.
+  // (product). Derived live, so an admission since answered resolves away.
   type Props = {
-    /** The reading on screen — the same triple the tile is given. */
+    /** The reading on screen — the same triple the tile is given.*/
     result: EngineResult | null;
     workbook: Workbook | null;
     parties: Party[];
-    /** Open a question where this app puts it (the editor, the fill surface). */
+    /** Open a question where this app puts it (the editor, the fill surface).*/
     onOpenQuestion?: ((id: string) => void) | undefined;
   };
   let { result, workbook, parties, onOpenQuestion }: Props = $props();

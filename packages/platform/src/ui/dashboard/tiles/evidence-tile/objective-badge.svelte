@@ -7,7 +7,7 @@
   // One objective's evidence debt: the authored code, then how many of its questions
   // owe a document. Inspector-aware — pressing it puts that objective's undefended
   // questions in the rail. With no session it is a plain mark, not a dead control.
-  //
+  
   // The count wears `--primary` — the palette's own accent, a fill and never text.
   // It is a quantity, not a rung and not an alarm, so it takes neither the SEAL ramp
   // nor the amber.

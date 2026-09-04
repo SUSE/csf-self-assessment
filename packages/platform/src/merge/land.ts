@@ -18,7 +18,7 @@ import { reviewLanding } from './review';
 import { resolveClash } from './resolve';
 import { snapshotOf } from './snapshot';
 
-// Committing one reviewed partial onto the estate base (merge.md §2.1.2). One
+// Committing one reviewed partial onto the estate base. One
 // press of Land appends exactly one Landing (landing-history §2.1).
 
 const FACILITATOR = 'facilitator';
@@ -30,8 +30,8 @@ export type LandingDecisions = {
   partyDecisions: PartyDecision[];
 };
 
-/** What the app shell stamps at the Land boundary (invariant #3). `note` is the
- *  raw field value; `land` trims it and omits an empty one. */
+// What the app shell stamps at the Land boundary (invariant #3). `note` is the
+// raw field value; `land` trims it and omits an empty one.
 export type LandingStamp = { id: string; at: string; note: string };
 
 export type LandingRefusal =
@@ -43,11 +43,11 @@ export type LandingOutcome =
   | { ok: true; base: EstateBase; ledger: Landing[] }
   | { ok: false; refusal: LandingRefusal };
 
-/** One answer unit this landing writes: what stands there afterwards (null =
- *  the unit is emptied by a grain decision), every candidate seen, and the
- *  decision behind it. The single source of BOTH the ledger records and the
- *  resulting answers, so the committed base and the previewed base can never
- *  disagree. */
+// One answer unit this landing writes: what stands there afterwards (null =
+// the unit is emptied by a grain decision), every candidate seen, and the
+// decision behind it. The single source of BOTH the ledger records and the
+// resulting answers, so the committed base and the previewed base can never
+// disagree.
 export type UnitOutcome = {
   questionId: string;
   target: Target;
@@ -56,8 +56,8 @@ export type UnitOutcome = {
   decision: LedgerDecision;
 };
 
-/** Every unit this landing writes, in unit order, and the clashes still
- *  undecided — whose units are omitted, so a preview simply leaves them alone. */
+// Every unit this landing writes, in unit order, and the clashes still
+// undecided — whose units are omitted, so a preview simply leaves them alone.
 export function landingOutcomes(
   units: LandingUnit[],
   resolutions: ClashResolution[],
@@ -115,8 +115,8 @@ export function landingOutcomes(
   return { outcomes, undecided };
 }
 
-/** Fold outcomes onto an answer set: an emptied unit retracts its placement,
- *  every other sets. */
+// Fold outcomes onto an answer set: an emptied unit retracts its placement,
+// every other sets.
 export function applyOutcomes(answers: Answer[], outcomes: UnitOutcome[]): Answer[] {
   let folded = answers;
   for (const outcome of outcomes) {
@@ -135,10 +135,10 @@ const persist = (candidate: ReviewCandidate): LedgerCandidate => ({
   authority: candidate.authority,
 });
 
-/** Commit one partial onto the base as ONE Landing (landing-history §2.1).
- *  Atomic: any refusal writes nothing. Identity and time are stamped by the app
- *  shell. Throws if `incoming` carries no participant — `checkPartial` admits
- *  none such. */
+// Commit one partial onto the base as ONE Landing (landing-history §2.1).
+// Atomic: any refusal writes nothing. Identity and time are stamped by the app
+// shell. Throws if `incoming` carries no participant — `checkPartial` admits
+// none such.
 export function land(
   base: EstateBase,
   ledger: readonly Landing[],
@@ -205,8 +205,8 @@ export function land(
   };
 }
 
-/** The refusal in the facilitator's words — the shell renders this, never its own
- *  string. */
+// The refusal in the facilitator's words — the shell renders this, never its own
+// string.
 export function landingRefusalMessage(refusal: LandingRefusal): string {
   switch (refusal.kind) {
     case 'undecided':
@@ -218,8 +218,8 @@ export function landingRefusalMessage(refusal: LandingRefusal): string {
   }
 }
 
-/** Stamp the base as the finalized assessment of record, ledger embedded
- *  (merge.md §2.6). Cannot fail: every clash was decided at landing. */
+// Stamp the base as the finalized assessment of record, ledger embedded.
+// Cannot fail: every clash was decided at landing.
 export function finalizeLanded(
   wa: WorkbookAssessment,
   base: EstateBase,

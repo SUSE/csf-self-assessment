@@ -8,7 +8,7 @@
 
   // The rung column. The two OFF-LADDER answers (Nobody knows / Doesn't apply) are
   // NOT here anymore — they live in `ui/off-ladder`, a sibling each card positions
-  // for itself (spec §4.8 / ADR-0009): the fan-out cards mount them under the
+  // for itself: the fan-out cards mount them under the
   // placement tray, the single-unit card beneath this ladder. Every rung is a drop
   // hot spot (`dropTarget`), a no-op when there is no drag session.
   type Props = {
@@ -31,7 +31,7 @@
   }: Props = $props();
 
   // Authored order, first authored rung at the top: the ladder is the author's
-  // sequence, never a SEAL sort (instrument.md §6 invariant #4).
+  // sequence, never a SEAL sort (instrument.md §6).
 
   let rungEls = $state<Record<string, HTMLButtonElement | null>>({});
   let activeRow = $state<string | null>(null);
@@ -55,7 +55,7 @@
     } else if (/^[1-9]$/.test(e.key)) {
       e.preventDefault();
       const r = rungAtPosition({ ladder: rungs }, Number(e.key));
-      if (r) chooseRow(r.id); // past the end of the ladder → no-op, never nearest (ADR-0023)
+      if (r) chooseRow(r.id); // past the end of the ladder → no-op, never nearest
     }
   }
 </script>

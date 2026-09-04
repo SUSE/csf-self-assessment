@@ -5,31 +5,31 @@
 
   // One question in a read-only list: its text, what it is asked about, and — when
   // an assessment is loaded — the lowest SEAL selected against it.
-  //
+  
   // `seal` has THREE states, deliberately: omit it and no badge renders at all (no
-  // assessment loaded — a row of en-dashes reads as broken); `null` renders the
-  // badge's own "not answered" dash, which is a real fact about a loaded assessment;
+  // assessment loaded — a row of en-dashes reads as broken). `null` renders the
+  // badge's own "not answered" dash, which is a real fact about a loaded assessment.
   // a rank renders that rank.
-  //
-  // With `onSelect` the row is the control that opens the question; without one it
+  
+  // With `onSelect` the row is the control that opens the question. without one it
   // is plain — the vocabulary for a reader with nowhere to go. One markup path
   // either way (a spread), because a conditional `onclick` on a static element is
   // what the a11y pass catches and two branches are the same markup twice.
-  //
+  
   // `scope` names what the row is a row ABOUT, and defaults to the question's own
   // reach (`3 dim`, `party`). A caller listing UNITS rather than questions passes
   // its own — the dashboard's what's-left ledger says `Security lead · Storage ·
   // chips`, because there the same question appears once per open unit and the
   // reach is not what tells them apart.
-  //
+  
   // Badge, question and scope share one 24px line box (`size-6` / `leading-6`), so
   // the row aligns by construction rather than by an `mt-*` nudge tuned to one size.
-  //
+  
   // A row has NO box at rest — no border, no fill. Thirty-five filled boxes inside a
   // panel is a card in a card, and it is the boxes, not the type, that make the list
-  // unreadable. Rest state is bare text; hover and selection are the only things that
+  // unreadable. Rest state is bare text. hover and selection are the only things that
   // draw a shape (the Quiet-Until-Asked Rule).
-  //
+  
   // The text fills its column and the scope sits at its right edge. The MEASURE is
   // the column's job (question-list caps it), not the row's — the row has to work at
   // whatever width a wrapping column or a dashboard tile hands it.
@@ -38,7 +38,7 @@
     seal?: Seal | null | undefined;
     selected?: boolean;
     onSelect?: ((id: string) => void) | undefined;
-    /** Override the derived reach — for a row standing for one unit of the question. */
+    /** Override the derived reach — for a row standing for one unit of the question.*/
     scope?: string | undefined;
   };
   let { question, seal, selected = false, onSelect, scope: scopeOverride }: Props = $props();

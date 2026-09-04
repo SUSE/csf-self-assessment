@@ -2,13 +2,13 @@ import { tv, type VariantProps } from 'tailwind-variants';
 
 // The surface vocabulary: four depths, in the order a container can contain
 // them.
-//
-//     canvas          the page (bg-background), owned by theme.css's base layer
-//       └ Panel       one section of a screen: a plane lifted off the canvas
-//           └ Well    a compartment cut INTO the panel, holding several cards
-//               └ Card    the object a person reads and acts on
-//                   └ Inset   one value inside that card
-//
+
+// canvas the page (bg-background), owned by theme.css's base layer
+// └ Panel one section of a screen: a plane lifted off the canvas
+// └ Well a compartment cut INTO the panel, holding several cards
+// └ Card the object a person reads and acts on
+// └ Inset one value inside that card
+
 // Why a vocabulary at all: before this, every level of the Merge review wore the
 // identical `rounded-md border border-border` hairline — the panel, the objective
 // group inside it, the clash card inside that, and the two candidate boxes inside
@@ -16,7 +16,7 @@ import { tv, type VariantProps } from 'tailwind-variants';
 // had to be inferred from indentation alone. Elsewhere a `bg-background` row
 // inside a `bg-card` panel was invisible in three of the ten mode × palette
 // combinations, and a `bg-card` box inside a `bg-card` box in all ten.
-//
+
 // The ramp ALTERNATES rather than stepping monotonically inward, and that is the
 // whole design. Four monotone lightness steps would need ~2% deltas to fit inside
 // one palette's range, and three of the five palettes do not even distinguish
@@ -25,19 +25,19 @@ import { tv, type VariantProps } from 'tailwind-variants';
 // the desk, a compartment is cut into the tray, cards sit up in the compartment,
 // and a slot is cut into a card. The direction changes at every level, so no
 // level has to be a subtle shade of its parent.
-//
+
 // The recessed depths use `bg-well` (see theme.css) — derived from `--card`
 // toward `--foreground`, which is what makes "recessed" mean darker in light mode
 // and lighter in dark mode without a second token or a `dark:` variant anywhere
 // in this file.
-//
+
 // HARD RULE: `well` and `inset` are only legal on a `bg-card` surface — inside a
 // Panel or a Card. `--well` is derived from `--card`, so a Well dropped straight
 // onto the canvas is a step away from the wrong parent and lands wherever the
 // palette happens to put it. A quiet region directly on the canvas is
 // `Panel tone="quiet"`, which uses `--muted` — the one token that is distinct
 // from `--background` in all ten combinations.
-//
+
 // The only hue in this file is `--warning`, on the open card, and it carries the
 // meaning it carries everywhere else in the product: act here.
 

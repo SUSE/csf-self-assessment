@@ -5,7 +5,7 @@
 
   // One labelled side of an answer panel (landing-history §4.6): what stood here
   // before the Landing, or what stands here after. The two sides are PEERS — same
-  // surface, same order, neither styled as the winner. An absent side says so; it
+  // surface, same order, neither styled as the winner. An absent side says so. it
   // never shows SEAL-0 (§2.2.3). Every value arrives on the reading.
   type Props = { heading: string; reading: SnapshotReading; targetLabel: string };
   let { heading, reading, targetLabel }: Props = $props();

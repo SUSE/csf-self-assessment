@@ -5,56 +5,56 @@ import { targetLabel } from '../utils/target-label';
 
 export type SpokeKind = 'estate' | 'dimension' | 'party';
 
-/** One stratum's own minimum on a split dimension — a tick along the spoke. */
+// One stratum's own minimum on a split dimension — a tick along the spoke.
 export type LayerTick = { stratum: string; seal: Seal };
 
-/** Asserted or absent, never a nullable seal: absence is a first-class state
- *  (analytics invariant #2) and a SEAL-0 spoke must not be reachable from it. */
+// Asserted or absent, never a nullable seal: absence is a first-class state
+// and a SEAL-0 spoke must not be reachable from it.
 export type SpokeStanding =
   | { kind: 'asserted'; seal: Seal; fraction: number; provenance: Provenance }
   | { kind: 'ghost' };
 
 export type EstateSpoke = {
-  /** `<kind>:<key>` — `estate:assessment`, `dimension:storage`, `party:acme-eu`. */
+  // `<kind>:<key>` — `estate:assessment`, `dimension:storage`, `party:acme-eu`.
   key: string;
   kind: SpokeKind;
   label: string;
-  /** Second line: `critical` / `no gate`, the party-type display name, or
-   *  `asked once` on the estate chip. */
+  // Second line: `critical` / `no gate`, the party-type display name, or
+  // `asked once` on the estate chip.
   sub: string;
-  /** Degrees clockwise from 12 o'clock. */
+  // Degrees clockwise from 12 o'clock.
   deg: number;
   standing: SpokeStanding;
-  /** Asserted material answers behind the spoke; 0 on a ghost. */
+  // Asserted material answers behind the spoke; 0 on a ghost.
   answers: number;
-  /** Ascending stratum minima in workbook stratum order; empty unless split. */
+  // Ascending stratum minima in workbook stratum order; empty unless split.
   ticks: LayerTick[];
-  /** The hover/focus line, e.g. `Storage · SEAL-0 · 8 answers · 4 layers`. */
+  // The hover/focus line, e.g. `Storage · SEAL-0 · 8 answers · 4 layers`.
   summary: string;
 };
 
-/** One asserted answer in the ranked list. Shaped for the shared QuestionRow. */
+// One asserted answer in the ranked list. Shaped for the shared QuestionRow.
 export type WeakestLink = {
-  /** `<questionId>|<spoke key>`. */
+  // `<questionId>|<spoke key>`.
   key: string;
-  /** The spoke this link sits on — how the Inspector list filters. */
+  // The spoke this link sits on — how the Inspector list filters.
   spoke: string;
   questionId: string;
-  /** `<target label> · <role name>`; QuestionRow supplies the SEAL badge. */
+  // `<target label> · <role name>`; QuestionRow supplies the SEAL badge.
   scope: string;
   seal: Seal;
 };
 
 export type EstateWheelTile =
   | {
-      kind: 'wheel';
-      spokes: EstateSpoke[];
-      /** `4 of 16 spokes sit at SEAL-0 — the shortest on the wheel.` */
-      headline: string;
-      caption: string;
-      /** Every asserted material answer, weakest first (Decision 2). */
-      links: WeakestLink[];
-    }
+    kind: 'wheel';
+    spokes: EstateSpoke[];
+    // `4 of 16 spokes sit at SEAL-0 — the shortest on the wheel.`
+    headline: string;
+    caption: string;
+    // Every asserted material answer, weakest first (Decision 2).
+    links: WeakestLink[];
+  }
   | { kind: 'empty'; reason: string };
 
 const CAPTION =
@@ -63,7 +63,7 @@ const CAPTION =
 const EMPTY_REASON =
   'Nothing asserted yet — the wheel draws itself from answered material answers, so it appears once the first one is recorded.';
 
-/** SEAL 0–4 → 0.2–1.0 of the rim. A SEAL-0 spoke is short, never zero-length. */
+// SEAL 0–4 → 0.2–1.0 of the rim. A SEAL-0 spoke is short, never zero-length.
 export function spokeFraction(seal: Seal): number {
   return 0.2 + 0.2 * seal;
 }

@@ -7,7 +7,7 @@
   type Props = {
     seal: Seal;            // the placed rung — labels "Recorded: SEAL-x" and drives the §4.5 nudge (seal >= 3)
     levelName: string;     // the SEAL level's name, for "Recorded: SEAL-x · <name>"
-    evidence: string;      // the group claim's current note ('' when none); the STORED value — drives the nudge
+    evidence: string;      // the group claim's current note ('' when none). the STORED value — drives the nudge
     onEvidence: (note: string) => void;   // set the whole-group evidence (question-fill wires it to setEvidence)
   };
   let { seal, levelName, evidence, onEvidence }: Props = $props();

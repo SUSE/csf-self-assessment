@@ -4,20 +4,20 @@
 
   // The closing beat of a decision, on both merge queues: what was decided, and
   // the free-text reason that goes into the ledger beside it.
-  //
+  
   // One component rather than two copies, because the clash queue and the party
   // queue are worked in the same sitting and gate the same Land button — if the
   // two closings drift, the reader has to learn the surface twice.
   export type DecisionNoteProps = {
-    /** The chosen option's label, or `null` while the decision is still open. */
+    /** The chosen option's label, or `null` while the decision is still open.*/
     decided: string | null;
     /** Shown instead of the decided line while open — the clash queue's
-     *  "Suggested — … · Accept" control. The party axis has no suggestion and
-     *  passes nothing. */
+     * "Suggested — … · Accept" control. The party axis has no suggestion and
+     * passes nothing.*/
     pending?: Snippet;
     /** Accessible name for the note field: it has no visible label, because the
-     *  placeholder already says what it is and a second line of chrome under a
-     *  decision reads as a form. */
+     * placeholder already says what it is and a second line of chrome under a
+     * decision reads as a form.*/
     noteLabel: string;
     note: string;
     onNote: (note: string) => void;

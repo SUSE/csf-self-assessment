@@ -5,7 +5,7 @@
 
   // One wrapping row of tiles, and the whole of the dashboard's placement
   // mechanism (tile-width.ts explains the six-column module and why not five).
-  //
+  
   // Every tile in a section goes into ONE of these — the rows the reader sees
   // are wrap lines the browser computed, not groups this component made. That is
   // the point: there is no row model to keep in step with the registry, and no

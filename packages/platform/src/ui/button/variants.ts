@@ -3,7 +3,7 @@ import { tv, type VariantProps } from 'tailwind-variants';
 // shadcn-svelte Button styling, using the design tokens defined in the app's
 // Tailwind theme. Kept separate from the component so `buttonVariants` is
 // importable from non-Svelte code (e.g. link styling later).
-//
+
 // `cursor-pointer` is explicit because Tailwind v4's preflight sets buttons to
 // `cursor: default` — the pointer is the affordance a reader uses to tell what
 // is pressable, so every interactive primitive here states it rather than

@@ -28,14 +28,14 @@
   import { handleCardKeydown } from '../card-keys';
   import { createDnd, DndGhost } from '../dnd';
 
-  // The ONE drag-first fan-out answering card (spec §4.8, ADR-0009) — grain
+  // The ONE drag-first fan-out answering card — grain
   // agnostic. Both axes flow through it: the caller passes a NORMALISED `units`
   // list (each unit carries its resting Target and, when splittable, its strata)
   // plus the noun/grain label and the domain callbacks. Every unit starts as a
-  // chip in a dashed TRAY; every placement is PER-CHIP — drag a chip onto a rung,
+  // chip in a dashed TRAY. every placement is PER-CHIP — drag a chip onto a rung,
   // onto an off-ladder row (Nobody knows / Doesn't apply), or back on the tray to
-  // unplace; the a11y/touch fallback is tap-a-chip-then-a-target or focus-a-chip +
-  // digit / N / U. There is NO bulk "place all" gesture (ADR-0009). The ⋯ on a
+  // unplace. the a11y/touch fallback is tap-a-chip-then-a-target or focus-a-chip +
+  // digit / N / U. There is NO bulk "place all" gesture. The ⋯ on a
   // splittable chip peels a unit into its strata chips. The card computes NO
   // scoring truth: it emits per-chip placements (target + choice), retractions,
   // and merges the caller translates.
@@ -47,12 +47,12 @@
     units: FanoutUnit[];
     answers: Answer[];
     coverage: QuestionCoverage;
-    /** The unit noun for the tray count, e.g. { one: 'dimension', many: 'dimensions' }. */
+    /** The unit noun for the tray count, e.g. { one: 'dimension', many: 'dimensions' }.*/
     unitNoun: UnitNoun;
     grainLabel: string;
     onPlace: (target: Target, choice: LadderChoice) => void;
     onRetract: (target: Target) => void;
-    /** Only ever invoked for splittable units (dimension strata); parties omit it. */
+    /** Only ever invoked for splittable units (dimension strata). parties omit it.*/
     onMerge?: (unitKey: string) => void;
     onEvidence: (groupId: string, note: string) => void;
     onReason: (groupId: string, reason: string) => void;
@@ -107,7 +107,7 @@
   function dropOffLadder(kind: OffKind, payload: Chip): void {
     placeChip(payload, kind === 'na' ? { state: 'na' } : { state: 'dont-know' });
   }
-  // Split a whole dimension into its strata (the [count ⌄] control); splitting a placed
+  // Split a whole dimension into its strata (the [count ⌄] control). splitting a placed
   // whole clears its answer so the strata start unplaced (nothing asserted for them).
   function splitUnit(c: Chip): void {
     splitIntents = [...splitIntents, c.unitKey];
@@ -196,8 +196,8 @@
 
     {#snippet qualify()}
       <!-- The escape hatches fill the RIGHT column, top-aligned with the tray, so the
-           ladder stays flush under the tray on the left and this X real estate isn't
-           wasted (rather than stacking off-rows below the ladder and forcing a scroll). -->
+     ladder stays flush under the tray on the left and this X real estate isn't
+     wasted (rather than stacking off-rows below the ladder and forcing a scroll). -->
       <OffLadder
         onOffLadder={(kind) => { if (activeChip) placeChip(activeChip, kind === 'na' ? { state: 'na' } : { state: 'dont-know' }); }}
         onDropOff={dropOffLadder}

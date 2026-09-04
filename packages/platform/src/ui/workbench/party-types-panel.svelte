@@ -12,12 +12,12 @@
   // The workbench's Parties focus: the party taxonomy this workbook offers. It
   // holds NO edit logic and NO validation — pure ops build the next draft, and
   // the strict issues under `parties` arrive pre-computed from the stage.
-  // Exactly one type carries kind 'assessed'; that one can't be deleted.
-  // RecordTable owns the table shell; this file is the columns, copy and wiring.
+  // Exactly one type carries kind 'assessed'. that one can't be deleted.
+  // RecordTable owns the table shell. this file is the columns, copy and wiring.
   type Props = {
     draft: Workbook;
     issues: ZodIssue[];
-    /** A row id to flash when the overview's instrument wheel deep-links here. */
+    /** A row id to flash when the overview's instrument wheel deep-links here.*/
     highlight?: string | null;
     onDraft: (next: Workbook) => void;
   };
@@ -25,7 +25,7 @@
 
   const ownIssues = $derived(issuesUnder(issues, ['parties']));
 
-  // Description takes the remainder; `kind` is fixed because it holds a chip and a
+  // Description takes the remainder. `kind` is fixed because it holds a chip and a
   // button, and the delete is fixed because it holds an icon button. Neither widens
   // with the panel, and neither may be what gives way when it narrows.
   const COLUMNS: RecordColumn[] = [

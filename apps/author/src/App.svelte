@@ -57,20 +57,20 @@
   import { createDraft } from './draft.svelte';
   import { modeItems } from './modes';
 
-  // The Author app shell (spec §3): file I/O, mode routing, reactive state. The
-  // browser copy IS the active workbook (invariant #7) — draft and view are both
+  // The Author app shell: file I/O, mode routing, reactive state. The
+  // browser copy IS the active workbook — draft and view are both
   // restored on load and mirrored back on every change.
   const draftFile = createDraft({ onAdopt });
   const draft = $derived(draftFile.workbook);
   const restoredView = draftFile.workbook ? persistedView<AuthorScreen>(isAuthorScreen) : null;
-  // Stamped here: the pure core reads neither clock nor environment (invariant #3).
+  // Stamped here: the pure core reads neither clock nor environment .
   const viewer: Viewer = {
     locale: navigator.language === '' ? 'en-GB' : navigator.language,
     zone: Intl.DateTimeFormat().resolvedOptions().timeZone,
   };
   let mode = $state<AuthorMode>(restoredView?.mode ?? 'workbench');
   /** The instant the shell stamped when this Report was opened, or null when the
-   *  Report is not the live mode. Never persisted — a restore re-stamps. */
+   * Report is not the live mode. Never persisted — a restore re-stamps.*/
   let reportGeneratedAt = $state<string | null>(
     restoredView?.mode === 'report' ? nowInstant() : null,
   );
@@ -96,7 +96,7 @@
   );
 
   /** Every mode change goes through here, so `report` mode and its stamp cannot
-   *  drift apart. */
+   * drift apart.*/
   function goToMode(next: AuthorMode): void {
     mode = next;
     reportGeneratedAt = next === 'report' ? nowInstant() : null;
@@ -104,7 +104,7 @@
 
   // Back/Forward step through both the mode and the workbench focus, so Back
   // retraces how you navigated the workbook, question to question. The view is
-  // opaque in history.state; the URL never changes.
+  // opaque in history.state. the URL never changes.
   const router = createViewHistory<AuthorScreen>(
     (v) => {
       goToMode(v.mode);
@@ -145,7 +145,7 @@
   const readout = $derived(valid ? recommendationReadout(valid) : null);
 
   // A restored id naming an estate the workbook no longer has falls back to the
-  // first; `activeMode` degrades the dashboard view when there is nothing to read.
+  // first. `activeMode` degrades the dashboard view when there is nothing to read.
   const qaEstate = $derived(
     valid ? (valid.testEstates.find((e) => e.id === estateId) ?? valid.testEstates[0] ?? null) : null,
   );
@@ -167,7 +167,7 @@
     'estate-spoke': 'dashboard',
     objective: 'workbench',
     // The QA dashboard is where a question gets SELECTED here (a second-look check
-    // reports the unit it is asking about); the workbench edits questions through
+    // reports the unit it is asking about). the workbench edits questions through
     // `focus`, not through the rail.
     question: 'dashboard',
     'seal-ladder': 'dashboard',
@@ -187,7 +187,7 @@
     return activeMode === SELECTION_HOME[selection.kind] ? selection : null;
   });
   /** What the rail reads on each surface when nothing is selected. Data, not a
-   *  five-deep ternary. */
+   * five-deep ternary.*/
   const PAGE_SUBJECT: Record<AuthorMode, InspectSubject | null> = {
     workbench: null,
     preview: { kind: 'estate-reading', title: 'Live floor' },
@@ -216,9 +216,9 @@
     else goToMode(id);
   }
 
-  // Floor-flip announcement (spec §4.3c): compare each valid evaluation with the
-  // LAST valid one; invalid interludes don't reset the baseline. Reading
-  // `estateReadings` tracked would loop the effect, hence untrack().
+  // Floor-flip announcement: compare each valid evaluation with the
+  // LAST valid one. invalid interludes don't reset the baseline. Reading
+  // `estateReadings` tracked would loop the effect, hence untrack.
   let estateReadings = $state<TestEstateReading[] | null>(null);
   let estateFlips = $state<EstateFloorFlip[]>([]);
   $effect(() => {
@@ -305,7 +305,7 @@
   {/snippet}
 
   <!-- Mounted unconditionally — it shows itself when the session says help mode is
-       on, and covers the rail rather than displacing anything. -->
+     on, and covers the rail rather than displacing anything. -->
   {#snippet overlay()}
     <RulebookPanel
       hint="Hover a highlighted field to bring its rule up, or press a lit header icon to open that section with its rule."
@@ -366,7 +366,7 @@
       <NothingLoaded />
     {:else}
       <!-- One stage for every mode: the header never leaves, so its sections are
-           the way back off Preview, Dashboard, Recommendations and Report. -->
+     the way back off Preview, Dashboard, Recommendations and Report. -->
       <Workbench
         {draft}
         {issues}

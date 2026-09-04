@@ -7,15 +7,15 @@ import type { LandingReview } from './review';
 import { describeTarget } from './index';
 import { applyOutcomes, landingOutcomes } from './land';
 
-// The status checks over the landing under review (merge.md §4.2). Every number
+// The status checks over the landing under review. Every number
 // arrives from `evaluate` or from the pure merge core; this file does no floor
-// arithmetic of its own (invariant #13).
+// arithmetic of its own.
 
-/** One gating answer behind the previewed floor. `label` is resolved against the
- *  PROSPECTIVE roster, so a provider this landing adds reads by name and never
- *  as a raw id. `seal` is the rung this answer pins; `targetKey` identifies the
- *  estate axis it sits on, so a view can group the bindings without parsing the
- *  label prose back apart. */
+// One gating answer behind the previewed floor. `label` is resolved against the
+// PROSPECTIVE roster, so a provider this landing adds reads by name and never
+// as a raw id. `seal` is the rung this answer pins; `targetKey` identifies the
+// estate axis it sits on, so a view can group the bindings without parsing the
+// label prose back apart.
 export type FloorBinding = {
   questionId: string;
   label: string;
@@ -23,32 +23,32 @@ export type FloorBinding = {
   targetKey: string;
 };
 
-/** The floor the estate WOULD read if this landing were committed as decided so
- *  far — a preview, never the estate result and never a floor for the partial
- *  (invariant #11). `seal` null = nothing gates yet. `unlocksTo` is the floor the
- *  estate would read if every binding lifted above `seal` — the next gating level,
- *  or null when nothing else gates below the ceiling. */
+// The floor the estate WOULD read if this landing were committed as decided so
+// far — a preview, never the estate result and never a floor for the partial
+// . `seal` null = nothing gates yet. `unlocksTo` is the floor the
+// estate would read if every binding lifted above `seal` — the next gating level,
+// or null when nothing else gates below the ceiling.
 export type FloorPreview = {
   seal: Seal | null;
   unlocksTo: Seal | null;
   binding: FloorBinding[];
 };
 
-/** The five status checks over the landing under review (merge.md §4.2). Every
- *  number arrives from `evaluate` or from the pure merge core; the panel
- *  computes none (invariant #13). */
+// The five status checks over the landing under review (merge.md §4.2). Every
+// number arrives from `evaluate` or from the pure merge core; the panel
+// computes none.
 export type LandingChecks = {
   floor: FloorPreview;
-  /** Units carrying an answer of any state, of the units in scope — unit grain,
-   *  from `EngineResult.units` (analytics invariant #8 bans the per-question
-   *  `overall.answered/total` from every view). */
+  // Units carrying an answer of any state, of the units in scope — unit grain,
+  // from `EngineResult.units` (analytics bans the per-question
+  // `overall.answered/total` from every view).
   coverage: { placed: number; total: number };
-  /** Every in-scope don't-know — `overall.dontKnowCount`, verbatim. */
+  // Every in-scope don't-know — `overall.dontKnowCount`, verbatim.
   dontKnow: number;
-  /** Incoming answers given outside every claim their author made. A flag, not a
-   *  refusal (merge.md §2.3.4). */
+  // Incoming answers given outside every claim their author made. A flag, not a
+  // refusal.
   outOfClaim: number;
-  /** Clashes still undecided. Land is gated on this reaching zero. */
+  // Clashes still undecided. Land is gated on this reaching zero.
   undecided: number;
 };
 

@@ -18,28 +18,28 @@
   // ONE recommendation, on its own page — reached from the catalogue list and
   // left by the Back control at its head. Holds no edit logic: every control
   // calls a pure op and emits the whole next workbook.
-  //
+  
   // The page is three things: WHAT this offer is (identity and the conditions
   // that fire it, in one recessed strip), WHAT IT SAYS (the action line and the
   // body), and WHAT IT POINTS AT.
-  //
+  
   // The last two sit SIDE BY SIDE once the panel is wide enough, which is what
   // keeps a wide screen from being mostly canvas. Bounding the page instead left
-  // a third of the stage empty; capping the prose alone left a narrow field in a
+  // a third of the stage empty. capping the prose alone left a narrow field in a
   // wide row. Two real columns spend the width on content, and the body stays at
   // a writable measure because the links column is taking the rest of it.
-  //
+  
   // The split is a CONTAINER query, not a viewport one: this panel loses ~18rem
   // whenever the right rail opens, so the only width that can decide the layout
   // is its own.
   type Props = {
     draft: Workbook;
     recommendation: Recommendation;
-    /** Already scoped to this recommendation by the caller. */
+    /** Already scoped to this recommendation by the caller.*/
     issues: ZodIssue[];
     onDraft: (next: Workbook) => void;
     /** Back to the catalogue. Deleting from here goes back too — the page it
-     *  would return to no longer exists. */
+     * would return to no longer exists.*/
     onBack: () => void;
   };
   let { draft, recommendation, issues, onDraft, onBack }: Props = $props();
@@ -73,9 +73,9 @@
     </PanelHeader>
 
     <!-- Identity, then the firing conditions as ONE group that wraps together:
-         horizon, trigger and order answer a single question — when does this
-         appear — and splitting them across a wrap boundary reads as five
-         unrelated settings. -->
+     horizon, trigger and order answer a single question — when does this
+     appear — and splitting them across a wrap boundary reads as five
+     unrelated settings. -->
     <Well density="sm" class="flex flex-wrap items-end gap-x-6 gap-y-3">
       <Field label="title" class="min-w-0 grow-[2] basis-72">
         <Input
@@ -88,7 +88,7 @@
         />
       </Field>
       <!-- The id grows too, at half the title's rate: these slugs run past 30
-           characters, and a fixed column truncated every one of them. -->
+     characters, and a fixed column truncated every one of them. -->
       <Field label="id" class="min-w-0 grow basis-56">
         <Input
           class="font-mono"
@@ -102,7 +102,7 @@
 
       <div class="flex flex-wrap items-end gap-3">
         <!-- `as="div"`: an implicit label around a toggle group would name only
-             its first option, so the group carries its own aria-label. -->
+     its first option, so the group carries its own aria-label. -->
         <Field label="horizon" as="div" data-rule="horizon">
           <ToggleGroup.Root
             aria-label="Horizon"
@@ -147,16 +147,16 @@
     </Well>
 
     <!-- The `@container` sits on the WRAPPER, never on the flex row itself: a
-         container query matches descendants, so an element carrying both the
-         container and the variant can never satisfy its own condition. -->
+     container query matches descendants, so an element carrying both the
+     container and the variant can never satisfy its own condition. -->
     <div class="@container/rec">
       <div class="flex flex-col gap-6 @4xl/rec:flex-row @4xl/rec:items-start">
         <div class="min-w-0 space-y-3 @4xl/rec:flex-[1.4]">
           <!-- A textarea, not an input: this runs to two or three sentences in the
-               real catalogue, and a single-line box showed the author the first
-               half of the line they are writing. It stays a ONE-LINE value: any
-               newline the writer types collapses to a space on the way to the op,
-               so pressing Enter extends the sentence instead of splitting it. -->
+     real catalogue, and a single-line box showed the author the first
+     half of the line they are writing. It stays a ONE-LINE value: any
+     newline the writer types collapses to a space on the way to the op,
+     so pressing Enter extends the sentence instead of splitting it. -->
           <Field label="action">
             <Textarea
               density="compact"

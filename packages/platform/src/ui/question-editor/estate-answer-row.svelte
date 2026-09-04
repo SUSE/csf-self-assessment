@@ -9,18 +9,18 @@
   // One reference estate's answer to this question — "which rung would this estate
   // honestly pick?" — as the gauge face the merge queue already presses
   // (ui/seal-selector) rather than a row of hand-rolled outline buttons.
-  //
+  
   // Reading three of these together is the point: three picks sitting on the same
   // cell is a ladder that cannot tell Profile A, BASE and M apart, which is the
   // whole reason the reference estates are on this card.
-  //
-  // Every cell is an authored rung, so nothing here is disabled; the cells print
+  
+  // Every cell is an authored rung, so nothing here is disabled. the cells print
   // rung POSITIONS, tinted by each rung's own SEAL.
   type Props = {
     estateName: string;
-    /** This question's ladder, in authored order. Every entry is pickable. */
+    /** This question's ladder, in authored order. Every entry is pickable.*/
     rungs: Rung[];
-    /** The rung this estate names, or null when unanswered. */
+    /** The rung this estate names, or null when unanswered.*/
     chosen: string | null;
     onPick: (rungId: string) => void;
     onClear: () => void;
@@ -60,8 +60,8 @@
     <SealSelector {choices} onPick={pick} />
   </RadioGroup.Root>
   <!-- `invisible` when there is nothing to clear, not a disabled ghost: it holds
-       its slot so the cells never shift as answers land, and an unanswered row
-       carries no mark at all. -->
+     its slot so the cells never shift as answers land, and an unanswered row
+     carries no mark at all. -->
   <Button
     variant="ghost"
     size="icon-xs"

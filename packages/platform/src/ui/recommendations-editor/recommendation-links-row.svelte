@@ -12,10 +12,10 @@
   // wording or dimension.
   type Props = {
     draft: Workbook;
-    /** The thing being edited, as the link that would point at it. */
+    /** The thing being edited, as the link that would point at it.*/
     target: RecommendationLink;
     onDraft: (next: Workbook) => void;
-    /** Open a linked recommendation's own editor. */
+    /** Open a linked recommendation's own editor.*/
     onOpen?: ((recommendationId: string) => void) | undefined;
   };
   let { draft, target, onDraft, onOpen }: Props = $props();

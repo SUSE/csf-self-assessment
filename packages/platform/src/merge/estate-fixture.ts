@@ -21,7 +21,7 @@ export const JANE_STAMP = {
 
 export const emptyBase = (): EstateBase => ({ parties: WA.parties, answers: [] });
 
-/** Every clash decided the way a facilitator can decide it without thinking. */
+// Every clash decided the way a facilitator can decide it without thinking.
 export const takeJane = (clashes: LandingClash[]): ClashResolution[] =>
   clashes.map((clash) => ({
     questionId: clash.questionId,
@@ -44,7 +44,7 @@ export function landJane(): { base: EstateBase; ledger: Landing[] } {
   return { base: outcome.base, ledger: outcome.ledger };
 }
 
-/** Jane's 30 clashes against a base holding Alex alone, with the party axis left open. */
+// Jane's 30 clashes against a base holding Alex alone, with the party axis left open.
 export function janeClashes(): LandingClash[] {
   const alex = landAlex();
   return reviewLanding(alex.base, alex.ledger, JANE, []).units.filter(isClash);

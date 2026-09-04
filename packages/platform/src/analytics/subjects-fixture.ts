@@ -58,7 +58,7 @@ const unitKey = (questionId: string, target: Target): string => `${questionId}:$
 // fixture records the same call rather than inventing a tiebreak rule the
 // product does not have: keep the answer already landed. Every note is the one a
 // facilitator would leave.
-//
+
 // This is a closed list, not a fallback. An unlisted tie throws below, so a
 // fixture edit that creates a new one fails loudly instead of being silently
 // decided for us.
@@ -107,9 +107,9 @@ const janeLanding = (() => {
 const janeEstate = finalizeLanded(WA, janeLanding.base, janeLanding.ledger);
 const C = evaluate(janeEstate.workbook, janeEstate);
 
-/** One evaluated estate, in the shape every tile model takes — and the assessment
- *  it was evaluated from, which the Report needs (ADR-0019). `workbook` and
- *  `parties` are read OFF `assessment`, so the four can never drift. */
+// One evaluated estate, in the shape every tile model takes — and the assessment
+// it was evaluated from, which the Report needs. `workbook` and
+// `parties` are read OFF `assessment`, so the four can never drift.
 export type Subject = {
   assessment: Assessment;
   result: EngineResult;
@@ -117,7 +117,7 @@ export type Subject = {
   parties: Party[];
 };
 
-/** Alex's partial, evaluated over `parties ∪ partiesAdded` (analytics §2.2). */
+// Alex's partial, evaluated over `parties ∪ partiesAdded` (analytics §2.2).
 export const SUBJECT_A: Subject = {
   assessment: alexEstate,
   result: A,
@@ -125,10 +125,10 @@ export const SUBJECT_A: Subject = {
   parties: alexEstate.parties,
 };
 
-/** The drivable two-landing estate: Alex landed, then Jane with the `modelhouse`
- *  collision absorbed, every clash the ladder can separate decided by
- *  `suggest()`, and the nine it cannot decided by the recorded facilitator call
- *  in `FULL_TIES`. */
+// The drivable two-landing estate: Alex landed, then Jane with the `modelhouse`
+// collision absorbed, every clash the ladder can separate decided by
+// `suggest()`, and the nine it cannot decided by the recorded facilitator call
+// in `FULL_TIES`.
 export const SUBJECT_C: Subject = {
   assessment: janeEstate,
   result: C,
@@ -138,9 +138,9 @@ export const SUBJECT_C: Subject = {
 
 const oneEstate = finalizeLanded(WA, alexLanding.base, alexLanding.ledger);
 
-/** Alex landed and nothing else: the facilitator's estate after ONE landing.
- *  The twin of SUBJECT_A through the merge — same answers, the workbook
- *  assessment's roster. */
+// Alex landed and nothing else: the facilitator's estate after ONE landing.
+// The twin of SUBJECT_A through the merge — same answers, the workbook
+// assessment's roster.
 export const SUBJECT_ONE: Subject = {
   assessment: oneEstate,
   result: evaluate(oneEstate.workbook, oneEstate),
@@ -150,8 +150,8 @@ export const SUBJECT_ONE: Subject = {
 
 const emptyEstate = finalizeLanded(WA, { parties: WA.parties, answers: [] }, []);
 
-/** The workbook-assessment as distributed, nothing answered: 0 facts, 57 units,
- *  a roster of the assessed party alone. The oracle for every empty state. */
+// The workbook-assessment as distributed, nothing answered: 0 facts, 57 units,
+// a roster of the assessed party alone. The oracle for every empty state.
 export const SUBJECT_EMPTY: Subject = {
   assessment: emptyEstate,
   result: evaluate(emptyEstate.workbook, emptyEstate),
@@ -162,8 +162,8 @@ export const SUBJECT_EMPTY: Subject = {
 const ecWorkbook = WorkbookSchema.parse(euCsfCalculatorWorkbookRaw);
 const ecEvaluation = evaluateTestEstate(ecWorkbook, ecWorkbook.testEstates[0]);
 
-/** The EC calculator's `source-worked-example`, evaluated: 48 answer units over a
- *  workbook that declares NO dimensions. The oracle for invariant #13. */
+// The EC calculator's `source-worked-example`, evaluated: 48 answer units over a
+// workbook that declares NO dimensions. The oracle for.
 export const SUBJECT_NO_DIMENSIONS: Subject = {
   assessment: ecEvaluation.assessment,
   result: ecEvaluation.result,

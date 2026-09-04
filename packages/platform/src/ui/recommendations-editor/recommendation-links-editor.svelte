@@ -14,7 +14,7 @@
 
   // The links OF one recommendation: what it points at, plus the picker that
   // adds another. A link is explicit and typed — nothing here infers one.
-  //
+  
   // Built in the same vocabulary as RecommendationLinksRow, which shows this
   // very relation from the other end inside the question and objective editors:
   // a recessed Inset carrying an eyebrow, entries that sit UP out of it on the

@@ -1,7 +1,7 @@
 import type { Workbook } from '../schema';
 import { nextId } from './links';
 
-// --- test estates (spec §9 S9b) ------------------------------------------
+// ---------------- test estates ------------------------------------
 
 // A new estate starts from an institution-only party list, no answers.
 export function addTestEstate(wb: Workbook): Workbook {

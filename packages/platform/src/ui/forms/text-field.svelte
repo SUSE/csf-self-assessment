@@ -15,7 +15,7 @@
   // validation text beneath the input and aligned to it. Both apps compose this
   // instead of hand-rolling label + input + <p> — that is what kept the help
   // text drifting out of alignment. `required` marks the label (asterisk) and
-  // the control; `readonly` renders a read-only input (muted, still selectable —
+  // the control. `readonly` renders a read-only input (muted, still selectable —
   // see theme.css). Passing `error` flips the field to its invalid state: the
   // input outlines red and `error` replaces `help` in destructive text.
   type Props = Omit<HTMLInputAttributes, 'required' | 'readonly'> & {
@@ -43,7 +43,7 @@
     ...rest
   }: Props = $props();
 
-  // Bump the counter once at init for a stable fallback id; a caller-supplied
+  // Bump the counter once at init for a stable fallback id. a caller-supplied
   // `id` overrides it (and tracks it reactively).
   const generatedId = `csf-field-${(uid += 1)}`;
   const fieldId = $derived(id ?? generatedId);

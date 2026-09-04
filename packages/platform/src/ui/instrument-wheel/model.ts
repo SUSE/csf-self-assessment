@@ -14,7 +14,7 @@ import type { ChipKind } from '../wheel';
 // a busy dimension reaches the rim, a dimension no question touches is a visible
 // stub (a gap to close), and the party arc shows the taxonomy each concrete party
 // will answer against.
-//
+
 // This is deliberately NOT the MergeWheel with faked answers. There are no live
 // answers to colour by in the Author app, and painting every spoke "unclaimed"
 // would be a lie. Instead every number here is derivable from the workbook
@@ -27,24 +27,24 @@ export type InstrumentSection = 'objectives' | 'dimensions' | 'parties' | 'roles
 export type InstrumentChip = {
   kind: ChipKind;
   key: string;
-  /** Chip name: the dimension, the party type, or "Whole estate". */
+  // Chip name: the dimension, the party type, or "Whole estate".
   name: string;
-  /** Second label line: the party class, "asked once", or ''. */
+  // Second label line: the party class, "asked once", or ''.
   sub: string;
-  /** Question-units that fan onto this chip: dimension-grain units per dimension,
-   * party-axis questions per party type (every party of any type answers them),
-   * assessment-axis questions on the estate chip. The spoke length. */
+  // Question-units that fan onto this chip: dimension-grain units per dimension,
+  // party-axis questions per party type (every party of any type answers them),
+  // assessment-axis questions on the estate chip. The spoke length.
   count: number;
-  /** Drawn in emphasis ink: a critical dimension (it gates), the assessed party
-   * (the "us"), and the assessment chip (always gates). */
+  // Drawn in emphasis ink: a critical dimension (it gates), the assessed party
+  // (the "us"), and the assessment chip (always gates).
   emphasis: boolean;
-  /** count === 0. Only a real signal for dimensions — a dimension no question
-   * reaches is a coverage gap; still earns a spoke (the workbook IS the estate). */
+  // count === 0. Only a real signal for dimensions — a dimension no question
+  // reaches is a coverage gap; still earns a spoke (the workbook IS the estate).
   empty: boolean;
-  /** Dimensions: how many strata this dimension splits into (0 = unsplittable).
-   * Drawn as layer ticks outside the rim. 0 for party/assessment chips. */
+  // Dimensions: how many strata this dimension splits into (0 = unsplittable).
+  // Drawn as layer ticks outside the rim. 0 for party/assessment chips.
   strata: number;
-  /** Where clicking this chip navigates the workbench. */
+  // Where clicking this chip navigates the workbench.
   section: InstrumentSection;
 };
 
@@ -54,40 +54,40 @@ export type InstrumentChip = {
 // always agree; the rest are direct workbook tallies.
 export type InstrumentStats = {
   objectives: number;
-  /** Objective weights; a valid workbook sums to exactly 100. */
+  // Objective weights; a valid workbook sums to exactly 100.
   weightSum: number;
   questions: number;
   questionTarget: number;
-  /** Party-grain question count (both axes). */
+  // Party-grain question count (both axes).
   partyGrain: number;
-  /** Dimension-grain question count. */
+  // Dimension-grain question count.
   dimensionGrain: number;
   answerUnits: number;
   estimatedMinutes: number;
   minutesTarget: number;
   dimensions: number;
   criticalDimensions: number;
-  /** Dimensions no question reaches — the coverage gaps (authorGauges). */
+  // Dimensions no question reaches — the coverage gaps (authorGauges).
   uncoveredDimensions: number;
-  /** Total strata across every dimension. */
+  // Total strata across every dimension.
   strata: number;
-  /** Dimensions that split into at least one stratum. */
+  // Dimensions that split into at least one stratum.
   splitDimensions: number;
   partyTypes: number;
-  /** Party types whose kind is not the assessed class. */
+  // Party types whose kind is not the assessed class.
   thirdPartyTypes: number;
   roles: number;
-  /** Authored roles no question uses yet. */
+  // Authored roles no question uses yet.
   unusedRoles: number;
   testEstates: number;
 };
 
 export type InstrumentModel = {
   chips: InstrumentChip[];
-  /** The busiest chip's count — what a full-rim spoke represents. 0 when the
-   * workbook has no questions yet (every spoke is then a bare stub). */
+  // The busiest chip's count — what a full-rim spoke represents. 0 when the
+  // workbook has no questions yet (every spoke is then a bare stub).
   maxCount: number;
-  /** Sum of every chip's count — total answer interactions the instrument fans to. */
+  // Sum of every chip's count — total answer interactions the instrument fans to.
   totalUnits: number;
   stats: InstrumentStats;
 };
@@ -209,7 +209,7 @@ export function instrumentModel(workbook: Workbook): InstrumentModel {
 // importance-inked bar. It is the twin of question-inspector's questionLowestSeal,
 // aggregated one grain coarser (a whole spoke, not one question), and reuses the
 // same primitives (questionUnits + findAnswer) so the reading never drifts.
-//
+
 // Chips are keyed exactly as InstrumentChip: a dimension id, a party TYPE id, or
 // 'assessment'. Party-axis answers are recorded against CONCRETE parties, so they
 // roll up to the answering party's TYPE (the arc the wheel actually draws). Pure —
@@ -217,16 +217,16 @@ export function instrumentModel(workbook: Workbook): InstrumentModel {
 // matching questionLowestSeal), null when nothing on the chip is answered yet.
 
 export type ChipSeal = {
-  /** Question-units that fan onto this chip — counted at the SAME grain
-   * instrumentModel sizes the spoke by (one per question × chip, NOT expanded by
-   * strata or by concrete party), so `Σ total` equals the wheel's `totalUnits`
-   * and the overview's coverage never shows a denominator the wheel contradicts. */
+  // Question-units that fan onto this chip — counted at the SAME grain
+  // instrumentModel sizes the spoke by (one per question × chip, NOT expanded by
+  // strata or by concrete party), so `Σ total` equals the wheel's `totalUnits`
+  // and the overview's coverage never shows a denominator the wheel contradicts.
   total: number;
-  /** Of `total`, the question-units FULLY dealt with — every underlying concrete
-   * unit (each stratum, each party of the type) carries a recorded answer. */
+  // Of `total`, the question-units FULLY dealt with — every underlying concrete
+  // unit (each stratum, each party of the type) carries a recorded answer.
   covered: number;
-  /** Lowest ANSWERED seal across every concrete unit on the chip, or null when
-   * none is answered (the worst-case rank, as questionLowestSeal reads it). */
+  // Lowest ANSWERED seal across every concrete unit on the chip, or null when
+  // none is answered (the worst-case rank, as questionLowestSeal reads it).
   seal: Seal | null;
 };
 
@@ -301,7 +301,7 @@ export function instrumentSeals(
   return out;
 }
 
-// --- inspection: one chip, read as the questions that fan onto it -------------
+// -- inspection: one chip, read as the questions that fan onto it ------------
 // The overview's Inspector (right rail): click a spoke and see the questions it
 // carries, grouped by the objective (SOV) that owns them. This is the twin of
 // instrumentModel read one chip deep instead of the whole wheel — same taxonomy
@@ -315,7 +315,7 @@ export function instrumentSeals(
 
 export type InstrumentSelection = {
   chipKind: ChipKind;
-  /** The chip's key: a dimension id, a party-type id, or 'assessment'. */
+  // The chip's key: a dimension id, a party-type id, or 'assessment'.
   key: string;
 };
 
@@ -323,12 +323,12 @@ export type InspectedQuestion = {
   id: string;
   text: string;
   role: string;
-  /** The authored role's display NAME (ADR-0003) — what a rail shows; `role` is the key. */
+  // The authored role's display NAME — what a rail shows. `role` is the key.
   roleName: string;
 };
 
 export type InspectedGroup = {
-  /** The owning objective — the SOV this run of questions belongs to. */
+  // The owning objective — the SOV this run of questions belongs to.
   objectiveId: string;
   objectiveName: string;
   questions: InspectedQuestion[];
@@ -337,16 +337,16 @@ export type InspectedGroup = {
 export type InstrumentInspection = {
   chipKind: ChipKind;
   key: string;
-  /** The chip's headline: the dimension/party name, or 'Whole estate'. */
+  // The chip's headline: the dimension/party name, or 'Whole estate'.
   name: string;
-  /** One-line descriptor of what the chip is and how its questions fan out. */
+  // One-line descriptor of what the chip is and how its questions fan out.
   kindLabel: string;
-  /** Where a "manage" affordance deep-links — the section that owns this chip. */
+  // Where a "manage" affordance deep-links — the section that owns this chip.
   section: InstrumentSection;
-  /** Total matching questions across every group. */
+  // Total matching questions across every group.
   total: number;
-  /** Matching questions grouped by objective, in workbook order; only objectives
-   * with at least one match appear. Empty when no question reaches this chip yet. */
+  // Matching questions grouped by objective, in workbook order; only objectives
+  // with at least one match appear. Empty when no question reaches this chip yet.
   groups: InspectedGroup[];
 };
 

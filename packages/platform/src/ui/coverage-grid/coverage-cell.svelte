@@ -17,7 +17,7 @@
   title={cell.title}
 >
   <!-- A zero is a dot, not a '0': eighty digits where most are zero reads as a
-       wall of noise, and the eye is here to find the ones that are not. -->
+     wall of noise, and the eye is here to find the ones that are not. -->
   {#if cell.count > 0}
     <span class="font-semibold">{cell.count}</span>
   {:else}

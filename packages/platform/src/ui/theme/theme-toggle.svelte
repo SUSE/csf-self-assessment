@@ -6,7 +6,7 @@
 
   // A single ghost icon button that flips light/dark. It shows the icon of the
   // theme it will switch *to* (sun while dark, moon while light) — the common
-  // affordance. Keyboard-complete: it is a real <button> (invariant #8).
+  // affordance. Keyboard-complete: it is a real <button> .
 </script>
 
 <Button

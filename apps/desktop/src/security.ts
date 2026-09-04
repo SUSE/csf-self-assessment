@@ -15,7 +15,7 @@ export function installSessionPolicy(
   target: DesktopTarget,
 ): void {
   electronSession.webRequest.onBeforeRequest(
-    { urls: ['<all_urls>', 'csf://*/*'] },
+    { urls: ['<all_urls>', 'csf://* */*'] },
     (details, callback) => {
       callback({
         cancel:

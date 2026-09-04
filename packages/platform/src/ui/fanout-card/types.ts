@@ -11,10 +11,10 @@ export type FanoutUnit = {
   label: string;
   critical: boolean;
   target: Target;
-  /** Present ⇒ splittable into these sub-units (a dimension's strata). `label` is the
-      full "Dimension · stratum" (used for the drag ghost / landing preview so context
-      travels); `short` is the bare stratum ("service") shown as a segment inside the
-      dimension's grouped pill. */
+  // Present ⇒ splittable into these sub-units (a dimension's strata). `label` is the
+  //      full "Dimension · stratum" (used for the drag ghost / landing preview so context
+  //      travels); `short` is the bare stratum ("service") shown as a segment inside the
+  //      dimension's grouped pill.
   strata?: { key: string; label: string; short: string; target: Target }[];
 };
 
@@ -38,10 +38,10 @@ export type RenderGroup =
   | { grouped: false; chip: Chip; strataCount: number }
   | { grouped: true; unitKey: string; name: string; critical: boolean; fraction: string | null; segs: Chip[] };
 
-/** The unit noun for the tray count, e.g. { one: 'dimension', many: 'dimensions' }. */
+// The unit noun for the tray count, e.g. { one: 'dimension', many: 'dimensions' }.
 export type UnitNoun = { one: string; many: string };
 export type TrayCopy = { title: string; hint: string };
-/** The most recent answered gesture group on this question, and its seal. */
+// The most recent answered gesture group on this question, and its seal.
 export type AnsweredGroup = { groupId: string; seal: Seal };
-/** The most recent n/a gesture group, its reason, and the chip it named. */
+// The most recent n/a gesture group, its reason, and the chip it named.
 export type NaGroup = { groupId: string; reason: string; label: string };

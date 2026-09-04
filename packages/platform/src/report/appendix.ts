@@ -4,58 +4,57 @@ import type { EngineResult, HeatFact, OpenUnit } from '../score-engine';
 import { answerLabel } from '../utils/answer-label';
 import { targetLabel } from '../utils/target-label';
 
-/** The four states one unit can print in: the three the engine asserts in
- *  `facts[]`, plus `unanswered` for an `openUnits` entry. */
+// The four states one unit can print in: the three the engine asserts in
+// `facts[]`, plus `unanswered` for an `openUnits` entry.
 export type AppendixState = 'answered' | 'dont-know' | 'na' | 'unanswered';
 
-/** One unit of the transcript (report.md §2.4, ADR-0019).
- *
- *  Deliberately a FLAT record, not a discriminated union: `HeatFact.seal` is
- *  nullable across all three asserted states, so an `{ state: 'answered'; seal:
- *  Seal }` arm could only be built through a non-null assertion the quality
- *  rules forbid. `ReadingView` (ui/inspector/question-blocks.ts) and
- *  `HeatDetailRow` (analytics/heat.ts) are the settled precedent for mirroring
- *  the engine's own looseness here. */
+// One unit of the transcript (report.md §2.4, ADR-0019).
+//
+// Deliberately a FLAT record, not a discriminated union: `HeatFact.seal` is
+// nullable across all three asserted states, so an `{ state: 'answered'; seal:
+// Seal }` arm could only be built through a non-null assertion the quality
+// rules forbid. `ReadingView` and `HeatDetailRow` are the settled precedent for
+// mirroring the engine's own looseness here.
 export type AppendixRow = {
-  /** The unit's target as a human reads it — `utils/target-label`. */
+  // The unit's target as a human reads it — `utils/target-label`.
   targetLabel: string;
   state: AppendixState;
-  /** As ASSERTED, copied from `HeatFact.seal`; null on every other state, and
-   *  never rendered as SEAL-0 (analytics inv #2). */
+  // As ASSERTED, copied from `HeatFact.seal`; null on every other state, and
+  // never rendered as SEAL-0 (analytics inv #2).
   seal: Seal | null;
-  /** The gesture behind the assertion, from `HeatFact.swept`; null when the unit
-   *  is unanswered — there is no gesture to report. */
+  // The gesture behind the assertion, from `HeatFact.swept`; null when the unit
+  // is unanswered — there is no gesture to report.
   placement: Gesture['placement'] | null;
-  /** The evidence note the participant typed, from `answers` (ADR-0019); null
-   *  when none was recorded or this unit is not `answered`. */
+  // The evidence note the participant typed, from `answers` (ADR-0019); null
+  // when none was recorded or this unit is not `answered`.
   evidence: string | null;
-  /** The n/a exclusion reason, from `answers` (ADR-0019); null unless this unit
-   *  is an `na` carrying one. */
+  // The n/a exclusion reason, from `answers` (ADR-0019); null unless this unit
+  // is an `na` carrying one.
   reason: string | null;
-  /** `“Verified.” (SEAL 3)` / `don’t know` / `n/a` / `unanswered` — the words. */
+  // `“Verified.” (SEAL 3)` / `don’t know` / `n/a` / `unanswered` — the words.
   label: string;
 };
 
-/** One question's units. `roleName` and `materiality` sit HERE, not on the row: a
- *  question has one authored role and one materiality, so neither can ever tell
- *  its units apart (ui/inspector/question-blocks.ts states the same reason). */
+// One question's units. `roleName` and `materiality` sit HERE, not on the row: a
+// question has one authored role and one materiality, so neither can ever tell
+// its units apart (ui/inspector/question-blocks.ts states the same reason).
 export type AppendixQuestion = {
   questionId: string;
   questionText: string;
-  /** The authored role's display NAME, resolved from `workbook.roles` with an id
-   *  fallback (ADR-0003) — `whats-left.ts`'s spelling. */
+  // The authored role's display NAME, resolved from `workbook.roles` with an id
+  // fallback — `whats-left.ts`'s spelling.
   roleName: string;
-  /** The question's authored materiality, read off the engine's own per-unit
-   *  field, never re-derived from `defaultMateriality`. Replaces `material`. */
+  // The question's authored materiality, read off the engine's own per-unit
+  // field, never re-derived from `defaultMateriality`. Replaces `material`.
   materiality: Materiality;
-  /** Asserted units in `facts[]` order, then unanswered units in `openUnits`
-   *  order. Never empty. */
+  // Asserted units in `facts[]` order, then unanswered units in `openUnits`
+  // order. Never empty.
   rows: AppendixRow[];
 };
 
-/** One objective's questions, in authored order. A question `questionUnits()`
- *  produced no unit for, and an objective left with no such question, do not
- *  appear — there is nothing to transcribe. */
+// One objective's questions, in authored order. A question `questionUnits()`
+// produced no unit for, and an objective left with no such question, do not
+// appear — there is nothing to transcribe.
 export type AppendixObjective = {
   id: string;
   name: string;
@@ -71,8 +70,8 @@ const UNSEALED_LABEL: Record<Exclude<AppendixState, 'answered'>, string> = {
   unanswered: 'unanswered',
 };
 
-/** One asserted unit: structure from the fact, prose and the rung it names from
- *  the matched answer. */
+// One asserted unit: structure from the fact, prose and the rung it names from
+// the matched answer.
 function assertedRow(
   fact: HeatFact,
   question: Pick<Question, 'ladder'>,
@@ -95,7 +94,7 @@ function assertedRow(
   };
 }
 
-/** One open unit: no seal, no gesture, no prose — that is what open means. */
+// One open unit: no seal, no gesture, no prose — that is what open means.
 function openRow(unit: OpenUnit, workbook: Workbook, parties: Party[]): AppendixRow {
   return {
     targetLabel: targetLabel(workbook, parties, unit.target),
@@ -108,9 +107,9 @@ function openRow(unit: OpenUnit, workbook: Workbook, parties: Party[]): Appendix
   };
 }
 
-/** The transcript (ADR-0019): structure from `EngineResult`, prose from
- *  `answers`, and NOTHING aggregated — no total, no minimum, no percentage, no
- *  derived seal. Every number and every seal in the Report is `evaluate()`'s. */
+// The transcript (ADR-0019): structure from `EngineResult`, prose from
+// `answers`, and NOTHING aggregated — no total, no minimum, no percentage, no
+// derived seal. Every number and every seal in the Report is `evaluate()`'s.
 export function reportAppendix(
   assessment: Assessment,
   result: EngineResult,

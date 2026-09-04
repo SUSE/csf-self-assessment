@@ -1,18 +1,18 @@
 // Theme controller — a reactive app-lifetime singleton (Svelte 5 universal
 // reactivity). Owns the active theme, applies it as classes on <html> (the
 // convention the token layer in theme.css switches on), and persists the choice.
-//
+
 // The theme is TWO independent axes, not one list:
-//
-//   mode    — light | dark. Toggled by the `dark` class.
-//   palette — which set of colour/radius/shadow tokens. Toggled by a
-//             `theme-<id>` class; the default SUSE palette is the ABSENCE of
-//             one, because it lives on `:root`/`.dark` in theme.css.
-//
+
+// mode — light | dark. Toggled by the `dark` class.
+// palette — which set of colour/radius/shadow tokens. Toggled by a
+// `theme-<id>` class; the default SUSE palette is the ABSENCE of
+// one, because it lives on `:root`/`.dark` in theme.css.
+
 // Keeping them separate is what lets every palette have a dark variant without a
 // combinatorial list of names, and lets the existing light/dark toggle keep
 // working untouched. Adding a palette means adding a token block in theme.css
-// and an entry to PALETTES below — no component changes (spec §3).
+// and an entry to PALETTES below — no component changes.
 
 export type Mode = 'light' | 'dark';
 
@@ -26,18 +26,18 @@ export type Palette =
   | 'modern-minimal'
   | 'supabase';
 
-/** The palette picker's menu, in display order. `id` doubles as the class stem:
- *  every palette but the default applies `theme-<id>` to <html>.
- *
- *  Ordered brand-first, then imported: the four brand pairs are four readings of
- *  the same guide and belong together at the top of the menu, ahead of the
- *  tweakcn presets. A note names what the palette DOES, not which colour it is —
- *  the picker's swatches already show the colour, and The Unnamed Colour Rule
- *  keeps hue names out of anything a reader could mistake for the ramp's meaning. */
+// The palette picker's menu, in display order. `id` doubles as the class stem:
+// every palette but the default applies `theme-<id>` to <html>.
+//
+// Ordered brand-first, then imported: the four brand pairs are four readings of
+// the same guide and belong together at the top of the menu, ahead of the
+// tweakcn presets. A note names what the palette DOES, not which colour it is —
+// the picker's swatches already show the colour, and The Unnamed Colour Rule
+// keeps hue names out of anything a reader could mistake for the ramp's meaning.
 export const PALETTES: ReadonlyArray<{
   id: Palette;
   label: string;
-  /** One line for the picker — what the palette actually looks like. */
+  // One line for the picker — what the palette actually looks like.
   note: string;
 }> = [
   { id: 'suse', label: 'SUSE', note: 'Brand: Jungle on Fog, Pine when dark' },
@@ -55,7 +55,7 @@ const DEFAULT_PALETTE: Palette = 'suse';
 const MODE_KEY = 'csf-theme';
 const PALETTE_KEY = 'csf-palette';
 
-// Local persistence only — no network, offline-safe (invariant #7). Both readers
+// Local persistence only — no network, offline-safe. Both readers
 // treat a missing/unparseable value as "not chosen" and fall back.
 function stored(key: string): string | null {
   try {

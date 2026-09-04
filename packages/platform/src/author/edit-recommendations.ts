@@ -1,11 +1,11 @@
 import type { Recommendation, RecommendationLink, Workbook } from '../schema';
 import { nextId } from './links';
 
-// --- recommendations (spec docs/specs/recommendations.md §4.5) ---------------
+// ---------------------- recommendations -------------------
 
 // A blank recommendation the author fills in place. `whenAtOrBelow: 0` because
 // SEAL-0 is the most conservative threshold to start from and the repo refuses to
-// bake a marketing threshold into TypeScript (spec §2.7); `horizon: 'strategic'`
+// bake a marketing threshold into TypeScript. `horizon: 'strategic'`
 // because an unauthored pitch must not claim renewal-scale immediacy.
 export function addRecommendation(wb: Workbook): Workbook {
   const id = nextId(wb.recommendations.map((r) => r.id), 'rec');
@@ -97,7 +97,7 @@ export function unlinkRecommendation(
 export type RecommendationLinkKind = RecommendationLink['kind'];
 
 // The kind selector's label per kind. A Record over the union, so adding a fourth
-// link kind to the schema (spec §2.2) fails to compile until the picker names it.
+// link kind to the schema fails to compile until the picker names it.
 export const LINK_KIND_LABELS: Readonly<Record<RecommendationLinkKind, string>> = {
   question: 'Question',
   dimension: 'Dimension',

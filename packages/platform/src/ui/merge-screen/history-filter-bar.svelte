@@ -13,7 +13,7 @@
     shown: number;
     total: number;
     onFilters: (filters: HistoryFilters) => void;
-    /** Enter in the search box — the owner resolves an exact id entry. */
+    /** Enter in the search box — the owner resolves an exact id entry.*/
     onSubmit: () => void;
   };
   let { filters, participants, shown, total, onFilters, onSubmit }: Props = $props();

@@ -14,8 +14,8 @@ import { landingHeading, landingNeighbors } from './detail-context';
 
 export type DetailPanel = AnswerPanel | PartyPanel;
 
-/** A navigator section and the panels beneath it (§4.5). `open` is the DEFAULT
- *  disclosure (§4.8); what is actually open is `groupRenderings`. */
+// A navigator section and the panels beneath it. `open` is the DEFAULT
+// disclosure. what is actually open is `groupRenderings`.
 export type DetailGroup = {
   kind: 'parties' | 'objective' | 'agreements';
   id: string;
@@ -104,22 +104,22 @@ export function landingDetail(
 const panelTerms = (panel: DetailPanel): string[] =>
   panel.kind === 'answer'
     ? [
-        panel.questionId,
-        panel.questionText,
-        panel.targetLabel,
-        panel.decision,
-        ...(panel.clash === null ? [] : [panel.clash]),
-      ]
+      panel.questionId,
+      panel.questionText,
+      panel.targetLabel,
+      panel.decision,
+      ...(panel.clash === null ? [] : [panel.clash]),
+    ]
     : [
-        panel.label,
-        panel.decision,
-        ...[...panel.before, ...panel.after].flatMap((party) => [party.id, party.name]),
-      ];
+      panel.label,
+      panel.decision,
+      ...[...panel.before, ...panel.after].flatMap((party) => [party.id, party.name]),
+    ];
 
-/** The navigator's search inside one Landing (§4.5): question id, question text,
- *  target label, party name, decision headline and clash class. An empty or blank
- *  query returns `detail` unchanged; otherwise each group keeps only its matching
- *  panels, empty groups fall away, and `recordCount` describes what survives. */
+// The navigator's search inside one Landing (§4.5): question id, question text,
+// target label, party name, decision headline and clash class. An empty or blank
+// query returns `detail` unchanged; otherwise each group keeps only its matching
+// panels, empty groups fall away, and `recordCount` describes what survives.
 export function filterDetail(detail: LandingDetail, query: string): LandingDetail {
   const entry = query.trim().toLowerCase();
   if (entry === '') return detail;
@@ -141,15 +141,15 @@ export function groupOf(groups: readonly DetailGroup[], ref: RecordRef): DetailG
   return groups.find((group) => group.panels.some((panel) => sameRecordRef(panel.ref, ref))) ?? null;
 }
 
-/** One group as the changes column renders it: whether it is open (default
- *  disclosure, overridden by what the facilitator toggled, and always open when it
- *  holds the anchored record) and whether it offers Expand all (§4.8 — the selected
- *  group, or every group while the navigator is filtered). */
+// One group as the changes column renders it: whether it is open (default
+// disclosure, overridden by what the facilitator toggled, and always open when it
+// holds the anchored record) and whether it offers Expand all (the selected
+// group, or every group while the navigator is filtered).
 export type GroupRendering = {
   group: DetailGroup;
   open: boolean;
   expandAll: boolean;
-  /** This group holds the anchored record — why it is forced open (§4.5). */
+  // This group holds the anchored record — why it is forced open (§4.5).
   holdsSelected: boolean;
 };
 
@@ -171,23 +171,23 @@ export function groupRenderings(
   });
 }
 
-/** Height reserved per not-yet-mounted panel, in CSS pixels. An open group that
- *  has not mounted holds its place, so the scroll region's height is honest and a
- *  group far below the viewport stays far below it. 280 ≈ the mean panel height
- *  measured in the S3 acceptance drive (18444px of overflow over 65 records). */
+// Height reserved per not-yet-mounted panel, in CSS pixels. An open group that
+// has not mounted holds its place, so the scroll region's height is honest and a
+// group far below the viewport stays far below it. 280 ≈ the mean panel height
+// measured in the S3 acceptance drive (18444px of overflow over 65 records).
 export const PANEL_RESERVE_PX = 280;
 
-/** One group once mounting is decided (§3.4.2–§3.4.4): `mounted` — its panels are
- *  in the DOM; `reserve` — the placeholder height in CSS pixels for an OPEN group
- *  whose panels are not mounted yet, and 0 in every other case. */
+// One group once mounting is decided (§3.4.2–§3.4.4): `mounted` — its panels are
+// in the DOM; `reserve` — the placeholder height in CSS pixels for an OPEN group
+// whose panels are not mounted yet, and 0 in every other case.
 export type GroupMounting = GroupRendering & { mounted: boolean; reserve: number };
 
-/** Decide what the changes column mounts. `mounted` is the STICKY set the column
- *  accumulates: a group id enters it when the group approaches the scroll viewport
- *  and never leaves it (§3.4.3 — once mounted, it stays mounted for stable
- *  keyboard focus and scroll). A group's panels render when it is open AND (its id
- *  is in the set OR it holds the anchored record — §3.4.4, selection materialises
- *  its target before scrolling). A closed group never mounts and never reserves. */
+// Decide what the changes column mounts. `mounted` is the STICKY set the column
+// accumulates: a group id enters it when the group approaches the scroll viewport
+// and never leaves it (once mounted, it stays mounted for stable keyboard focus and
+// scroll). A group's panels render when it is open AND (its id
+// is in the set OR it holds the anchored record — §3.4.4, selection materialises
+// its target before scrolling). A closed group never mounts and never reserves.
 export function groupMountings(
   renderings: readonly GroupRendering[],
   mounted: Readonly<Record<string, boolean>>,
@@ -204,8 +204,8 @@ export function groupMountings(
   });
 }
 
-/** The panel a ref names — what the narrow-width bar keeps visible as the current
- *  record identity (§4.9). Null when nothing is anchored or the ref names none. */
+// The panel a ref names — what the narrow-width bar keeps visible as the current
+// record identity. Null when nothing is anchored or the ref names none.
 export function panelOf(
   groups: readonly DetailGroup[],
   ref: RecordRef | null,

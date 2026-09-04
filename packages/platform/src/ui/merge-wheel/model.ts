@@ -5,28 +5,28 @@ import { clashCandidates } from '../../merge';
 import { findAnswer, questionOf, questionUnits, sealOfAnswer } from '../../assessment';
 import { exposureReader, informative, type ChipKind, type ExposureMarker } from '../wheel';
 
-// The pure model behind MergeWheel (delivery §4.3). The facilitator's view of one
+// The pure model behind MergeWheel. The facilitator's view of one
 // estate, in the same grammar as QuestionWheel: the estate's CHIPS are the spokes.
 // Dimension chips take the right arc, party chips the left, and the single
 // assessment chip sits at 12 o'clock on the divider — the two chip families are
 // disjoint fan-out axes and are drawn as such, so nothing implies a dimension ×
 // party cell that no answer can ever occupy.
-//
+
 // Two readings share the layout:
-//   coverage — how much of each chip is dealt with, split covered /
-//              claimed-incomplete / unclaimed (delivery §2.3.5). Only the SCOPE LOG
-//              can tell the last two apart: claimed-incomplete is a person's gap,
-//              unclaimed is an estate gap. Until the scope log lands (delivery-S3)
-//              pass `scope` yourself or accept the honest degraded reading below.
-//   merge    — the distinct SEAL values recorded on each chip, with every
-//              unresolved conflict drawn as the span between its competing rungs.
-//
+// coverage — how much of each chip is dealt with, split covered /
+// claimed-incomplete / unclaimed. Only the SCOPE LOG
+// can tell the last two apart: claimed-incomplete is a person's gap,
+// unclaimed is an estate gap. Until the scope log lands
+// pass `scope` yourself or accept the honest degraded reading below.
+// merge — the distinct SEAL values recorded on each chip, with every
+// unresolved conflict drawn as the span between its competing rungs.
+
 // This module computes NO estate truth. `floor` is an INPUT, taken from
-// `evaluate()` on the finalized assessment — never derived here (invariant #3),
+// `evaluate` on the finalized assessment — never derived here ,
 // and null on a working merge because only a finalized assessment carries a floor.
 
-/** One chip's scope-log reading, supplied by the host. `covered` is derived from
- * the answers, so only the split of what is left needs to come from outside. */
+// One chip's scope-log reading, supplied by the host. `covered` is derived from
+// the answers, so only the split of what is left needs to come from outside.
 export type ChipScope = {
   kind: ChipKind;
   key: string;
@@ -36,9 +36,9 @@ export type ChipScope = {
 export type ChipConflict = {
   questionId: string;
   target: Target;
-  /** The distinct SEALs the competing partials asserted, ascending. */
+  // The distinct SEALs the competing partials asserted, ascending.
   seals: Seal[];
-  /** The kept SEAL once the facilitator resolves it; null while open. */
+  // The kept SEAL once the facilitator resolves it; null while open.
   resolved: Seal | null;
 };
 
@@ -47,21 +47,21 @@ export type MergeChip = {
   key: string;
   name: string;
   sub: string;
-  /** Critical dimensions gate; every party chip and the assessment chip gate. */
+  // Critical dimensions gate; every party chip and the assessment chip gate.
   gates: boolean;
   total: number;
-  /** Units carrying a record of any state — answered, don't-know or n/a. */
+  // Units carrying a record of any state — answered, don't-know or n/a.
   covered: number;
   claimedIncomplete: number;
   unclaimed: number;
-  /** Distinct SEALs recorded on this chip, ascending. */
+  // Distinct SEALs recorded on this chip, ascending.
   seals: Seal[];
   conflicts: ChipConflict[];
-  /** The `serves` edges hanging off this chip, read in whichever direction the
-   * chip faces: a DIMENSION chip lists the third parties standing under it,
-   * coloured by their own compellability; a PARTY chip lists the dimensions it
-   * reaches, with the critical ones emphasised — its blast radius. Context, never
-   * units. Empty on the assessment chip and whenever no edges were supplied. */
+  // The `serves` edges hanging off this chip, read in whichever direction the
+  // chip faces: a DIMENSION chip lists the third parties standing under it,
+  // coloured by their own compellability; a PARTY chip lists the dimensions it
+  // reaches, with the critical ones emphasised — its blast radius. Context, never
+  // units. Empty on the assessment chip and whenever no edges were supplied.
   exposure: ExposureMarker[];
 };
 
@@ -73,32 +73,32 @@ export type MergeWheelModel = {
   unclaimed: number;
   openConflicts: number;
   resolvedConflicts: number;
-  /** Passed straight through from the caller; see module note. */
+  // Passed straight through from the caller; see module note.
   floor: Seal | null;
   unknowns: number;
-  /** The widest marker stack on any chip — what the label ring must clear. */
+  // The widest marker stack on any chip — what the label ring must clear.
   maxExposure: number;
-  /** False when every chip would show the same markers: with one provider serving
-   * everything the ring is noise, so hosts default to hiding it. */
+  // False when every chip would show the same markers: with one provider serving
+  // everything the ring is noise, so hosts default to hiding it.
   exposureInformative: boolean;
 };
 
 export type MergeWheelInput = {
   workbook: Workbook;
   parties: Party[];
-  /** The union of every accepted partial's answers so far. */
+  // The union of every accepted partial's answers so far.
   answers: Answer[];
-  /** Still-open clashes from `reviewLanding()`. */
+  // Still-open clashes from `reviewLanding()`.
   clashes?: LandingClash[];
-  /** Clashes the facilitator has already settled, kept as ledger records. */
+  // Clashes the facilitator has already settled, kept as ledger records.
   resolutions?: { questionId: string; target: Target; seal: Seal }[];
-  /** Per-chip scope-log reading. Omit and everything unanswered reads as
-   * unclaimed — honest, because without a scope log the two are indistinguishable. */
+  // Per-chip scope-log reading. Omit and everything unanswered reads as
+  // unclaimed — honest, because without a scope log the two are indistinguishable.
   scope?: ChipScope[];
-  /** From `evaluate()` on the finalized assessment. Null before finalize. */
+  // From `evaluate()` on the finalized assessment. Null before finalize.
   floor?: Seal | null;
   unknowns?: number;
-  /** `evaluate().exposure`. Absent = no marker ring. */
+  // `evaluate().exposure`. Absent = no marker ring.
   exposure?: ExposureEdge[];
 };
 
@@ -164,7 +164,7 @@ export function mergeWheelModel(input: MergeWheelInput): MergeWheelModel {
     return chip;
   }
 
-  // Every authored dimension is in scope — the workbook IS the estate (ADR-0005) —
+  // Every authored dimension is in scope — the workbook IS the estate —
   // so a dimension no question reaches still earns a spoke, visibly empty.
   for (const dimension of workbook.dimensions) ensure('dimension', dimension.id);
   for (const party of parties) ensure('party', party.id);
@@ -269,7 +269,7 @@ export function chipTitle(chip: MergeChip): string {
   return `${chip.name} — ${chip.covered} of ${chip.total} covered, ${chip.claimedIncomplete} claimed-incomplete, ${chip.unclaimed} unclaimed, ${open} open conflict${open === 1 ? '' : 's'}, ${gate}${reach}`;
 }
 
-/** Where `count` of `total` reaches between hub and rim; the hub when total is 0. */
+// Where `count` of `total` reaches between hub and rim; the hub when total is 0.
 export function coverageRadius(hub: number, rim: number, total: number, count: number): number {
   return total === 0 ? hub : hub + (rim - hub) * (count / total);
 }

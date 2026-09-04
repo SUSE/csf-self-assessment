@@ -13,7 +13,7 @@ import type { RuleSection } from './content';
 // page shipped that way, `data-rule="party"` with no `party` card). Worse now that
 // `has()` drives gating — a typo doesn't misbehave visibly, it greys the icon out
 // as though help simply had nothing to say about that section.
-//
+
 // Each entry is one source file and the audience set it must cite into. It is an
 // explicit LIST, not a glob, so moving a marked control into a new component fails
 // here (the emptied file matches nothing) until the new file is added.
@@ -34,9 +34,9 @@ const MARKER_SOURCES: { path: string; sections: RuleSection[] }[] = [
   { path: '../facilitator-toolbar/facilitator-toolbar.svelte', sections: FACILITATOR_RULES },
 ];
 
-/** All three marker dialects: `data-rule="x"` on a stage field, `rule: 'x'` on a
- *  header icon's model entry, and `rule="x"` on a HeaderIconButton written out
- *  directly (a one-off control that has no model row). */
+// All three marker dialects: `data-rule="x"` on a stage field, `rule: 'x'` on a
+// header icon's model entry, and `rule="x"` on a HeaderIconButton written out
+// directly (a one-off control that has no model row).
 function markersIn(relPath: string): string[] {
   const src = readFileSync(fileURLToPath(new URL(relPath, import.meta.url)), 'utf8');
   return [

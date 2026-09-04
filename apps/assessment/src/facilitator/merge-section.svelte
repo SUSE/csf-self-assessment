@@ -9,7 +9,7 @@
   type Props = {
     facilitator: Facilitator;
     viewer: Viewer;
-    /** The shell's one Load, reused here. */
+    /** The shell's one Load, reused here.*/
     onAddPartial: () => void;
     // Both of these PUSH a history entry, so the router owns them.
     onOpenLanding: (id: string, scroll: number) => void;

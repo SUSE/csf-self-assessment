@@ -3,15 +3,15 @@
   import { Button } from '../button';
 
   /** The narrow-width bar that keeps Back, the current record identity and the
-   *  Affected records trigger visible while the changes column scrolls (§4.9). */
+   * Affected records trigger visible while the changes column scrolls (§4.9).*/
   type Props = {
-    /** The Landing's generated title — what the bar reads when nothing is anchored. */
+    /** The Landing's generated title — what the bar reads when nothing is anchored.*/
     title: string;
-    /** The anchored record's label, or null. */
+    /** The anchored record's label, or null.*/
     current: string | null;
     onBack: () => void;
     /** The Affected records trigger. A bits-ui `Sheet.Trigger` renders its own
-     *  button, so the sheet's owner passes it in rather than the bar owning state. */
+     * button, so the sheet's owner passes it in rather than the bar owning state.*/
     trigger: Snippet;
   };
   let { title, current, onBack, trigger }: Props = $props();

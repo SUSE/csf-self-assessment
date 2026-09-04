@@ -10,20 +10,20 @@
   import QueueFilterBar from './queue-filter-bar.svelte';
   import QueueGroupShell from './queue-group.svelte';
 
-  // The clash queue at scale (merge.md §4.2/§4.4): the landing's clashes grouped
+  // The clash queue at scale: the landing's clashes grouped
   // by objective and narrowable. It owns view state only — every list, count and
-  // decision comes from merge/queue.ts (invariant #13).
-  //
+  // decision comes from merge/queue.ts .
+  
   // Every clash is decided ONE AT A TIME, on its own card: there is no bulk
   // apply and no per-card keyboard layer.
-  //
+  
   // Bulk apply existed, constrained to one narrowed class, and is gone
-  // (invariant #7): a suggestion sits on nearly every divergence, so "apply the
+  // : a suggestion sits on nearly every divergence, so "apply the
   // suggestion to these 22" was the rubber stamp the constraint was meant to
   // prevent — narrowing a list is not reviewing it. What replaced it is the
   // `Show: Open / Decided` narrowing, which lets the facilitator work the
   // remainder down without deciding anything on their behalf.
-  //
+  
   // The keyboard layer (`card-keys.ts`) belongs to the answering surface, where
   // the ladder is a real radiogroup and every option is reachable. In a clash the
   // option set is not a ladder: two candidate answers and a suggestion sit beside
@@ -82,7 +82,7 @@
   <PanelHeader title="Clashes" />
 
   <!-- Nothing to narrow: with no clashes every control in the bar is inert, and a
-       bar of zeroes blames a filter for an empty queue. Say what is true instead. -->
+     bar of zeroes blames a filter for an empty queue. Say what is true instead. -->
   {#if clashes.length === 0}
     <p class="text-sm text-muted-foreground" data-clash-queue-empty>
       No clashes — every incoming answer either agreed with the estate or is the only source for
@@ -93,8 +93,8 @@
   {/if}
 
   <!-- A narrowing that shows nothing must say so: an empty list under a filled
-       bar reads as "the queue is done", which is the one thing it must never
-       imply. The way out is offered here, beside the emptiness it explains. -->
+     bar reads as "the queue is done", which is the one thing it must never
+     imply. The way out is offered here, beside the emptiness it explains. -->
   {#if clashes.length > 0 && shown.length === 0}
     <div class="flex flex-wrap items-center gap-2" data-clash-queue-none>
       <p class="text-sm text-muted-foreground">

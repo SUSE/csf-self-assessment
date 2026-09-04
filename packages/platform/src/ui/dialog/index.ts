@@ -18,7 +18,7 @@ export {
   Content,
   Header,
   Title,
-  //
+
   Root as Dialog,
   Trigger as DialogTrigger,
   Portal as DialogPortal,

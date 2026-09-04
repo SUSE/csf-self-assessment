@@ -51,7 +51,7 @@ export function unplaced(chips: readonly Chip[]): Chip[] {
   return chips.filter((c) => c.answer === undefined);
 }
 
-/** Resolved = every unit DEALT WITH (on a rung, don't-know, or n/a). */
+// Resolved = every unit DEALT WITH (on a rung, don't-know, or n/a).
 export function resolvedCount(chips: readonly Chip[]): number {
   return chips.filter((c) => c.answer !== undefined).length;
 }

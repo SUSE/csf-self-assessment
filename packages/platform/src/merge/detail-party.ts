@@ -24,7 +24,7 @@ export type PartyPanel = {
 };
 
 // `before` = [estate side, …incoming side] and `after` = the resulting parties by
-// POSITION (§2.3.2, ADR-0015): a `rename` puts two parties carrying the same id in
+// POSITION: a `rename` puts two parties carrying the same id in
 // `before`, so no id lookup can tell the sides apart.
 function partyHeadline(record: PartyLedgerRecord): string {
   const decision = record.decision;

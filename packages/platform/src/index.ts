@@ -1,6 +1,6 @@
 // Public surface of @csf/platform (the DOM-free core). Svelte components are
 // published separately via the "./ui/*" subpath exports so this barrel — and
-// `tsc` over it — never touches a .svelte file.
+// `tsc` over it — never touches a.svelte file.
 
 export {
   AssessmentMetaSchema,

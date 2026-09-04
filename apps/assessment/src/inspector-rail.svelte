@@ -35,7 +35,7 @@
   type Props = {
     fill: Fill;
     facilitator: Facilitator;
-    /** What this screen reads when nothing is selected. */
+    /** What this screen reads when nothing is selected.*/
     page: InspectSubject | null;
   };
   let { fill, facilitator, page }: Props = $props();

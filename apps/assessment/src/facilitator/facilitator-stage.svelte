@@ -18,13 +18,13 @@
   import MergeSection from './merge-section.svelte';
   import type { Facilitator } from './facilitator.svelte';
 
-  // The facilitator STAGE (delivery §4): the imported workbook walked left to right
-  // behind one toolbar. The section chooses a component; the work is the
+  // The facilitator STAGE: the imported workbook walked left to right
+  // behind one toolbar. The section chooses a component. the work is the
   // controller's.
   type Props = {
     facilitator: Facilitator;
     viewer: Viewer;
-    /** A load refusal, shown above the stage beside a landing refusal. */
+    /** A load refusal, shown above the stage beside a landing refusal.*/
     error: string | null;
     onAddPartial: () => void;
     onOpenLanding: (id: string, scroll: number) => void;
@@ -34,7 +34,7 @@
 
   // Two refusals reach this stage — the file that wouldn't open and the landing the
   // engine wouldn't take. Both are "why nothing happened", so both use the one
-  // banner; the load error leads, being the more recent action.
+  // banner. the load error leads, being the more recent action.
   const refusal = $derived(error ?? facilitator.merge.refusal);
   const section = $derived(facilitator.section);
   const overlay = $derived(facilitator.overlay?.kind ?? null);
@@ -74,9 +74,9 @@
   >
     {#snippet header()}
       <!-- The ledger is a destination that only exists once a landing does, so an
-           omitted `onHistory` hides it rather than offering a view of nothing. It
-           is reachable from any section (the handler moves to Merge, where the
-           ledger renders); Merge is what returns to the review. -->
+     omitted `onHistory` hides it rather than offering a view of nothing. It
+     is reachable from any section (the handler moves to Merge, where the
+     ledger renders). Merge is what returns to the review. -->
       <FacilitatorToolbar
         {section}
         sections={facilitator.sections}
@@ -116,7 +116,7 @@
       />
     {:else if section === 'parties'}
       <!-- The roster is edited in Setup (one app-owned list), so this stays a
-           reflection that says where. -->
+     reflection that says where. -->
       <PartyRoster
         {workbook}
         parties={facilitator.parties}

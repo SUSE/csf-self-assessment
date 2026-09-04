@@ -37,7 +37,7 @@ const FULL_LADDER = [
   { id: 'choice-2', description: 'full', points: 100, seal: 4 as const },
 ];
 
-/** Two questions (a dimension one and a party one) and one seeded estate answering both. */
+// Two questions (a dimension one and a party one) and one seeded estate answering both.
 const wbFixture = (): Workbook => ({
   ...linkableWorkbook(),
   sealLevels: [

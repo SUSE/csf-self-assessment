@@ -3,19 +3,19 @@
   import Diamond from '@lucide/svelte/icons/diamond';
   import { getDnd, draggable, type DragPayload } from '../dnd';
 
-  // A fan-out chip (spec §4.8 / the chip-anatomy prototype). ONE anatomy, two shapes:
-  //  • plain      → a single draggable unit: [⚑ Name] with an optional trailing
-  //                 [count ⌄] SPLIT control (replacing the old ⋯ — a chevron carries
-  //                 direction + reversibility, the count answers "how many strata").
-  //  • grouped    → a split dimension as ONE pill: [⚑ Name k/all ⤺][service][software]…
-  //                 the parent named ONCE as a lead (its ⤺ re-joins), each stratum a
-  //                 SEGMENT that is independently draggable + tappable. On a rung this is
-  //                 the FRAGMENT pill — the strata of one dimension that landed there,
-  //                 with a k/all fraction; in the tray the fraction is omitted.
+  // A fan-out chip. ONE anatomy, two shapes:
+  // • plain → a single draggable unit: [⚑ Name] with an optional trailing
+  // [count ⌄] SPLIT control (replacing the old ⋯ — a chevron carries
+  // direction + reversibility, the count answers "how many strata").
+  // • grouped → a split dimension as ONE pill: [⚑ Name k/all ⤺][service][software]…
+  // the parent named ONCE as a lead (its ⤺ re-joins), each stratum a
+  // SEGMENT that is independently draggable + tappable. On a rung this is
+  // the FRAGMENT pill — the strata of one dimension that landed there,
+  // with a k/all fraction. in the tray the fraction is omitted.
   // Every draggable part carries data-tray-chip + data-chip-key so the keyboard/digit
   // path targets the focused segment. The critical ⚑ TRAVELS (the drag payload keeps the
   // full "Dimension · stratum" label even though the segment shows the bare stratum).
-  // Selection + set-aside are NEUTRAL (invariant #3 — never green). STATELESS — the card
+  // Selection + set-aside are NEUTRAL ( — never green). STATELESS — the card
   // owns split/lift identity.
   type Segment<P extends DragPayload> = {
     key: string;
@@ -31,7 +31,7 @@
     // grouped (a split dimension): render a parent lead + one segment per stratum.
     grouped?: boolean;
     name?: string; // the dimension name for the grouped lead
-    fraction?: string | null; // "k/all" on a rung fragment; null in the tray / when whole
+    fraction?: string | null; // "k/all" on a rung fragment. null in the tray / when whole
     onMerge?: () => void; // grouped: re-join the dimension (⤺)
     // plain splittable: the trailing [count ⌄] split control.
     splittable?: boolean;

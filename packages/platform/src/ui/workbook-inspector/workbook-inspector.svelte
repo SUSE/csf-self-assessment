@@ -12,17 +12,17 @@
   import type { FacilitatorSection } from '../facilitator-toolbar/model';
   import { getInspector } from '../inspector';
 
-  // Read-only inspection of an imported workbook, for the facilitator (delivery
-  // §4). The author EDITS this same content in ui/workbench; the facilitator only
+  // Read-only inspection of an imported workbook, for the facilitator (
+  // §4). The author EDITS this same content in ui/workbench. the facilitator only
   // READS it before setting up an estate, so this is the workbench's read-only
   // twin — no draft, no ops, no validation.
-  //
+  
   // This file is ROUTING ONLY: each section IS a component in ui/workbook-facts,
   // and all this adds is the facilitator's vocabulary — which toolbar section a
   // wheel spoke means, and which of them own a question. Estate / workflow
   // sections (parties, setup, merge) are NOT here — they are estate data the app
   // wires, not workbook facts.
-  //
+  
   // It is also the INSPECTOR-AWARE end of the Questions section: a question row
   // reports itself to the inspection session, which is what puts its detail in the
   // right rail. `QuestionList` itself stays a plain list with an `onSelect` — the
@@ -31,9 +31,9 @@
   type Props = {
     workbook: Workbook;
     section: FacilitatorSection;
-    /** Concrete declared parties, when an assessment is loaded (party-axis seals). */
+    /** Concrete declared parties, when an assessment is loaded (party-axis seals).*/
     parties?: Party[];
-    /** The loaded assessment's answers — drive each question's selected SEAL rank. */
+    /** The loaded assessment's answers — drive each question's selected SEAL rank.*/
     answers?: Answer[];
   };
   let { workbook, section, parties = [], answers = [] }: Props = $props();

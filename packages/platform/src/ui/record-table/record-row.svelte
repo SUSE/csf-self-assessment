@@ -5,9 +5,9 @@
   // eye track one record across the table's full width, the deep-link flash, and
   // the cell rhythm. Seven row components asked for exactly this and only differed
   // in their cells — the rhythm is declared here, on the parent, so a row states
-  // only what its cells SAY; a cell that wants an alignment still adds its own.
+  // only what its cells SAY. a cell that wants an alignment still adds its own.
   export type RecordRowProps = {
-    /** The record's id, published as `data-highlight` for the wheel deep-link. */
+    /** The record's id, published as `data-highlight` for the wheel deep-link.*/
     id: string;
     highlighted?: boolean;
     children: Snippet;

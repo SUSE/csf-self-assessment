@@ -5,51 +5,51 @@ import { gates, type HeatFact } from '../score-engine';
 // surface. The engine emits objective × declared dimension; this one keeps the
 // same reading rules and makes BOTH axes pluggable, so the same asserted facts
 // can be read by dimension, by stratum, by party or by role.
-//
+
 // The rules it does not bend:
-//   · Every painted cell is an asserted MATERIAL fact (invariant #1). An untouched
-//     cell is absent, never a zero.
-//   · A cell is the MINIMUM over the facts that land in it — the same operation as
-//     an objective's SEAL. Never an average (CONTEXT.md §Minimum rule).
-//   · A don't-know never becomes a number: it is counted beside the minimum, and a
-//     cell holding only don't-knows has no minimum at all.
-//   · **No painting across rows** (spec §2.2.6). Party answers have no dimension,
-//     so on the dimension axis they cannot be spread across dimension columns.
-//     Generalised: whatever cannot map to the chosen axis lands in ONE carry
-//     column. Switching the axis swaps which facts are homeless — on the party
-//     axis it is the dimension answers that carry. The role axis is the only
-//     total one, because every question authors a role.
-//
+// - Every painted cell is an asserted MATERIAL fact. An untouched
+// cell is absent, never a zero.
+// - A cell is the MINIMUM over the facts that land in it — the same operation as
+// an objective's SEAL. Never an average.
+// - A don't-know never becomes a number: it is counted beside the minimum, and a
+// cell holding only don't-knows has no minimum at all.
+// - **No painting across rows**. Party answers have no dimension,
+// so on the dimension axis they cannot be spread across dimension columns.
+// Generalised: whatever cannot map to the chosen axis lands in ONE carry
+// column. Switching the axis swaps which facts are homeless — on the party
+// axis it is the dimension answers that carry. The role axis is the only
+// total one, because every question authors a role.
+
 // It computes no floor and no score: those exist only on a finalized assessment
-// and only `evaluate()` computes them (invariant #3). The dimension × objective
+// and only `evaluate()` computes them. The dimension × objective
 // case is covered by a parity test against `evaluate().heatmap`, so this module
 // cannot drift from the engine's own cells.
 
-/** A column of either axis. `note` is a rendered sub-label, never decoration. */
+// A column of either axis. `note` is a rendered sub-label, never decoration.
 export type HeatColumn = { key: string; label: string; note: string | null };
 
-/** What a column axis cannot hold (analytics §2.6). `total` is NOT a hidden
- *  column: every fact sits on the axis, so there is nothing to carry. Invariant
- *  #4 forbids hiding a carry column — never inventing one. */
+// What a column axis cannot hold (analytics §2.6). `total` is NOT a hidden
+// column: every fact sits on the axis, so there is nothing to carry. Invariant
+// #4 forbids hiding a carry column — never inventing one.
 export type AxisCarry = { kind: 'carries'; label: string } | { kind: 'total' };
 
 export type HeatAxis = {
   id: string;
   label: string;
   columns: HeatColumn[];
-  /** Which column a fact belongs to; null = it cannot sit on this axis and goes
-   *  to the carry column. */
+  // Which column a fact belongs to; null = it cannot sit on this axis and goes
+  // to the carry column.
   keyOf: (fact: HeatFact) => string | null;
   carry: AxisCarry;
 };
 
 export type HeatCellView = {
-  /** Minimum over the asserted answers here; null = nothing asserted. */
+  // Minimum over the asserted answers here; null = nothing asserted.
   seal: Seal | null;
-  /** Don't-knows in this cell — reported beside the minimum, never folded in. */
+  // Don't-knows in this cell — reported beside the minimum, never folded in.
   unknowns: number;
   count: number;
-  /** At least one fact came from a stratum refinement, so the cell is a roll-up. */
+  // At least one fact came from a stratum refinement, so the cell is a roll-up.
   split: boolean;
   provenance: 'group' | 'individual' | 'mixed' | null;
   facts: HeatFact[];
@@ -58,14 +58,14 @@ export type HeatCellView = {
 export type HeatGridModel = {
   rows: HeatColumn[];
   columns: HeatColumn[];
-  /** `${rowKey}|${columnKey}` → cell. Absent key = untouched, render as absent. */
+  // `${rowKey}|${columnKey}` → cell. Absent key = untouched, render as absent.
   cells: Map<string, HeatCellView>;
-  /** `${rowKey}` → the facts that cannot sit on the column axis. */
+  // `${rowKey}` → the facts that cannot sit on the column axis.
   carryCells: Map<string, HeatCellView>;
   carry: AxisCarry;
   carryCount: number;
-  /** Columns no fact reaches — a coverage gap on every axis EXCEPT stratum,
-   *  where narrowing makes it empty by construction (analytics §2.7). */
+  // Columns no fact reaches — a coverage gap on every axis EXCEPT stratum,
+  // where narrowing makes it empty by construction.
   emptyColumns: string[];
   total: number;
 };
@@ -74,9 +74,9 @@ export type HeatGridInput = {
   facts: HeatFact[];
   rowAxis: HeatAxis;
   columnAxis: HeatAxis;
-  /** Include facts that do not gate the floor. Default false: the grid paints
-   *  SEALs, and a non-gating answer's SEAL is not a floor fact. Renamed from
-   *  `includeInformational`. */
+  // Include facts that do not gate the floor. Default false: the grid paints
+  // SEALs, and a non-gating answer's SEAL is not a floor fact. Renamed from
+  // `includeInformational`.
   includeNonGating?: boolean;
 };
 
@@ -119,8 +119,8 @@ function occupiedStrata(workbook: Workbook, facts: HeatFact[]): string[] {
   return declaredStrata(workbook).filter((s) => reached.has(s));
 }
 
-/** Who split and who answered whole — the stratum tile's caption (§2.7). Display
- *  names, in workbook order. */
+// Who split and who answered whole — the stratum tile's caption (§2.7). Display
+// names, in workbook order.
 export type StratumReading = {
   occupied: string[];
   declared: number;
@@ -146,10 +146,10 @@ export function stratumReading(workbook: Workbook, facts: HeatFact[]): StratumRe
   };
 }
 
-/** Strata are NOT an axis of the model (spec §2.3) — this is a PROJECTION across
- * every split dimension at the same depth, and it is only ever populated where a
- * refinement actually exists. Useful precisely because it answers "is chips our
- * worst layer everywhere?"; misleading if read without the dimension view. */
+// Strata are NOT an axis of the model (spec §2.3) — this is a PROJECTION across
+// every split dimension at the same depth, and it is only ever populated where a
+// refinement actually exists. Useful precisely because it answers "is chips our
+// worst layer everywhere?"; misleading if read without the dimension view.
 export function stratumAxis(workbook: Workbook, facts: HeatFact[]): HeatAxis {
   return {
     id: 'stratum',
@@ -175,9 +175,9 @@ export function partyAxis(workbook: Workbook, parties: Party[]): HeatAxis {
   };
 }
 
-/** The only total axis: every question authors a role (ADR-0003), so nothing
- * carries. Answers "whose answers are pinning the floor", which is the
- * facilitator's chase question. */
+// The only total axis: every question authors a role (ADR-0003), so nothing
+// carries. Answers "whose answers are pinning the floor", which is the
+// facilitator's chase question.
 export function roleAxis(workbook: Workbook): HeatAxis {
   return {
     id: 'role',
@@ -188,7 +188,7 @@ export function roleAxis(workbook: Workbook): HeatAxis {
   };
 }
 
-/** The four registered column axes. SOV is always the row axis. */
+// The four registered column axes. SOV is always the row axis.
 export type HeatAxisId = 'dimension' | 'stratum' | 'party' | 'role';
 
 export function heatColumnAxis(

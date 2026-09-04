@@ -7,15 +7,15 @@
   // The Author's Questions focus: every question the workbook asks, in reading
   // order, each row opening its editor. The list itself is the facilitator's
   // (ui/workbook-facts' QuestionList), so the two readers see one page.
-  //
+  
   // What the author adds is the SEAL column's source. The facilitator's rows carry
-  // the lowest SEAL a loaded assessment selects; the author has no assessment, but
+  // the lowest SEAL a loaded assessment selects. the author has no assessment, but
   // it does have TEST ESTATES — sparse per-question answers authored as the QA rig.
   // Pick one and its answers drive the same badge, so a question's wording can be
   // read beside what it scores. `estateAnswers` expands the sparse rows into real
   // Answer rows over the estate's own parties — the same expansion the QA dashboard
   // evaluates — so nothing here computes a seal itself.
-  //
+  
   // No estate picked is the resting state, and it renders NO badge at all rather
   // than a column of dashes: a seal has to name the reading it comes from, and this
   // page's job is authoring navigation first. (QuestionList's `answers` being empty

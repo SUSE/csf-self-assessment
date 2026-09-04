@@ -25,14 +25,14 @@ const LADDER_SEALS = [0, 1, 2, 3, 4];
 const rungs = (seals: number[]) =>
   seals.map((seal, i) => ({ id: `choice-${i + 1}`, description: `r${seal}`, points: seal * 25, seal }));
 
-/** Both fixture ladders are `rungs(LADDER_SEALS)`, so a SEAL names exactly one rung. */
+// Both fixture ladders are `rungs(LADDER_SEALS)`, so a SEAL names exactly one rung.
 const rungIdFor = (seal: Seal): string => {
   const i = LADDER_SEALS.indexOf(seal);
   if (i < 0) throw new Error(`no rung at SEAL ${seal} on the synthetic ladder`);
   return `choice-${i + 1}`;
 };
 
-/** One dimension question over a splittable storage and a whole security, plus a party question. */
+// One dimension question over a splittable storage and a whole security, plus a party question.
 export const WB: Workbook = WorkbookSchema.parse({
   meta: { id: 'wb', version: '1.0.0', title: 'T' },
   sealLevels: [0, 1, 2, 3, 4].map((seal) => ({ seal, name: `S${seal}`, description: `d${seal}` })),
@@ -140,17 +140,17 @@ export const L2 = '22222222-2222-4222-8222-222222222222';
 export const L3 = '33333333-3333-4333-8333-333333333333';
 export const stamp = (id: string, at: string, note = ''): LandingStamp => ({ id, at, note });
 
-/** Alex holds storage, security and one provider — the partial every "over Alex" case starts from. */
+// Alex holds storage, security and one provider — the partial every "over Alex" case starts from.
 export const ALEX = partial('Alex', [answered(STORAGE, 2), answered(SECURITY, 3), onParty('acme-cloud', 2)]);
 
-/** Alex's landing, done through `land` so the ledger is the real thing. */
+// Alex's landing, done through `land` so the ledger is the real thing.
 export function afterAlex(base: EstateBase = { parties: [INST, ACME], answers: [] }) {
   const outcome = land(base, [], ALEX, NO_DECISIONS, stamp(L1, 'T1'));
   if (!outcome.ok) throw new Error('Alex should land cleanly');
   return outcome;
 }
 
-/** A hand-built divergence, for the summary cases that need a clash without landing one. */
+// A hand-built divergence, for the summary cases that need a clash without landing one.
 export const clashUnit = (questionId: string): LandingUnit => ({
   kind: 'unit-clash',
   clash: 'divergence',
@@ -160,7 +160,7 @@ export const clashUnit = (questionId: string): LandingUnit => ({
   incoming: { from: 'Jane', answer: answered(STORAGE, 3), claim: null, authority: 'out-of-claim' },
 });
 
-/** The summary reads a whole review; unit-only cases wrap theirs in an otherwise empty one. */
+// The summary reads a whole review; unit-only cases wrap theirs in an otherwise empty one.
 export const reviewOf = (units: LandingUnit[]): LandingReview => ({
   parties: [INST],
   incoming: partial('Jane', []),
@@ -180,7 +180,7 @@ const alexRecord = (answer: Answer): AnswerLedgerRecord => ({
   decision: { kind: 'sole-source', from: 'Alex' },
 });
 
-/** A base holding Alex's landed answers, each with the ledger record behind it. */
+// A base holding Alex's landed answers, each with the ledger record behind it.
 export const landedBase = (answers: Answer[]): { base: EstateBase; ledger: Landing[] } => {
   const landed = answers.map((answer) => ({
     ...answer,

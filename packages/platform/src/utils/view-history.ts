@@ -6,7 +6,7 @@
 // state). The view descriptor is opaque and lives in history.state; the URL is
 // never touched (design decision: a shareable-looking URL that can't restore
 // would mislead).
-//
+
 // Usage: create one router with an `apply` that reconstructs state from a view,
 // then drive `reflect` from a Svelte `$effect` that reads the derived view. The
 // effect re-runs on every view change; reflect pushes a Back step and is a

@@ -36,10 +36,10 @@
   </td>
   <td class="align-top">
     <!-- The one field here that holds PROSE — an estate's description is a
-         paragraph explaining what it is a reference for, and a single-line input
-         showed the author about a fifth of it. Three rows fits the estates in the
-         flagship workbook whole; longer ones drag taller (`resize-y` comes from
-         Textarea — horizontal would break the grid). -->
+     paragraph explaining what it is a reference for, and a single-line input
+     showed the author about a fifth of it. Three rows fits the estates in the
+     flagship workbook whole. longer ones drag taller (`resize-y` comes from
+     Textarea — horizontal would break the grid). -->
     <Textarea
       density="compact"
       rows={3}

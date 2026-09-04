@@ -20,14 +20,14 @@
   import WheelHub from '../../../wheel/wheel-hub.svelte';
 
   // The estate in one frame: geometry in, nothing looked up. Spoke length is the
-  // weakest asserted material seal on that axis; a ghost runs the full rim dashed
-  // and carries no seal at all (absence is not a zero, analytics invariant #2).
+  // weakest asserted material seal on that axis. a ghost runs the full rim dashed
+  // and carries no seal at all (absence is not a zero, analytics).
   type Props = {
     spokes: EstateSpoke[];
     selected: string | null;
     tint: boolean;
     /** null = a static drawing: the spoke group carries no role, no tab stop and
-     *  no handler (report.md §3.3). */
+     * no handler (report.md §3.3).*/
     onSelect: ((mark: string) => void) | null;
   };
   let { spokes, selected, tint, onSelect }: Props = $props();
@@ -49,7 +49,7 @@
 
   // The seal ink rides the <g> — the one element carrying `data-seal` — and the
   // painted line inherits it through `currentColor`, so no green mark can exist
-  // without its seal attribute beside it (product invariant #7).
+  // without its seal attribute beside it (product).
   function inkClass(spoke: EstateSpoke): string {
     return spoke.standing.kind === 'asserted'
       ? sealInkClass(spoke.standing.seal)

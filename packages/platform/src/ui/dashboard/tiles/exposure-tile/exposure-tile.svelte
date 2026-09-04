@@ -6,7 +6,7 @@
   import ExposureMap from './exposure-map.svelte';
 
   // Who holds a kill switch, and who is under too much of us? Rank is declared
-  // reach; the seal beside a party is its own worst party answer.
+  // reach. the seal beside a party is its own worst party answer.
   let { result, workbook, maximised, selected, onSelect, onOpenQuestion }: TileProps = $props();
 
   const view = $derived(exposureTile(result, workbook));

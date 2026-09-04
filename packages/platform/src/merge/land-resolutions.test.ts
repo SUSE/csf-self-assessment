@@ -14,7 +14,7 @@ const grainDecisions = (keep: 'strata' | 'roll-up') => ({
   partyDecisions: [] as PartyDecision[],
 });
 
-/** Jane refines storage into every declared stratum. */
+// Jane refines storage into every declared stratum.
 const JANE_STRATA = partial(
   'Jane',
   ['service', 'software', 'hardware', 'chips'].map((name, index) => answered(stratum(name), (index % 3) as Seal)),

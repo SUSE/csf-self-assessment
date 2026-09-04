@@ -24,7 +24,7 @@ export {
   Description,
   Action,
   Cancel,
-  //
+
   Root as AlertDialog,
   Trigger as AlertDialogTrigger,
   Portal as AlertDialogPortal,

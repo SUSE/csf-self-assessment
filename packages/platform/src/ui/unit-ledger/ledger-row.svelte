@@ -4,9 +4,9 @@
   import { cn } from '../../utils/cn';
   import OutcomeMark from './outcome-mark.svelte';
 
-  // One ledger record (merge.md §2.4.4) as THREE fields rather than one run-on
+  // One ledger record as THREE fields rather than one run-on
   // sentence: what stands, who landed it and when, then the claims behind it.
-  // Data, not judgment — `current` is only recency, the record that stands now;
+  // Data, not judgment — `current` is only recency, the record that stands now.
   // superseded ones step back to muted so the answer reads before its history.
   type Props = { entry: LedgerEntry; question: Pick<Question, 'ladder'>; current?: boolean };
   let { entry, question, current = false }: Props = $props();
@@ -38,7 +38,7 @@
     </p>
     {#if entry.sources.length > 0}
       <!-- Ruled aside: the claims are the evidence FOR the line above, not a third
-           peer field. Same idiom as a question's `why`. -->
+     peer field. Same idiom as a question's `why`. -->
       <p
         class="border-l border-border pl-2 text-xs leading-5 text-muted-foreground"
         data-ledger-sources

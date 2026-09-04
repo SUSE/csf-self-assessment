@@ -25,7 +25,7 @@ test('release renderer files open offline from the exact candidate', async () =>
   try {
     browser = await chromium.launch({ channel: 'chrome' });
     const page = await browser.newPage();
-    await page.route(/^https?:\/\//, async (route) => route.abort());
+    await page.route(/^https?:\/\// , async (route) => route.abort());
 
     for (const renderer of RENDERERS) {
       await page.goto(pathToFileURL(join(candidateDirectory, renderer.file)).href);

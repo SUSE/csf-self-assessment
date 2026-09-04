@@ -10,9 +10,9 @@
   // The workbench's Objectives focus: the list page for the sovereignty
   // objectives (SOV) the instrument scores. It holds NO edit logic and NO
   // validation — pure ops build the next draft, and the strict issues arrive
-  // pre-computed from the stage. A row only flags that it HAS issues; the
+  // pre-computed from the stage. A row only flags that it HAS issues. the
   // messages themselves belong to the ObjectiveEditor the row opens.
-  //
+  
   // The ROW is the control, as it is in every other list that opens an editor
   // (the objective's own question list, the recommendation catalogue). A row
   // that opens on click does not also need an edit button on its right: two
@@ -23,7 +23,7 @@
     draft: Workbook;
     issues: ZodIssue[];
     onDraft: (next: Workbook) => void;
-    /** Edit one objective — the stage swaps to the ObjectiveEditor. */
+    /** Edit one objective — the stage swaps to the ObjectiveEditor.*/
     onOpen: (id: string) => void;
   };
   let { draft, issues, onDraft, onOpen }: Props = $props();
@@ -49,7 +49,7 @@
         {@const flagged = issuesUnder(issues, ['objectives', oi]).length > 0}
         <li class="flex items-center gap-2">
           <!-- Quiet at rest, filled on hover and focus — a fill rather than a
-               ring, so nothing reflows by a pixel. -->
+     ring, so nothing reflows by a pixel. -->
           <button
             type="button"
             class="flex min-w-0 flex-1 flex-wrap items-center gap-x-3 gap-y-1 rounded-sm px-2 py-1.5 text-left hover:bg-well focus-visible:bg-well"

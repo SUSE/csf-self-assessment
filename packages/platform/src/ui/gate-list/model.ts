@@ -9,12 +9,12 @@ export type GateRow = {
   questionId: string;
   objectiveId: string;
   text: string;
-  /** The answerer's authored name — the id is the tooltip. */
+  // The answerer's authored name — the id is the tooltip.
   roleName: string;
   roleId: string;
-  /** How the question reaches the floor, as one word. */
+  // How the question reaches the floor, as one word.
   viaKind: 'party' | 'dimension';
-  /** The critical dimensions it gates through — empty for a party gate. */
+  // The critical dimensions it gates through — empty for a party gate.
   dimensionNames: string[];
 };
 

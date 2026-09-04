@@ -5,33 +5,33 @@ import { heatColumnAxis, heatGridModel, objectiveAxis, stratumReading } from './
 import type { AxisCarry, HeatAxisId, HeatCellView, HeatColumn, StratumReading } from './heat-axes';
 
 // --- the tile model -------------------------------------------------------
-//
-// The tile, the mark and the detail views over the grid model (see ./heat-axes
+
+// The tile, the mark and the detail views over the grid model (see./heat-axes
 // for the reading rules they honour).
 
 export type HeatMark =
   | { kind: 'cell'; row: string; column: string }
   | { kind: 'carry'; row: string };
 
-/** `cell:<row>:<column>` | `carry:<row>` — the opaque key the dashboard holds as
- *  the selected mark (Scope decision 4). */
+// `cell:<row>:<column>` | `carry:<row>` — the opaque key the dashboard holds as
+// the selected mark (Scope decision 4).
 export function heatMarkKey(mark: HeatMark): string {
   return mark.kind === 'cell' ? `cell:${mark.row}:${mark.column}` : `carry:${mark.row}`;
 }
 
-/** One stratum rung rolled up into a split cell (analytics §3.3, "a cell holds a
- *  stratum stack"). */
+// One stratum rung rolled up into a split cell (analytics §3.3, "a cell holds a
+// stratum stack").
 export type HeatStackSegment = { stratum: string; seal: Seal };
 
 export type HeatMarkView = {
   key: string;
   mark: HeatMark;
-  /** Null when no answer reaches this mark — absence, never a zero (#2). */
+  // Null when no answer reaches this mark — absence, never a zero (#2).
   cell: HeatCellView | null;
-  /** `<row> × <column> — <reading>`; the hover/focus text and the mark's
-   *  accessible name. */
+  // `<row> × <column> — <reading>`; the hover/focus text and the mark's
+  // accessible name.
   summary: string;
-  /** [] when the cell is not a stratum roll-up. */
+  // [] when the cell is not a stratum roll-up.
   stack: HeatStackSegment[];
 };
 
@@ -39,12 +39,12 @@ export type HeatRowView = {
   key: string;
   label: string;
   note: string | null;
-  /** One per entry of `columns`, in that order — total, so absence is a mark
-   *  rather than a hole in the array. */
+  // One per entry of `columns`, in that order — total, so absence is a mark
+  // rather than a hole in the array.
   cells: HeatMarkView[];
-  /** The row's carry mark; null iff the axis is total. */
+  // The row's carry mark; null iff the axis is total.
   carry: HeatMarkView | null;
-  /** Facts in this row across its cells and its carry. */
+  // Facts in this row across its cells and its carry.
   total: number;
 };
 
@@ -56,7 +56,7 @@ export type HeatTileView =
       rows: HeatRowView[];
       carry: AxisCarry;
       carryCount: number;
-      /** Marks holding at least one fact. */
+      // Marks holding at least one fact.
       painted: number;
       caption: string;
     }
@@ -203,24 +203,24 @@ export function heatTile(
 export type HeatDetailRow = {
   questionId: string;
   questionText: string;
-  /** The unit's label from utils/target-label. */
+  // The unit's label from utils/target-label.
   label: string;
-  /** The authored role's display NAME, resolved from workbook.roles (ADR-0003). */
+  // The authored role's display NAME, resolved from workbook.roles.
   roleName: string;
-  /** `SEAL-0`, `don't-know` or `n/a` — the rung, or the state where there is none. */
+  // `SEAL-0`, `don't-know` or `n/a` — the rung, or the state where there is none.
   reading: string;
-  /** The reading typed, so a view can render the ramp rather than parse the string. */
+  // The reading typed, so a view can render the ramp rather than parse the string.
   state: HeatFact['state'];
   seal: Seal | null;
   evidence: boolean;
 };
 
 export type HeatDetail = {
-  /** `<row label> × <column label>`. */
+  // `<row label> × <column label>`.
   title: string;
-  /** The mark's reading, the same text the tooltip carries after its `— `. */
+  // The mark's reading, the same text the tooltip carries after its `— `.
   summary: string;
-  /** Every answer behind the mark, in engine order (analytics §4.4.3). */
+  // Every answer behind the mark, in engine order (analytics §4.4.3).
   rows: HeatDetailRow[];
 };
 
@@ -230,7 +230,7 @@ function factReading(fact: HeatFact): string {
   return fact.seal === null ? 'n/a' : `SEAL-${fact.seal}`;
 }
 
-/** Null when the key names no mark, or a mark nothing reaches. */
+// Null when the key names no mark, or a mark nothing reaches.
 export function heatDetail(
   view: HeatTileView,
   markKey: string,

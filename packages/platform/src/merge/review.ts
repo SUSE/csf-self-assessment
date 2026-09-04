@@ -14,15 +14,15 @@ import { classify, isClash, unitKey } from './clash-types';
 import type { LandingUnit } from './clash-types';
 import { resolveClash } from './resolve';
 
-// The whole landing under review (merge.md §2.5): the party pass first, then
+// The whole landing under review: the party pass first, then
 // every answer unit, then the gate. Pure — no clock, no ids minted.
 
 const FACILITATOR = 'facilitator';
 
-/** What one party decision did to the estate roster — exactly the party record's
- *  body, minus the record's `kind`. `before` = [estate side, …incoming side]. */
+// What one party decision did to the estate roster — exactly the party record's
+// body, minus the record's `kind`. `before` = [estate side, …incoming side].
 export type PartyEffect = {
-  /** The incoming addition this decision settled. */
+  // The incoming addition this decision settled.
   added: string;
   before: Party[];
   after: Party[];
@@ -31,25 +31,25 @@ export type PartyEffect = {
 };
 
 export type LandingReview = {
-  /** The estate roster after the applied party decisions and the additions. */
+  // The estate roster after the applied party decisions and the additions.
   parties: Party[];
-  /** The incoming partial with party ids rewritten on its answer targets, its
-   *  claims and its `partiesAdded`. */
+  // The incoming partial with party ids rewritten on its answer targets, its
+  // claims and its `partiesAdded`.
   incoming: Assessment;
-  /** Additions that simply join: no applied decision and no id already on the
-   *  roster. */
+  // Additions that simply join: no applied decision and no id already on the
+  // roster.
   additions: Party[];
-  /** Every pair this landing proposes, decided or not — a decided pair keeps its
-   *  card so a mind can still change before Land. */
+  // Every pair this landing proposes, decided or not — a decided pair keeps its
+  // card so a mind can still change before Land.
   pairs: PartyPair[];
-  /** The applied decisions, in decision order. */
+  // The applied decisions, in decision order.
   decided: PartyEffect[];
   units: LandingUnit[];
 };
 
-/** The whole landing under review: party decisions applied first, because
- *  collapsing a party rewrites answer targets and so manufactures clashes
- *  (merge.md §2.5). Pure — mints no records and reads no clock. */
+// The whole landing under review: party decisions applied first, because
+// collapsing a party rewrites answer targets and so manufactures clashes.
+// - mints no records and reads no clock.
 export function reviewLanding(
   base: EstateBase,
   ledger: readonly Landing[],
@@ -65,16 +65,16 @@ export function reviewLanding(
     survivor === settled
       ? []
       : incoming.answers.flatMap((answer) =>
-          answer.target.kind === 'party' && answer.target.party === settled
-            ? [
-                {
-                  questionId: answer.questionId,
-                  before: answer.target,
-                  after: { kind: 'party' as const, party: survivor },
-                },
-              ]
-            : [],
-        );
+        answer.target.kind === 'party' && answer.target.party === settled
+          ? [
+            {
+              questionId: answer.questionId,
+              before: answer.target,
+              after: { kind: 'party' as const, party: survivor },
+            },
+          ]
+          : [],
+      );
 
   const into = new Map<string, string>();
   const decided: PartyEffect[] = [];
@@ -91,20 +91,20 @@ export function reviewLanding(
       const settlesSameId = choice.into === decision.added;
       const recordDecision: PartyRecordDecision = settlesSameId
         ? {
-            kind: 'rename',
-            party: choice.into,
-            name: choice.name,
-            by: FACILITATOR,
-            note: decision.note,
-          }
+          kind: 'rename',
+          party: choice.into,
+          name: choice.name,
+          by: FACILITATOR,
+          note: decision.note,
+        }
         : {
-            kind: 'absorb',
-            from: decision.added,
-            into: choice.into,
-            name: choice.name,
-            by: FACILITATOR,
-            note: decision.note,
-          };
+          kind: 'absorb',
+          from: decision.added,
+          into: choice.into,
+          name: choice.name,
+          by: FACILITATOR,
+          note: decision.note,
+        };
       decided.push({
         added: decision.added,
         before: [survivor, addition],
@@ -152,11 +152,11 @@ export function reviewLanding(
     ...(incoming.claims === undefined
       ? {}
       : {
-          claims: incoming.claims.map((claim) => ({
-            ...claim,
-            parties: claim.parties.map((party) => into.get(party) ?? party),
-          })),
-        }),
+        claims: incoming.claims.map((claim) => ({
+          ...claim,
+          parties: claim.parties.map((party) => into.get(party) ?? party),
+        })),
+      }),
     ...(incoming.partiesAdded === undefined
       ? {}
       : { partiesAdded: incoming.partiesAdded.filter((p) => !into.has(p.id)) }),
@@ -174,16 +174,16 @@ export function reviewLanding(
 }
 
 export type ReviewSummary = {
-  /** Incoming answers this landing carries — a grain clash counts every answer
-   *  its incoming side put in, so the header still reads the partial's size. */
+  // Incoming answers this landing carries — a grain clash counts every answer
+  // its incoming side put in, so the header still reads the partial's size.
   answers: number;
   newUnits: number;
   clashes: number;
   decided: number;
-  /** Id collisions with no applied decision. Land is gated on this reaching zero
-   *  too (merge.md §2.5.2): not deciding one is the silent first-wins overwrite
-   *  this slice removes. An undecided ALIAS pair never gates — keeping both is a
-   *  lossless default. */
+  // Id collisions with no applied decision. Land is gated on this reaching zero
+  // too: not deciding one is the silent first-wins overwrite
+  // this slice removes. An undecided ALIAS pair never gates — keeping both is a
+  // lossless default.
   collisions: number;
 };
 
@@ -206,8 +206,8 @@ export function reviewSummary(
   };
 }
 
-/** Whether this landing may commit: every clash decided and every id collision
- *  decided. The only gate — everything else lands, flagged (invariant #10). */
+// Whether this landing may commit: every clash decided and every id collision
+// decided. The only gate — everything else lands, flagged.
 export function canLand(summary: ReviewSummary): boolean {
   return summary.decided === summary.clashes && summary.collisions === 0;
 }

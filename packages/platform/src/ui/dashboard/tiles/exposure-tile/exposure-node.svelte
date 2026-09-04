@@ -1,6 +1,6 @@
 <script lang="ts">
   // One end of the bipartite map: a dot and its label, outside the column on the
-  // side its gutter is. The label is elided by the model; `title` is the full name.
+  // side its gutter is. The label is elided by the model. `title` is the full name.
   type Props = {
     nodeKey: string;
     x: number;

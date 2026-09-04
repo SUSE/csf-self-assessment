@@ -4,7 +4,7 @@
 
   // shadcn-svelte Popover content — an ANCHORED panel portalled next to its
   // trigger (floating-ui positions it, so it never centers), light-dismiss on
-  // outside-click / Esc. Use this for anchored popups (the question-nav map); a
+  // outside-click / Esc. Use this for anchored popups (the question-nav map). a
   // CENTERED modal is ui/alert-dialog. Base surface only — children set their own
   // text colours (popover-foreground is a muted token, so we don't blanket it).
   let {

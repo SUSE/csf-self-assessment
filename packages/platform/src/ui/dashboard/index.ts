@@ -1,7 +1,7 @@
 export { default as Dashboard } from './dashboard.svelte';
 export { default as CompletenessRibbon } from './completeness-ribbon.svelte';
 // The figures the Report draws, public so every mark has one rendering: the
-// document takes the figures and not the frames (report.md §3.3, invariant #3).
+// document takes the figures and not the frames (report.md §3.3,).
 export { FloorReading } from './tiles/floor-tile';
 export { ScoreReading } from './tiles/score-tile';
 export { ObjectivesRing } from './tiles/objectives-tile';

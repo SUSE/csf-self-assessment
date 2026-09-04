@@ -7,8 +7,8 @@
   // The base a dashboard reading is taken against, drawn rather than listed: the
   // count and its consequence, the base's composition across whatever width is
   // going, then the roster it was read against. The per-question answered/total is
-  // banned from every view (analytics invariant #8), so it never appears here.
-  //
+  // banned from every view (analytics), so it never appears here.
+  
   // One wrapping flex band, no breakpoint — the side panels collapse 18rem → 3rem
   // without the viewport moving. The roster is separated by proximity, not a rule:
   // a hairline before it reads as a stray vertical mark once it wraps.

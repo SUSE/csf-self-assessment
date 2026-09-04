@@ -8,7 +8,7 @@
   // list reshuffling itself for no reason.
   type Props = {
     section: RuleSection;
-    /** This is the card the cursor (or a citation) just asked for. */
+    /** This is the card the cursor (or a citation) just asked for.*/
     promoted: boolean;
   };
   let { section, promoted }: Props = $props();

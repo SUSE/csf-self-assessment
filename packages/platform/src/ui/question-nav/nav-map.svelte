@@ -12,9 +12,9 @@
     groups: NavGroup[];
     activeId: string;
     useGreen?: boolean;
-    /** Show the per-objective answered/total count (assessment yes, author no). */
+    /** Show the per-objective answered/total count (assessment yes, author no).*/
     showCounts?: boolean;
-    /** Navigate to a question — the owner also closes the popover. */
+    /** Navigate to a question — the owner also closes the popover.*/
     onSelect: (id: string) => void;
   };
   let { groups, activeId, useGreen = false, showCounts = true, onSelect }: Props = $props();

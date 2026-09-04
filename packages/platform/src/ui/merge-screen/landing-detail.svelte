@@ -11,7 +11,7 @@
 
   // One Landing read as its semantic before and after (landing-history §4.4-§4.8):
   // the sticky header, the navigator over every affected record, and the changes
-  // column. The anchored record arrives as view state; the navigator's own search is
+  // column. The anchored record arrives as view state. the navigator's own search is
   // local to this reading (§3.3.2 scopes persistence to the LIST's query).
   type Props = {
     landing: Landing;

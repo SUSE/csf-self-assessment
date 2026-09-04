@@ -13,7 +13,7 @@
   }: {
     gating: number;
     others: number;
-    /** Units carrying an answer of any state. Zero draws the bare track. */
+    /** Units carrying an answer of any state. Zero draws the bare track.*/
     placed: number;
     class?: string;
   } = $props();

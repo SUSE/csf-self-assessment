@@ -6,22 +6,22 @@
   import * as ToggleGroup from '../toggle-group';
   import FilterSwitch from './filter-switch.svelte';
 
-  // The queue's narrowing controls (merge.md §4.4). Four labelled rows, every
+  // The queue's narrowing controls. Four labelled rows, every
   // option carrying the count it would leave, and one sentence underneath saying
   // the whole narrowing in words — a filter nobody can read is a filter nobody
   // uses, and the earlier bar was an unlabelled strip of jargon.
-  //
+  
   // `Show: Open / Decided` is the review's progress readout as well as a filter:
   // it is the ONE control that says how much is left, which is why it leads. It
-  // hides decided clashes; it never decides one.
-  //
-  // There is deliberately NO bulk control (invariant #7). Every clash needs a
+  // hides decided clashes. it never decides one.
+  
+  // There is deliberately NO bulk control . Every clash needs a
   // human review, and a suggestion sits on nearly every divergence, so a button
   // that applied suggestions to a narrowed set was the rubber stamp its own
   // constraint existed to prevent. Decisions are made on the cards.
-  //
+  
   // The bar computes nothing: every label, count and sentence arrives from
-  // `merge/queue.ts` (invariant #13).
+  // `merge/queue.ts` .
   type Props = {
     filter: QueueFilter;
     facets: QueueFacets;
@@ -98,8 +98,8 @@
   </FilterRow>
 
   <!-- The switches sit in the same bordered strip the option groups use, because
-       they narrow in exactly the same way — they are independent (a group of
-       toggle buttons, not a radiogroup), which is the only difference. -->
+     they narrow in exactly the same way — they are independent (a group of
+     toggle buttons, not a radiogroup), which is the only difference. -->
   <FilterRow label="Only">
     <div
       class="inline-flex flex-wrap rounded-md border border-border p-0.5"

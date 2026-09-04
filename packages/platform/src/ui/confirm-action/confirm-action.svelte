@@ -4,7 +4,7 @@
 
   // A confirm-gated NON-destructive action — the twin of ConfirmDelete for a
   // change that is not a removal (moving the single `assessed` party flag). One
-  // AlertDialog confirmation so the copy stays consistent app-wide; the action
+  // AlertDialog confirmation so the copy stays consistent app-wide. the action
   // fires only from the dialog's confirm, never the trigger click.
   type Props = {
     trigger: string;

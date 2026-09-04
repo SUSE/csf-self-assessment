@@ -18,18 +18,18 @@
   // Each row leads with a toggle button (`activeIndex`): press it to make that
   // claim the single active one — it stays pressed in and the row is highlighted —
   // press again to deactivate. The active claim is what the Questions section
-  // answers; selecting/reading a row's text does NOT change it. Adding opens the
+  // answers. selecting/reading a row's text does NOT change it. Adding opens the
   // claim editor.
   type Props = {
     workbook: Workbook;
     parties: Party[];
     answers: Answer[];
     claims: Claim[];
-    /** The claim the Questions section answers, or -1 when none is active. */
+    /** The claim the Questions section answers, or -1 when none is active.*/
     activeIndex: number;
     onAdd: () => void;
     onEdit: (index: number) => void;
-    /** Toggle this claim as the single active one (press again to deactivate). */
+    /** Toggle this claim as the single active one (press again to deactivate).*/
     onToggleActive: (index: number) => void;
     onRemove: (index: number) => void;
   };

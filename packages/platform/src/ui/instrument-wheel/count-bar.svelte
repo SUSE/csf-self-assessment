@@ -5,14 +5,14 @@
 
   // A magnitude spoke: the bar's LENGTH is the question-unit count (the busiest
   // chip reaches the rim). The merge wheel's coverage spoke is the same thick bar
-  // but round-capped and filled hub→rim as a FRACTION; to keep this from reading
+  // but round-capped and filled hub→rim as a FRACTION. to keep this from reading
   // as "covered / filled", the count bar has a flat end capped with a
   // perpendicular gauge tick — a measured reading, so a long spoke says "many
   // questions land here", not "this is done". Internal to instrument-wheel.
   type Props = {
     chip: InstrumentChip;
     deg: number;
-    /** The busiest chip's count — what a full-rim spoke represents. */
+    /** The busiest chip's count — what a full-rim spoke represents.*/
     maxCount: number;
   };
   let { chip, deg, maxCount }: Props = $props();

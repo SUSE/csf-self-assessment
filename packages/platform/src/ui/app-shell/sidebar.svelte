@@ -13,7 +13,7 @@
   // Collapsed: the panel shrinks to a thin rail showing an expand chevron plus
   // an optional icon rail (the `rail` snippet), so it stays reachable without
   // header clutter.
-  //
+  
   // MOTION: the panel's width animates, and the contents SLIDE with it — the open
   // body enters from the panel's own outer edge and leaves the same way, so opening
   // reads as the panel arriving rather than as a full-width block appearing inside a
@@ -27,12 +27,12 @@
     onToggle: () => void;
     title?: string | undefined;
     id?: string | undefined;
-    /** Width when open. */
+    /** Width when open.*/
     width?: string;
-    /** Width of the collapsed rail. */
+    /** Width of the collapsed rail.*/
     railWidth?: string;
     children: Snippet;
-    /** Collapsed-rail content; receives an `expand` callback for its icons. */
+    /** Collapsed-rail content. receives an `expand` callback for its icons.*/
     rail?: Snippet<[expand: () => void]> | undefined;
     class?: string;
   };
@@ -57,7 +57,7 @@
     `${open ? 'Collapse' : 'Expand'} ${title ?? (side === 'left' ? 'left panel' : 'right panel')}`,
   );
 
-  // One duration for the width and the contents, so they travel as one panel; it is
+  // One duration for the width and the contents, so they travel as one panel. it is
   // the app's shared slide (ui/motion), the same beat as a stage change.
   const slideMs = $derived(prefersReducedMotion.current ? 0 : SLIDE_MS);
   // Contents travel from the panel's OUTER edge — off-screen-ward — so the motion

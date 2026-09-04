@@ -23,9 +23,9 @@
 
   // ONE question of the filling UI: picks the right card for the question's
   // grain/axis and owns the answer TRANSITIONS (the pure fan-out/superseding
-  // helpers), emitting the whole next answers array. Parents own the state;
+  // helpers), emitting the whole next answers array. Parents own the state.
   // the participant app (fill mode) and the Author app (Preview + the card
-  // flip) reuse this, so the wiring exists once (spec §3). The two fan-out grains
+  // flip) reuse this, so the wiring exists once. The two fan-out grains
   // (dimension / party) share ONE generic FanoutCard — this surface maps each
   // grain onto the card's normalised `units` and translates a placed target back
   // into the grain's placement transition.
@@ -54,7 +54,7 @@
   const assessmentTarget: Target = { kind: 'assessment' };
 
   // The fan-out grains, each mapped onto the generic card's normalised units.
-  // Dimensions carry criticality and their strata sub-units; parties carry
+  // Dimensions carry criticality and their strata sub-units. parties carry
   // neither. applicableParties/applicableDimensionsOf are the in-scope filters.
   const dimensionUnits = $derived<FanoutUnit[]>(
     dimensionQ === null

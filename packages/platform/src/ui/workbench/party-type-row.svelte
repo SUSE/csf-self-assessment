@@ -7,12 +7,12 @@
   import { PartyKindBadge } from '../workbook-facts';
 
   // One party type. `kind` is the cell that carries the workbook's single-assessed
-  // -party invariant: the assessed type states itself as a chip, and every other
+  // party invariant: the assessed type states itself as a chip, and every other
   // type offers to take the role (which demotes the incumbent). That same fact bars
   // the assessed type's delete, so the trash greys out rather than repeating it.
   type Props = {
     party: PartyType;
-    /** Flashed when the overview's instrument wheel deep-links to this row. */
+    /** Flashed when the overview's instrument wheel deep-links to this row.*/
     highlighted?: boolean;
     onUpdate: (patch: Partial<PartyType>) => void;
     onMakeAssessed: () => void;
@@ -55,8 +55,8 @@
   </td>
   <td>
     <!-- Both types NAME themselves, so the column reads as one graded set rather
-         than a chip on one row and a button on the others; the offer to take the
-         role sits after the name it would change. -->
+     than a chip on one row and a button on the others. the offer to take the
+     role sits after the name it would change. -->
     <div class="flex items-center gap-2">
       <PartyKindBadge kind={party.kind} />
       {#if !assessed}

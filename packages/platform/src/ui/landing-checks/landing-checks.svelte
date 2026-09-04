@@ -6,15 +6,15 @@
   import FloorStrip from './floor-strip.svelte';
   import { landingChecksView } from './model';
 
-  // The status checks under the landing header (merge.md §4.2), split into what
+  // The status checks under the landing header, split into what
   // BLOCKS landing and what is only recorded. A PREVIEW: what the estate would
   // read if this landing were committed as decided so far, never the estate
-  // result and never a floor for the partial (invariant #11). Computes nothing —
-  // every number arrives in `checks`; `landingChecksView` only rearranges them.
-  //
+  // result and never a floor for the partial . Computes nothing —
+  // every number arrives in `checks`. `landingChecksView` only rearranges them.
+  
   // The answers pinning the floor are a DISCLOSURE opened from the marked rung on
   // the strip — you ask the floor what holds it down. At rest the panel counts them
-  // and draws where the floor sits; opened, they group by the part of the estate
+  // and draws where the floor sits. opened, they group by the part of the estate
   // they hold down. There is deliberately no separate expand control in the header.
   type Props = { checks: LandingChecks; incomingName: string; collisions: number };
   let { checks, incomingName, collisions }: Props = $props();
@@ -58,7 +58,7 @@
   // A register is separated from the one before it by a hairline in the gutter,
   // not by empty space — the rule turns with the row, so the structure reads the
   // same stacked as it does side by side. `border-l-border` / `border-t-border`
-  // recolour only the reserved edge that separates; plain `border-border` would
+  // recolour only the reserved edge that separates. plain `border-border` would
   // ink all four and box the register in. The paddings put 1rem of air on both
   // sides of the rule in each direction (`gap-x-4` + `pl-6` across, `p-2` +
   // `gap-y-2` + `pt-4` down).
@@ -71,8 +71,8 @@
 
 <Collapsible.Root bind:open>
   <!-- Every section on the Merge review wears the same Panel (see landing-header).
-       `@container/checks` rides along on `class`: the ruled row below turns on the
-       PANEL's width, not the viewport's. -->
+     `@container/checks` rides along on `class`: the ruled row below turns on the
+     PANEL's width, not the viewport's. -->
   <Panel class="@container/checks space-y-4" aria-label="Landing checks" data-landing-checks>
     <PanelHeader
       title="Landing checks"
@@ -80,23 +80,23 @@
     />
 
     <!-- Three registers on ONE ruled row, in the order the facilitator reads them
-         with a finger on Land: what stops this (exactly what `canLand` reads),
-         what is only recorded and blocks nothing (merge.md §4.2), then what the
-         estate would read. They are NOT the same kind of thing and three lists
-         stacked in a column read as one, so parallel eyebrows and a hairline in
-         each gutter keep the distinction structural.
-         Three EQUAL shares of the row, not three content-sized blocks packed
-         left: the registers spread over whatever width the stage gives them, the
-         two rules land on the thirds, and each register's values right-align to
-         its own edge instead of the row trailing off into empty card. Equal
-         rather than weighted, because a register the facilitator has to find
-         twice is worse than one carrying some slack. The tinted box appears only when a gate
-         is live, so at rest the panel stays quiet and state is the only thing
-         drawing the eye; the verdict sentence means the reading never rides on
-         colour. -->
+     with a finger on Land: what stops this (exactly what `canLand` reads),
+     what is only recorded and blocks nothing, then what the
+     estate would read. They are NOT the same kind of thing and three lists
+     stacked in a column read as one, so parallel eyebrows and a hairline in
+     each gutter keep the distinction structural.
+     Three EQUAL shares of the row, not three content-sized blocks packed
+     left: the registers spread over whatever width the stage gives them, the
+     two rules land on the thirds, and each register's values right-align to
+     its own edge instead of the row trailing off into empty card. Equal
+     rather than weighted, because a register the facilitator has to find
+     twice is worse than one carrying some slack. The tinted box appears only when a gate
+     is live, so at rest the panel stays quiet and state is the only thing
+     drawing the eye. the verdict sentence means the reading never rides on
+     colour. -->
     <!-- `-mx-2` cancels the registers' reserved padding at the row's two ends, so
-         the first eyebrow keeps the panel title's left margin, the last value
-         keeps its right margin, and the tint box still has somewhere to grow. -->
+     the first eyebrow keeps the panel title's left margin, the last value
+     keeps its right margin, and the tint box still has somewhere to grow. -->
     <div class="-mx-2 grid gap-x-4 gap-y-2 @3xl/checks:grid-cols-3">
       <div
         class={[
@@ -147,12 +147,12 @@
           </p>
         {:else}
           <!-- The marked cell IS the value: no `SEAL n` restated beside it. The
-               don't-know count that used to ride along is the same number as the
-               Recorded register's, under a second name. It is also the control
-               that reveals the answers pinning it — see floor-strip. -->
+     don't-know count that used to ride along is the same number as the
+     Recorded register's, under a second name. It is also the control
+     that reveals the answers pinning it — see floor-strip. -->
           <FloorStrip floor={view.floor} {open} />
           <!-- Capped measure: this register absorbs the panel's slack, and its two
-               sentences must not stretch into one unreadable line across it. -->
+     sentences must not stretch into one unreadable line across it. -->
           <p class="max-w-[68ch] text-xs text-muted-foreground">{pins} {climb}</p>
           <p class="sr-only">
             The preview floor is SEAL {view.floor.seal} of 4. {pins} {climb}
@@ -162,8 +162,8 @@
     </div>
 
     <!-- The disclosure is the one thing that wants the whole panel: it spans all
-         three registers under a hairline, so opening the floor reads as the panel
-         extending rather than as a fourth register appearing. -->
+     three registers under a hairline, so opening the floor reads as the panel
+     extending rather than as a fourth register appearing. -->
     <Collapsible.Content class="space-y-2 border-t border-border pt-3">
       <p class={label}>What pins the floor</p>
       <BindingLanes lanes={view.lanes} />

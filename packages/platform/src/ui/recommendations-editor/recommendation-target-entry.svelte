@@ -5,13 +5,13 @@
   // one, and the way to detach it. The mirror of RecommendationLinkEntry, which
   // says the same relation from the other end — that one lists the offers
   // pointing AT a question, this one lists the targets an offer points at.
-  //
+  
   // The kind sits in a fixed column so a stack of entries reads as two columns
   // rather than as ragged prose, and the detach control is a drawn icon rather
   // than a multiplication sign standing in for one.
   type Props = {
     kindLabel: string;
-    /** The target's own label, or its raw id when the target has gone missing. */
+    /** The target's own label, or its raw id when the target has gone missing.*/
     label: string;
     onUnlink: () => void;
   };

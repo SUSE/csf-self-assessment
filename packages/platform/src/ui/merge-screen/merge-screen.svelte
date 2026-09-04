@@ -25,9 +25,9 @@
   import { PartyReconcileQueue } from '../party-reconcile';
   import LandingHistory from './landing-history.svelte';
 
-  // The facilitator's Merge section (merge.md): Review — one partial under
+  // The facilitator's Merge section: Review — one partial under
   // review at a time, every clash decided before it lands — and History, the
-  // append-only ledger. Owns NO merge state; the app shell holds the base, the
+  // append-only ledger. Owns NO merge state. the app shell holds the base, the
   // ledger and the decisions, and does the file I/O.
   type Props = {
     workbookAssessment: WorkbookAssessment;
@@ -108,10 +108,10 @@
   </div>
 
   <!-- Review / History is NOT a button pair in the stage body: the two are header
-       destinations in the facilitator's stage header (ui/facilitator-toolbar) —
-       History shows the ledger, Merge comes back to the review — where the app owns
-       them and can hide History until a landing exists. `onHistory` is still a prop
-       because the ledger view navigates within itself. -->
+     destinations in the facilitator's stage header (ui/facilitator-toolbar) —
+     History shows the ledger, Merge comes back to the review — where the app owns
+     them and can hide History until a landing exists. `onHistory` is still a prop
+     because the ledger view navigates within itself. -->
   {#if history === null}
     {#if review !== null && summary !== null && incomingName !== null}
       <LandingHeader
@@ -154,14 +154,14 @@
     {/if}
 
     <!-- Coverage at a glance: each estate chip (a dimension, a concrete provider,
-         the whole estate) fills hub→rim with how much of it has landed, so the
-         facilitator watches it fill and sees which axes still have gaps. -->
+     the whole estate) fills hub→rim with how much of it has landed, so the
+     facilitator watches it fill and sees which axes still have gaps. -->
     <!-- A Panel, like every other section of the Merge review. The wheel used to
-         carry its own card box inside this one; the panel is that box now. -->
+     carry its own card box inside this one. the panel is that box now. -->
     <!-- "before merge": this wheel reads the estate base as it stands, with the
-         landing under review counted as still outstanding. The AFTER number
-         already exists one panel up — Landing checks' `Units placed` is the
-         prospective coverage if this landing were committed. -->
+     landing under review counted as still outstanding. The AFTER number
+     already exists one panel up — Landing checks' `Units placed` is the
+     prospective coverage if this landing were committed. -->
     <Panel class="space-y-2" aria-label="Coverage before merge">
       <PanelHeader title="Coverage before merge" />
       <p class="text-sm text-muted-foreground">

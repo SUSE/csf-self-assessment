@@ -3,7 +3,7 @@
   import { cn } from '../../utils/cn';
 
   // shadcn-svelte Tooltip content, wired to our design tokens. A tooltip is chrome,
-  // not a good/done outcome, so it is NEUTRAL, never `bg-primary` green (invariant #3
+  // not a good/done outcome, so it is NEUTRAL, never `bg-primary` green (
   // — green means SEAL-3/4 and completion, nothing structural): the classic inverted
   // `bg-foreground` / `text-background` chip, high-contrast and hue-free in both
   // themes. Portalled so it is never clipped by the header's overflow. Types come

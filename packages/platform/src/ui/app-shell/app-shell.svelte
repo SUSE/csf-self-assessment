@@ -8,33 +8,33 @@
   // The app chrome: a ShellHeader, an optional collapsible panel on each side, a
   // scrollable main region, and a ShellFooter. Panel collapse controls live
   // inside the panels (see Sidebar), so the header stays clean. Apps are thin
-  // shells (spec §3) — they compose this and pour content into the snippets; the
+  // shells — they compose this and pour content into the snippets. the
   // chrome lives here in `platform`, once. This container owns only the panel
-  // open-state and the layout skeleton; the header and footer are their own units.
+  // open-state and the layout skeleton. the header and footer are their own units.
 
   type Props = {
-    /** Short subtitle beside the logo (the logo carries the product name). */
+    /** Short subtitle beside the logo (the logo carries the product name).*/
     title?: string;
     logoLabel?: string;
-    /** Left panel body. The panel appears only when this is provided. */
+    /** Left panel body. The panel appears only when this is provided.*/
     left?: Snippet;
     leftTitle?: string;
-    /** Left collapsed-rail content; receives an `expand` callback. */
+    /** Left collapsed-rail content. receives an `expand` callback.*/
     leftRail?: Snippet<[expand: () => void]>;
-    /** Right panel body. The panel appears only when this is provided. */
+    /** Right panel body. The panel appears only when this is provided.*/
     right?: Snippet;
     rightTitle?: string;
-    /** Open width of the right panel (denser HUDs want more room). */
+    /** Open width of the right panel (denser HUDs want more room).*/
     rightWidth?: string;
-    /** Right collapsed-rail content; receives an `expand` callback. */
+    /** Right collapsed-rail content. receives an `expand` callback.*/
     rightRail?: Snippet<[expand: () => void]>;
     /**
      * Right panel open state — bindable so a screen can drive it (e.g. collapse
-     * it automatically when there's nothing to show). Defaults open; the in-panel
+     * it automatically when there's nothing to show). Defaults open. the in-panel
      * chevron toggles it either way, so binding is optional.
-     */
+*/
     rightOpen?: boolean;
-    /** Extra header controls, placed left of the theme toggle. */
+    /** Extra header controls, placed left of the theme toggle.*/
     actions?: Snippet;
     /**
      * A floating layer over the content row — a panel that appears without
@@ -45,12 +45,12 @@
      * It belongs HERE rather than inside a screen because a screen's stage renders
      * inside StageLayout's transformed carousel, and `position` resolves against a
      * transformed ancestor — a panel mounted there would travel with the stage and
-     * clip at its edge. The layer itself is pointer-transparent; a panel inside it
+     * clip at its edge. The layer itself is pointer-transparent. a panel inside it
      * re-arms interaction with `pointer-events-auto`, so everything the panel does
      * not cover stays usable.
-     */
+*/
     overlay?: Snippet;
-    /** Footer content; a neutral default is shown when omitted. */
+    /** Footer content. a neutral default is shown when omitted.*/
     footer?: Snippet;
     children: Snippet;
     class?: string;
@@ -74,7 +74,7 @@
     class: className,
   }: Props = $props();
 
-  // Both panels collapse independently. The left starts open and is owned here;
+  // Both panels collapse independently. The left starts open and is owned here.
   // the right's open state is a bindable prop (owned by the caller when it binds,
   // defaulting open otherwise) so a screen can collapse it in response to state.
   let leftOpen = $state(true);
@@ -92,14 +92,14 @@
   <ShellHeader {logoLabel} {title} {actions} />
 
   <!-- `relative` so the overlay layer positions against this row: it must stop at
-       the header and the footer, which a viewport-fixed panel could only do by
-       hardcoding their heights.
-       `overflow-clip`, not `hidden`: a scroll container's layout overflow still
-       propagates here, which makes this row (and the shell above it) PROGRAMMATICALLY
-       scrollable even though nothing can scroll it by wheel — so focusing a button
-       that is not fully in view scrolls the whole shell out of the viewport and
-       leaves a dead band under the footer. `clip` gives the box no scroll origin at
-       all, which is what "the page itself never scrolls" has to mean. -->
+     the header and the footer, which a viewport-fixed panel could only do by
+     hardcoding their heights.
+     `overflow-clip`, not `hidden`: a scroll container's layout overflow still
+     propagates here, which makes this row (and the shell above it) PROGRAMMATICALLY
+     scrollable even though nothing can scroll it by wheel — so focusing a button
+     that is not fully in view scrolls the whole shell out of the viewport and
+     leaves a dead band under the footer. `clip` gives the box no scroll origin at
+     all, which is what "the page itself never scrolls" has to mean. -->
   <div class="relative flex min-h-0 flex-1 overflow-clip">
     {#if left}
       <Sidebar

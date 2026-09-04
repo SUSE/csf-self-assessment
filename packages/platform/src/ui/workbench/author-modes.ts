@@ -1,9 +1,9 @@
 import type { Workbook } from '../../schema';
 import type { AuthorMode } from './screen';
 
-/** Whether a destination can be entered, and the one line the toolbar shows for
- *  it either way — that line is the tooltip AND the accessible name, so a
- *  blocked destination carries its reason there and the two cannot drift. */
+// Whether a destination can be entered, and the one line the toolbar shows for
+// it either way — that line is the tooltip AND the accessible name, so a
+// blocked destination carries its reason there and the two cannot drift.
 export type ModeGate =
   | { kind: 'open'; label: string }
   | { kind: 'blocked'; reason: string };
@@ -13,11 +13,9 @@ function fixIssues(issueCount: number, toDoWhat: string): ModeGate {
   return { kind: 'blocked', reason: `Fix ${issues} ${toDoWhat}` };
 }
 
-/**
- * The ONE rule gating the Author's five destinations. `valid` is the
- * strict-parsed draft (null while it has issues) and `issueCount` how many
- * issues that is. The workbench is always open.
- */
+// The ONE rule gating the Author's five destinations. `valid` is the
+// strict-parsed draft (null while it has issues) and `issueCount` how many
+// issues that is. The workbench is always open.
 export function authorModeGates(
   valid: Workbook | null,
   issueCount: number,
@@ -51,9 +49,9 @@ export function authorModeGates(
   };
 }
 
-/** The destination actually shown: the requested one when its gate is open, the
- *  workbench otherwise. Replaces the shell's `QA_MODES` / `activeMode` derive,
- *  so the degrade rule and the disabled reason are one fact. */
+// The destination actually shown: the requested one when its gate is open, the
+// workbench otherwise. Replaces the shell's `QA_MODES` / `activeMode` derive,
+// so the degrade rule and the disabled reason are one fact.
 export function activeAuthorMode(
   requested: AuthorMode,
   gates: Record<AuthorMode, ModeGate>,

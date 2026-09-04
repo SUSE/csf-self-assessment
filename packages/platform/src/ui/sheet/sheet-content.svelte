@@ -16,7 +16,7 @@
     children,
     ...restProps
   }: DialogPrimitive.ContentProps & {
-    /** Which edge the panel is anchored to. */
+    /** Which edge the panel is anchored to.*/
     side?: 'top' | 'bottom' | 'left' | 'right';
     portalProps?: DialogPrimitive.PortalProps;
   } = $props();

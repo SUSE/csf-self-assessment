@@ -1,18 +1,16 @@
 import type { Seal, Workbook } from '../schema';
 import { scores, type EngineResult } from '../score-engine';
 
-/**
- * The outer edge of a SEAL-0 wedge as a fraction of the ring's outer radius.
- * Absence is never a zero (analytics invariant #2): SEAL-0 must still draw a
- * visible wedge, distinct from an objective with nothing asserted at all.
- */
+// The outer edge of a SEAL-0 wedge as a fraction of the ring's outer radius.
+// Absence is never a zero: SEAL-0 must still draw a visible wedge, distinct
+// from an objective with nothing asserted at all.
 export const SEAL_FLOOR_FRACTION = 0.15;
 
 export type ObjectiveStanding =
   | { kind: 'asserted'; seal: Seal; score: number; radiusFraction: number }
-  /** Scored, and nothing on it gates — every gate-carrying answer is absent or
-   *  the objective is `ranking` all the way down. Gate-vs-rank made visible: a
-   *  rank with no floor under it, so the wedge carries no length. */
+  // Scored, and nothing on it gates — every gate-carrying answer is absent or
+  // the objective is `ranking` all the way down. Gate-vs-rank made visible: a
+  // rank with no floor under it, so the wedge carries no length.
   | { kind: 'ranked'; score: number }
   | { kind: 'informational' }
   | { kind: 'unanswered' };
@@ -20,29 +18,29 @@ export type ObjectiveStanding =
 export type ObjectiveArc = {
   id: string;
   name: string;
-  /** The authored weight, 0..100 — the wedge's angular width (analytics §4.5). */
+  // The authored weight, 0..100 — the wedge's angular width (analytics §4.5).
   weight: number;
-  /** Where the wedge starts / ends, as a fraction of the full turn (0..1). */
+  // Where the wedge starts / ends, as a fraction of the full turn (0..1).
   startFraction: number;
   endFraction: number;
-  /** The wedge's angular midpoint — where its label hangs. */
+  // The wedge's angular midpoint — where its label hangs.
   midFraction: number;
-  /** Second label line: `20% · SEAL-1` / `5% · informational`. */
+  // Second label line: `20% · SEAL-1` / `5% · informational`.
   sub: string;
-  /** The hover/focus line, e.g. `Strategic Sovereignty · SOV-1 · 20% of the
-   *  score · SEAL-1 · 53.6`. */
+  // The hover/focus line, e.g. `Strategic Sovereignty · SOV-1 · 20% of the
+  // score · SEAL-1 · 53.6`.
   summary: string;
   standing: ObjectiveStanding;
 };
 
-/** One guide ring: the radial axis the wedge lengths are read against. */
+// One guide ring: the radial axis the wedge lengths are read against.
 export type ObjectiveRung = { seal: Seal; radiusFraction: number };
 
 export type ObjectivesTile = {
   arcs: ObjectiveArc[];
-  /** One ring per authored SEAL level, innermost first. */
+  // One ring per authored SEAL level, innermost first.
   rungs: ObjectiveRung[];
-  /** `Strategic Sovereignty carries 20% of the score at SEAL-1.` */
+  // `Strategic Sovereignty carries 20% of the score at SEAL-1.`
   headline: string;
   caption: string;
 };
@@ -53,7 +51,7 @@ const CAPTION =
 const NOTHING_ASSERTED =
   'Nothing asserted yet — each wedge is already as wide as the weight its objective carries, and gains its length with the first answer.';
 
-/** Pure: derives from the engine result and the instrument, never from answers. */
+// Pure: derives from the engine result and the instrument, never from answers.
 export function objectivesTile(result: EngineResult, workbook: Workbook): ObjectivesTile {
   const totalWeight = workbook.objectives.reduce((sum, o) => sum + o.weight, 0);
   const topSeal = Math.max(...workbook.sealLevels.map((l) => l.seal));
@@ -68,11 +66,11 @@ export function objectivesTile(result: EngineResult, workbook: Workbook): Object
     const standing: ObjectiveStanding =
       entry !== undefined && entry.seal !== null && entry.score !== null
         ? {
-            kind: 'asserted',
-            seal: entry.seal,
-            score: entry.score,
-            radiusFraction: radiusOf(entry.seal),
-          }
+          kind: 'asserted',
+          seal: entry.seal,
+          score: entry.score,
+          radiusFraction: radiusOf(entry.seal),
+        }
         : entry !== undefined && entry.score !== null && entry.seal === null
           ? { kind: 'ranked', score: entry.score }
           : objective.questions.every((q) => !scores(q.defaultMateriality))
@@ -117,8 +115,8 @@ export function objectivesTile(result: EngineResult, workbook: Workbook): Object
   };
 }
 
-/** The tile's answer in words: the heaviest objective held at the lowest standing
- *  — where weakness coincides with leverage (analytics §4.5). */
+// The tile's answer in words: the heaviest objective held at the lowest standing
+// — where weakness coincides with leverage.
 function headlineOf(arcs: ObjectiveArc[]): string {
   const asserted = arcs.flatMap((arc) =>
     arc.standing.kind === 'asserted' ? [{ arc, seal: arc.standing.seal }] : [],

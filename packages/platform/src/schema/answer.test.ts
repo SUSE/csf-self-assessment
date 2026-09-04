@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { AnswerSchema, AssessmentSchema, TargetSchema } from './index';
 import { BASE, G, GG, INST, META } from './fixtures';
 
-/** The answer under test, inside the smallest envelope that carries it. */
+// The answer under test, inside the smallest envelope that carries it.
 const withAnswer = (answer: unknown) =>
   AssessmentSchema.safeParse({ meta: META, workbook: BASE, parties: [INST], answers: [answer] });
 

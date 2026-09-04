@@ -9,10 +9,10 @@
   // part-of-whole is a bar: the ranked bars this replaced spent three lines per
   // person and read as five unrelated ratios, when the one thing being asked is
   // how one file divides between the people who produced it.
-  //
+  
   // Height is the dial's, not the roster's. The rows arrive already folded, so a
   // room of twenty draws the same five slices as a room of five.
-  //
+  
   // The hub carries the sum of the arcs over a muted caption — the wheels' hub
   // idiom, 15px/600 over 10px, so this reads as one of the dashboard's dials.
   let {
@@ -20,15 +20,15 @@
     standing,
   }: {
     rows: ContributorRow[];
-    /** Units the slices are shares of — the arcs add up to this. */
+    /** Units the slices are shares of — the arcs add up to this.*/
     standing: number;
   } = $props();
 
-  /** Offset from the outer radius, so the ring keeps its weight at any size. */
+  /** Offset from the outer radius, so the ring keeps its weight at any size.*/
   const THICKNESS = -8;
   /** The seam does as much separating as the ink step does, so it is wider than a
-   *  hairline. A seam in a single full ring reads as a rendering fault, not as a
-   *  division, so one slice gets none. */
+   * hairline. A seam in a single full ring reads as a rendering fault, not as a
+   * division, so one slice gets none.*/
   const pad = $derived(rows.length > 1 ? 0.035 : 0);
 </script>
 

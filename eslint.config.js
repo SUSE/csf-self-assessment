@@ -46,7 +46,7 @@ export default tseslint.config(
       ],
     },
   },
-  // Invariant #3 / spec §3: the engine and schema import nothing from UI/DOM.
+  // / : the engine and schema import nothing from UI/DOM.
   {
     files: [
       'packages/platform/src/score-engine/**/*.ts',

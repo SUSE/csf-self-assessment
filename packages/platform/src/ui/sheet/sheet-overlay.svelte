@@ -3,7 +3,7 @@
   import { cn } from '../../utils/cn';
 
   // shadcn-svelte Sheet overlay — the dimmed scrim behind the side-anchored panel.
-  // Twin of dialog-overlay; the same light-dismiss Dialog primitive. (No
+  // Twin of dialog-overlay. the same light-dismiss Dialog primitive. (No
   // enter/exit animation utilities — this repo does not load tw-animate-css, so
   // the scrim appears instantly.)
   let {

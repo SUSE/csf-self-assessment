@@ -4,7 +4,7 @@
   import { surfaceVariants, type SurfaceDensity, type SurfaceTone } from './variants';
 
   // One section of a screen: a plane lifted off the canvas.
-  //
+  
   // `as` exists because a panel is a landmark in some places and a plain box in
   // others — `section` is right when it carries an `aria-label`, `div` when it
   // is one of several boxes an outer section already names. The default is
@@ -31,7 +31,7 @@
 
 <!-- `class` merges LAST so a site keeps its own layout: `@container/checks`,
      `space-y-4`, `min-w-0 grow basis-[26rem]`, `max-h-[60vh] overflow-y-auto`.
-     Container styling comes from the variant; everything about where the panel
+     Container styling comes from the variant. everything about where the panel
      sits and how its children flow stays with the caller. -->
 <svelte:element
   this={as}

@@ -20,18 +20,18 @@ import { byObjective, type ObjectiveGroupView } from '../inspector/question-bloc
 // thing in one brick red — a budget the author is over, weights that don't sum,
 // roles nobody uses, AND a dimension no question reaches. Only the last is a hole
 // in the instrument; the rest are dials to turn. So:
-//
-//   'advise' — amber, the theme's "act here" accent. Something for the author to
-//              adjust. Not a defect; the workbook is still coherent.
-//   'gap'    — brick, the theme's alarm. Something is MISSING, and the wheel is
-//              already drawing it as a dashed stub on the matching spoke. Sharing
-//              one hue is what ties the reading to the spoke it refers to.
-//
+
+// 'advise' — amber, the theme's "act here" accent. Something for the author to
+// adjust. Not a defect; the workbook is still coherent.
+// 'gap' — brick, the theme's alarm. Something is MISSING, and the wheel is
+// already drawing it as a dashed stub on the matching spoke. Sharing
+// one hue is what ties the reading to the spoke it refers to.
+
 // Neither tone is the only carrier: the note names the problem in words, and a gap
 // is additionally the only reading whose finding also appears on the wheel.
 export type ReadingTone = 'advise' | 'gap';
 
-/** The ledger's rows, in the order they are read. */
+// The ledger's rows, in the order they are read.
 export const READING_IDS = [
   'objectives',
   'questions',
@@ -43,49 +43,49 @@ export const READING_IDS = [
   'test-estates',
 ] as const;
 
-/** The stable id of a ledger row — what an Inspector selection carries. */
+// The stable id of a ledger row — what an Inspector selection carries.
 export type ReadingId = (typeof READING_IDS)[number];
 
 export type Reading = {
-  /** Stable across renders and reloads — the row's identity in a selection. */
+  // Stable across renders and reloads — the row's identity in a selection.
   id: ReadingId;
-  /** What is counted — the row's name. */
+  // What is counted — the row's name.
   label: string;
-  /** The count itself. */
+  // The count itself.
   value: string;
-  /** The qualifier: what the count is measured against, or what is wrong with it. */
+  // The qualifier: what the count is measured against, or what is wrong with it.
   note: string;
   // Explicitly `| undefined`: the entries below compute this with a ternary, and
   // `exactOptionalPropertyTypes` distinguishes an absent key from a present
   // `undefined` one.
   tone?: ReadingTone | undefined;
-  /** Where the workbench jumps when the row is activated. Absent = not navigable. */
+  // Where the workbench jumps when the row is activated. Absent = not navigable.
   section?: InstrumentSection;
 };
 
 export type ReadingItem = {
-  /** The thing counted — an objective, a dimension, a role. */
+  // The thing counted — an objective, a dimension, a role.
   name: string;
-  /** What it contributes to the count, or what is wrong with it. */
+  // What it contributes to the count, or what is wrong with it.
   note: string;
-  /** Same two tones as the row: a dial to turn, or a hole in the instrument. */
+  // Same two tones as the row: a dial to turn, or a hole in the instrument.
   tone?: ReadingTone | undefined;
 };
 
 export type ReadingInspection = Reading & {
-  /** One sentence saying what the count is a count OF. */
+  // One sentence saying what the count is a count OF.
   lead: string;
-  /** The plain list. Empty where the reading is read as questions instead. */
+  // The plain list. Empty where the reading is read as questions instead.
   items: ReadingItem[];
-  /** A count OF QUESTIONS is read the way every other rail reads questions —
-   *  grouped by the objective (SOV) that asks them. Empty for every other row. */
+  // A count OF QUESTIONS is read the way every other rail reads questions —
+  // grouped by the objective (SOV) that asks them. Empty for every other row.
   groups: ObjectiveGroupView[];
-  /** Shown instead of the list when nothing is counted yet. */
+  // Shown instead of the list when nothing is counted yet.
   empty: string;
 };
 
-/** What a detail reads from: the definition, and the two readouts over it.
- *  Resolved once per call so eight entries don't each recompute them. */
+// What a detail reads from: the definition, and the two readouts over it.
+// Resolved once per call so eight entries don't each recompute them.
 type Source = { workbook: Workbook; gauges: AuthorGauges; model: InstrumentModel };
 
 type Detail = {
@@ -95,7 +95,7 @@ type Detail = {
   empty: string;
 };
 
-/** One reading: the row it projects from the stats, and the detail behind it. */
+// One reading: the row it projects from the stats, and the detail behind it.
 type ReadingEntry = {
   row: (s: InstrumentStats) => Omit<Reading, 'id'>;
   detail: (source: Source) => Detail;
@@ -292,14 +292,14 @@ const READINGS: Record<ReadingId, ReadingEntry> = {
   },
 };
 
-/** The ledger: every row, in READING_IDS order. */
+// The ledger: every row, in READING_IDS order.
 export function instrumentReadings(s: InstrumentStats): Reading[] {
   return READING_IDS.map((id) => ({ id, ...READINGS[id].row(s) }));
 }
 
-/** The reading behind a ledger row. Derived from the definition alone and
- *  resolved every render, so a count is never stale. Every ReadingId has an
- *  entry (the Record above is exhaustive), so there is no missing-row case. */
+// The reading behind a ledger row. Derived from the definition alone and
+// resolved every render, so a count is never stale. Every ReadingId has an
+// entry (the Record above is exhaustive), so there is no missing-row case.
 export function readingInspection(workbook: Workbook, id: ReadingId): ReadingInspection {
   const entry = READINGS[id];
   const model = instrumentModel(workbook);

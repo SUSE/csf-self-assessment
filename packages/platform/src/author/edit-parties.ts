@@ -1,11 +1,11 @@
 import type { PartyType, Workbook } from '../schema';
 import { nextId } from './links';
 
-// --- party types (spec docs/specs/parties.md §4; twins of the dimension/role ops) ---
+// -- party types (spec docs/specs/parties.md §4. twins of the dimension/role ops) --
 
 // A new party type, blank: an auto id (`party-N`) the author renames inline, a
 // placeholder name, and `kind:'third-party'` — a new type is NEVER the assessed
-// party, so adding one can never break "exactly one assessed" (invariant #2).
+// party, so adding one can never break "exactly one assessed".
 // The `: PartyType` annotation pins `kind` to the PartyKind union (no widening,
 // no cast). Twin of addRole.
 export function addParty(wb: Workbook): Workbook {
@@ -51,7 +51,7 @@ export function updateParty(
 }
 
 // Move the single `assessed` flag to `partyId`, demoting whoever held it to
-// `third-party` (spec §4 — kind is a single-select; exactly one assessed always).
+// `third-party`.
 // This is the ONLY op that changes a kind. Idempotent when partyId is already
 // assessed; a no-op for an unknown id (keeps the current assessed). The
 // `: PartyType` annotation contextually types the `kind` ternary to PartyKind.
@@ -67,8 +67,8 @@ export function setAssessedParty(wb: Workbook, partyId: string): Workbook {
 }
 
 // Delete a party type. BLOCKED (a no-op returning the same workbook) for the sole
-// assessed type — every instrument needs its one assessed party (spec §4,
-// invariant #2); the editor renders "delete blocked" for it. Otherwise a free
+// assessed type — every instrument needs its one assessed party.
+// The editor renders "delete blocked" for it. Otherwise a free
 // delete that CASCADES: it also drops the concrete parties of that type from
 // every test estate (the twin of removeDimension's cascade — a test estate's
 // `type` reference must not dangle, R17). Test-estate answers carry no party

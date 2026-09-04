@@ -15,7 +15,7 @@ import { euCsfCalculatorDeepFillAlexRaw, euCsfCalculatorDeepFillJaneRaw } from '
 const alex = AssessmentSchema.parse(euCsfCalculatorDeepFillAlexRaw);
 const jane = AssessmentSchema.parse(euCsfCalculatorDeepFillJaneRaw);
 
-// A participant scores over `parties ∪ partiesAdded` (ADR-0012): the chain they
+// A participant scores over `parties ∪ partiesAdded`: the chain they
 // added is theirs until the facilitator lands it.
 const onOwnRoster = (a: Assessment): Assessment => ({
   ...a,

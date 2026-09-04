@@ -3,14 +3,14 @@ import type { Seal } from '../schema';
 // Single source of truth for the SEAL ramp used across every view (the HUD mini
 // heat map, the ladder badges, the dashboard's heat/staircase/exposure tiles and
 // the radial wheels). Pure presentation — no truth is computed here.
-//
+
 // SEAL 0→4 is ORDINAL: each rung is strictly more sovereignty, with no neutral
 // midpoint. The ramp is therefore ONE HUE stepping from pale/low-chroma at SEAL-0
 // to vivid at SEAL-4, so the reader sees the order in the colour itself. The hue
 // is the active palette's `--seal-hue`, so the ramp is theme-aware: green under
 // SUSE, violet under Claymorphism and Clean Slate, blue under Modern Minimal.
 // Nothing here needs to change when a palette is added — see ui/theme.css.
-//
+
 // The arrays are indexed by SEAL, and every class is a LITERAL string on purpose:
 // Tailwind v4 extracts class names by scanning source text, so a computed
 // `text-seal-${seal}` would compile to no utility at all and silently render
@@ -56,8 +56,8 @@ export function sealInkClass(seal: Seal): string {
   return INK[step(seal)];
 }
 
-/** What a drawn share claims: a rung, a tail owed, a member of an infographic
- *  series, or none of those. */
+// What a drawn share claims: a rung, a tail owed, a member of an infographic
+// series, or none of those.
 export type ShareFill = Seal | 'open' | 'ink' | 'series';
 
 // The choice every drawn ratio makes about its fill, in one place. A tail owed takes

@@ -1,7 +1,7 @@
 // One named localStorage slot holding one zod-validated record. The whole local
 // persistence policy lives here — parse leniency is the caller's schema, writes
 // and removes are best-effort, and a corrupt or stale entry reads as null rather
-// than crashing the app (invariant #7 — offline-safe, no network). Every store in
+// than crashing the app ( — offline-safe, no network). Every store in
 // the family (the Author draft, the participant state, the facilitator state) is
 // one declaration against this module, so a policy change is a one-file edit.
 import type { z } from 'zod';

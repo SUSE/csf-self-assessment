@@ -9,7 +9,7 @@
     tone?: ChipTone;
     size?: ChipSize;
     /** A leading glyph — a state icon, a status dot. Decorative: the word beside
-     *  it is always the carrier, so callers mark it `aria-hidden`. */
+     * it is always the carrier, so callers mark it `aria-hidden`.*/
     icon?: Snippet;
   };
 </script>

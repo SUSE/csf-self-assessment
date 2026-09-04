@@ -9,10 +9,10 @@
   import { checkBlocks } from './question-blocks';
 
   // ONE Inspector view: a single consistency check, read in full. The tile draws five
-  // dials and the ratio each one holds; the words — the asserted answer, what the
+  // dials and the ratio each one holds. the words — the asserted answer, what the
   // declared model says, and the units to open — are this reading, which is what the
   // tile has instead of a maximised state.
-  //
+  
   // Derived live, so a check the estate no longer contradicts resolves away.
   type Props = {
     result: EngineResult | null;

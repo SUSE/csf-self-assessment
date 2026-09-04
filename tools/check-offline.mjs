@@ -1,21 +1,21 @@
 #!/usr/bin/env node
-// Enforces spec invariant #7 ("Offline is absolute"): every built app HTML must
+// Enforces spec ("Offline is absolute"): every built app HTML must
 // make zero network requests. Run after `pnpm build` (wired into the `build`
 // script). Exits non-zero — failing CI — if any external resource or
 // un-inlined asset creeps into a built HTML file.
-//
+
 // It checks the *mechanisms* by which a browser actually fetches on load, not
 // URL-shaped strings — bundled framework code legitimately embeds inert URLs
 // (e.g. Svelte's "svelte.dev/e/…" error-message links, a Tailwind license
 // comment) that are never requested. Scanning raw strings would false-positive
 // on every real build. The three real fetch vectors:
-//
-//   1. Resource-loading elements (<script src>, <link>, <img>, media, …) whose
-//      target is not inlined (data:) or in-document (#fragment). This doubles
-//      as the single-file guarantee: no un-inlined asset may remain.
-//   2. CSS url(…) / @import pointing at an external or protocol-relative target.
-//   3. Explicit runtime network APIs called with a literal URL.
-//
+
+// 1. Resource-loading elements (<script src>, <link>, <img>, media, …) whose
+// target is not inlined (data:) or in-document (#fragment). This doubles
+// as the single-file guarantee: no un-inlined asset may remain.
+// 2. CSS url(…) / @import pointing at an external or protocol-relative target.
+// 3. Explicit runtime network APIs called with a literal URL.
+
 // (XML namespace URIs like xmlns="http://www.w3.org/2000/svg" are attributes,
 // never fetched, and match none of the above — so inline SVG is safe.)
 
@@ -63,7 +63,7 @@ const CSS_IMPORT = /@import\s+(?:url\(\s*)?(['"])(.*?)\1/gi;
 const RUNTIME_NETWORK =
   /(?:\b(?:fetch|importScripts)\s*\(\s*['"`](?:https?:|\/\/))|(?:new\s+(?:WebSocket|EventSource)\s*\(\s*['"`])|(?:\.sendBeacon\s*\(\s*['"`])/gi;
 
-/** @returns {string[]} de-duplicated, human-readable violations for one file */
+// @returns {string[]} de-duplicated, human-readable violations for one file
 function violationsFor(html) {
   const problems = [];
 
@@ -97,7 +97,7 @@ const files = findBuiltHtml(APPS_DIR);
 
 if (files.length === 0) {
   console.error(
-    'check-offline: no built HTML found under apps/*/dist — run `pnpm build` first.',
+    'check-offline: no built HTML found under apps/* */dist — run `pnpm build` first.',
   );
   process.exit(1);
 }

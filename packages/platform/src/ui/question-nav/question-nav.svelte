@@ -14,26 +14,26 @@
   // ONE control replacing the objective dropdown + horizontal-scroll strip both
   // apps carried. A compact breadcrumb (`SOV-3 Data & AI · Q5/9`) with Prev/Next
   // that opens a full-map popover of every objective × question. Model-driven and
-  // domain-agnostic — the caller maps its own per-question status into NavGroup[]
-  // (assessment: coverage; author: authoring issues → `flag`). Owns no answer/
-  // draft state; every move is emitted through `onSelect`.
+  // domain-agnostic — the caller maps its own per-question status into NavGroup
+  // (assessment: coverage. author: authoring issues → `flag`). Owns no answer/
+  // draft state. every move is emitted through `onSelect`.
   type Props = {
     groups: NavGroup[];
     activeId: string;
     onSelect: (id: string) => void;
-    /** Assessment passes true → the `done` tick is green; author leaves it green-free. */
+    /** Assessment passes true → the `done` tick is green. author leaves it green-free.*/
     useGreen?: boolean;
-    /** Coverage summary e.g. `12/28 answered`; presence also turns on the map's
-        per-objective counts. Author omits it (no coverage). */
+    /** Coverage summary e.g. `12/28 answered`. presence also turns on the map's
+per-objective counts. Author omits it (no coverage).*/
     summary?: string;
-    /** Offer the "next unanswered" jump (assessment); author leaves it off. */
+    /** Offer the "next unanswered" jump (assessment). author leaves it off.*/
     showNextUnresolved?: boolean;
     /** Leading app-specific controls, before Prev — the author's Questions index,
-        say. Its twin at the other end is `actions`; a control that is ABOUT the
-        set of questions belongs in this group rather than among the instrument
-        section tabs, which are about the workbook's other sets. */
+say. Its twin at the other end is `actions`. a control that is ABOUT the
+set of questions belongs in this group rather than among the instrument
+section tabs, which are about the workbook's other sets.*/
     lead?: Snippet | undefined;
-    /** Trailing app-specific controls — the author's +Question, say. */
+    /** Trailing app-specific controls — the author's +Question, say.*/
     actions?: Snippet;
   };
   let {

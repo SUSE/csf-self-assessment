@@ -6,17 +6,17 @@
   // The objectives in one frame: geometry in, nothing looked up. A wedge is as
   // wide as the weight its objective carries and as long as the SEAL it stands
   // at, read against the rung rings. Absence, informational and SEAL-0 are three
-  // different marks (analytics invariant #2) — a wedge with nothing asserted is
+  // different marks (analytics) — a wedge with nothing asserted is
   // flat, never a short one.
   type Props = { arcs: ObjectiveArc[]; rungs: ObjectiveRung[] };
   let { arcs, rungs }: Props = $props();
 
-  /** Clear of the rung numbers, which ride the 12 o'clock line out to the rim. */
+  /** Clear of the rung numbers, which ride the 12 o'clock line out to the rim.*/
   const LABEL_R = labelRadius(RIM, 0) + 12;
   /** The label face is 12px here, one step down from the wheels', so a longer
-   *  name still clears the viewBox edge. */
+   * name still clears the viewBox edge.*/
   const NAME_MAX = 26;
-  /** Degrees shaved off each side of a wedge so neighbours never touch. */
+  /** Degrees shaved off each side of a wedge so neighbours never touch.*/
   const PAD_DEG = 0.8;
 
   const labels = $derived(
@@ -28,7 +28,7 @@
     ),
   );
 
-  /** A wedge from the hub out to `r`, in the wheel's clockwise-from-12 space. */
+  /** A wedge from the hub out to `r`, in the wheel's clockwise-from-12 space.*/
   function wedge(arc: ObjectiveArc, r: number): string {
     const span = (arc.endFraction - arc.startFraction) * 360;
     const pad = span > PAD_DEG * 4 ? PAD_DEG : span / 8;
@@ -40,9 +40,9 @@
     return `M ${CX} ${CY} L ${x1} ${y1} A ${r} ${r} 0 ${largeArc} 1 ${x2} ${y2} Z`;
   }
 
-  // The seal ink rides the <g> that carries `data-seal`; the wedge inherits it
+  // The seal ink rides the <g> that carries `data-seal`. the wedge inherits it
   // through `fill="currentColor"`, so no seal-coloured mark exists without its
-  // seal attribute beside it (product invariant #7).
+  // seal attribute beside it (product).
   function inkClass(arc: ObjectiveArc): string {
     return arc.standing.kind === 'asserted'
       ? sealInkClass(arc.standing.seal)
@@ -112,7 +112,7 @@
   {/each}
 
   <!-- The radial axis, drawn last so the rung numbers stay legible over a wedge.
-       They sit on the 12 o'clock line, which is a wedge boundary by construction. -->
+     They sit on the 12 o'clock line, which is a wedge boundary by construction. -->
   {#each rungs as rung (rung.seal)}
     <circle cx={CX} cy={CY - RIM * rung.radiusFraction} r="7" fill="currentColor" class="text-background" />
     <text

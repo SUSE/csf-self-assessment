@@ -3,7 +3,7 @@
 
   // The per-objective table print gets and the screen declines (report.md §2.3.1).
   // Derives nothing: every cell is read off the arc, and absence is a dash rather
-  // than a zero (analytics invariant #2).
+  // than a zero (analytics).
   type Props = { arcs: ObjectiveArc[] };
 
   let { arcs }: Props = $props();

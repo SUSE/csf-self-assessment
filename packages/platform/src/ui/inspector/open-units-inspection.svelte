@@ -9,17 +9,17 @@
   // the questions it is unanswered on. The reading is derived from the live result
   // every render, so an owner whose units have since been answered resolves to
   // nothing rather than to an empty list.
-  //
+  
   // No share bars: ranking owners against each other is the tile's reading, and at
   // 24rem of rail a count per owner is all the comparison the width carries.
   type Props = {
-    /** The reading on screen — the same triple the tile is given. */
+    /** The reading on screen — the same triple the tile is given.*/
     result: EngineResult | null;
     workbook: Workbook | null;
     parties: Party[];
-    /** The selected owner, or null for the whole chase. */
+    /** The selected owner, or null for the whole chase.*/
     group: string | null;
-    /** Open a question where this app puts it (the editor, the fill surface). */
+    /** Open a question where this app puts it (the editor, the fill surface).*/
     onOpenQuestion?: ((id: string) => void) | undefined;
   };
   let { result, workbook, parties, group, onOpenQuestion }: Props = $props();

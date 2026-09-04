@@ -1,6 +1,6 @@
 import type { Seal } from '../../schema';
 
-/** One printable question line, whatever reading selected it. */
+// One printable question line, whatever reading selected it.
 export type ReportRowModel = {
   key: string;
   question: string;

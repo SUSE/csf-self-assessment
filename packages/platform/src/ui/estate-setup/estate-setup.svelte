@@ -5,10 +5,10 @@
   import { Input, Select, TextField } from '../forms';
   import { Well } from '../panel';
 
-  // Facilitator setup (delivery §4.1): name the estate (the one required field)
+  // Facilitator setup: name the estate (the one required field)
   // and seed the providers known beforehand — name, party TYPE (from the
   // workbook's authored taxonomy), and the dimensions each serves. No dimension /
-  // critical / question decisions are offered (those are authored, ADR-0005). This
+  // critical / question decisions are offered (those are authored, ). This
   // is a CONTROLLED surface: the app owns the working estate + parties (so the
   // facilitator's Parties section reflects the same seeded providers live), stamps
   // id/createdAt on export, and writes the workbook-assessment file. Seeded

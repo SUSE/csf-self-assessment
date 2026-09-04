@@ -14,11 +14,11 @@
   // as <role> · asked once for the whole assessment" strip (ui/question-header).
   // Same facts, same place on the card, made editable — the flip changes the
   // affordances, not the layout.
-  //
+  
   // It renders in BOTH faces (inside the editor Panel while authoring, on the
   // canvas above the real participant card while previewing), which is why it is a
   // component rather than markup in the editor: one strip, wired twice.
-  //
+  
   // Four concerns in three labelled groups, parted by two hairlines: identity (the
   // id), structure (grain, and the axis that only party grain has), attribution
   // (who answers it, and whether it scores). Before this they were an
@@ -27,9 +27,9 @@
   type Props = {
     draft: Workbook;
     question: Question;
-    /** The card is currently showing the participant's fill face. */
+    /** The card is currently showing the participant's fill face.*/
     previewing: boolean;
-    /** The question parses on its own, so the flip can render real fill components. */
+    /** The question parses on its own, so the flip can render real fill components.*/
     previewable: boolean;
     onFlip: () => void;
     onDraft: (next: Workbook) => void;
@@ -58,8 +58,8 @@
 
   <span class={CAPTION}>grain</span>
   <!-- Fully controlled via the function binding ui/toggle-group documents: the
-       getter stays the source of truth, and the empty string bits-ui emits when
-       the lit item is re-pressed is dropped, so a grain is never unset. -->
+     getter stays the source of truth, and the empty string bits-ui emits when
+     the lit item is re-pressed is dropped, so a grain is never unset. -->
   <ToggleGroup.Root
     aria-label="Grain"
     data-rule="grain"

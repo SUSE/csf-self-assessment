@@ -16,7 +16,7 @@
   // One axis of the instrument wheel: its faint full-length track, the mark that
   // reads the chip (a length-scaled count bar, a fixed party branch, or a dashed
   // gap stub), and the label outside the rim. Internal to instrument-wheel.
-  //
+  
   // The slice is INSPECTOR-AWARE: wherever an app runs an inspection session the
   // whole slice is a button that reports its chip to the rail (the stage stays on
   // the overview), and the axis inks itself while the rail reads it. In an app with
@@ -28,7 +28,7 @@
     deg: number;
     label: PlacedLabel;
     maxCount: number;
-    /** The chip's seal reading (facilitator only), or null when structural. */
+    /** The chip's seal reading (facilitator only), or null when structural.*/
     seal: ChipSeal | null;
   };
   let { chip, deg, label, maxCount, seal }: Props = $props();
@@ -76,11 +76,11 @@
   {/if}
 
   <!-- Faint full-length track so an empty spoke still shows its axis, and where
-       "the rail is reading THIS spoke" shows (heavier, foreground-inked). An empty
-       spoke keeps its alarm hue even while selected: the 12px dashed stub alone
-       read as a short spoke rather than a finding, and the finding outranks the
-       selection. One colour utility per element, never a base class a later
-       utility is expected to beat. -->
+     "the rail is reading THIS spoke" shows (heavier, foreground-inked). An empty
+     spoke keeps its alarm hue even while selected: the 12px dashed stub alone
+     read as a short spoke rather than a finding, and the finding outranks the
+     selection. One colour utility per element, never a base class a later
+     utility is expected to beat. -->
   <line
     x1={hubPt[0]}
     y1={hubPt[1]}
@@ -100,8 +100,8 @@
   {/if}
 
   <!-- Strata are read off the label's `◇N` suffix, not drawn on the spoke: a
-       stratum is a count with no radial position, so glyphs spaced along the axis
-       implied a magnitude the data does not carry. The seal reading rides the
-       label for the same reason. -->
+     stratum is a count with no radial position, so glyphs spaced along the axis
+     implied a magnitude the data does not carry. The seal reading rides the
+     label for the same reason. -->
   <SpokeLabel {chip} {label} {seal} />
 </g>

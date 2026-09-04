@@ -3,18 +3,16 @@ import { answerFor, assessmentOf, AUTHOR_QA_PROVENANCE } from '../assessment';
 import { evaluate } from '../score-engine';
 import type { EngineResult, OverallResult, UnitCoverage } from '../score-engine';
 
-// Test estates, evaluated live (spec §4.3c, audit F-1/D6): expand each
+// Test estates, evaluated live: expand each
 // estate's sparse per-question answers into real Answer rows over the whole
 // workbook (every dimension in scope) and its own parties, run the REAL engine,
 // surface floor + score. One uniformity claim per question (placement 'group') —
 // a test estate has no reason to peel exceptions. A question with no entry
 // expands to nothing: in the score's denominator, never the floor.
-/**
- * One test estate run through the real engine — the whole input the Author QA
- * surfaces take (analytics §3.4). It carries the ASSESSMENT rather than a
- * separate roster: the Report needs the assessment (ADR-0019) and `parties` is
- * read off it, so the two can never drift.
- */
+// One test estate run through the real engine — the whole input the Author QA
+// surfaces take (analytics §3.4). It carries the ASSESSMENT rather than a
+// separate roster: the Report needs the assessment and `parties` is
+// read off it, so the two can never drift.
 export type TestEstateEvaluation = {
   estateId: string;
   name: string;
@@ -22,10 +20,8 @@ export type TestEstateEvaluation = {
   result: EngineResult;
 };
 
-/**
- * The Author HUD's per-estate readout. Coverage is unit-grain: the per-question
- * `overall.answered/total` reaches no view (analytics invariant #8).
- */
+// The Author HUD's per-estate readout. Coverage is unit-grain: the per-question
+// `overall.answered/total` reaches no view.
 export type TestEstateReading = {
   estateId: string;
   name: string;
@@ -86,9 +82,9 @@ export function testEstateReadings(workbook: Workbook): TestEstateReading[] {
   });
 }
 
-// The announcement's data (spec §4.3c: "a change that flips a profile's
-// floor announces itself"): estates present in BOTH lists whose floor
-// changed. Added/removed estates are not flips.
+// The announcement's data ("a change that flips a profile's floor announces
+// itself"): estates present in BOTH lists whose floor changed. Added/removed
+// estates are not flips.
 export function estateFloorFlips(
   prev: TestEstateReading[],
   next: TestEstateReading[],

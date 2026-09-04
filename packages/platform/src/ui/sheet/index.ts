@@ -18,7 +18,7 @@ export {
   Content,
   Header,
   Title,
-  //
+
   Root as Sheet,
   Trigger as SheetTrigger,
   Portal as SheetPortal,

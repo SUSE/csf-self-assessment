@@ -5,11 +5,11 @@ import type { RuleSection } from './content';
 // hand it out, and then decide what lands. So the cards that matter are about
 // CONSEQUENCE (what a seeding choice does to the reading, what a resolution
 // commits) rather than about how a rung should be worded.
-//
-// Sourced from the authoring rulebook §3.7, §4.1–4.2 and §6, the delivery spec,
+
+// Sourced from the authoring rulebook §3.7, §4.1–4.2 and §6, the spec,
 // and the merge spec's non-negotiable invariants.
-//
-// STARTER SET. It covers the sections where the facilitator ACTS; the inspection
+
+// STARTER SET. It covers the sections where the facilitator ACTS. the inspection
 // sections they only read (front sheet, objectives, roles) have no card yet and
 // correctly grey out in help mode until one is written.
 

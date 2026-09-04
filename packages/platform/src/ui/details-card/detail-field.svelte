@@ -7,7 +7,7 @@
   // "you can't edit this" language as a disabled input, so a read-only field is
   // visibly distinct from an adjacent editable one. Editable when given a
   // `control` snippet (e.g. an <input>) — then the field is a <label> so its
-  // caption focuses the control. `mono` uses the monospace face for codes/ids;
+  // caption focuses the control. `mono` uses the monospace face for codes/ids.
   // `grow` lets the field fill the remaining row width (titles, names).
   let {
     label,

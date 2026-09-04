@@ -2,35 +2,35 @@ import type { Seal, Workbook } from '../schema';
 import { gates, type EngineResult, type HeatFact } from '../score-engine';
 
 export type ExposureRank = {
-  /** The party id; the mark key is `party:<key>`. */
+  // The party id; the mark key is `party:<key>`.
   key: string;
   name: string;
-  /** The authored party-TYPE display name (ADR-0004), never the type id. */
+  // The authored party-TYPE display name, never the type id.
   typeName: string;
   criticalServed: number;
-  /** 0..1 — bar length. 0 renders no bar at all: absence is not a zero (#2). */
+  // 0..1 — bar length. 0 renders no bar at all: absence is not a zero (#2).
   barFraction: number;
-  /** `6 of 6 critical dimensions` / `1 of 1 critical dimension`. */
+  // `6 of 6 critical dimensions` / `1 of 1 critical dimension`.
   reach: string;
-  /** `SEAL-0` | `not yet answered`. */
+  // `SEAL-0` | `not yet answered`.
   standing: string;
-  /** The engine's worst material party-axis answer; null = serves, nothing asserted. */
+  // The engine's worst material party-axis answer; null = serves, nothing asserted.
   worstSeal: Seal | null;
-  /** Declared served dimensions, display names in workbook order. */
+  // Declared served dimensions, display names in workbook order.
   served: string[];
 };
 
-/** The two node kinds of the bipartite map differ in what they can carry, so they
- *  are two types rather than one with nullable halves (decision 7). Coordinates are
- *  in the model's own user space. */
+// The two node kinds of the bipartite map differ in what they can carry, so they
+// are two types rather than one with nullable halves (decision 7). Coordinates are
+// in the model's own user space.
 export type ExposurePartyNode = {
   key: string;
-  /** Elided to the gutter's width; `title` is the whole name. */
+  // Elided to the gutter's width; `title` is the whole name.
   label: string;
   title: string;
   x: number;
   y: number;
-  /** The party's worst seal, so the component never looks a rank up to colour a node. */
+  // The party's worst seal, so the component never looks a rank up to colour a node.
   seal: Seal | null;
 };
 
@@ -44,44 +44,44 @@ export type ExposureDimensionNode = {
 };
 
 export type ExposureLink = {
-  /** `<partyId>|<dimensionId>`. */
+  // `<partyId>|<dimensionId>`.
   key: string;
   party: string;
   x1: number;
   y1: number;
   x2: number;
   y2: number;
-  /** null = the party serves the dimension but has asserted nothing yet. */
+  // null = the party serves the dimension but has asserted nothing yet.
   seal: Seal | null;
 };
 
 export type ExposureMapView = {
   width: number;
   height: number;
-  /** Rank order. */
+  // Rank order.
   parties: ExposurePartyNode[];
-  /** Workbook order. */
+  // Workbook order.
   dimensions: ExposureDimensionNode[];
-  /** Engine order (`result.exposure`). */
+  // Engine order (`result.exposure`).
   links: ExposureLink[];
 };
 
 export type ExposureDetailRow = {
-  /** `<questionId>|<partyId>`. */
+  // `<questionId>|<partyId>`.
   key: string;
   questionId: string;
   questionText: string;
-  /** `SEAL-0 · Legal` / `don't-know · Legal` / `n/a · Security`. */
+  // `SEAL-0 · Legal` / `don't-know · Legal` / `n/a · Security`.
   meta: string;
-  /** null for a don't-know or an n/a — never rendered as SEAL-0. */
+  // null for a don't-know or an n/a — never rendered as SEAL-0.
   seal: Seal | null;
   evidence: boolean;
 };
 
 export type ExposureDetail = {
-  /** `Acme Cloud Europe SAS · Service provider`. */
+  // `Acme Cloud Europe SAS · Service provider`.
   title: string;
-  /** `SEAL-0 · 6 answers about this party · 1 don't-know`. */
+  // `SEAL-0 · 6 answers about this party · 1 don't-know`.
   summary: string;
   rows: ExposureDetailRow[];
 };
@@ -89,7 +89,7 @@ export type ExposureDetail = {
 export type ExposureTile =
   | {
       kind: 'ranked';
-      /** `Acme Cloud EU stands under 6 of 6 critical dimensions.` */
+      // `Acme Cloud EU stands under 6 of 6 critical dimensions.`
       headline: string;
       criticalTotal: number;
       ranks: ExposureRank[];
@@ -98,10 +98,10 @@ export type ExposureTile =
     }
   | { kind: 'empty'; reason: string };
 
-/** The map's user space. Both columns are vertically centred in `height`, and the
- *  gutter outside each column is the label's — 86 units holds `labelChars` at the
- *  6-unit type the component draws, which is why a longer name is elided here
- *  rather than spilling off the drawing. */
+// The map's user space. Both columns are vertically centred in `height`, and the
+// gutter outside each column is the label's — 86 units holds `labelChars` at the
+// 6-unit type the component draws, which is why a longer name is elided here
+// rather than spilling off the drawing.
 export const EXPOSURE_MAP = {
   width: 360,
   pad: 8,
@@ -120,7 +120,7 @@ function elide(text: string): string {
 const CAPTION =
   'Rank is critical dimensions served — what the roster declares, not what anyone answered. The seal beside a party is the minimum over its own party answers, so a wide row at a low seal is the blast radius.';
 
-/** `party:<id>` — the opaque selected-mark key the dashboard holds. */
+// `party:<id>` — the opaque selected-mark key the dashboard holds.
 export function exposureMarkKey(partyId: string): string {
   return `party:${partyId}`;
 }
@@ -242,7 +242,7 @@ export function exposureTile(result: EngineResult, workbook: Workbook): Exposure
   };
 }
 
-/** Null when the key names no ranked party. */
+// Null when the key names no ranked party.
 export function exposureDetail(
   view: ExposureTile,
   markKey: string,

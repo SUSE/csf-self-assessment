@@ -26,7 +26,7 @@
   // alone. Clicking a spoke inspects it — the spokes are inspector-aware themselves
   // (ui/inspector's session), so nothing between here and the shell forwards a
   // handler for it, and a reading row inspects itself the same way.
-  //
+  
   // LAYOUT: figure and ledger are one wrapping flex row, sized by `basis` + `grow`
   // rather than by breakpoints. They sit side by side whenever the two natural
   // widths fit, and the ledger drops under the figure when they don't — so the
@@ -37,10 +37,10 @@
     workbook: Workbook;
     /** A loaded assessment's answers (facilitator only). When non-empty the wheel
      * layers a per-spoke SEAL marker — the lowest selected seal on that axis — over
-     * the structural bars. The Author app passes nothing and stays structural. */
+     * the structural bars. The Author app passes nothing and stays structural.*/
     answers?: Answer[];
     /** Concrete declared parties, needed to roll party-axis answers up to their
-     * party TYPE (the arc the wheel draws). Only read when `answers` is non-empty. */
+     * party TYPE (the arc the wheel draws). Only read when `answers` is non-empty.*/
     parties?: Party[];
   };
   let { workbook, answers = [], parties = [] }: Props = $props();
@@ -95,16 +95,16 @@
      this pair is sized to fill. -->
 <div class="flex flex-wrap items-start gap-x-10 gap-y-8">
   <!-- The figure: grows into the space it is given, and stops at the width its 13px
-       labels are drawn for (past 48rem the type scales up with the viewBox and the
-       plot reads as a poster).
-       The 34rem basis is what decides the reflow, and it is chosen for the FIGURE's
-       sake: an SVG scales its type with its width, so a wheel squeezed into a
-       shared line renders those labels at 9px. Asking for 34rem means the pair
-       breaks to two lines before that happens, and a wheel alone on its line gets
-       the full 48rem. -->
+     labels are drawn for (past 48rem the type scales up with the viewBox and the
+     plot reads as a poster).
+     The 34rem basis is what decides the reflow, and it is chosen for the FIGURE's
+     sake: an SVG scales its type with its width, so a wheel squeezed into a
+     shared line renders those labels at 9px. Asking for 34rem means the pair
+     breaks to two lines before that happens, and a wheel alone on its line gets
+     the full 48rem. -->
   <div class="flex min-w-0 max-w-3xl grow basis-[34rem] flex-col gap-3">
     <!-- Below 30rem there is no arrangement left that keeps the labels legible, so
-         the figure stops shrinking and scrolls instead of dissolving. -->
+     the figure stops shrinking and scrolls instead of dissolving. -->
     <div class="overflow-x-auto">
       <svg
         viewBox={`0 0 ${WHEEL_VIEWBOX.width} ${FIGURE_HEIGHT}`}
@@ -151,8 +151,8 @@
   </div>
 
   <!-- The readings: a column the eye runs down, capped at the measure its rows
-       read at — beyond ~30rem a row's count and its qualifier drift to opposite
-       ends of a band too wide to read as one pair. -->
+     read at — beyond ~30rem a row's count and its qualifier drift to opposite
+     ends of a band too wide to read as one pair. -->
   <ReadingsLedger
     {readings}
     class="min-w-0 max-w-[30rem] grow basis-[20rem]"

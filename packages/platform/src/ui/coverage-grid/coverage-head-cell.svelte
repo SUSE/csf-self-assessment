@@ -5,7 +5,7 @@
   // is the finding this grid exists to show and the fix is on the Dimensions page.
   type Props = {
     column: CoverageColumn;
-    /** Open the Dimensions page with this row flashed. */
+    /** Open the Dimensions page with this row flashed.*/
     onOpen: (dimensionId: string) => void;
   };
   let { column, onOpen }: Props = $props();
@@ -18,8 +18,8 @@
     : 'text-muted-foreground'}"
 >
   <!-- The id, not a four-character slice of the name: the ids ARE the short
-       labels, and a truncated name ('Comp', 'Netw') reads as damage. The full
-       name and the state ride the tooltip. -->
+     labels, and a truncated name ('Comp', 'Netw') reads as damage. The full
+     name and the state ride the tooltip. -->
   <button
     type="button"
     class="block max-w-32 truncate rounded-sm px-0.5 font-mono hover:bg-well hover:text-foreground focus-visible:bg-well focus-visible:outline-none"

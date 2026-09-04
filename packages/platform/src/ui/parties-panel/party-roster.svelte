@@ -12,7 +12,7 @@
     workbook: Workbook;
     parties: Party[];
     onEdit?: (() => void) | undefined;
-    /** Names the page the action opens. */
+    /** Names the page the action opens.*/
     editLabel?: string;
   };
   let { workbook, parties, onEdit, editLabel = 'Edit' }: Props = $props();

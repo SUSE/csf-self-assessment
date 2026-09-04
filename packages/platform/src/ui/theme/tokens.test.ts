@@ -15,12 +15,12 @@ import {
 // an `rgb()`, or a Tailwind palette utility like `text-amber-700` is frozen at one
 // colour and silently ignores the selected palette. That is invisible in the
 // default palette, which is exactly why it needs a test rather than review.
-//
+
 // This is a whole-source scan, not a per-component assertion, because the
 // invariant is repo-wide: the analytics tiles and the hand-drawn SVG views (the
 // wheels, the exposure map, the heat grids) are the places it matters most, and
 // they are also the places where a one-off colour is most tempting.
-//
+
 // The walker itself lives in `source-scan.ts`. This file is the table: one
 // entry per banned thing, each naming the fix a developer should reach for.
 
@@ -79,9 +79,9 @@ const BANNED: readonly ScanEntry[] = [
     kind: 'line',
     what: 'an arbitrary type size',
     // Every register the interface uses has a token (DESIGN.md Hierarchy,
-    // spec §2.5). A bracket size is frozen outside the scale and invisible to
+    // ). A bracket size is frozen outside the scale and invisible to
     // a reader auditing the ramp. Sizes only — `border-[…]`, `rounded-[…]`,
-    // `max-w-[…]` and `in-data-[…]` are out of scope (spec §8).
+    // `max-w-[…]` and `in-data-[…]` are out of scope.
     pattern: /\btext-\[[^\]]+\]/,
     exempt: null,
     instead:
@@ -93,7 +93,7 @@ const BANNED: readonly ScanEntry[] = [
     what: 'text set in the amber fill token',
     // `--warning` is a FILL: at L 0.76 it measures 1.95:1 on a light well, so
     // amber text set in it is unreadable in light mode at any size. The ink case
-    // shipped and was never adopted. Spec docs/specs/quality.md §2.6, invariant 8.
+    // shipped and was never adopted. Spec docs/specs/quality.md §2.6,.
     // The lookahead is load-bearing: `text-warning-ink` and
     // `text-warning-foreground` are both correct and both start with this prefix.
     pattern: /\btext-warning(?!-)/,
@@ -109,7 +109,7 @@ const BANNED: readonly ScanEntry[] = [
     instead:
       'decompose it by responsibility into named modules the barrel re-exports — a file needing "and" to describe holds more than one job (spec §6 invariant 6)',
     // Source only: a characterization suite is a table of locked numbers and
-    // splitting a table hides the oracle (spec §7, rule 11 divergence).
+    // splitting a table hides the oracle.
     scope: { kind: 'paths-except', match: /\.(svelte|ts)$/, except: /\.test\.ts$/ },
   },
 ];
@@ -137,7 +137,7 @@ describe('theme fidelity', () => {
   it('every imported palette derives its own attention amber', () => {
     // The amber marks "a decision is owed here" (the placement tray, the evidence
     // nudge, the answer hatch, the what's-left field). It used to be declared once
-    // at :root and inherited, which meant switching palette moved every colour on
+    // at:root and inherited, which meant switching palette moved every colour on
     // screen EXCEPT the one the reader is being asked to act on — SUSE's amber sat
     // on Supabase's greys. Each imported block now derives L and C from its own
     // --primary at the fixed amber hue, and the failure mode is silent: a
@@ -176,7 +176,7 @@ describe('theme fidelity', () => {
     const offending: string[] = [];
     for (const file of files) {
       file.text.split('\n').forEach((line, i) => {
-        if (!line.includes('text-primary') || line.trimStart().startsWith('//') || line.includes('<!--')) return;
+        if (!line.includes('text-primary') || line.trimStart().startsWith('// ') || line.includes('<!--')) return;
         if (/(?:link:|underline|Complete|positive:|<span[^>]+text-primary)/i.test(line)) {
           offending.push(`${file.path}:${i + 1}: ${line.trim()}`);
         }

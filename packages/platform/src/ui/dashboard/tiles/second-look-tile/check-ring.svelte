@@ -10,7 +10,7 @@
     whole,
   }: {
     part: number;
-    /** Zero draws the empty track — the check read nothing to be a share of. */
+    /** Zero draws the empty track — the check read nothing to be a share of.*/
     whole: number;
   } = $props();
 

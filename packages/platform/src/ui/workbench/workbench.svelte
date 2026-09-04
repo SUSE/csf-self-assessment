@@ -32,8 +32,8 @@
     type FocusRef,
   } from './focus';
 
-  // The Author's workbench (spec §4.3c): a single-focus STAGE driven by a
-  // sticky StageHeader. The header navigates; this component routes the active
+  // The Author's workbench: a single-focus STAGE driven by a
+  // sticky StageHeader. The header navigates. this component routes the active
   // focus to ONE editor at a time — the same editors as before, shown one by
   // one instead of stacked into a 39k-px wall. It still holds NO edit logic and
   // NO validation: pure ops build the next draft (design rule 1), strict issues
@@ -46,24 +46,24 @@
     onFocus: (focus: FocusRef) => void;
     onDraft: (next: Workbook) => void;
     /** The dead-ad gauge for the overview. `null` while the draft has strict
-     *  issues, because the readout runs the real engine (the `estatesLive`
-     *  precedent in the app shell). */
+     * issues, because the readout runs the real engine (the `estatesLive`
+     * precedent in the app shell).*/
     recommendationReadout: RecommendationReadout | null;
     /** The overview's live test-estate readings — the real engine, so `null`
-     *  while the draft has strict issues. */
+     * while the draft has strict issues.*/
     estateReadings: TestEstateReading[] | null;
     /** Floor changes between the last two valid evaluations. The baseline is the
-     *  app shell's to hold, so the comparison arrives ready. */
+     * app shell's to hold, so the comparison arrives ready.*/
     estateFlips: EstateFloorFlip[];
-    /** The app's stage destinations, closing the stage header's icon row. */
+    /** The app's stage destinations, closing the stage header's icon row.*/
     destinations?: Snippet | undefined;
     /** A stage to show INSTEAD of the focused editor, keyed by `stageId`. The
-     *  header stays put and keeps navigating, so the app's other surfaces are
-     *  destinations within the workbench rather than a screen that replaces it. */
+     * header stays put and keeps navigating, so the app's other surfaces are
+     * destinations within the workbench rather than a screen that replaces it.*/
     stage?: Snippet | undefined;
     stageId?: string | undefined;
     /** The destination ids in the order their icons appear, so the carousel knows
-     *  which way to slide between a destination and the workbench. */
+     * which way to slide between a destination and the workbench.*/
     stageIds?: string[];
   };
   let {
@@ -84,9 +84,9 @@
   // Help mode: mark the governed controls across every workbench section
   // (dimensions, objectives, estates and the question editor) and follow the
   // cursor, so hovering a marked field brings its rule up in the floating panel.
-  // One delegated listener on the stage root; `data-rule` markers on controls name
+  // One delegated listener on the stage root. `data-rule` markers on controls name
   // the card that governs them.
-  //
+  
   // The session comes from context (ui/rulebook), not from props: the same mode is
   // read by a toggle in the stage header and a panel outside the shell's content
   // row, and this component sits between them without being either. `follow`
@@ -135,7 +135,7 @@
     return () => clearTimeout(timer);
   });
 
-  // --- carousel motion (the same slideshow as the participant fill surface) --
+  // -- carousel motion (the same slideshow as the participant fill surface) -
   // The axis is the stage header's icon row, LEFT TO RIGHT: a destination further
   // right enters from the right, one further left enters from the left. So it runs
   // through the instrument sections in SectionNav order (Recommendations among

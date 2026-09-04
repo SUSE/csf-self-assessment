@@ -1,4 +1,4 @@
-// The FACILITATOR persona (delivery.md §4): the author's workbook imported, then
+// The FACILITATOR persona: the author's workbook imported, then
 // walked left to right — inspect, seed, export the workbook-assessment, land the
 // returned partials, read the estate. The MERGE is a member rather than a peer
 // because every inspect page resolves THROUGH it (see the readings below).
@@ -22,8 +22,8 @@ import type { InspectorSession } from '@csf/platform/ui/inspector';
 import { nowInstant } from '../clock';
 import { Merge } from './merge.svelte';
 
-/** What the facilitator is showing INSTEAD of the section (report.md §4.1). One
- *  field rather than a flag per destination, so two can never be open at once. */
+// What the facilitator is showing INSTEAD of the section (report.md §4.1). One
+// field rather than a flag per destination, so two can never be open at once.
 export type FacilitatorOverlay = { kind: 'recommendations' };
 
 export class Facilitator {
@@ -33,27 +33,27 @@ export class Facilitator {
 
   workbook = $state<Workbook | null>(null);
   estate = $state('');
-  /** EstateSetup is controlled, so the Parties section reflects this same list. */
+  // EstateSetup is controlled, so the Parties section reflects this same list.
   parties = $state<Party[]>([]);
-  /** Adopted when a partial/finalized was imported directly; empty otherwise. */
+  // Adopted when a partial/finalized was imported directly; empty otherwise.
   answers = $state<Answer[]>([]);
-  /** An imported FINALIZED's ledger. A live merge owns its own. */
+  // An imported FINALIZED's ledger. A live merge owns its own.
   ledger = $state<Landing[]>([]);
   workbookAssessmentId = $state<string | null>(null);
 
   section = $state<FacilitatorSection>('overview');
   maximisedTile = $state<TileId | null>(null);
-  /** The destination shown in place of the section, or null for the section. */
+  // The destination shown in place of the section, or null for the section.
   overlay = $state<FacilitatorOverlay | null>(null);
-  /** A live PRINT request: the instant the shell stamped when Report was pressed,
-   *  or null when none is in flight. Never a view, so never persisted. */
+  // A live PRINT request: the instant the shell stamped when Report was pressed,
+  // or null when none is in flight. Never a view, so never persisted.
   reportGeneratedAt = $state<string | null>(null);
 
-  /** This persona is the one rendered — the loaded ARTIFACT decides, there is no
-   *  role switch (delivery §4 UX). */
+  // This persona is the one rendered — the loaded ARTIFACT decides, there is no
+  // role switch.
   active = $derived(this.workbook !== null);
 
-  /** Once the merge anchor exists Setup is behind us, so its tab drops out. */
+  // Once the merge anchor exists Setup is behind us, so its tab drops out.
   sections = $derived<FacilitatorSection[]>(
     this.merge.workbookAssessment !== null
       ? FACILITATOR_SECTIONS.filter((s) => s !== 'setup')
@@ -73,8 +73,8 @@ export class Facilitator {
   );
   inspectLedger = $derived<Landing[]>(this.merge.landed ? this.merge.ledger : this.ledger);
 
-  /** The dashboard's input: the live merge's estate of record, else a directly
-   *  imported finalized, else nothing has landed yet. */
+  // The dashboard's input: the live merge's estate of record, else a directly
+  // imported finalized, else nothing has landed yet.
   estateAssessment = $derived<Assessment | null>(
     this.merge.finalized ??
       (this.workbook && this.workbookAssessmentId !== null && this.answers.length > 0
@@ -104,7 +104,7 @@ export class Facilitator {
       if (isTileId(restored.maximised)) this.maximisedTile = restored.maximised;
     }
     if (isFacilitatorSection(section)) this.section = section;
-    // Mirror on every change (invariant #7). Nothing imported → cleared, which is
+    // Mirror on every change. Nothing imported → cleared, which is
     // also how an import overrides what a previous one stored.
     $effect(() => {
       if (this.workbook) {
@@ -126,8 +126,8 @@ export class Facilitator {
     });
   }
 
-  /** Leave the persona entirely — exactly one context is ever live. The store
-   *  $effect clears the stored copy for free. */
+  // Leave the persona entirely — exactly one context is ever live. The store
+  // $effect clears the stored copy for free.
   clear(): void {
     this.workbook = null;
     this.estate = '';
@@ -142,15 +142,15 @@ export class Facilitator {
     this.merge.reset();
   }
 
-  /** Import a bare workbook: seed the default roster and start the walk. */
+  // Import a bare workbook: seed the default roster and start the walk.
   enter(workbook: Workbook): void {
     this.clear();
     this.workbook = workbook;
     this.parties = defaultParties(workbook);
   }
 
-  /** The estate of RECORD, read-only: its embedded workbook, roster, answers and
-   *  ledger become the inspect context. Never starts a merge. */
+  // The estate of RECORD, read-only: its embedded workbook, roster, answers and
+  // ledger become the inspect context. Never starts a merge.
   enterFinalized(assessment: Assessment): void {
     this.clear();
     this.workbook = assessment.workbook;
@@ -162,8 +162,8 @@ export class Facilitator {
     this.section = 'questions';
   }
 
-  /** Moving section drops the selection: each page inspects its own things, so a
-   *  carried subject would strand in the rail with no control to match it. */
+  // Moving section drops the selection: each page inspects its own things, so a
+  // carried subject would strand in the rail with no control to match it.
   goToSection(section: FacilitatorSection): void {
     this.section = section;
     this.overlay = null;
@@ -171,23 +171,23 @@ export class Facilitator {
     if (section === 'merge') this.merge.history = null;
   }
 
-  /** The vendor page. Idempotent, like the merge ledger's: pressing it while it is
-   *  open keeps showing it, and Dashboard beside it is the way back. */
+  // The vendor page. Idempotent, like the merge ledger's: pressing it while it is
+  // open keeps showing it, and Dashboard beside it is the way back.
   openRecommendations(): void {
     this.overlay = { kind: 'recommendations' };
   }
 
-  /** Print the Report over the estate of record — a request, not a view: the
-   *  facilitator stays on the section they were reading. `at` is `nowInstant()`,
-   *  stamped by the caller, since this class never reads the clock. */
+  // Print the Report over the estate of record — a request, not a view: the
+  // facilitator stays on the section they were reading. `at` is `nowInstant()`,
+  // stamped by the caller, since this class never reads the clock.
   printReport(at: string): void {
     this.reportGeneratedAt = at;
   }
 
-  /** The landing ledger, from wherever it was pressed. It renders inside the Merge
-   *  section, so opening it MOVES there — that is the destination, not a detour.
-   *  Idempotent: pressing it while open keeps showing it, and Merge is the way
-   *  back to the review. Not `goToSection('merge')`, which clears the history. */
+  // The landing ledger, from wherever it was pressed. It renders inside the Merge
+  // section, so opening it MOVES there — that is the destination, not a detour.
+  // Idempotent: pressing it while open keeps showing it, and Merge is the way
+  // back to the review. Not `goToSection('merge')`, which clears the history.
   openHistory(): void {
     this.section = 'merge';
     this.overlay = null;
@@ -195,14 +195,14 @@ export class Facilitator {
     if (this.merge.history === null) this.merge.history = NO_HISTORY_VIEW;
   }
 
-  /** Show one question in the rail, wherever it was named from. */
+  // Show one question in the rail, wherever it was named from.
   inspectQuestion(questionId: string): void {
     this.#inspector.show({ kind: 'question', questionId, target: null });
     this.overlay = null;
     this.section = 'questions';
   }
 
-  /** The clock is stamped here — the pure core never reads it (invariant #3). */
+  // The clock is stamped here — the pure core never reads it.
   async exportWorkbookAssessment(estate: string, seeded: Party[]): Promise<void> {
     const workbook = this.workbook;
     if (!workbook) return;

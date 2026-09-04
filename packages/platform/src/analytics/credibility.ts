@@ -17,43 +17,43 @@ export type SweptReading =
       kind: 'measured';
       swept: number;
       answered: number;
-      /** `10.7%` — one decimal. */
+      // `10.7%` — one decimal.
       percent: string;
-      /** `9 of 84 answers were placed by a group gesture — 10.7%.` */
+      // `9 of 84 answers were placed by a group gesture — 10.7%.`
       line: string;
     }
   | { kind: 'none'; reason: string };
 
-/** One contributor's share of the file as it stands. The whole roster is here,
- *  ranked — a reading that must fit in a fixed height folds its own tail, which
- *  is a decision about the space it got, not about the estate. */
+// One contributor's share of the file as it stands. The whole roster is here,
+// ranked — a reading that must fit in a fixed height folds its own tail, which
+// is a decision about the space it got, not about the estate.
 export type ContributorShare = {
-  /** The identity the ledger recorded: a participant, or `facilitator`. */
+  // The identity the ledger recorded: a participant, or `facilitator`.
   name: string;
   units: number;
-  /** Share of the standing units, 0–1. */
+  // Share of the standing units, 0–1.
   fraction: number;
 };
 
 export type LedgerReading =
   | {
       kind: 'landed';
-      /** Who placed the answers that stand, most first. */
+      // Who placed the answers that stand, most first.
       contributors: ContributorShare[];
-      /** Units the ledger covers that still hold an answer — what the shares
-       *  above are shares OF. Below `units` wherever a decision emptied one. */
+      // Units the ledger covers that still hold an answer — what the shares
+      // above are shares OF. Below `units` wherever a decision emptied one.
       standing: number;
       records: number;
       units: number;
       disputed: number;
-      /** `2 contributors placed the 90 answers that stand.` */
+      // `2 contributors placed the 90 answers that stand.`
       line: string;
-      /** `34 of 149 records were disputed on landing.` */
+      // `34 of 149 records were disputed on landing.`
       disputedLine: string;
-      /** `The ledger covers 94 answer units.` */
+      // `The ledger covers 94 answer units.`
       coverage: string;
-      /** `disputedSentences()`, ledger order — the Report prints these; the tile
-       *  reports the count and leaves the records to Merge → History. */
+      // `disputedSentences()`, ledger order — the Report prints these; the tile
+      // reports the count and leaves the records to Merge → History.
       disputes: string[];
     }
   | { kind: 'unlanded'; reason: string };
@@ -75,35 +75,35 @@ const plural = (n: number, noun: string): string => `${n} ${noun}${n === 1 ? '' 
 const NOTHING_LANDED =
   'One contributor, nothing merged — no partial has landed, so there is no ledger to read.';
 
-/** One unit a contributor placed, as the rail reads it. Unit grain, because that
- *  is the grain the arc counted — a question with three targets that one person
- *  answered twice contributes two. */
+// One unit a contributor placed, as the rail reads it. Unit grain, because that
+// is the grain the arc counted — a question with three targets that one person
+// answered twice contributes two.
 export type ContributorUnit = {
-  /** `<questionId>|<targetKey(target)>`. */
+  // `<questionId>|<targetKey(target)>`.
   key: string;
   questionId: string;
   questionText: string;
-  /** What the unit is asked about, in words. */
+  // What the unit is asked about, in words.
   label: string;
-  /** The answer that stands, as the rail marks it. */
+  // The answer that stands, as the rail marks it.
   state: AnswerSnapshot['state'];
   seal: Seal | null;
   evidence: boolean;
-  /** The same answer in words: `SEAL 2`, `don't know`, `n/a`. */
+  // The same answer in words: `SEAL 2`, `don't know`, `n/a`.
   answer: string;
-  /** How it settled: `sole source`, `agreed`, `resolved a clash`. */
+  // How it settled: `sole source`, `agreed`, `resolved a clash`.
   settled: string;
 };
 
-/** One contributor's slice, opened: every unit whose standing answer is theirs.
- *  Derived from the live ledger, so a contributor the ledger no longer names —
- *  a re-landing that superseded all of their answers — resolves to nothing. */
+// One contributor's slice, opened: every unit whose standing answer is theirs.
+// Derived from the live ledger, so a contributor the ledger no longer names —
+// a re-landing that superseded all of their answers — resolves to nothing.
 export type ContributorInspection = {
   name: string;
-  /** `38 of 130` — the arc's own numbers, so the rail cannot disagree with it. */
+  // `38 of 130` — the arc's own numbers, so the rail cannot disagree with it.
   count: string;
   note: string;
-  /** Ledger order: the order the units first appeared. */
+  // Ledger order: the order the units first appeared.
   units: ContributorUnit[];
 };
 
@@ -147,21 +147,21 @@ export function contributorInspection(
   };
 }
 
-/** Which of the tile's two ratios was pressed — the same word the row marks itself
- *  with, so the press and the rail cannot name different things. */
+// Which of the tile's two ratios was pressed — the same word the row marks itself
+// with, so the press and the rail cannot name different things.
 export type ProvenanceFact = 'swept' | 'disputed';
 
-/** One unit behind a provenance ratio, as the rail reads it. */
+// One unit behind a provenance ratio, as the rail reads it.
 export type ProvenanceUnit = {
-  /** Unique per ROW, not per unit: a unit disputed twice is two rows. */
+  // Unique per ROW, not per unit: a unit disputed twice is two rows.
   key: string;
   questionId: string;
   questionText: string;
   label: string;
   roleName: string;
-  /** How the clash settled (`kept Jane`) — disputed rows only, `''` for a swept one. */
+  // How the clash settled (`kept Jane`) — disputed rows only, `''` for a swept one.
   settled: string;
-  /** The answer this row stands for; null where the resolution emptied the unit. */
+  // The answer this row stands for; null where the resolution emptied the unit.
   reading: {
     state: AnswerSnapshot['state'];
     seal: Seal | null;
@@ -172,7 +172,7 @@ export type ProvenanceUnit = {
 
 export type ProvenanceInspection = {
   title: string;
-  /** The tile's own numbers, so the rail cannot disagree with the bar beside it. */
+  // The tile's own numbers, so the rail cannot disagree with the bar beside it.
   count: string;
   note: string;
   units: ProvenanceUnit[];

@@ -19,46 +19,46 @@
   import ChipSpoke from './chip-spoke.svelte';
   import { chipTitle, mergeWheelModel, type ChipScope, type MergeChip } from './model';
 
-  // The facilitator's estate wheel (delivery §4.3), in QuestionWheel's grammar one
+  // The facilitator's estate wheel, in QuestionWheel's grammar one
   // level up: the spokes are the estate's chips, dimensions on the right arc and
   // parties on the left, split because they are disjoint axes — nothing here should
   // imply a dimension × party cell, because no answer can ever occupy one.
-  //
-  //   mode="coverage" — the spoke fills hub-to-rim with what is dealt with:
-  //     covered, then claimed-incomplete (a person's gap — chase them), then
-  //     unclaimed (an estate gap — nobody's pass reached it). Only the SCOPE LOG
-  //     separates the last two (delivery §2.3.5), so `scope` is a host input;
-  //     without it everything outstanding reads as unclaimed, which is the honest
-  //     degraded answer rather than a guess.
-  //   mode="merge" — radius reverts to the SEAL rung, and an unresolved conflict is
-  //     literally the span between the two rungs two partials asserted. Resolving
-  //     collapses it to one dot that keeps its ring, because the resolution
-  //     survives in the file as a mergeEvent (spec §5.2).
-  //
+  
+  // mode="coverage" — the spoke fills hub-to-rim with what is dealt with:
+  // covered, then claimed-incomplete (a person's gap — chase them), then
+  // unclaimed (an estate gap — nobody's pass reached it). Only the SCOPE LOG
+  // separates the last two, so `scope` is a host input.
+  // without it everything outstanding reads as unclaimed, which is the honest
+  // degraded answer rather than a guess.
+  // mode="merge" — radius reverts to the SEAL rung, and an unresolved conflict is
+  // literally the span between the two rungs two partials asserted. Resolving
+  // collapses it to one dot that keeps its ring, because the resolution
+  // survives in the file as a mergeEvent.
+  
   // The hub reads "— at finalize" until `floor` is passed in. That is deliberate:
   // only the finalized assessment carries a floor or a score, so a working merge
   // showing a provisional SEAL would assert something the artifact does not hold.
-  // The wheel computes no truth; `floor` must come from `evaluate()`.
+  // The wheel computes no truth. `floor` must come from `evaluate`.
 
   type Props = {
     workbook: Workbook;
     parties: Party[];
-    /** The union of every accepted partial's answers so far. */
+    /** The union of every accepted partial's answers so far.*/
     answers: Answer[];
     mode?: 'coverage' | 'merge';
     clashes?: LandingClash[];
     resolutions?: { questionId: string; target: Target; seal: Seal }[];
     scope?: ChipScope[];
-    /** From `evaluate()` after finalize. Null keeps the hub honest. */
+    /** From `evaluate` after finalize. Null keeps the hub honest.*/
     floor?: Seal | null;
     unknowns?: number;
     selected?: { kind: string; key: string } | null;
     onSelect?: (chip: MergeChip) => void;
     size?: number;
-    /** `evaluate().exposure`. Absent = no marker ring. Dimension chips gain the
-     * parties standing under them; party chips gain their reach. */
+    /** `evaluate.exposure`. Absent = no marker ring. Dimension chips gain the
+     * parties standing under them. party chips gain their reach.*/
     exposure?: ExposureEdge[];
-    /** Override the auto-hide (the ring is hidden when every chip looks alike). */
+    /** Override the auto-hide (the ring is hidden when every chip looks alike).*/
     showExposure?: boolean;
   };
 
@@ -97,7 +97,7 @@
   const RIM = $derived(RINGS[4]);
   const LABEL_R = $derived(labelRadius(RIM, exposed ? model.maxExposure : 0));
   const spokes = $derived(chipAngles(model.chips));
-  // `minGap` is 20, not the default 34, because a label is one line here, not two;
+  // `minGap` is 20, not the default 34, because a label is one line here, not two.
   // a gap sized for a two-line block shoved every label off its own spoke's angle.
   // `placeLabels` only spreads the two side columns, never the pole, so the pole's
   // clearance from the first label of each arc has to come from the radius.

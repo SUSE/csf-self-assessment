@@ -2,7 +2,7 @@
 // applying an outcome. What the artifact MEANS in this mode is the pure `decideLoad`
 // (@csf/platform/load). This is the only place a persona is entered, so the
 // invariant stays readable — every case clears the other side first, and `Fill` and
-// `Facilitator` are never both loaded. Reset is the only way to cross (delivery §4).
+// `Facilitator` are never both loaded. Reset is the only way to cross.
 import { decideLoad } from '@csf/platform';
 import type { ConfirmCopy, LoadMode, LoadOutcome } from '@csf/platform';
 import { openJsonFile } from '@csf/platform/file-io';
@@ -10,15 +10,15 @@ import { nowInstant } from './clock';
 import type { Facilitator } from './facilitator/facilitator.svelte';
 import type { Fill } from './fill/fill.svelte';
 
-/** The copy comes from the load decision; the work is the closure it captured. */
+// The copy comes from the load decision; the work is the closure it captured.
 export type ConfirmGate = ConfirmCopy & { run: () => void };
 
 type Deps = {
   fill: Fill;
   facilitator: Facilitator;
-  /** Called once state has moved. A load is a BASELINE, not a Back step: it
-   *  replaces the current history entry so Back can't return to a view that
-   *  referenced the artifact just discarded. */
+  // Called once state has moved. A load is a BASELINE, not a Back step: it
+  // replaces the current history entry so Back can't return to a view that
+  // referenced the artifact just discarded.
   onApplied: () => void;
 };
 
@@ -28,9 +28,9 @@ export class Load {
 
   readonly #deps: Deps;
 
-  /** The first load from `empty` sets the mode; after that Load stays within it. A
-   *  getter, not a `$derived` field: a field initializer runs before the constructor
-   *  assigns `#deps` (and two boolean reads are nothing to memoise). */
+  // The first load from `empty` sets the mode; after that Load stays within it. A
+  // getter, not a `$derived` field: a field initializer runs before the constructor
+  // assigns `#deps` (and two boolean reads are nothing to memoise).
   get mode(): LoadMode {
     return this.#deps.facilitator.active ? 'facilitator' : this.#deps.fill.loaded ? 'fill' : 'empty';
   }
@@ -39,7 +39,7 @@ export class Load {
     this.#deps = deps;
   }
 
-  /** Open a file, route it, then refuse / confirm / apply. */
+  // Open a file, route it, then refuse / confirm / apply.
   async open(): Promise<void> {
     const opened = await openJsonFile();
     if (!opened) return;

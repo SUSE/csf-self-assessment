@@ -26,7 +26,7 @@ function recordedAt(answers: Answer[], questionId: string, target: Target): bool
   );
 }
 
-// Scoped completeness at unit grain (delivery §2.7.1): over the base units a claim
+// Scoped completeness at unit grain: over the base units a claim
 // covers, how many carry a recorded answer of any state. scopeCompleteness is the
 // union across the whole claim log, each unit counted once.
 export type ScopeCompleteness = { answered: number; total: number };
@@ -57,7 +57,7 @@ export function scopeCompleteness(
   return { answered, total: units.length };
 }
 
-// Estate coverage across loaded partials (delivery §2.6/§4.3): each unit is covered
+// Estate coverage across loaded partials: each unit is covered
 // (some partial recorded it), claimed-incomplete (no answer but some partial claims
 // it), or unclaimed. covered wins over claimed-incomplete.
 export type EstateCoverage = { covered: number; claimedIncomplete: number; unclaimed: number; total: number };
