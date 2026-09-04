@@ -237,18 +237,6 @@ procedure.
 
 Do not report security vulnerabilities in public issues. If you find a security vulnerability, please contact the maintainers securely or open a private draft security advisory in GitHub.
 
-## Data and documentation conventions
-
-- Treat `docs/eu-csf/` as read-only upstream material.
-- Put regenerated Cloud Sovereignty workbook and assessment artifacts in `assessment/`. Note that these files serve as the authoritative test fixtures for the test suite.
-- Use `samples/` for teaching data and cross-instrument fixtures.
-- Keep runtime behaviour offline. Do not use CDN assets, remote fonts, telemetry,
-  automatic updates, or release checks.
-- Keep workbook semantics in the schema and engine. Documentation explains
-  those rules but does not override them.
-- Preserve explicit unknowns and provenance. Do not collapse don't-know into a
-  zero or merge participant files as an unreviewed union.
-
 For guided use, start with the
 [authoring guide](./docs/authoring.md) or the
 [workshop flow guide](./docs/assessment-flow.md).
