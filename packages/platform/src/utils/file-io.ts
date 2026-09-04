@@ -10,11 +10,6 @@ const JSON_TYPES: FilePickerAcceptType[] = [
 ];
 
 export async function openJsonFile(): Promise<{ name: string; text: string } | null> {
-  const bridge = window.csfDesktop;
-  if (bridge) {
-    return bridge.openJsonFile();
-  }
-
   const picker = window.showOpenFilePicker;
   if (picker) {
     let handles: FileSystemFileHandle[];
@@ -45,12 +40,6 @@ export async function openJsonFile(): Promise<{ name: string; text: string } | n
 
 export async function saveJsonFile(suggestedName: string, data: unknown): Promise<void> {
   const text = JSON.stringify(data, null, 2);
-  const bridge = window.csfDesktop;
-  if (bridge) {
-    await bridge.saveJsonFile({ suggestedName, text });
-    return;
-  }
-
   const picker = window.showSaveFilePicker;
   if (picker) {
     let handle: FileSystemFileHandle;

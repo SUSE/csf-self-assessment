@@ -21,14 +21,7 @@
   "scripts": {
     "dev": "pnpm --parallel --filter @csf/author --filter @csf/assessment run dev",
     "build": "pnpm --filter @csf/assessment build && pnpm --filter @csf/author build && pnpm check:offline",
-    "desktop:build": "pnpm build && pnpm --filter @csf/desktop build",
-    "desktop:test": "pnpm desktop:build && pnpm --filter @csf/desktop test:unit && pnpm --filter @csf/desktop test:smoke",
-    "desktop:author": "pnpm desktop:build && pnpm --filter @csf/desktop start:author",
-    "desktop:assessment": "pnpm desktop:build && pnpm --filter @csf/desktop start:assessment",
-    "desktop:package:author": "pnpm desktop:build && pnpm --filter @csf/desktop run package:author",
-    "desktop:package:assessment": "pnpm desktop:build && pnpm --filter @csf/desktop run package:assessment",
-    "desktop:package": "pnpm verify && pnpm --filter @csf/desktop run package && pnpm --filter @csf/desktop run test:package",
-    "test": "node --test tools/*.test.mjs packages/platform/scripts/*.node-tests.mjs && pnpm -r --if-present test && pnpm desktop:test",
+    "test": "node --test tools/*.test.mjs packages/platform/scripts/*.node-tests.mjs && pnpm -r --if-present test",
     "lint": "eslint .",
     "typecheck": "pnpm -r --if-present typecheck",
     "check:offline": "node tools/check-offline.mjs",
@@ -40,8 +33,7 @@
     "theme:tweakcn:export": "node packages/platform/scripts/theme-palette-bridge.mjs export",
     "theme:tweakcn:apply": "node packages/platform/scripts/theme-palette-bridge.mjs apply",
     "theme:tweakcn:check": "node packages/platform/scripts/theme-palette-bridge.mjs check",
-    "verify": "pnpm lint && pnpm typecheck && pnpm test && pnpm theme:tweakcn:check && pnpm build",
-    "verify:headless": "xvfb-run pnpm verify"
+    "verify": "pnpm lint && pnpm typecheck && pnpm test && pnpm theme:tweakcn:check && pnpm build"
   },
   "devDependencies": {
     "@eslint/js": "^9.18.0",

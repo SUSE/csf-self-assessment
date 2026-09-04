@@ -22,8 +22,7 @@ Landing, SEAL, and related terms—see [Overview](./docs/overview.md) and
 
 ## What is included
 
-The platform has two primary, standalone HTML applications and optional desktop
-wrappers:
+The platform has two primary, standalone HTML applications:
 
 - **Author** creates and edits workbooks. Its workbench covers objectives,
   questions and ladders, dimensions and strata, roles, party types,
@@ -34,13 +33,10 @@ wrappers:
   returned participant files, inspect analytics and recommendations, and print
   reports. Participants declare the roles, dimensions, and parties they can
   speak for, answer that scope, and export their contribution.
-- **Desktop** packages those exact HTML applications in a hardened Electron
-  shell. The HTML files remain the canonical deliverables and continue to work
-  without Electron.
 
 There is no server, account system, database, telemetry, or runtime network
 dependency. JSON files are the interchange format, and in-progress work is kept
-in browser or desktop local storage until it is exported.
+in browser local storage until it is exported.
 
 ## Documentation
 
@@ -144,51 +140,13 @@ Useful checks:
 ```sh
 pnpm lint            # ESLint across the workspace
 pnpm typecheck       # TypeScript and Svelte checks in every package
-pnpm test            # tool, platform, desktop unit, and desktop smoke tests
-pnpm check:offline   # verify built HTML is self-contained
-pnpm verify          # full CI-equivalent validation and build
+pnpm test            # Tool and platform unit tests
+pnpm check:offline   # Verify built HTML is self-contained
+pnpm verify          # Full CI-equivalent validation and build
 ```
 
-Desktop smoke tests launch graphical applications, so Linux CI runs `pnpm
-verify` under Xvfb. The standard pull-request and `main` workflow runs on Node 22 and
+The standard pull-request and `main` workflow runs on Node 22 and
 Ubuntu 24.04. See [verify.yml](./.github/workflows/verify.yml) for details.
-
-## Desktop applications
-
-Build and launch the optional Electron wrappers locally:
-
-```sh
-pnpm desktop:author
-pnpm desktop:assessment
-```
-
-Both commands first rebuild the standalone HTML files and the desktop shell.
-Run the complete desktop test suite with:
-
-```sh
-pnpm desktop:test
-```
-
-The local packaging proof currently targets unsigned Apple Silicon macOS app
-directories:
-
-```sh
-pnpm desktop:package:author
-pnpm desktop:package:assessment
-```
-
-Packaged output is written below `dist/desktop/`. The Electron shell keeps
-context isolation and sandboxing enabled, exposes only a narrow native JSON-file
-bridge, blocks arbitrary navigation and requests, and performs no update check.
-
-Tagged prereleases are handled by
-[desktop-release.yml](./.github/workflows/desktop-release.yml). A tag must match
-the root package version and point to a commit contained in `main`. The workflow
-builds and tests both applications for universal macOS, Windows x64, and Linux
-x64. Signed publication also requires the configured Apple and Windows
-signing credentials. Releases include the two standalone HTML files, native
-packages, checksums, a release manifest, and a CycloneDX SBOM. The exact contract
-is recorded in the desktop release workflow.
 
 ## Repository layout
 
@@ -196,8 +154,7 @@ is recorded in the desktop release workflow.
 .
 ├── apps/
 │   ├── author/              Svelte authoring application
-│   ├── assessment/          Svelte participant and facilitator application
-│   └── desktop/             Electron shell, packaging, release tooling, tests
+│   └── assessment/          Svelte participant and facilitator application
 ├── packages/
 │   └── platform/            Schemas, assessment/merge logic, scoring, analytics,
 │                            reports, storage utilities, and shared Svelte UI
@@ -207,7 +164,7 @@ is recorded in the desktop release workflow.
 │   ├── guides/              Workshop manual and conceptual guides
 │   └── ...                  Scoring guide, authoring guide, and assessment flow
 ├── tools/                   Offline checks, EC conversions, and theme tooling
-└── .github/workflows/       Source verification and tagged desktop prereleases
+└── .github/workflows/       Source verification workflow
 ```
 
 Important package areas:

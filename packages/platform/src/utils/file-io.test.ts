@@ -1,7 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
-import type { DesktopBridge } from '@csf/desktop/bridge-contract';
-
 import { openJsonFile, saveJsonFile } from './file-io';
 
 const JSON_PICKER_TYPES = [
@@ -11,64 +9,6 @@ const JSON_PICKER_TYPES = [
 afterEach(() => {
   vi.restoreAllMocks();
   vi.unstubAllGlobals();
-});
-
-describe('desktop bridge file I/O', () => {
-  it('uses only the bridge to open a JSON file or return cancellation', async () => {
-    const opened = { name: 'estate.json', text: '{"seal":2}' };
-    const openBridge = vi.fn<DesktopBridge['openJsonFile']>().mockResolvedValueOnce(opened);
-    const saveBridge = vi.fn<DesktopBridge['saveJsonFile']>();
-    const browserOpen = vi.fn();
-    const browserSave = vi.fn();
-    vi.stubGlobal('window', {
-      csfDesktop: { openJsonFile: openBridge, saveJsonFile: saveBridge },
-      showOpenFilePicker: browserOpen,
-      showSaveFilePicker: browserSave,
-    });
-
-    await expect(openJsonFile()).resolves.toEqual(opened);
-    expect(openBridge).toHaveBeenCalledOnce();
-    expect(browserOpen).not.toHaveBeenCalled();
-
-    openBridge.mockResolvedValueOnce(null);
-    await expect(openJsonFile()).resolves.toBeNull();
-    expect(openBridge).toHaveBeenCalledTimes(2);
-    expect(browserOpen).not.toHaveBeenCalled();
-  });
-
-  it('uses only the bridge to save the existing formatted JSON', async () => {
-    const openBridge = vi.fn<DesktopBridge['openJsonFile']>();
-    const saveBridge = vi.fn<DesktopBridge['saveJsonFile']>().mockResolvedValue();
-    const browserOpen = vi.fn();
-    const browserSave = vi.fn();
-    vi.stubGlobal('window', {
-      csfDesktop: { openJsonFile: openBridge, saveJsonFile: saveBridge },
-      showOpenFilePicker: browserOpen,
-      showSaveFilePicker: browserSave,
-    });
-
-    await saveJsonFile('estate.json', { seal: 2 });
-
-    expect(saveBridge).toHaveBeenCalledWith({
-      suggestedName: 'estate.json',
-      text: '{\n  "seal": 2\n}',
-    });
-    expect(saveBridge).toHaveBeenCalledOnce();
-    expect(browserSave).not.toHaveBeenCalled();
-  });
-
-  it('propagates a bridge rejection', async () => {
-    const failure = new Error('native open failed');
-    const openBridge = vi.fn<DesktopBridge['openJsonFile']>().mockRejectedValue(failure);
-    const saveBridge = vi.fn<DesktopBridge['saveJsonFile']>();
-    vi.stubGlobal('window', {
-      csfDesktop: { openJsonFile: openBridge, saveJsonFile: saveBridge },
-      showOpenFilePicker: vi.fn(),
-      showSaveFilePicker: vi.fn(),
-    });
-
-    await expect(openJsonFile()).rejects.toBe(failure);
-  });
 });
 
 describe('browser file I/O', () => {

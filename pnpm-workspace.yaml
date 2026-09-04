@@ -5,8 +5,6 @@ packages:
 # esbuild (via Vite) needs its install script to set up the native binary.
 allowBuilds:
   esbuild: false
-  electron: true
-  electron-winstaller: false
 
 minimumReleaseAgeExclude:
   - '@lucide/svelte@1.28.0'

@@ -25,4 +25,4 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       - name: Verify
-        run: xvfb-run --auto-servernum pnpm verify
+        run: pnpm verify

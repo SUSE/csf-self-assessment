@@ -1,5 +1,3 @@
-import type { DesktopBridge } from '@csf/desktop/bridge-contract';
-
 // Ambient types for the File System Access API entry points. TS's DOM lib
 // already declares FileSystemFileHandle and FileSystemWritableFileStream, but
 // NOT the showOpen/showSaveFilePicker globals — declare only those, reusing
@@ -28,7 +26,6 @@ declare global {
   }
 
   interface Window {
-    csfDesktop?: DesktopBridge;
     showOpenFilePicker?(
       options?: ShowOpenFilePickerOptions,
     ): Promise<FileSystemFileHandle[]>;
