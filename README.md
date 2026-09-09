@@ -7,11 +7,11 @@ collecting participant answers, reconciling them, and producing a defensible
 reading of an organisation's cloud sovereignty exposure.
 
 The included Cloud Sovereignty workbook adapts the European Commission's Cloud
-Sovereignty Framework from supplier-ranking material into a self-assessment for
-an estate the organisation already operates. It contains 8 objectives, 35
-questions, 10 technical dimensions, 6 participant roles, and 4 party types.
-The EC framework is reference material and an example of good practice here,
-not a certification or conformance target.
+Sovereignty Framework<sup>1</sup> from supplier-ranking material into a
+self-assessment for an estate the organisation already operates. It contains 8
+objectives, 35 questions, 10 technical dimensions, 6 participant roles, and 4
+party types. The EC framework is reference material and an example of good
+practice here, not a certification or conformance target.
 
 The product is broader than that one workbook: the Author app can create and
 quality-check other assessment instruments using the same workbook model.
@@ -160,7 +160,6 @@ Ubuntu 24.04. See [verify.yml](./.github/workflows/verify.yml) for details.
 │                            reports, storage utilities, and shared Svelte UI
 ├── samples/                 Teaching, recommendations, and EC calculator fixtures
 ├── docs/
-│   ├── eu-csf/              EC reference material (read-only)
 │   ├── guides/              Workshop manual and conceptual guides
 │   └── ...                  Scoring guide, authoring guide, and assessment flow
 ├── tools/                   Offline checks, EC conversions, and theme tooling
@@ -205,6 +204,14 @@ procedure.
 
 ## Security
 
-Do not report security vulnerabilities in public issues. If you find a security vulnerability, please contact the maintainers securely or open a private draft security advisory in GitHub.
+Do not report security vulnerabilities in public issues. If you find a security
+vulnerability, please contact the maintainers securely or open a private draft
+security advisory in GitHub.
 
 To contribute to this project, please read our [Contributing Guide](./CONTRIBUTING.md).
+
+---
+<sup>1</sup> The European Commission to consulted to produce this work were:
+- [The Cloud Sovereignty Framework](https://commission.europa.eu/document/09579818-64a6-4dd5-9577-446ab6219113_en)
+- [Cloud Sovereignty Framework - Implementation guidance](https://commission.europa.eu/funding-and-tenders/find-calls-tender/tender-opportunities-department/tender-opportunities-digital-services_en#cloud-sovereignty-framework)
+- [Sovereignty assessment calculator](https://commission.europa.eu/funding-and-tenders/find-calls-tender/tender-opportunities-department/tender-opportunities-digital-services_en#cloud-sovereignty-framework)
