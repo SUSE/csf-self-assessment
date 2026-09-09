@@ -1,0 +1,4749 @@
+{
+  "meta": {
+    "workbookId": "eu-csf-calculator-deep",
+    "workbookVersion": "1.0.0",
+    "estate": "EC calculator deep-analysis demo estate",
+    "workbookAssessment": "wa-deep-2026-08-16T00:00:00.000Z",
+    "participant": {
+      "name": "Jane"
+    }
+  },
+  "workbook": {
+    "meta": {
+      "id": "eu-csf-calculator-deep",
+      "version": "1.0.0",
+      "title": "EU Cloud Sovereignty Framework — Sovereignty Calculator (deep analysis)"
+    },
+    "frontSheet": [
+      "This is the deep-analysis variant of the imported EC calculator. The instrument is unchanged — the same 8 objectives, the same 48 questions, the same 233 rungs, the same weights and the same five ranking questions. What changes is how often each question is asked, which is what the Implementation Guidance means by \"Depth of analysis\" (p12-13): the information is gathered \"across all sovereignty dimensions\" and \"all the technical layers, to identify all the hidden dependencies and supply chain\". samples/ec-guidance-complete/workbook.json remains the faithful import and is not touched.",
+      "The nine dimensions are the nine blocks of the guidance's technical-dimensions diagram (p12), each keeping the layer boxes drawn inside it as its strata. Compute, Storage, Network, IAM, Platform and Security are marked critical — the guidance's own floor list, \"compute, storage, network, security, IAM and critical PaaS services\". Software supply (Development), Edge (Advanced) and Facilities (Power, Estate) are in scope and score, but never gate the floor.",
+      "The guidance reports that its 43-question version asks 9 questions of the contractor and sub-contractor entities and 19 \"for every relevant entity involved in the technical dimensions\". Those two counts are published; the question-by-question split is not. This workbook applies the same counts to the imported 48: 9 questions are asked once per party on the chain, 19 once per technical dimension, and the remaining 20 keep the source grain of one answer for the whole estate. Which question sits in which set is our reading of the guidance, not an EC ruling.",
+      "The chain is the guidance's own: \"the evaluation must not stop at the level of the legal entity which applied to the tender but all its chains of sub-contractors and suppliers\". Sub-contractors are legal entities involved in delivering the contract; suppliers deliver hardware or software and never reach the infrastructure unsupervised (footnotes 1 and 2, p13).",
+      "Please note: column E \"score\" has been filled with fictitious values that do not refer to any specific example for the sole purpose of exemplification. — the source calculator's own note. The estate named \"Source worked example\" reproduces those fictitious selections, so it demonstrates the instrument and measures nobody.",
+      "Seven rows of the source carry a SEAL tag with no readable text (rows 7, 17, 31, 33, 38, 48, 49). A choice nobody can read is not a choice, so they are not imported: 233 rungs, not 240. Nothing else was changed, repaired or reworded.",
+      "Five questions — SOV-3.5, SOV-5.1, SOV-5.2, SOV-5.3 and SOV-6.5 — score but never gate. That is the source's own published remedy (Implementation Guidance, Lessons learnt, p13): \"The level SEAL-4 … is not achievable today in the context of EU Sovereignty considering existing dependencies to specific supply chains (chips, hardware). Relaxing level SEAL-4, at least temporarily, would allow to make more difference between providers.\" Under deep analysis three of the five now land per dimension, which is where the chips and hardware dependency actually lives."
+    ],
+    "sealLevels": [
+      {
+        "seal": 0,
+        "name": "No Sovereignty",
+        "description": "No sovereign control; fully dependent on a foreign-controlled provider."
+      },
+      {
+        "seal": 1,
+        "name": "Jurisdictional Sovereignty",
+        "description": "Operated under EU jurisdiction, but control can still be overridden from outside."
+      },
+      {
+        "seal": 2,
+        "name": "Data Sovereignty",
+        "description": "The EU controls the data even under stress; outside parties cannot compel access."
+      },
+      {
+        "seal": 3,
+        "name": "Technological Sovereignty",
+        "description": "The EU controls the technology and can keep operating if a foreign supplier withdraws."
+      },
+      {
+        "seal": 4,
+        "name": "Full Digital Sovereignty",
+        "description": "Complete sovereign control across law, data, and technology, down to the supply chain."
+      }
+    ],
+    "dimensions": [
+      {
+        "id": "compute",
+        "name": "Compute",
+        "strata": [
+          "service",
+          "software",
+          "hardware",
+          "chips"
+        ],
+        "critical": true
+      },
+      {
+        "id": "storage",
+        "name": "Storage",
+        "strata": [
+          "service",
+          "software",
+          "hardware",
+          "chips"
+        ],
+        "critical": true
+      },
+      {
+        "id": "network",
+        "name": "Network",
+        "strata": [
+          "service",
+          "software",
+          "hardware",
+          "chips"
+        ],
+        "critical": true
+      },
+      {
+        "id": "iam",
+        "name": "IAM",
+        "strata": [
+          "identity",
+          "access"
+        ],
+        "critical": true
+      },
+      {
+        "id": "platform",
+        "name": "Platform (Containers, PaaS)",
+        "strata": [
+          "service",
+          "software"
+        ],
+        "critical": true
+      },
+      {
+        "id": "security",
+        "name": "Security",
+        "strata": [
+          "siem-service",
+          "siem-software",
+          "threat",
+          "xdr-edr"
+        ],
+        "critical": true
+      },
+      {
+        "id": "software-supply",
+        "name": "Software supply (Development)",
+        "strata": [
+          "service",
+          "software"
+        ],
+        "critical": false
+      },
+      {
+        "id": "edge",
+        "name": "Edge (Advanced: DDoS, CDN)",
+        "strata": [
+          "ddos",
+          "cdn"
+        ],
+        "critical": false
+      },
+      {
+        "id": "facilities",
+        "name": "Facilities (Power, Estate)",
+        "strata": [
+          "power",
+          "cooling",
+          "building"
+        ],
+        "critical": false
+      }
+    ],
+    "roles": [
+      {
+        "id": "ALL",
+        "name": "Assessment team",
+        "description": "The whole room. The source calculator splits its questions across no roles, so one role carries all 48 here too."
+      }
+    ],
+    "parties": [
+      {
+        "id": "assessed-organisation",
+        "name": "Assessed organisation",
+        "kind": "assessed",
+        "description": "The organisation the calculator is filled in about. Deep analysis starts here and does not stop here."
+      },
+      {
+        "id": "contractor",
+        "name": "Contractor",
+        "kind": "third-party",
+        "description": "The legal entity that signed the contract — the one the guidance says the evaluation must not stop at."
+      },
+      {
+        "id": "sub-contractor",
+        "name": "Sub-contractor",
+        "kind": "third-party",
+        "description": "A legal entity involved in the delivery of the contract (guidance footnote 1)."
+      },
+      {
+        "id": "supplier",
+        "name": "Supplier",
+        "kind": "third-party",
+        "description": "A legal entity that delivers hardware or software but never reaches the infrastructure unsupervised (guidance footnote 2)."
+      }
+    ],
+    "objectives": [
+      {
+        "id": "SOV-1",
+        "name": "SOV-1 Strategic Sovereignty",
+        "description": "Strategic sovereignty captures the degree to which a cloud provider (or technology actor) is anchored within the European Union/EEA legal, financial, and industrial ecosystem. It assesses ownership stability, governance influence, and alignment with EU strategic priorities.",
+        "weight": 20,
+        "questions": [
+          {
+            "id": "SOV-1.1",
+            "grain": "party",
+            "axis": "party",
+            "text": "EU/EEA legal entity control",
+            "why": "ensuring that ultimate decision-making authority resides within EU jurisdiction.",
+            "role": "ALL",
+            "defaultMateriality": "material",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "Entirely outside the EU",
+                "points": 0,
+                "seal": 1
+              },
+              {
+                "id": "choice-2",
+                "description": "Mostly outside the EU",
+                "points": 41.67,
+                "seal": 1
+              },
+              {
+                "id": "choice-3",
+                "description": "Mostly within the EU",
+                "points": 83.34,
+                "seal": 3
+              },
+              {
+                "id": "choice-4",
+                "description": "Entirely within the EU",
+                "points": 125.01,
+                "seal": 4
+              }
+            ]
+          },
+          {
+            "id": "SOV-1.2",
+            "grain": "party",
+            "axis": "party",
+            "text": "Change of Control Risk",
+            "why": "evaluating the likelihood of takeover or transfer to non-sovereign owners",
+            "role": "ALL",
+            "defaultMateriality": "material",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "Very likely",
+                "points": 0,
+                "seal": 4
+              },
+              {
+                "id": "choice-2",
+                "description": "Likely takeover by or transfer to a non-EU sovereign entity",
+                "points": 31.25,
+                "seal": 4
+              },
+              {
+                "id": "choice-3",
+                "description": "Somewhat likely takeover by or transfer to a non-EU sovereign entity",
+                "points": 62.5,
+                "seal": 4
+              },
+              {
+                "id": "choice-4",
+                "description": "Unlikely takeover by or transfer to a non-EU sovereign entity",
+                "points": 93.75,
+                "seal": 4
+              },
+              {
+                "id": "choice-5",
+                "description": "Very unlikely",
+                "points": 125,
+                "seal": 4
+              }
+            ]
+          },
+          {
+            "id": "SOV-1.3",
+            "grain": "party",
+            "axis": "assessment",
+            "text": "Control Over Roadmap",
+            "why": "measuring the capacity of EU stakeholders to shape the provider’s technological and service evolution.",
+            "role": "ALL",
+            "defaultMateriality": "material",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "No influence possible",
+                "points": 0,
+                "seal": 2
+              },
+              {
+                "id": "choice-2",
+                "description": "Through \"voice of the customer\" public channels (e.g. feedback portals, online communities)",
+                "points": 41.67,
+                "seal": 2
+              },
+              {
+                "id": "choice-3",
+                "description": "Governance bodies exist with EU actors participation",
+                "points": 83.34,
+                "seal": 3
+              },
+              {
+                "id": "choice-4",
+                "description": "Full influence of EU actors",
+                "points": 125.01,
+                "seal": 4
+              }
+            ]
+          },
+          {
+            "id": "SOV-1.4",
+            "grain": "party",
+            "axis": "party",
+            "text": "Financial independence from non-EU capital",
+            "why": "degree to which the provider relies on EU-based financing rather than external capital.",
+            "role": "ALL",
+            "defaultMateriality": "material",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "Almost entirely relying on non-EU funding",
+                "points": 0,
+                "seal": 4
+              },
+              {
+                "id": "choice-2",
+                "description": "Mostly relying on non-EU funding",
+                "points": 31.25,
+                "seal": 4
+              },
+              {
+                "id": "choice-3",
+                "description": "Balanced mix of EU and non-EU funding",
+                "points": 62.5,
+                "seal": 4
+              },
+              {
+                "id": "choice-4",
+                "description": "Majority of funding is EU-based",
+                "points": 93.75,
+                "seal": 4
+              },
+              {
+                "id": "choice-5",
+                "description": "Entirely EU-based funding",
+                "points": 125,
+                "seal": 4
+              }
+            ]
+          },
+          {
+            "id": "SOV-1.5",
+            "grain": "party",
+            "axis": "party",
+            "text": "EU economic contribution",
+            "why": "extent of investment, jobs, and value creation within EU/EEA.",
+            "role": "ALL",
+            "defaultMateriality": "material",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "Minimal",
+                "points": 0,
+                "seal": 4
+              },
+              {
+                "id": "choice-2",
+                "description": "Some",
+                "points": 31.25,
+                "seal": 4
+              },
+              {
+                "id": "choice-3",
+                "description": "Balanced EU/non-EU",
+                "points": 62.5,
+                "seal": 4
+              },
+              {
+                "id": "choice-4",
+                "description": "Majority in the EU",
+                "points": 93.75,
+                "seal": 4
+              },
+              {
+                "id": "choice-5",
+                "description": "Fully in the EU",
+                "points": 125,
+                "seal": 4
+              }
+            ]
+          },
+          {
+            "id": "SOV-1.6",
+            "grain": "party",
+            "axis": "assessment",
+            "text": "Participation in EU strategic programs",
+            "why": "involvement in initiatives such as IPCEI-CIS, Horizon Europe, or Gaia-X.",
+            "role": "ALL",
+            "defaultMateriality": "material",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "No clear participation",
+                "points": 0,
+                "seal": 4
+              },
+              {
+                "id": "choice-2",
+                "description": "Active participant in strategic projects",
+                "points": 62.5,
+                "seal": 4
+              },
+              {
+                "id": "choice-3",
+                "description": "Strategic projects depend on contractor's involvement",
+                "points": 125,
+                "seal": 4
+              }
+            ]
+          },
+          {
+            "id": "SOV-1.7",
+            "grain": "party",
+            "axis": "assessment",
+            "text": "Alignment with EU industrial strategies",
+            "why": "consistency with digital, green, and industrial sovereignty objectives defined at EU level.",
+            "role": "ALL",
+            "defaultMateriality": "material",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "No evidence exist",
+                "points": 0,
+                "seal": 4
+              },
+              {
+                "id": "choice-2",
+                "description": "Existing Action plan (how to measure ambition? Through means linked to the goals? Relative to the size of the company?)",
+                "points": 41.67,
+                "seal": 4
+              },
+              {
+                "id": "choice-3",
+                "description": "Already measured achievement and existing dedicated governance",
+                "points": 83,
+                "seal": 4
+              },
+              {
+                "id": "choice-4",
+                "description": "Bold ambition and dedicated means",
+                "points": 125.01,
+                "seal": 4
+              }
+            ]
+          },
+          {
+            "id": "SOV-1.8",
+            "grain": "dimension",
+            "text": "Resilience to Cut-off",
+            "why": "ability to sustain secure operations even if vendor support is withdrawn or disrupted.",
+            "role": "ALL",
+            "defaultMateriality": "material",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "Immediate shutdown of the service is expected",
+                "points": 0,
+                "seal": 0
+              },
+              {
+                "id": "choice-2",
+                "description": "Service would likely stop but with a delay to provide time for customer reaction",
+                "points": 31.25,
+                "seal": 0
+              },
+              {
+                "id": "choice-3",
+                "description": "Can continue temporarily based on contractual agreement with EC",
+                "points": 62.5,
+                "seal": 2
+              },
+              {
+                "id": "choice-4",
+                "description": "Ability to source alternative suppliers or internalise key functions",
+                "points": 93.75,
+                "seal": 2
+              },
+              {
+                "id": "choice-5",
+                "description": "Full autonomy and continuity",
+                "points": 125,
+                "seal": 4
+              }
+            ],
+            "appliesTo": [
+              "compute",
+              "storage",
+              "network",
+              "iam",
+              "platform",
+              "security",
+              "software-supply",
+              "edge",
+              "facilities"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "SOV-2",
+        "name": "SOV-2 Legal & Jurisdictional Sovereignty",
+        "description": "Legal & Jurisdictional sovereignty evaluates the legal environment, exposure to foreign authority, and enforceability of rights that govern a technology provider and its services. It determines the extent to which a provider is anchored in European jurisdiction and insulated from external legal claims.",
+        "weight": 10,
+        "questions": [
+          {
+            "id": "SOV-2.1",
+            "grain": "party",
+            "axis": "party",
+            "text": "Primary Legal Jurisdiction",
+            "why": "the national legal system governing the provider’s operations and contracts.",
+            "role": "ALL",
+            "defaultMateriality": "material",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "Non-EU only",
+                "points": 0,
+                "seal": 1
+              },
+              {
+                "id": "choice-2",
+                "description": "Mixed EU/non-EU",
+                "points": 84,
+                "seal": 1
+              },
+              {
+                "id": "choice-3",
+                "description": "Exclusively EU law",
+                "points": 167,
+                "seal": 4
+              }
+            ]
+          },
+          {
+            "id": "SOV-2.2",
+            "grain": "party",
+            "axis": "party",
+            "text": "Extraterritorial Laws",
+            "why": "degree of exposure to non-EU laws with cross-border reach (all).",
+            "role": "ALL",
+            "defaultMateriality": "material",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "Fully exposed to non-EU laws",
+                "points": 0,
+                "seal": 1
+              },
+              {
+                "id": "choice-2",
+                "description": "Mitigation clauses, exposure remains",
+                "points": 41.75,
+                "seal": 1
+              },
+              {
+                "id": "choice-3",
+                "description": "EU subsidiary with contractual protections",
+                "points": 83.5,
+                "seal": 2
+              },
+              {
+                "id": "choice-4",
+                "description": "Legal structures shielding from foreign law",
+                "points": 125.25,
+                "seal": 2
+              },
+              {
+                "id": "choice-5",
+                "description": "Verified legal immunity, non-EU laws unenforceable",
+                "points": 167,
+                "seal": 4
+              }
+            ]
+          },
+          {
+            "id": "SOV-2.3",
+            "grain": "party",
+            "axis": "party",
+            "text": "Data Access Pathways",
+            "why": "existence of legal, contractual, or technical channels through which non-EU authorities could compel access to data or systems.",
+            "role": "ALL",
+            "defaultMateriality": "material",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "Non-EU authorities can compel access to data or systems without customers being notified",
+                "points": 0,
+                "seal": 1
+              },
+              {
+                "id": "choice-2",
+                "description": "Non-EU authorities can compel access to data or systems without customers being notified, in specific cases",
+                "points": 41.75,
+                "seal": 1
+              },
+              {
+                "id": "choice-3",
+                "description": "Non-EU authorities can compel access to data or systems with customers being notified in all cases",
+                "points": 83.5,
+                "seal": 1
+              },
+              {
+                "id": "choice-4",
+                "description": "Non-EU authorities requests to access data or systems are disputed by the provider and eventually in some cases are accepted with customers being notified",
+                "points": 125.25,
+                "seal": 1
+              },
+              {
+                "id": "choice-5",
+                "description": "Non-EU authorities requests to access data or systems are always rejected by the provider",
+                "points": 167,
+                "seal": 4
+              }
+            ]
+          },
+          {
+            "id": "SOV-2.4",
+            "grain": "party",
+            "axis": "party",
+            "text": "Export Control Restrictions",
+            "why": "applicability of international regimes such as ITAR or EAR, which may restrict usage or transfer.",
+            "role": "ALL",
+            "defaultMateriality": "material",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "Restrictions exists towards a EU MS",
+                "points": 0,
+                "seal": 0
+              },
+              {
+                "id": "choice-2",
+                "description": "Restrictions exists towards EU citizens or international organisations",
+                "points": 41.75,
+                "seal": 1
+              },
+              {
+                "id": "choice-3",
+                "description": "Share of revenues >50% in the EU",
+                "points": 83.5,
+                "seal": 3
+              },
+              {
+                "id": "choice-4",
+                "description": "Part of the offer cannot be exposed to restrictions towards EU MSs",
+                "points": 125.25,
+                "seal": 3
+              },
+              {
+                "id": "choice-5",
+                "description": "Part of the offer cannot be exposed to restrictions towards EU MSs or international organisations",
+                "points": 167,
+                "seal": 4
+              }
+            ]
+          },
+          {
+            "id": "SOV-2.5",
+            "grain": "party",
+            "axis": "assessment",
+            "text": "Origin of IP",
+            "why": "location of intellectual property creation, registration, and development (all).",
+            "role": "ALL",
+            "defaultMateriality": "material",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "Entirely outside the EU",
+                "points": 0,
+                "seal": 4
+              },
+              {
+                "id": "choice-2",
+                "description": "Mostly outside the EU",
+                "points": 41.75,
+                "seal": 4
+              },
+              {
+                "id": "choice-3",
+                "description": "Mixed within/outside the EU",
+                "points": 83.5,
+                "seal": 4
+              },
+              {
+                "id": "choice-4",
+                "description": "Mostly within the EU",
+                "points": 125.25,
+                "seal": 4
+              },
+              {
+                "id": "choice-5",
+                "description": "Fully within the EU",
+                "points": 167,
+                "seal": 4
+              }
+            ]
+          },
+          {
+            "id": "SOV-2.6",
+            "grain": "party",
+            "axis": "party",
+            "text": "IP Holder Jurisdiction",
+            "why": "legal jurisdiction where IP rights are owned and enforced.",
+            "role": "ALL",
+            "defaultMateriality": "material",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "non-EU law, one single country",
+                "points": 0,
+                "seal": 3
+              },
+              {
+                "id": "choice-2",
+                "description": "non-EU law, mixed non-EU countries",
+                "points": 41.75,
+                "seal": 3
+              },
+              {
+                "id": "choice-3",
+                "description": "Mixed law, some EU",
+                "points": 83.5,
+                "seal": 4
+              },
+              {
+                "id": "choice-4",
+                "description": "EU law with exceptions",
+                "points": 125.25,
+                "seal": 4
+              },
+              {
+                "id": "choice-5",
+                "description": "fully under EU law",
+                "points": 167,
+                "seal": 4
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "SOV-3",
+        "name": "SOV-3 Data & AI Sovereignty",
+        "description": "Data & AI sovereignty focuses on the protection, control, and independence of data assets and AI services within the EU/EEA. It addresses how data is secured, where it is processed, and the degree of autonomy customers retain over AI   capabilities.",
+        "weight": 10,
+        "questions": [
+          {
+            "id": "SOV-3.1",
+            "grain": "dimension",
+            "text": "Customer control over encryption keys",
+            "role": "ALL",
+            "defaultMateriality": "material",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "Provider only",
+                "points": 0,
+                "seal": 0
+              },
+              {
+                "id": "choice-2",
+                "description": "Primarily the provider but not exclusively",
+                "points": 50,
+                "seal": 1
+              },
+              {
+                "id": "choice-3",
+                "description": "Shared - provider has override keys",
+                "points": 100,
+                "seal": 3
+              },
+              {
+                "id": "choice-4",
+                "description": "Customer primary control but provider can read the data or some of the data",
+                "points": 150,
+                "seal": 3
+              },
+              {
+                "id": "choice-5",
+                "description": "Customer exclusive control - provider can not read the data",
+                "points": 200,
+                "seal": 4
+              }
+            ],
+            "appliesTo": [
+              "compute",
+              "storage",
+              "network",
+              "iam",
+              "platform",
+              "security"
+            ]
+          },
+          {
+            "id": "SOV-3.2",
+            "grain": "dimension",
+            "text": "Transparent data flows & access logs",
+            "why": "visibility into when, where, and by whom data is accessed, including auditability of AI model usage.",
+            "role": "ALL",
+            "defaultMateriality": "material",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "No data usage logs",
+                "points": 0,
+                "seal": 0
+              },
+              {
+                "id": "choice-2",
+                "description": "Basic logs incomplete (missing date; missing user; missing type of access; missing means of access etc.)",
+                "points": 50,
+                "seal": 1
+              },
+              {
+                "id": "choice-3",
+                "description": "Logs exist but not real-time or controlled by vendor (vendor is replaced by CUSTOMER in the survey)",
+                "points": 100,
+                "seal": 3
+              },
+              {
+                "id": "choice-4",
+                "description": "Full customer controlled visibility of log access but not in real time",
+                "points": 150,
+                "seal": 3
+              },
+              {
+                "id": "choice-5",
+                "description": "Real-time customer oversight and independent auditability",
+                "points": 200,
+                "seal": 4
+              }
+            ],
+            "appliesTo": [
+              "compute",
+              "storage",
+              "network",
+              "iam",
+              "platform",
+              "security"
+            ]
+          },
+          {
+            "id": "SOV-3.3",
+            "grain": "dimension",
+            "text": "Secure deletion & proof of erasure od data",
+            "why": "mechanisms guaranteeing irreversible removal of data, with verifiable evidence.",
+            "role": "ALL",
+            "defaultMateriality": "material",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "No, irreversible deletion is neither guaranteed nor verifiable",
+                "points": 0,
+                "seal": 0
+              },
+              {
+                "id": "choice-2",
+                "description": "Manual confirmation only",
+                "points": 50,
+                "seal": 1
+              },
+              {
+                "id": "choice-3",
+                "description": "Internal validation based on policies - no proof of validation left",
+                "points": 100,
+                "seal": 3
+              },
+              {
+                "id": "choice-4",
+                "description": "Deletion is technically verified with access logs",
+                "points": 150,
+                "seal": 3
+              },
+              {
+                "id": "choice-5",
+                "description": "Yes, irreversible deletion is systematically enforced and independently verified",
+                "points": 200,
+                "seal": 4
+              }
+            ],
+            "appliesTo": [
+              "compute",
+              "storage",
+              "network",
+              "iam",
+              "platform",
+              "security"
+            ]
+          },
+          {
+            "id": "SOV-3.4",
+            "grain": "dimension",
+            "text": "Data location strictly in EU/EEA",
+            "why": "strict confinement of storage and processing to European jurisdictions, with no fallback to third countries.",
+            "role": "ALL",
+            "defaultMateriality": "material",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "Data location largely unknown and includes third countries without controls",
+                "points": 0,
+                "seal": 0
+              },
+              {
+                "id": "choice-2",
+                "description": "Data partly in the EU, significant reliance on third countries and limited control",
+                "points": 50,
+                "seal": 0
+              },
+              {
+                "id": "choice-3",
+                "description": "Data mainly in the EU, some third-country use with standard safeguards",
+                "points": 100,
+                "seal": 1
+              },
+              {
+                "id": "choice-4",
+                "description": "Data in the EU by default, tightly controlled exceptions",
+                "points": 150,
+                "seal": 1
+              },
+              {
+                "id": "choice-5",
+                "description": "All data exclusively in the EU with no third-country fallback",
+                "points": 200,
+                "seal": 4
+              }
+            ],
+            "appliesTo": [
+              "compute",
+              "storage",
+              "network",
+              "iam",
+              "platform",
+              "security"
+            ]
+          },
+          {
+            "id": "SOV-3.5",
+            "grain": "party",
+            "axis": "assessment",
+            "text": "AI services",
+            "why": "extent to which AI models and data pipelines are developed, trained, hosted, and governed under EU control, minimizing dependence on non-EU technology stacks.",
+            "role": "ALL",
+            "defaultMateriality": "ranking",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "Non-EU or undetermined: Black-box AI, restricted chips",
+                "points": 0,
+                "seal": 2
+              },
+              {
+                "id": "choice-2",
+                "description": "Mostly non-EU dependencies: Licensed AI, chip dependency",
+                "points": 50,
+                "seal": 2
+              },
+              {
+                "id": "choice-3",
+                "description": "Mixed Control with alternatives: Auditable or open source AI, foreign chips",
+                "points": 100,
+                "seal": 3
+              },
+              {
+                "id": "choice-4",
+                "description": "EU-led AI, foreign accelerators",
+                "points": 150,
+                "seal": 3
+              },
+              {
+                "id": "choice-5",
+                "description": "EU-origin models and chips - no dependencies from outside EU",
+                "points": 200,
+                "seal": 4
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "SOV-4",
+        "name": "SOV-4 Operational Sovereignty",
+        "description": "Operational sovereignty measures the practical ability of EU actors to run, support, and evolve a technology independently of foreign control. It focuses on continuity of operations, skill availability, and resilience against external dependencies.",
+        "weight": 15,
+        "questions": [
+          {
+            "id": "SOV-4.1",
+            "grain": "dimension",
+            "text": "Portability & Interoperability",
+            "why": "ease of migrating workloads or integrating with alternative EU-controlled solutions without vendor lock-in.",
+            "role": "ALL",
+            "defaultMateriality": "material",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "No guarantees are provided for data or workload portability",
+                "points": 0,
+                "seal": 1
+              },
+              {
+                "id": "choice-2",
+                "description": "Data export and workload portability is provided on a \"best-effort\" basis",
+                "points": 41.75,
+                "seal": 1
+              },
+              {
+                "id": "choice-3",
+                "description": "Standard documented methods for data export are available",
+                "points": 83.5,
+                "seal": 4
+              },
+              {
+                "id": "choice-4",
+                "description": "Formal migration services are available to assist with moving data and workloads",
+                "points": 125.25,
+                "seal": 4
+              },
+              {
+                "id": "choice-5",
+                "description": "Solution already deployed on sovereign infrastructure",
+                "points": 167,
+                "seal": 4
+              }
+            ],
+            "appliesTo": [
+              "compute",
+              "storage",
+              "network",
+              "iam",
+              "platform",
+              "security",
+              "software-supply",
+              "edge"
+            ]
+          },
+          {
+            "id": "SOV-4.2",
+            "grain": "dimension",
+            "text": "Ability to Operate Without Foreign Dependencies",
+            "why": "capacity for EU operators to manage, maintain, and support the technology without requiring non-EU vendor involvement",
+            "role": "ALL",
+            "defaultMateriality": "material",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "Critical operational services are delivered by non-EU teams",
+                "points": 0,
+                "seal": 1
+              },
+              {
+                "id": "choice-2",
+                "description": "Operational services are partially sourced from within the EU",
+                "points": 41.75,
+                "seal": 1
+              },
+              {
+                "id": "choice-3",
+                "description": "Operational responsibilities are balanced between EU and non-EU teams",
+                "points": 83.5,
+                "seal": 3
+              },
+              {
+                "id": "choice-4",
+                "description": "Operational services are predominantly delivered by EU-based teams",
+                "points": 125.25,
+                "seal": 3
+              },
+              {
+                "id": "choice-5",
+                "description": "The entire technology stack is managed and supported by a fully EU-based team",
+                "points": 167,
+                "seal": 4
+              }
+            ],
+            "appliesTo": [
+              "compute",
+              "storage",
+              "network",
+              "iam",
+              "platform",
+              "security",
+              "software-supply",
+              "edge",
+              "facilities"
+            ]
+          },
+          {
+            "id": "SOV-4.3",
+            "grain": "party",
+            "axis": "assessment",
+            "text": "Skill Availability- existence of an EU-based talent pool with the expertise to operate and sustain the service.",
+            "role": "ALL",
+            "defaultMateriality": "material",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "Global team, mainly non-EU",
+                "points": 0,
+                "seal": 1
+              },
+              {
+                "id": "choice-2",
+                "description": "Mixed, majority outside EU",
+                "points": 41.75,
+                "seal": 1
+              },
+              {
+                "id": "choice-3",
+                "description": "Majority EU, escalation abroad",
+                "points": 83.5,
+                "seal": 3
+              },
+              {
+                "id": "choice-4",
+                "description": "All EU staff",
+                "points": 125.25,
+                "seal": 3
+              },
+              {
+                "id": "choice-5",
+                "description": "100% EU staff + clearance",
+                "points": 167,
+                "seal": 4
+              }
+            ]
+          },
+          {
+            "id": "SOV-4.4",
+            "grain": "dimension",
+            "text": "Support Channels",
+            "why": "assurance that operational support is delivered from within the EU and subject exclusively to EU/EEA legal frameworks",
+            "role": "ALL",
+            "defaultMateriality": "material",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "The support team is global with the majority of staff located outside the EU",
+                "points": 0,
+                "seal": 1
+              },
+              {
+                "id": "choice-2",
+                "description": "The team is mixed but the majority of support staff reside outside the EU",
+                "points": 41.75,
+                "seal": 2
+              },
+              {
+                "id": "choice-3",
+                "description": "The majority of support staff are in the EU but escalations are handled by non-EU teams",
+                "points": 83.5,
+                "seal": 3
+              },
+              {
+                "id": "choice-4",
+                "description": "All support staff are located within the EU",
+                "points": 125.25,
+                "seal": 3
+              },
+              {
+                "id": "choice-5",
+                "description": "All support staff are located within the EU and hold relevant security clearances",
+                "points": 167,
+                "seal": 4
+              }
+            ],
+            "appliesTo": [
+              "compute",
+              "storage",
+              "network",
+              "iam",
+              "platform",
+              "security",
+              "software-supply",
+              "edge",
+              "facilities"
+            ]
+          },
+          {
+            "id": "SOV-4.5",
+            "grain": "dimension",
+            "text": "Documentation & Knowledge Transfer",
+            "why": "availability of full technical documentation, source code, and operational know-how enabling long-term autonomy.",
+            "role": "ALL",
+            "defaultMateriality": "material",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "Global/non-EU exposure - Documentation/knowledge is stored or managed outside EU and may be subject to non-EU jurisdiction or access",
+                "points": 0,
+                "seal": 0
+              },
+              {
+                "id": "choice-2",
+                "description": "EU optional, not enforced - EU storage is available as an option, but it is not enforced",
+                "points": 41.75,
+                "seal": 2
+              },
+              {
+                "id": "choice-3",
+                "description": "EU primary with non-EU fallback - Stored/managed in the EU by default, but some storage/replication/access outside the EU may occur (e.g., disaster recovery/support)",
+                "points": 83.5,
+                "seal": 4
+              },
+              {
+                "id": "choice-4",
+                "description": "EU-only primary repositories - All primary documentation and knowledge repositories are stored in the EU (no routine non-EU storage/processing)",
+                "points": 125.25,
+                "seal": 4
+              },
+              {
+                "id": "choice-5",
+                "description": "EU-only end-to-end - Content, metadata, and backups/replicas are stored in the EU and privileged administration/support access is restricted to EU-based staff under EU jurisdiction",
+                "points": 167,
+                "seal": 4
+              }
+            ],
+            "appliesTo": [
+              "compute",
+              "storage",
+              "network",
+              "iam",
+              "platform",
+              "security",
+              "software-supply",
+              "edge",
+              "facilities"
+            ]
+          },
+          {
+            "id": "SOV-4.6",
+            "grain": "dimension",
+            "text": "Subcontractor & Suppliers jurisdiction",
+            "why": "location and legal control of critical suppliers or subcontractors involved in service delivery.",
+            "role": "ALL",
+            "defaultMateriality": "material",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "Immediate shutdown of the service is expected",
+                "points": 0,
+                "seal": 0
+              },
+              {
+                "id": "choice-2",
+                "description": "Service would likely stop but with a delay to provide time for customer reaction",
+                "points": 41.75,
+                "seal": 2
+              },
+              {
+                "id": "choice-3",
+                "description": "Can continue temporarily based on contractual agreement with EC",
+                "points": 83.5,
+                "seal": 3
+              },
+              {
+                "id": "choice-4",
+                "description": "Ability to source alternative suppliers or internalise key functions",
+                "points": 125.25,
+                "seal": 3
+              },
+              {
+                "id": "choice-5",
+                "description": "Full autonomy and continuity",
+                "points": 167,
+                "seal": 4
+              }
+            ],
+            "appliesTo": [
+              "compute",
+              "storage",
+              "network",
+              "iam",
+              "platform",
+              "security",
+              "software-supply",
+              "edge",
+              "facilities"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "SOV-5",
+        "name": "SOV-5 Supply Chain Sovereignty",
+        "description": "Supply chain sovereignty evaluates the geographic origin, transparency, and resilience of the technology supply chain, focusing on the extent to which critical components and processes remain under EU control   or exposed to non-EU dependencies.",
+        "weight": 10,
+        "questions": [
+          {
+            "id": "SOV-5.1",
+            "grain": "dimension",
+            "text": "Origin of Components",
+            "why": "geographic source of key physical parts",
+            "role": "ALL",
+            "defaultMateriality": "ranking",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "No disclosure",
+                "points": 0,
+                "seal": 1
+              },
+              {
+                "id": "choice-2",
+                "description": "Partial disclosure",
+                "points": 35.75,
+                "seal": 1
+              },
+              {
+                "id": "choice-3",
+                "description": "Transparent with exceptions",
+                "points": 71.5,
+                "seal": 3
+              },
+              {
+                "id": "choice-4",
+                "description": "Full transparency",
+                "points": 107.25,
+                "seal": 3
+              },
+              {
+                "id": "choice-5",
+                "description": "EU-certified provenance",
+                "points": 143,
+                "seal": 4
+              }
+            ],
+            "appliesTo": [
+              "compute",
+              "storage",
+              "network",
+              "facilities"
+            ]
+          },
+          {
+            "id": "SOV-5.2",
+            "grain": "dimension",
+            "text": "Origin of Components: Manufacturing Location",
+            "why": "countries where hardware is manufactured or assembled",
+            "role": "ALL",
+            "defaultMateriality": "ranking",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "Fully foreign, black box",
+                "points": 0,
+                "seal": 1
+              },
+              {
+                "id": "choice-2",
+                "description": "Foreign origin, partial disclosure",
+                "points": 35.75,
+                "seal": 1
+              },
+              {
+                "id": "choice-3",
+                "description": "Mixed sourcing, EU audit rights",
+                "points": 71.5,
+                "seal": 3
+              },
+              {
+                "id": "choice-4",
+                "description": "Build by EU Teams, on the basis of a foreign code",
+                "points": 107.25,
+                "seal": 3
+              },
+              {
+                "id": "choice-5",
+                "description": "Exclusive designed and build by EU Teams",
+                "points": 143,
+                "seal": 4
+              }
+            ],
+            "appliesTo": [
+              "compute",
+              "storage",
+              "network",
+              "facilities"
+            ]
+          },
+          {
+            "id": "SOV-5.3",
+            "grain": "dimension",
+            "text": "Origin of Components",
+            "why": "jurisdiction and provenance of embedded code controlling hardware, firmwares",
+            "role": "ALL",
+            "defaultMateriality": "ranking",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "No disclosure",
+                "points": 0,
+                "seal": 4
+              },
+              {
+                "id": "choice-2",
+                "description": "Partial disclosure",
+                "points": 35.75,
+                "seal": 4
+              },
+              {
+                "id": "choice-3",
+                "description": "Transparent with exceptions",
+                "points": 71.5,
+                "seal": 4
+              },
+              {
+                "id": "choice-4",
+                "description": "Full transparency",
+                "points": 107.25,
+                "seal": 4
+              },
+              {
+                "id": "choice-5",
+                "description": "EU-certified provenance",
+                "points": 143,
+                "seal": 4
+              }
+            ],
+            "appliesTo": [
+              "compute",
+              "storage",
+              "network"
+            ]
+          },
+          {
+            "id": "SOV-5.4",
+            "grain": "dimension",
+            "text": "Origin of Software (all) ",
+            "why": "where and by whom software is architected and programmed",
+            "role": "ALL",
+            "defaultMateriality": "material",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "Software is of fully foreign origin with no transparency ('black box')",
+                "points": 0,
+                "seal": 0
+              },
+              {
+                "id": "choice-2",
+                "description": "Software is of foreign origin with partial disclosure on its development",
+                "points": 35.75,
+                "seal": 2
+              },
+              {
+                "id": "choice-3",
+                "description": "Core and essential parts of the software are designed and maintained by EU teams",
+                "points": 71.5,
+                "seal": 3
+              },
+              {
+                "id": "choice-4",
+                "description": "A large majority of the software is designed and maintained by EU teams",
+                "points": 107.25,
+                "seal": 3
+              },
+              {
+                "id": "choice-5",
+                "description": "The software is exclusively designed and maintained by EU teams",
+                "points": 143,
+                "seal": 4
+              }
+            ],
+            "appliesTo": [
+              "compute",
+              "storage",
+              "network",
+              "iam",
+              "platform",
+              "security",
+              "software-supply",
+              "edge"
+            ]
+          },
+          {
+            "id": "SOV-5.5",
+            "grain": "dimension",
+            "text": "Origin of Software (all)",
+            "why": "location and jurisdiction governing software packaging, distribution, and updates.",
+            "role": "ALL",
+            "defaultMateriality": "material",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "Non-EU control & execution - Build/release/deployment is executed and governed by non-EU teams, with pipeline control and approvals under non-EU jurisdiction",
+                "points": 0,
+                "seal": 1
+              },
+              {
+                "id": "choice-2",
+                "description": "EU control, non-EU execution - Execution is performed by non-EU teams, but pipeline administration and final release approvals are under EU jurisdiction",
+                "points": 35.75,
+                "seal": 1
+              },
+              {
+                "id": "choice-3",
+                "description": "Non-EU control, EU execution - Execution is performed by EU teams, but pipeline administration and/or final release approvals (incl. signing) are under non-EU jurisdiction",
+                "points": 71.5,
+                "seal": 3
+              },
+              {
+                "id": "choice-4",
+                "description": "EU control & execution - Build/release/deployment is executed by EU teams and governed from within the EU (pipeline administration, signing, approvals)",
+                "points": 107.25,
+                "seal": 3
+              },
+              {
+                "id": "choice-5",
+                "description": "EU control and EU policy gates - As (4), plus EU-based compliance/security gates enforced in the pipeline (e.g., signing under your control, vulnerability checks, segregation of duties, auditable approvals)",
+                "points": 143,
+                "seal": 4
+              }
+            ],
+            "appliesTo": [
+              "compute",
+              "storage",
+              "network",
+              "iam",
+              "platform",
+              "security",
+              "software-supply",
+              "edge"
+            ]
+          },
+          {
+            "id": "SOV-5.6",
+            "grain": "dimension",
+            "text": "Single Point of Dependency",
+            "why": "degree of reliance on non-EU vendors, facilities, or proprietary technologies",
+            "role": "ALL",
+            "defaultMateriality": "material",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "Only non-EU vendors or facilities involved",
+                "points": 0,
+                "seal": 1
+              },
+              {
+                "id": "choice-2",
+                "description": "Mostly non-EU vendors or facilities involved in critical services, non documented",
+                "points": 35.75,
+                "seal": 1
+              },
+              {
+                "id": "choice-3",
+                "description": "Few non-EU vendors or facilities involved in critical services, non documented, or non-EU vendors/facilities transparently documented",
+                "points": 71.5,
+                "seal": 3
+              },
+              {
+                "id": "choice-4",
+                "description": "Few non-EU vendors or facilities involved in non-critical services, documented",
+                "points": 107.25,
+                "seal": 3
+              },
+              {
+                "id": "choice-5",
+                "description": "No depedency on non-EU vendor or facility",
+                "points": 143,
+                "seal": 4
+              }
+            ],
+            "appliesTo": [
+              "compute",
+              "storage",
+              "network",
+              "iam",
+              "platform",
+              "security",
+              "software-supply",
+              "edge",
+              "facilities"
+            ]
+          },
+          {
+            "id": "SOV-5.7",
+            "grain": "party",
+            "axis": "assessment",
+            "text": "Supply Chain Transparency",
+            "why": "visibility into the entire supplier and sub-supplier chain, including audit rights.",
+            "role": "ALL",
+            "defaultMateriality": "material",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "No suppliers can be audited",
+                "points": 0,
+                "seal": 1
+              },
+              {
+                "id": "choice-2",
+                "description": "Some suppliers and subcontractors can be audited",
+                "points": 35.75,
+                "seal": 1
+              },
+              {
+                "id": "choice-3",
+                "description": "Critical suppliers and subcontractors can be audited",
+                "points": 71.5,
+                "seal": 3
+              },
+              {
+                "id": "choice-4",
+                "description": "Most suppliers and subcontractors can be audited",
+                "points": 107.25,
+                "seal": 3
+              },
+              {
+                "id": "choice-5",
+                "description": "All suppliers and subcontractors can be audited",
+                "points": 143,
+                "seal": 4
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "SOV-6",
+        "name": "SOV-6 Technology Sovereignty",
+        "description": "Technology sovereignty evaluates the degree of openness, transparency, and independence in the underlying technological stack, ensuring EU actors can interoperate, audit, and evolve solutions without lock-in to foreign proprietary systems.",
+        "weight": 15,
+        "questions": [
+          {
+            "id": "SOV-6.1",
+            "grain": "dimension",
+            "text": "Interoperability & Open interfaces",
+            "why": "ability to integrate with other technologies through well-documented and non-proprietary APIs or protocols.",
+            "role": "ALL",
+            "defaultMateriality": "material",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "Closed proprietary interfaces - Integrations rely on closed or proprietary interfaces and formats controlled by the vendor",
+                "points": 0,
+                "seal": 0
+              },
+              {
+                "id": "choice-2",
+                "description": "Restricted proprietary APIs - Some vendor APIs exist, but they are limited/restricted (access, scope, licensing) and interoperability remains vendor-controlled",
+                "points": 50,
+                "seal": 1
+              },
+              {
+                "id": "choice-3",
+                "description": "Mixed (partial openness) - Key interfaces are documented and partly standards-based, but important functions or data formats remain proprietary/vendor-specific",
+                "points": 100,
+                "seal": 3
+              },
+              {
+                "id": "choice-4",
+                "description": "Standards-based and broadly compatible - Interfaces and data formats predominantly follow recognised open standards (e.g., ETSI/CEN/CENELEC, ISO/IEC, IETF/W3C) with stable versioning and full documentation",
+                "points": 150,
+                "seal": 3
+              },
+              {
+                "id": "choice-5",
+                "description": "Open-by-default with portability - All critical functions are accessible via open, well-documented, non-proprietary APIs and standard formats, with published specifications and minimal vendor-specific dependencies enabling easy third-party integration",
+                "points": 200,
+                "seal": 4
+              }
+            ],
+            "appliesTo": [
+              "compute",
+              "storage",
+              "network",
+              "iam",
+              "platform",
+              "security",
+              "software-supply",
+              "edge"
+            ]
+          },
+          {
+            "id": "SOV-6.2",
+            "grain": "party",
+            "axis": "assessment",
+            "text": "Open Standards Compliance",
+            "why": "extent to which the solution adheres to publicly governed and widely adopted standards, reducing dependency on single vendors",
+            "role": "ALL",
+            "defaultMateriality": "material",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "No open standards - Core services (e.g., identity and access management, data formats, messaging, security, logging, integration protocols) rely mainly on proprietary technologies",
+                "points": 0,
+                "seal": 0
+              },
+              {
+                "id": "choice-2",
+                "description": "Ad hoc use - Open standards are used inconsistently on a case-by-case basis, without documented rationale or governance",
+                "points": 50,
+                "seal": 0
+              },
+              {
+                "id": "choice-3",
+                "description": "Partial core adoption - Open standards are used and documented for some core services, while other core services remain proprietary/vendor-specific",
+                "points": 100,
+                "seal": 3
+              },
+              {
+                "id": "choice-4",
+                "description": "Policy for most core services - A formal policy mandates and documents open standards for most core services, with managed exceptions",
+                "points": 150,
+                "seal": 3
+              },
+              {
+                "id": "choice-5",
+                "description": "Policy for all core services - A formal policy mandates and documents open standards for all core services",
+                "points": 200,
+                "seal": 4
+              }
+            ]
+          },
+          {
+            "id": "SOV-6.3",
+            "grain": "dimension",
+            "text": "Open Source Availability",
+            "why": "whether software is accessible under open licenses, with rights to audit, modify, and redistribute, ensuring transparency and adaptability",
+            "role": "ALL",
+            "defaultMateriality": "material",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "The software is fully closed-source with no rights to audit or modify and its governance is vendor-controlled",
+                "points": 0,
+                "seal": 2
+              },
+              {
+                "id": "choice-2",
+                "description": "Source code is available for review but modification and handover rights are under very strict conditions",
+                "points": 50,
+                "seal": 2
+              },
+              {
+                "id": "choice-3",
+                "description": "The software is open source , permitting modification and redistribution, but governance is centralised (e.g., single-company or non-open foundation), limiting strategic autonomy or smooth handover",
+                "points": 100,
+                "seal": 4
+              },
+              {
+                "id": "choice-4",
+                "description": "The software is open source with significant EU contributions but governance is restricted and handover is possible",
+                "points": 150,
+                "seal": 4
+              },
+              {
+                "id": "choice-5",
+                "description": "Fully open-source software is governed by an independent or EU-based entity, granting full rights to audit, modify, redistribute, and seamlessly transfer stewardship",
+                "points": 200,
+                "seal": 4
+              }
+            ],
+            "appliesTo": [
+              "compute",
+              "storage",
+              "network",
+              "iam",
+              "platform",
+              "security",
+              "software-supply",
+              "edge"
+            ]
+          },
+          {
+            "id": "SOV-6.4",
+            "grain": "party",
+            "axis": "assessment",
+            "text": "Service Architecture Transparency",
+            "why": "visibility into the design and functioning of the service, including architectural documentation, data flows, and dependencies",
+            "role": "ALL",
+            "defaultMateriality": "material",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "No insight provided",
+                "points": 0,
+                "seal": 2
+              },
+              {
+                "id": "choice-2",
+                "description": "Insight accessible during audits",
+                "points": 50,
+                "seal": 2
+              },
+              {
+                "id": "choice-3",
+                "description": "Some public insight exists (all)",
+                "points": 100,
+                "seal": 3
+              },
+              {
+                "id": "choice-4",
+                "description": "Large corpus of public insight exists (all)",
+                "points": 150,
+                "seal": 3
+              },
+              {
+                "id": "choice-5",
+                "description": "Customers can contribute to adapt and enhance the service",
+                "points": 200,
+                "seal": 4
+              }
+            ]
+          },
+          {
+            "id": "SOV-6.5",
+            "grain": "party",
+            "axis": "assessment",
+            "text": "HPC Soveriegnty",
+            "why": "degree of European independence in high-performance computing capabilities, including processors, accelerators, and software ecosystems.",
+            "role": "ALL",
+            "defaultMateriality": "ranking",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "Imported black-box HPC computers",
+                "points": 0,
+                "seal": 0
+              },
+              {
+                "id": "choice-2",
+                "description": "EU-hosted, foreign stack",
+                "points": 50,
+                "seal": 3
+              },
+              {
+                "id": "choice-3",
+                "description": "Co-designed or integrated in EU",
+                "points": 100,
+                "seal": 3
+              },
+              {
+                "id": "choice-4",
+                "description": "EU processor IP, non-EU fabs",
+                "points": 150,
+                "seal": 3
+              },
+              {
+                "id": "choice-5",
+                "description": "EU design + EU fab + EU ops",
+                "points": 200,
+                "seal": 4
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "SOV-7",
+        "name": "SOV-7 Security & Compliance Sovereignty",
+        "description": "Security & Compliance sovereignty measures the extent to which security operations, compliance obligations, and resilience measures are controlled within the EU  , ensuring independence from foreign jurisdictions and long-term operational assurance.",
+        "weight": 15,
+        "questions": [
+          {
+            "id": "SOV-7.1",
+            "grain": "party",
+            "axis": "assessment",
+            "text": "Security Certification",
+            "why": "attainment of EU and internationally recognized certifications (all)",
+            "role": "ALL",
+            "defaultMateriality": "material",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "ELA0",
+                "points": 0,
+                "seal": 1
+              },
+              {
+                "id": "choice-2",
+                "description": "ELA1",
+                "points": 35.75,
+                "seal": 1
+              },
+              {
+                "id": "choice-3",
+                "description": "EAL2",
+                "points": 71.5,
+                "seal": 3
+              },
+              {
+                "id": "choice-4",
+                "description": "ELA3",
+                "points": 107.25,
+                "seal": 3
+              },
+              {
+                "id": "choice-5",
+                "description": "EAL4-5",
+                "points": 143,
+                "seal": 4
+              }
+            ]
+          },
+          {
+            "id": "SOV-7.2",
+            "grain": "party",
+            "axis": "assessment",
+            "text": "EU Regulatory compliance",
+            "why": "demonstrable adherence to GDPR, NIS2, DORA, and other EU frameworks",
+            "role": "ALL",
+            "defaultMateriality": "material",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "No evident adherence to any EU Regulations",
+                "points": 0,
+                "seal": 4
+              },
+              {
+                "id": "choice-2",
+                "description": "Limited compliance to some well-known EU Regulations (basic practices exist but informal, incomplete, or non-systematic)",
+                "points": 35.75,
+                "seal": 4
+              },
+              {
+                "id": "choice-3",
+                "description": "Moderate compliance to some well-know EU Regulations (controls exist but gaps remain; compliance not fully demonstrated)",
+                "points": 71.5,
+                "seal": 4
+              },
+              {
+                "id": "choice-4",
+                "description": "Partial compliance to most of the well-known EU Regulations (requirements implemented and operational with minor exceptions)",
+                "points": 107.25,
+                "seal": 4
+              },
+              {
+                "id": "choice-5",
+                "description": "Fully compliant to all well-know EU regulations (verified compliance, independently audited)",
+                "points": 143,
+                "seal": 4
+              }
+            ]
+          },
+          {
+            "id": "SOV-7.3",
+            "grain": "party",
+            "axis": "assessment",
+            "text": "EU-based SOC & incident handling",
+            "why": "security operations centers and response teams operating exclusively under EU jurisdiction.",
+            "role": "ALL",
+            "defaultMateriality": "material",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "The SOC and incident response teams are located outside the EU",
+                "points": 0,
+                "seal": 1
+              },
+              {
+                "id": "choice-2",
+                "description": "A hybrid model is used with SOC functions split between EU and non-EU locations",
+                "points": 35.75,
+                "seal": 1
+              },
+              {
+                "id": "choice-3",
+                "description": "The primary SOC is in the EU but incidents may be escalated to non-EU teams",
+                "points": 71.5,
+                "seal": 3
+              },
+              {
+                "id": "choice-4",
+                "description": "The entire incident lifecycle is handled by teams operating exclusively within the EU. Threat intelligence and incident data obtained mostly via EU sources",
+                "points": 107.25,
+                "seal": 3
+              },
+              {
+                "id": "choice-5",
+                "description": "The full incident lifecycle is handled by EU-based teams with active participation in ENISA's information sharing frameworks. Threat intelligence and incident data are gathered worldwide",
+                "points": 143,
+                "seal": 4
+              }
+            ]
+          },
+          {
+            "id": "SOV-7.4",
+            "grain": "party",
+            "axis": "assessment",
+            "text": "Control over security monitoring/logging",
+            "why": "customer or EU authority ability to oversee logs, alerts, and monitoring functions directly.",
+            "role": "ALL",
+            "defaultMateriality": "material",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "The provider retains full control over all security logs and monitoring",
+                "points": 0,
+                "seal": 0
+              },
+              {
+                "id": "choice-2",
+                "description": "Customers receive periodic reports based on security logs",
+                "points": 35.75,
+                "seal": 1
+              },
+              {
+                "id": "choice-3",
+                "description": "Customers have access to a basic portal for monitoring",
+                "points": 71.5,
+                "seal": 3
+              },
+              {
+                "id": "choice-4",
+                "description": "Customers have full direct access to their security monitoring and logs which are stored in the EU",
+                "points": 107.25,
+                "seal": 3
+              },
+              {
+                "id": "choice-5",
+                "description": "Customers have full access to immutable tamper-proof logs stored exclusively within the EU",
+                "points": 143,
+                "seal": 4
+              }
+            ]
+          },
+          {
+            "id": "SOV-7.5",
+            "grain": "party",
+            "axis": "assessment",
+            "text": "Disclosure of incidents",
+            "why": "transparent, timely, and EU-compliant reporting of breaches or vulnerabilities",
+            "role": "ALL",
+            "defaultMateriality": "material",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "No compliance - ad-hoc or absent breach reporting workflow, with no possibility to collaborate with EU CSIRTs or to support EU-led investigations",
+                "points": 0,
+                "seal": 0
+              },
+              {
+                "id": "choice-2",
+                "description": "Limited compliance - reporting is reactive with limited transparency and unguaranteed timelines;  CSIRT cooperation possible on best-effort basis",
+                "points": 35.75,
+                "seal": 1
+              },
+              {
+                "id": "choice-3",
+                "description": "Moderate compliance - GDPR/NIS2-aligned reporting procedures in place with vulnerabilities and breaches communicated within mandated timelines; CSIRT cooperation available but not real-time",
+                "points": 71.5,
+                "seal": 3
+              },
+              {
+                "id": "choice-4",
+                "description": "Partial compliance - there is a monitored reporting flow with internal SLAs equal or below regulatory maximums; contractually prepared to support EU-directed investigations; data sharing with EU CSIRTs available but not in real-time",
+                "points": 107.25,
+                "seal": 3
+              },
+              {
+                "id": "choice-5",
+                "description": "Full compliance - full EU-compliant breach disclosure with real-time data sharing to EU CSIRTs with audit-backed processes, proactive vulnerability disclosure and threat intel sharing; proven readiness for investigations",
+                "points": 143,
+                "seal": 4
+              }
+            ]
+          },
+          {
+            "id": "SOV-7.6",
+            "grain": "dimension",
+            "text": "Maintenance Autonomy",
+            "why": "ability to develop, test, and apply security patches independently of non-EU vendors",
+            "role": "ALL",
+            "defaultMateriality": "material",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "No autonomy in the deployment of security patches",
+                "points": 0,
+                "seal": 1
+              },
+              {
+                "id": "choice-2",
+                "description": "Limited Autonomy - security patches are deployed according to vendor schedules; basic testing is possible",
+                "points": 35.75,
+                "seal": 1
+              },
+              {
+                "id": "choice-3",
+                "description": "Moderate Autonomy - security patches are deployed with sufficient notice to the customer and testing is possible, except for zero-day patching",
+                "points": 71.5,
+                "seal": 4
+              },
+              {
+                "id": "choice-4",
+                "description": "High Autonomy - security patches can be deployed independently by the customer, without customers' checks",
+                "points": 107.25,
+                "seal": 4
+              },
+              {
+                "id": "choice-5",
+                "description": "Full Autonomy - security patches can be deployed independently by the customer, with customers' checks",
+                "points": 143,
+                "seal": 4
+              }
+            ],
+            "appliesTo": [
+              "compute",
+              "storage",
+              "network",
+              "iam",
+              "platform",
+              "security",
+              "software-supply",
+              "edge",
+              "facilities"
+            ]
+          },
+          {
+            "id": "SOV-7.7",
+            "grain": "party",
+            "axis": "assessment",
+            "text": "Auditability",
+            "why": "capacity for EU entities to perform independent security and compliance audits with full access.",
+            "role": "ALL",
+            "defaultMateriality": "material",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "No access to entities other than the vendor",
+                "points": 0,
+                "seal": 1
+              },
+              {
+                "id": "choice-2",
+                "description": "Limited access to independent entities to the data provided by the vendor",
+                "points": 35.75,
+                "seal": 1
+              },
+              {
+                "id": "choice-3",
+                "description": "Partial control by independent entities on the data provided by the vendor",
+                "points": 71.5,
+                "seal": 1
+              },
+              {
+                "id": "choice-4",
+                "description": "High control by independent entities to request data from the vendor",
+                "points": 107.25,
+                "seal": 1
+              },
+              {
+                "id": "choice-5",
+                "description": "Full control by any idependent entity to perform security and compliance audits",
+                "points": 143,
+                "seal": 4
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "SOV-8",
+        "name": "SOV-8 Environmental Sustainability",
+        "description": "Environmental sustainability assesses autonomy and resilience of cloud services over the long term in relation to energy usage, dependency and raw material scarcity.",
+        "weight": 5,
+        "questions": [
+          {
+            "id": "SOV-8.1",
+            "grain": "party",
+            "axis": "assessment",
+            "text": "Energy efficiency",
+            "why": "adoption of energy-efficient infrastructure (all) and measurable improvement targets.",
+            "role": "ALL",
+            "defaultMateriality": "material",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "PUE > 0",
+                "points": 0,
+                "seal": 1
+              },
+              {
+                "id": "choice-2",
+                "description": "PUE < 3",
+                "points": 62.5,
+                "seal": 4
+              },
+              {
+                "id": "choice-3",
+                "description": "PUE < 1.5 + roadmap",
+                "points": 125,
+                "seal": 4
+              },
+              {
+                "id": "choice-4",
+                "description": "PUE < 1.3",
+                "points": 187.5,
+                "seal": 4
+              },
+              {
+                "id": "choice-5",
+                "description": "PUE < 1.2 EU verified",
+                "points": 250,
+                "seal": 4
+              }
+            ]
+          },
+          {
+            "id": "SOV-8.2",
+            "grain": "party",
+            "axis": "assessment",
+            "text": "Hardware reuse & recycling",
+            "why": "circular economy practices ensuring reuse, refurbishment, and responsible end-of-life treatment of hardware.",
+            "role": "ALL",
+            "defaultMateriality": "material",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "No policy",
+                "points": 0,
+                "seal": 0
+              },
+              {
+                "id": "choice-2",
+                "description": "Circular economy EU-aligned",
+                "points": 62.5,
+                "seal": 4
+              },
+              {
+                "id": "choice-3",
+                "description": "Documented program",
+                "points": 125,
+                "seal": 4
+              },
+              {
+                "id": "choice-4",
+                "description": "Circular economy EU-aligned",
+                "points": 187.5,
+                "seal": 4
+              },
+              {
+                "id": "choice-5",
+                "description": "EU-certified lifecycle",
+                "points": 250,
+                "seal": 4
+              }
+            ]
+          },
+          {
+            "id": "SOV-8.3",
+            "grain": "party",
+            "axis": "assessment",
+            "text": "Environmental impact reporting",
+            "why": "transparent measurement and disclosure of carbon emissions, water usage, and other sustainability indicators.",
+            "role": "ALL",
+            "defaultMateriality": "material",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "No reporting",
+                "points": 0,
+                "seal": 1
+              },
+              {
+                "id": "choice-2",
+                "description": "Detailed EU methodology",
+                "points": 62.5,
+                "seal": 3
+              },
+              {
+                "id": "choice-3",
+                "description": "Annual report",
+                "points": 125,
+                "seal": 3
+              },
+              {
+                "id": "choice-4",
+                "description": "Detailed EU methodology",
+                "points": 187.5,
+                "seal": 3
+              },
+              {
+                "id": "choice-5",
+                "description": "EU-audited reporting",
+                "points": 250,
+                "seal": 4
+              }
+            ]
+          },
+          {
+            "id": "SOV-8.4",
+            "grain": "party",
+            "axis": "assessment",
+            "text": "Energy supplies",
+            "why": "sourcing of renewable or low-carbon energy to power infrastructure and operations",
+            "role": "ALL",
+            "defaultMateriality": "material",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "Non traceable",
+                "points": 0,
+                "seal": 4
+              },
+              {
+                "id": "choice-2",
+                "description": "Only EU energy supplies",
+                "points": 62.5,
+                "seal": 4
+              },
+              {
+                "id": "choice-3",
+                "description": "Mix of EU and non-EU supplies",
+                "points": 125,
+                "seal": 4
+              },
+              {
+                "id": "choice-4",
+                "description": "Only EU energy supplies",
+                "points": 187.5,
+                "seal": 4
+              },
+              {
+                "id": "choice-5",
+                "description": "Only green EU energy supplies",
+                "points": 250,
+                "seal": 4
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "testEstates": [
+      {
+        "id": "source-worked-example",
+        "name": "Source worked example",
+        "description": "The same 47 fictitious selections the source spreadsheet ships, now spread across the chain and the nine dimensions. Every answer is one uniformity claim — the source made its selections about a single provider, so the deep grain repeats them rather than inventing per-layer truth. SOV-1.6 is left unanswered because the source leaves it blank. It demonstrates the instrument and measures nobody.",
+        "parties": [
+          {
+            "id": "us",
+            "name": "The assessed organisation",
+            "type": "assessed-organisation",
+            "serves": []
+          },
+          {
+            "id": "contractor",
+            "name": "The contracting provider",
+            "type": "contractor",
+            "serves": [
+              "compute",
+              "storage",
+              "network",
+              "iam",
+              "platform",
+              "security",
+              "software-supply",
+              "edge"
+            ]
+          },
+          {
+            "id": "secops",
+            "name": "Managed security sub-contractor",
+            "type": "sub-contractor",
+            "serves": [
+              "security"
+            ]
+          },
+          {
+            "id": "hardware",
+            "name": "Hardware supplier",
+            "type": "supplier",
+            "serves": [
+              "compute",
+              "storage",
+              "network",
+              "facilities"
+            ]
+          }
+        ],
+        "answers": [
+          {
+            "questionId": "SOV-1.1",
+            "rungId": "choice-4"
+          },
+          {
+            "questionId": "SOV-1.2",
+            "rungId": "choice-3"
+          },
+          {
+            "questionId": "SOV-1.3",
+            "rungId": "choice-2"
+          },
+          {
+            "questionId": "SOV-1.4",
+            "rungId": "choice-4"
+          },
+          {
+            "questionId": "SOV-1.5",
+            "rungId": "choice-3"
+          },
+          {
+            "questionId": "SOV-1.7",
+            "rungId": "choice-3"
+          },
+          {
+            "questionId": "SOV-1.8",
+            "rungId": "choice-3"
+          },
+          {
+            "questionId": "SOV-2.1",
+            "rungId": "choice-3"
+          },
+          {
+            "questionId": "SOV-2.2",
+            "rungId": "choice-3"
+          },
+          {
+            "questionId": "SOV-2.3",
+            "rungId": "choice-5"
+          },
+          {
+            "questionId": "SOV-2.4",
+            "rungId": "choice-4"
+          },
+          {
+            "questionId": "SOV-2.5",
+            "rungId": "choice-3"
+          },
+          {
+            "questionId": "SOV-2.6",
+            "rungId": "choice-3"
+          },
+          {
+            "questionId": "SOV-3.1",
+            "rungId": "choice-3"
+          },
+          {
+            "questionId": "SOV-3.2",
+            "rungId": "choice-4"
+          },
+          {
+            "questionId": "SOV-3.3",
+            "rungId": "choice-4"
+          },
+          {
+            "questionId": "SOV-3.4",
+            "rungId": "choice-5"
+          },
+          {
+            "questionId": "SOV-3.5",
+            "rungId": "choice-3"
+          },
+          {
+            "questionId": "SOV-4.1",
+            "rungId": "choice-3"
+          },
+          {
+            "questionId": "SOV-4.2",
+            "rungId": "choice-4"
+          },
+          {
+            "questionId": "SOV-4.3",
+            "rungId": "choice-4"
+          },
+          {
+            "questionId": "SOV-4.4",
+            "rungId": "choice-5"
+          },
+          {
+            "questionId": "SOV-4.5",
+            "rungId": "choice-4"
+          },
+          {
+            "questionId": "SOV-4.6",
+            "rungId": "choice-3"
+          },
+          {
+            "questionId": "SOV-5.1",
+            "rungId": "choice-3"
+          },
+          {
+            "questionId": "SOV-5.2",
+            "rungId": "choice-3"
+          },
+          {
+            "questionId": "SOV-5.3",
+            "rungId": "choice-3"
+          },
+          {
+            "questionId": "SOV-5.4",
+            "rungId": "choice-3"
+          },
+          {
+            "questionId": "SOV-5.5",
+            "rungId": "choice-3"
+          },
+          {
+            "questionId": "SOV-5.6",
+            "rungId": "choice-4"
+          },
+          {
+            "questionId": "SOV-5.7",
+            "rungId": "choice-4"
+          },
+          {
+            "questionId": "SOV-6.1",
+            "rungId": "choice-3"
+          },
+          {
+            "questionId": "SOV-6.2",
+            "rungId": "choice-3"
+          },
+          {
+            "questionId": "SOV-6.3",
+            "rungId": "choice-3"
+          },
+          {
+            "questionId": "SOV-6.4",
+            "rungId": "choice-4"
+          },
+          {
+            "questionId": "SOV-6.5",
+            "rungId": "choice-2"
+          },
+          {
+            "questionId": "SOV-7.1",
+            "rungId": "choice-5"
+          },
+          {
+            "questionId": "SOV-7.2",
+            "rungId": "choice-5"
+          },
+          {
+            "questionId": "SOV-7.3",
+            "rungId": "choice-5"
+          },
+          {
+            "questionId": "SOV-7.4",
+            "rungId": "choice-5"
+          },
+          {
+            "questionId": "SOV-7.5",
+            "rungId": "choice-5"
+          },
+          {
+            "questionId": "SOV-7.6",
+            "rungId": "choice-5"
+          },
+          {
+            "questionId": "SOV-7.7",
+            "rungId": "choice-5"
+          },
+          {
+            "questionId": "SOV-8.1",
+            "rungId": "choice-4"
+          },
+          {
+            "questionId": "SOV-8.2",
+            "rungId": "choice-5"
+          },
+          {
+            "questionId": "SOV-8.3",
+            "rungId": "choice-5"
+          },
+          {
+            "questionId": "SOV-8.4",
+            "rungId": "choice-4"
+          }
+        ]
+      },
+      {
+        "id": "best-available-today",
+        "name": "Best available today",
+        "description": "A ceiling probe, not a claim about any vendor: a hypothetical fully-European chain that takes the top rung everywhere except the five silicon questions, where it takes choice-4, the second-from-top rung. It exists to answer one question — is SEAL-4 reachable once every layer and every entity is asked?",
+        "parties": [
+          {
+            "id": "us",
+            "name": "The assessed organisation",
+            "type": "assessed-organisation",
+            "serves": []
+          },
+          {
+            "id": "contractor",
+            "name": "The contracting provider",
+            "type": "contractor",
+            "serves": [
+              "compute",
+              "storage",
+              "network",
+              "iam",
+              "platform",
+              "security",
+              "software-supply",
+              "edge"
+            ]
+          },
+          {
+            "id": "secops",
+            "name": "Managed security sub-contractor",
+            "type": "sub-contractor",
+            "serves": [
+              "security"
+            ]
+          },
+          {
+            "id": "hardware",
+            "name": "Hardware supplier",
+            "type": "supplier",
+            "serves": [
+              "compute",
+              "storage",
+              "network",
+              "facilities"
+            ]
+          }
+        ],
+        "answers": [
+          {
+            "questionId": "SOV-1.1",
+            "rungId": "choice-4"
+          },
+          {
+            "questionId": "SOV-1.2",
+            "rungId": "choice-5"
+          },
+          {
+            "questionId": "SOV-1.3",
+            "rungId": "choice-4"
+          },
+          {
+            "questionId": "SOV-1.4",
+            "rungId": "choice-5"
+          },
+          {
+            "questionId": "SOV-1.5",
+            "rungId": "choice-5"
+          },
+          {
+            "questionId": "SOV-1.6",
+            "rungId": "choice-3"
+          },
+          {
+            "questionId": "SOV-1.7",
+            "rungId": "choice-4"
+          },
+          {
+            "questionId": "SOV-1.8",
+            "rungId": "choice-5"
+          },
+          {
+            "questionId": "SOV-2.1",
+            "rungId": "choice-3"
+          },
+          {
+            "questionId": "SOV-2.2",
+            "rungId": "choice-5"
+          },
+          {
+            "questionId": "SOV-2.3",
+            "rungId": "choice-5"
+          },
+          {
+            "questionId": "SOV-2.4",
+            "rungId": "choice-5"
+          },
+          {
+            "questionId": "SOV-2.5",
+            "rungId": "choice-5"
+          },
+          {
+            "questionId": "SOV-2.6",
+            "rungId": "choice-5"
+          },
+          {
+            "questionId": "SOV-3.1",
+            "rungId": "choice-5"
+          },
+          {
+            "questionId": "SOV-3.2",
+            "rungId": "choice-5"
+          },
+          {
+            "questionId": "SOV-3.3",
+            "rungId": "choice-5"
+          },
+          {
+            "questionId": "SOV-3.4",
+            "rungId": "choice-5"
+          },
+          {
+            "questionId": "SOV-3.5",
+            "rungId": "choice-4"
+          },
+          {
+            "questionId": "SOV-4.1",
+            "rungId": "choice-5"
+          },
+          {
+            "questionId": "SOV-4.2",
+            "rungId": "choice-5"
+          },
+          {
+            "questionId": "SOV-4.3",
+            "rungId": "choice-5"
+          },
+          {
+            "questionId": "SOV-4.4",
+            "rungId": "choice-5"
+          },
+          {
+            "questionId": "SOV-4.5",
+            "rungId": "choice-5"
+          },
+          {
+            "questionId": "SOV-4.6",
+            "rungId": "choice-5"
+          },
+          {
+            "questionId": "SOV-5.1",
+            "rungId": "choice-4"
+          },
+          {
+            "questionId": "SOV-5.2",
+            "rungId": "choice-4"
+          },
+          {
+            "questionId": "SOV-5.3",
+            "rungId": "choice-4"
+          },
+          {
+            "questionId": "SOV-5.4",
+            "rungId": "choice-5"
+          },
+          {
+            "questionId": "SOV-5.5",
+            "rungId": "choice-5"
+          },
+          {
+            "questionId": "SOV-5.6",
+            "rungId": "choice-5"
+          },
+          {
+            "questionId": "SOV-5.7",
+            "rungId": "choice-5"
+          },
+          {
+            "questionId": "SOV-6.1",
+            "rungId": "choice-5"
+          },
+          {
+            "questionId": "SOV-6.2",
+            "rungId": "choice-5"
+          },
+          {
+            "questionId": "SOV-6.3",
+            "rungId": "choice-5"
+          },
+          {
+            "questionId": "SOV-6.4",
+            "rungId": "choice-5"
+          },
+          {
+            "questionId": "SOV-6.5",
+            "rungId": "choice-4"
+          },
+          {
+            "questionId": "SOV-7.1",
+            "rungId": "choice-5"
+          },
+          {
+            "questionId": "SOV-7.2",
+            "rungId": "choice-5"
+          },
+          {
+            "questionId": "SOV-7.3",
+            "rungId": "choice-5"
+          },
+          {
+            "questionId": "SOV-7.4",
+            "rungId": "choice-5"
+          },
+          {
+            "questionId": "SOV-7.5",
+            "rungId": "choice-5"
+          },
+          {
+            "questionId": "SOV-7.6",
+            "rungId": "choice-5"
+          },
+          {
+            "questionId": "SOV-7.7",
+            "rungId": "choice-5"
+          },
+          {
+            "questionId": "SOV-8.1",
+            "rungId": "choice-5"
+          },
+          {
+            "questionId": "SOV-8.2",
+            "rungId": "choice-5"
+          },
+          {
+            "questionId": "SOV-8.3",
+            "rungId": "choice-5"
+          },
+          {
+            "questionId": "SOV-8.4",
+            "rungId": "choice-5"
+          }
+        ]
+      }
+    ]
+  },
+  "parties": [
+    {
+      "id": "us",
+      "name": "The assessed organisation",
+      "type": "assessed-organisation",
+      "serves": []
+    }
+  ],
+  "claims": [
+    {
+      "roles": [
+        "ALL"
+      ],
+      "dimensions": [
+        "security",
+        "iam",
+        "compute"
+      ],
+      "parties": [
+        "secops-eu",
+        "helios-europe",
+        "rhine-estate"
+      ]
+    },
+    {
+      "roles": [
+        "ALL"
+      ],
+      "dimensions": [],
+      "parties": []
+    }
+  ],
+  "partiesAdded": [
+    {
+      "id": "helios-europe",
+      "name": "Helios Cloud Europe SAS",
+      "type": "contractor",
+      "serves": [
+        "compute",
+        "storage",
+        "network",
+        "iam",
+        "platform",
+        "security"
+      ]
+    },
+    {
+      "id": "secops-eu",
+      "name": "SecOps Europe",
+      "type": "sub-contractor",
+      "serves": [
+        "security"
+      ]
+    },
+    {
+      "id": "rhine-estate",
+      "name": "Rhine Datacenter Estate",
+      "type": "supplier",
+      "serves": [
+        "facilities"
+      ]
+    }
+  ],
+  "ledger": [],
+  "answers": [
+    {
+      "questionId": "SOV-1.1",
+      "target": {
+        "kind": "party",
+        "party": "us"
+      },
+      "state": "na",
+      "reason": "The assessed organisation itself — the entity questions target its contractors, sub-contractors and suppliers.",
+      "gesture": {
+        "groupId": "jane:SOV-1.1",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-1.1",
+      "target": {
+        "kind": "party",
+        "party": "helios-europe"
+      },
+      "state": "answered",
+      "rungId": "choice-4",
+      "gesture": {
+        "groupId": "jane:SOV-1.1",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-1.1",
+      "target": {
+        "kind": "party",
+        "party": "secops-eu"
+      },
+      "state": "answered",
+      "rungId": "choice-2",
+      "gesture": {
+        "groupId": "jane:SOV-1.1",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-1.1",
+      "target": {
+        "kind": "party",
+        "party": "rhine-estate"
+      },
+      "state": "answered",
+      "rungId": "choice-4",
+      "gesture": {
+        "groupId": "jane:SOV-1.1",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-1.2",
+      "target": {
+        "kind": "party",
+        "party": "us"
+      },
+      "state": "na",
+      "reason": "The assessed organisation itself — the entity questions target its contractors, sub-contractors and suppliers.",
+      "gesture": {
+        "groupId": "jane:SOV-1.2",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-1.2",
+      "target": {
+        "kind": "party",
+        "party": "helios-europe"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-1.2",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-1.2",
+      "target": {
+        "kind": "party",
+        "party": "secops-eu"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-1.2",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-1.2",
+      "target": {
+        "kind": "party",
+        "party": "rhine-estate"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-1.2",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-1.3",
+      "target": {
+        "kind": "assessment"
+      },
+      "state": "answered",
+      "rungId": "choice-2",
+      "gesture": {
+        "groupId": "jane:SOV-1.3",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-1.4",
+      "target": {
+        "kind": "party",
+        "party": "us"
+      },
+      "state": "na",
+      "reason": "The assessed organisation itself — the entity questions target its contractors, sub-contractors and suppliers.",
+      "gesture": {
+        "groupId": "jane:SOV-1.4",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-1.4",
+      "target": {
+        "kind": "party",
+        "party": "helios-europe"
+      },
+      "state": "answered",
+      "rungId": "choice-4",
+      "gesture": {
+        "groupId": "jane:SOV-1.4",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-1.4",
+      "target": {
+        "kind": "party",
+        "party": "secops-eu"
+      },
+      "state": "answered",
+      "rungId": "choice-4",
+      "gesture": {
+        "groupId": "jane:SOV-1.4",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-1.4",
+      "target": {
+        "kind": "party",
+        "party": "rhine-estate"
+      },
+      "state": "answered",
+      "rungId": "choice-4",
+      "gesture": {
+        "groupId": "jane:SOV-1.4",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-1.5",
+      "target": {
+        "kind": "party",
+        "party": "us"
+      },
+      "state": "na",
+      "reason": "The assessed organisation itself — the entity questions target its contractors, sub-contractors and suppliers.",
+      "gesture": {
+        "groupId": "jane:SOV-1.5",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-1.5",
+      "target": {
+        "kind": "party",
+        "party": "helios-europe"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-1.5",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-1.5",
+      "target": {
+        "kind": "party",
+        "party": "secops-eu"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-1.5",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-1.5",
+      "target": {
+        "kind": "party",
+        "party": "rhine-estate"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-1.5",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-1.8",
+      "target": {
+        "kind": "dimension",
+        "dimension": "compute"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-1.8",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-1.8",
+      "target": {
+        "kind": "dimension",
+        "dimension": "storage"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-1.8",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-1.8",
+      "target": {
+        "kind": "dimension",
+        "dimension": "network"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-1.8",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-1.8",
+      "target": {
+        "kind": "dimension",
+        "dimension": "iam"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-1.8",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-1.8",
+      "target": {
+        "kind": "dimension",
+        "dimension": "security"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-1.8",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-1.8",
+      "target": {
+        "kind": "dimension",
+        "dimension": "facilities"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-1.8",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-2.1",
+      "target": {
+        "kind": "party",
+        "party": "us"
+      },
+      "state": "na",
+      "reason": "The assessed organisation itself — the entity questions target its contractors, sub-contractors and suppliers.",
+      "gesture": {
+        "groupId": "jane:SOV-2.1",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-2.1",
+      "target": {
+        "kind": "party",
+        "party": "helios-europe"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-2.1",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-2.1",
+      "target": {
+        "kind": "party",
+        "party": "secops-eu"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-2.1",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-2.1",
+      "target": {
+        "kind": "party",
+        "party": "rhine-estate"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-2.1",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-2.2",
+      "target": {
+        "kind": "party",
+        "party": "us"
+      },
+      "state": "na",
+      "reason": "The assessed organisation itself — the entity questions target its contractors, sub-contractors and suppliers.",
+      "gesture": {
+        "groupId": "jane:SOV-2.2",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-2.2",
+      "target": {
+        "kind": "party",
+        "party": "helios-europe"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-2.2",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-2.2",
+      "target": {
+        "kind": "party",
+        "party": "secops-eu"
+      },
+      "state": "answered",
+      "rungId": "choice-5",
+      "gesture": {
+        "groupId": "jane:SOV-2.2",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-2.2",
+      "target": {
+        "kind": "party",
+        "party": "rhine-estate"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-2.2",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-2.3",
+      "target": {
+        "kind": "party",
+        "party": "us"
+      },
+      "state": "na",
+      "reason": "The assessed organisation itself — the entity questions target its contractors, sub-contractors and suppliers.",
+      "gesture": {
+        "groupId": "jane:SOV-2.3",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-2.3",
+      "target": {
+        "kind": "party",
+        "party": "helios-europe"
+      },
+      "state": "answered",
+      "rungId": "choice-5",
+      "gesture": {
+        "groupId": "jane:SOV-2.3",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-2.3",
+      "target": {
+        "kind": "party",
+        "party": "secops-eu"
+      },
+      "state": "answered",
+      "rungId": "choice-5",
+      "gesture": {
+        "groupId": "jane:SOV-2.3",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-2.3",
+      "target": {
+        "kind": "party",
+        "party": "rhine-estate"
+      },
+      "state": "answered",
+      "rungId": "choice-5",
+      "gesture": {
+        "groupId": "jane:SOV-2.3",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-2.4",
+      "target": {
+        "kind": "party",
+        "party": "us"
+      },
+      "state": "na",
+      "reason": "The assessed organisation itself — the entity questions target its contractors, sub-contractors and suppliers.",
+      "gesture": {
+        "groupId": "jane:SOV-2.4",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-2.4",
+      "target": {
+        "kind": "party",
+        "party": "helios-europe"
+      },
+      "state": "answered",
+      "rungId": "choice-4",
+      "gesture": {
+        "groupId": "jane:SOV-2.4",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-2.4",
+      "target": {
+        "kind": "party",
+        "party": "secops-eu"
+      },
+      "state": "answered",
+      "rungId": "choice-4",
+      "gesture": {
+        "groupId": "jane:SOV-2.4",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-2.4",
+      "target": {
+        "kind": "party",
+        "party": "rhine-estate"
+      },
+      "state": "answered",
+      "rungId": "choice-4",
+      "gesture": {
+        "groupId": "jane:SOV-2.4",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-2.5",
+      "target": {
+        "kind": "assessment"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-2.5",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-2.6",
+      "target": {
+        "kind": "party",
+        "party": "us"
+      },
+      "state": "na",
+      "reason": "The assessed organisation itself — the entity questions target its contractors, sub-contractors and suppliers.",
+      "gesture": {
+        "groupId": "jane:SOV-2.6",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-2.6",
+      "target": {
+        "kind": "party",
+        "party": "helios-europe"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-2.6",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-2.6",
+      "target": {
+        "kind": "party",
+        "party": "secops-eu"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-2.6",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-2.6",
+      "target": {
+        "kind": "party",
+        "party": "rhine-estate"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-2.6",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-3.1",
+      "target": {
+        "kind": "dimension",
+        "dimension": "compute"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-3.1",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-3.1",
+      "target": {
+        "kind": "dimension",
+        "dimension": "storage"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-3.1",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-3.1",
+      "target": {
+        "kind": "dimension",
+        "dimension": "network"
+      },
+      "state": "na",
+      "reason": "Nothing at rest on the network layer — key control is answered at compute and storage.",
+      "gesture": {
+        "groupId": "jane:SOV-3.1",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-3.1",
+      "target": {
+        "kind": "dimension",
+        "dimension": "iam"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-3.1",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-3.1",
+      "target": {
+        "kind": "dimension",
+        "dimension": "security"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-3.1",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-3.2",
+      "target": {
+        "kind": "dimension",
+        "dimension": "compute"
+      },
+      "state": "answered",
+      "rungId": "choice-4",
+      "gesture": {
+        "groupId": "jane:SOV-3.2",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-3.2",
+      "target": {
+        "kind": "dimension",
+        "dimension": "storage"
+      },
+      "state": "answered",
+      "rungId": "choice-4",
+      "gesture": {
+        "groupId": "jane:SOV-3.2",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-3.2",
+      "target": {
+        "kind": "dimension",
+        "dimension": "network"
+      },
+      "state": "answered",
+      "rungId": "choice-4",
+      "gesture": {
+        "groupId": "jane:SOV-3.2",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-3.2",
+      "target": {
+        "kind": "dimension",
+        "dimension": "iam"
+      },
+      "state": "answered",
+      "rungId": "choice-4",
+      "gesture": {
+        "groupId": "jane:SOV-3.2",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-3.2",
+      "target": {
+        "kind": "dimension",
+        "dimension": "security"
+      },
+      "state": "answered",
+      "rungId": "choice-4",
+      "gesture": {
+        "groupId": "jane:SOV-3.2",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-3.3",
+      "target": {
+        "kind": "dimension",
+        "dimension": "compute"
+      },
+      "state": "answered",
+      "rungId": "choice-4",
+      "gesture": {
+        "groupId": "jane:SOV-3.3",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-3.3",
+      "target": {
+        "kind": "dimension",
+        "dimension": "storage"
+      },
+      "state": "answered",
+      "rungId": "choice-4",
+      "gesture": {
+        "groupId": "jane:SOV-3.3",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-3.3",
+      "target": {
+        "kind": "dimension",
+        "dimension": "network"
+      },
+      "state": "answered",
+      "rungId": "choice-4",
+      "gesture": {
+        "groupId": "jane:SOV-3.3",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-3.3",
+      "target": {
+        "kind": "dimension",
+        "dimension": "iam"
+      },
+      "state": "answered",
+      "rungId": "choice-4",
+      "gesture": {
+        "groupId": "jane:SOV-3.3",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-3.3",
+      "target": {
+        "kind": "dimension",
+        "dimension": "security"
+      },
+      "state": "answered",
+      "rungId": "choice-4",
+      "gesture": {
+        "groupId": "jane:SOV-3.3",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-3.4",
+      "target": {
+        "kind": "dimension",
+        "dimension": "compute"
+      },
+      "state": "answered",
+      "rungId": "choice-5",
+      "gesture": {
+        "groupId": "jane:SOV-3.4",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-3.4",
+      "target": {
+        "kind": "dimension",
+        "dimension": "storage"
+      },
+      "state": "answered",
+      "rungId": "choice-4",
+      "gesture": {
+        "groupId": "jane:SOV-3.4",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-3.4",
+      "target": {
+        "kind": "dimension",
+        "dimension": "network"
+      },
+      "state": "answered",
+      "rungId": "choice-5",
+      "gesture": {
+        "groupId": "jane:SOV-3.4",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-3.4",
+      "target": {
+        "kind": "dimension",
+        "dimension": "iam"
+      },
+      "state": "answered",
+      "rungId": "choice-5",
+      "gesture": {
+        "groupId": "jane:SOV-3.4",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-3.4",
+      "target": {
+        "kind": "dimension",
+        "dimension": "security"
+      },
+      "state": "answered",
+      "rungId": "choice-5",
+      "gesture": {
+        "groupId": "jane:SOV-3.4",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-3.5",
+      "target": {
+        "kind": "assessment"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-3.5",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-4.1",
+      "target": {
+        "kind": "dimension",
+        "dimension": "compute"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-4.1",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-4.1",
+      "target": {
+        "kind": "dimension",
+        "dimension": "storage"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-4.1",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-4.1",
+      "target": {
+        "kind": "dimension",
+        "dimension": "network"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-4.1",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-4.1",
+      "target": {
+        "kind": "dimension",
+        "dimension": "iam"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-4.1",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-4.1",
+      "target": {
+        "kind": "dimension",
+        "dimension": "security"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-4.1",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-4.2",
+      "target": {
+        "kind": "dimension-stratum",
+        "dimension": "compute",
+        "stratum": "service"
+      },
+      "state": "answered",
+      "rungId": "choice-5",
+      "gesture": {
+        "groupId": "jane:SOV-4.2:service",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-4.2",
+      "target": {
+        "kind": "dimension-stratum",
+        "dimension": "compute",
+        "stratum": "software"
+      },
+      "state": "answered",
+      "rungId": "choice-4",
+      "gesture": {
+        "groupId": "jane:SOV-4.2:software",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-4.2",
+      "target": {
+        "kind": "dimension-stratum",
+        "dimension": "compute",
+        "stratum": "hardware"
+      },
+      "state": "answered",
+      "rungId": "choice-2",
+      "gesture": {
+        "groupId": "jane:SOV-4.2:hardware",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-4.2",
+      "target": {
+        "kind": "dimension-stratum",
+        "dimension": "compute",
+        "stratum": "chips"
+      },
+      "state": "answered",
+      "rungId": "choice-1",
+      "gesture": {
+        "groupId": "jane:SOV-4.2:chips",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-4.2",
+      "target": {
+        "kind": "dimension",
+        "dimension": "storage"
+      },
+      "state": "answered",
+      "rungId": "choice-4",
+      "gesture": {
+        "groupId": "jane:SOV-4.2",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-4.2",
+      "target": {
+        "kind": "dimension",
+        "dimension": "network"
+      },
+      "state": "answered",
+      "rungId": "choice-4",
+      "gesture": {
+        "groupId": "jane:SOV-4.2",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-4.2",
+      "target": {
+        "kind": "dimension",
+        "dimension": "iam"
+      },
+      "state": "answered",
+      "rungId": "choice-4",
+      "gesture": {
+        "groupId": "jane:SOV-4.2",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-4.2",
+      "target": {
+        "kind": "dimension",
+        "dimension": "security"
+      },
+      "state": "answered",
+      "rungId": "choice-2",
+      "gesture": {
+        "groupId": "jane:SOV-4.2",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-4.2",
+      "target": {
+        "kind": "dimension",
+        "dimension": "facilities"
+      },
+      "state": "answered",
+      "rungId": "choice-4",
+      "gesture": {
+        "groupId": "jane:SOV-4.2",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-4.3",
+      "target": {
+        "kind": "assessment"
+      },
+      "state": "answered",
+      "rungId": "choice-4",
+      "gesture": {
+        "groupId": "jane:SOV-4.3",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-4.4",
+      "target": {
+        "kind": "dimension",
+        "dimension": "compute"
+      },
+      "state": "answered",
+      "rungId": "choice-5",
+      "gesture": {
+        "groupId": "jane:SOV-4.4",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-4.4",
+      "target": {
+        "kind": "dimension",
+        "dimension": "storage"
+      },
+      "state": "answered",
+      "rungId": "choice-5",
+      "gesture": {
+        "groupId": "jane:SOV-4.4",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-4.4",
+      "target": {
+        "kind": "dimension",
+        "dimension": "network"
+      },
+      "state": "answered",
+      "rungId": "choice-5",
+      "gesture": {
+        "groupId": "jane:SOV-4.4",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-4.4",
+      "target": {
+        "kind": "dimension",
+        "dimension": "iam"
+      },
+      "state": "answered",
+      "rungId": "choice-5",
+      "gesture": {
+        "groupId": "jane:SOV-4.4",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-4.4",
+      "target": {
+        "kind": "dimension",
+        "dimension": "security"
+      },
+      "state": "answered",
+      "rungId": "choice-5",
+      "gesture": {
+        "groupId": "jane:SOV-4.4",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-4.4",
+      "target": {
+        "kind": "dimension",
+        "dimension": "facilities"
+      },
+      "state": "answered",
+      "rungId": "choice-5",
+      "gesture": {
+        "groupId": "jane:SOV-4.4",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-4.5",
+      "target": {
+        "kind": "dimension",
+        "dimension": "compute"
+      },
+      "state": "answered",
+      "rungId": "choice-4",
+      "gesture": {
+        "groupId": "jane:SOV-4.5",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-4.5",
+      "target": {
+        "kind": "dimension",
+        "dimension": "storage"
+      },
+      "state": "answered",
+      "rungId": "choice-4",
+      "gesture": {
+        "groupId": "jane:SOV-4.5",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-4.5",
+      "target": {
+        "kind": "dimension",
+        "dimension": "network"
+      },
+      "state": "answered",
+      "rungId": "choice-4",
+      "gesture": {
+        "groupId": "jane:SOV-4.5",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-4.5",
+      "target": {
+        "kind": "dimension",
+        "dimension": "iam"
+      },
+      "state": "answered",
+      "rungId": "choice-4",
+      "gesture": {
+        "groupId": "jane:SOV-4.5",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-4.5",
+      "target": {
+        "kind": "dimension",
+        "dimension": "security"
+      },
+      "state": "answered",
+      "rungId": "choice-4",
+      "gesture": {
+        "groupId": "jane:SOV-4.5",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-4.5",
+      "target": {
+        "kind": "dimension",
+        "dimension": "facilities"
+      },
+      "state": "answered",
+      "rungId": "choice-4",
+      "gesture": {
+        "groupId": "jane:SOV-4.5",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-4.6",
+      "target": {
+        "kind": "dimension",
+        "dimension": "compute"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-4.6",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-4.6",
+      "target": {
+        "kind": "dimension",
+        "dimension": "storage"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-4.6",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-4.6",
+      "target": {
+        "kind": "dimension",
+        "dimension": "network"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-4.6",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-4.6",
+      "target": {
+        "kind": "dimension",
+        "dimension": "iam"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-4.6",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-4.6",
+      "target": {
+        "kind": "dimension",
+        "dimension": "security"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-4.6",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-4.6",
+      "target": {
+        "kind": "dimension",
+        "dimension": "facilities"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-4.6",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-5.1",
+      "target": {
+        "kind": "dimension",
+        "dimension": "compute"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-5.1",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-5.1",
+      "target": {
+        "kind": "dimension",
+        "dimension": "storage"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-5.1",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-5.1",
+      "target": {
+        "kind": "dimension",
+        "dimension": "network"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-5.1",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-5.1",
+      "target": {
+        "kind": "dimension",
+        "dimension": "facilities"
+      },
+      "state": "dont-know",
+      "gesture": {
+        "groupId": "jane:SOV-5.1",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-5.2",
+      "target": {
+        "kind": "dimension",
+        "dimension": "compute"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-5.2",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-5.2",
+      "target": {
+        "kind": "dimension",
+        "dimension": "storage"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-5.2",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-5.2",
+      "target": {
+        "kind": "dimension",
+        "dimension": "network"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-5.2",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-5.2",
+      "target": {
+        "kind": "dimension",
+        "dimension": "facilities"
+      },
+      "state": "na",
+      "reason": "The estate is leased. Manufacturing location belongs to the landlord, not this assessment.",
+      "gesture": {
+        "groupId": "jane:SOV-5.2",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-5.3",
+      "target": {
+        "kind": "dimension",
+        "dimension": "compute"
+      },
+      "state": "dont-know",
+      "gesture": {
+        "groupId": "jane:SOV-5.3",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-5.3",
+      "target": {
+        "kind": "dimension",
+        "dimension": "storage"
+      },
+      "state": "dont-know",
+      "gesture": {
+        "groupId": "jane:SOV-5.3",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-5.3",
+      "target": {
+        "kind": "dimension",
+        "dimension": "network"
+      },
+      "state": "dont-know",
+      "gesture": {
+        "groupId": "jane:SOV-5.3",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-5.4",
+      "target": {
+        "kind": "dimension",
+        "dimension": "compute"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-5.4",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-5.4",
+      "target": {
+        "kind": "dimension",
+        "dimension": "storage"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-5.4",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-5.4",
+      "target": {
+        "kind": "dimension",
+        "dimension": "network"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-5.4",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-5.4",
+      "target": {
+        "kind": "dimension",
+        "dimension": "iam"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-5.4",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-5.4",
+      "target": {
+        "kind": "dimension",
+        "dimension": "security"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-5.4",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-5.5",
+      "target": {
+        "kind": "dimension",
+        "dimension": "compute"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-5.5",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-5.5",
+      "target": {
+        "kind": "dimension",
+        "dimension": "storage"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-5.5",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-5.5",
+      "target": {
+        "kind": "dimension",
+        "dimension": "network"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-5.5",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-5.5",
+      "target": {
+        "kind": "dimension",
+        "dimension": "iam"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-5.5",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-5.5",
+      "target": {
+        "kind": "dimension",
+        "dimension": "security"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-5.5",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-5.6",
+      "target": {
+        "kind": "dimension",
+        "dimension": "compute"
+      },
+      "state": "answered",
+      "rungId": "choice-4",
+      "gesture": {
+        "groupId": "jane:SOV-5.6",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-5.6",
+      "target": {
+        "kind": "dimension",
+        "dimension": "storage"
+      },
+      "state": "answered",
+      "rungId": "choice-4",
+      "gesture": {
+        "groupId": "jane:SOV-5.6",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-5.6",
+      "target": {
+        "kind": "dimension",
+        "dimension": "network"
+      },
+      "state": "answered",
+      "rungId": "choice-4",
+      "gesture": {
+        "groupId": "jane:SOV-5.6",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-5.6",
+      "target": {
+        "kind": "dimension",
+        "dimension": "iam"
+      },
+      "state": "answered",
+      "rungId": "choice-4",
+      "gesture": {
+        "groupId": "jane:SOV-5.6",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-5.6",
+      "target": {
+        "kind": "dimension",
+        "dimension": "security"
+      },
+      "state": "answered",
+      "rungId": "choice-4",
+      "gesture": {
+        "groupId": "jane:SOV-5.6",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-5.6",
+      "target": {
+        "kind": "dimension",
+        "dimension": "facilities"
+      },
+      "state": "answered",
+      "rungId": "choice-4",
+      "gesture": {
+        "groupId": "jane:SOV-5.6",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-5.7",
+      "target": {
+        "kind": "assessment"
+      },
+      "state": "answered",
+      "rungId": "choice-4",
+      "gesture": {
+        "groupId": "jane:SOV-5.7",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-6.1",
+      "target": {
+        "kind": "dimension",
+        "dimension": "compute"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-6.1",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-6.1",
+      "target": {
+        "kind": "dimension",
+        "dimension": "storage"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-6.1",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-6.1",
+      "target": {
+        "kind": "dimension",
+        "dimension": "network"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-6.1",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-6.1",
+      "target": {
+        "kind": "dimension",
+        "dimension": "iam"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-6.1",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-6.1",
+      "target": {
+        "kind": "dimension",
+        "dimension": "security"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-6.1",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-6.2",
+      "target": {
+        "kind": "assessment"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-6.2",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-6.3",
+      "target": {
+        "kind": "dimension",
+        "dimension": "compute"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-6.3",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-6.3",
+      "target": {
+        "kind": "dimension",
+        "dimension": "storage"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-6.3",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-6.3",
+      "target": {
+        "kind": "dimension",
+        "dimension": "network"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-6.3",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-6.3",
+      "target": {
+        "kind": "dimension",
+        "dimension": "iam"
+      },
+      "state": "answered",
+      "rungId": "choice-2",
+      "gesture": {
+        "groupId": "jane:SOV-6.3",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-6.3",
+      "target": {
+        "kind": "dimension",
+        "dimension": "security"
+      },
+      "state": "answered",
+      "rungId": "choice-3",
+      "gesture": {
+        "groupId": "jane:SOV-6.3",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-7.3",
+      "target": {
+        "kind": "assessment"
+      },
+      "state": "answered",
+      "rungId": "choice-5",
+      "gesture": {
+        "groupId": "jane:SOV-7.3",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-7.4",
+      "target": {
+        "kind": "assessment"
+      },
+      "state": "answered",
+      "rungId": "choice-5",
+      "gesture": {
+        "groupId": "jane:SOV-7.4",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-7.6",
+      "target": {
+        "kind": "dimension",
+        "dimension": "compute"
+      },
+      "state": "answered",
+      "rungId": "choice-5",
+      "gesture": {
+        "groupId": "jane:SOV-7.6",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-7.6",
+      "target": {
+        "kind": "dimension",
+        "dimension": "storage"
+      },
+      "state": "answered",
+      "rungId": "choice-5",
+      "gesture": {
+        "groupId": "jane:SOV-7.6",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-7.6",
+      "target": {
+        "kind": "dimension",
+        "dimension": "network"
+      },
+      "state": "answered",
+      "rungId": "choice-5",
+      "gesture": {
+        "groupId": "jane:SOV-7.6",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-7.6",
+      "target": {
+        "kind": "dimension",
+        "dimension": "iam"
+      },
+      "state": "answered",
+      "rungId": "choice-5",
+      "gesture": {
+        "groupId": "jane:SOV-7.6",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-7.6",
+      "target": {
+        "kind": "dimension",
+        "dimension": "security"
+      },
+      "state": "answered",
+      "rungId": "choice-2",
+      "gesture": {
+        "groupId": "jane:SOV-7.6",
+        "placement": "group"
+      }
+    },
+    {
+      "questionId": "SOV-7.6",
+      "target": {
+        "kind": "dimension",
+        "dimension": "facilities"
+      },
+      "state": "answered",
+      "rungId": "choice-5",
+      "gesture": {
+        "groupId": "jane:SOV-7.6",
+        "placement": "group"
+      }
+    }
+  ]
+}

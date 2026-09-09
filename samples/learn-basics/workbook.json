@@ -1,0 +1,457 @@
+{
+  "meta": {
+    "id": "csf-teaching",
+    "version": "1.0.0",
+    "title": "Cloud Sovereignty Self-Assessment — Teaching Workbook"
+  },
+  "frontSheet": [
+    "This is the teaching workbook: one objective, five questions, chosen so every mechanic of the model — dimension fan-out, strata splits, party fan-out, the assessment grain, sparse ladders, materiality, criticality, structural n/a — appears at least once.",
+    "It is not an assessment instrument. Pair it with docs/authoring-rulebook.md, which walks each question mechanic by mechanic, then open samples/learn-deep-analysis/assessment.json to see how the answers are recorded.",
+    "The EC Cloud Sovereignty Framework is the reference behind these shapes — an example of good practice, never a conformance target.",
+    "Don't know is an honest answer. It never counts as zero; the floor is always reported together with its unknown count, so a guess is worse than an admission."
+  ],
+  "sealLevels": [
+    {
+      "seal": 0,
+      "name": "No Sovereignty",
+      "description": "Service, technology or operations under exclusive control of non-EU third parties, governed entirely by non-EU jurisdictions."
+    },
+    {
+      "seal": 1,
+      "name": "Jurisdictional Sovereignty",
+      "description": "EU law formally applies with limited practical enforceability; control can still be overridden from outside the EU."
+    },
+    {
+      "seal": 2,
+      "name": "Data Sovereignty",
+      "description": "EU jurisdictions apply and the EU controls the data even under stress; material dependencies on non-EU parties remain."
+    },
+    {
+      "seal": 3,
+      "name": "Technological Sovereignty",
+      "description": "EU actors exercise meaningful control over the technology and can keep operating if a foreign supplier withdraws."
+    },
+    {
+      "seal": 4,
+      "name": "Full Digital Sovereignty",
+      "description": "Technology and operations under complete EU control, subject only to EU jurisdiction, with no critical non-EU dependencies."
+    }
+  ],
+  "dimensions": [
+    {
+      "id": "compute",
+      "name": "Compute",
+      "strata": [
+        "service",
+        "software",
+        "hardware",
+        "chips"
+      ],
+      "critical": true
+    },
+    {
+      "id": "network",
+      "name": "Network",
+      "critical": true
+    },
+    {
+      "id": "aiml",
+      "name": "AI/ML platform",
+      "critical": false
+    },
+    {
+      "id": "edge",
+      "name": "Edge (CDN/DDoS/DNS)",
+      "critical": false
+    }
+  ],
+  "roles": [
+    {
+      "id": "ARCH",
+      "name": "Architecture",
+      "description": "Designs the estate; owns topology and platform choices."
+    },
+    {
+      "id": "OPS",
+      "name": "Platform ops",
+      "description": "Runs the estate day to day."
+    },
+    {
+      "id": "SEC",
+      "name": "Security",
+      "description": "Owns controls, identity, and incident response."
+    },
+    {
+      "id": "LEG",
+      "name": "Legal",
+      "description": "Owns contracts, jurisdiction, and data-protection law."
+    },
+    {
+      "id": "PROC",
+      "name": "Procurement",
+      "description": "Owns supplier selection, exit, and commercial terms."
+    }
+  ],
+  "parties": [
+    {
+      "id": "institution",
+      "name": "Institution",
+      "kind": "assessed",
+      "description": "The assessed party — the estate owner (EC: Contracting Authority)."
+    },
+    {
+      "id": "primary-provider",
+      "name": "Primary provider",
+      "kind": "third-party",
+      "description": "The contractor delivering the service."
+    },
+    {
+      "id": "subprocessor",
+      "name": "Subprocessor",
+      "kind": "third-party",
+      "description": "A legal entity involved in delivery of the contract."
+    },
+    {
+      "id": "supplier",
+      "name": "Supplier",
+      "kind": "third-party",
+      "description": "Delivers hardware/software; no unsupervised access."
+    }
+  ],
+  "objectives": [
+    {
+      "id": "SOV-3",
+      "name": "Data & AI Sovereignty",
+      "weight": 100,
+      "questions": [
+        {
+          "id": "SOV-3.exit-inventory",
+          "grain": "party",
+          "axis": "assessment",
+          "text": "Does a maintained inventory map every dataset to its location, format, egress path?",
+          "why": "An exit is only real if you know what would have to move; the inventory is the fact the exit plan stands on.",
+          "role": "OPS",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "No inventory exists; nobody could list the datasets today.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "An inventory exists for recently built systems; older estates are unmapped.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "A complete inventory exists; it is updated by hand after changes.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "A complete inventory is generated from the platforms themselves on a schedule.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "The inventory is live, machine-readable, tested by an exit rehearsal within the last year.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-3.ai-disclosure",
+          "grain": "party",
+          "axis": "assessment",
+          "text": "Does the provider publish where its AI models are trained, hosted, governed?",
+          "why": "Disclosure moves the score, never the floor: it signals transparency but is not itself a control fact — which is exactly why this question ships informational.",
+          "role": "PROC",
+          "defaultMateriality": "informational",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "No disclosure exists beyond marketing claims.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "Training, hosting locations are published; governance arrangements are not.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-3",
+              "description": "Training, hosting, governance are published in verifiable detail, updated on release.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-3.provider-compellability",
+          "grain": "party",
+          "axis": "party",
+          "text": "Could a non-EU authority lawfully compel this party to disclose your data or suspend your service?",
+          "why": "Compellability is the kill-switch fact: encryption paperwork means nothing if a foreign court can order the party holding access.",
+          "role": "LEG",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "A non-EU jurisdiction reaches this party directly; disclosure or suspension can be ordered today.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "An EU entity signs the contract; its non-EU parent remains subject to foreign orders that reach your data.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "EU law governs this party; residual foreign reach exists only through named, documented channels.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "This party sits wholly under EU/EEA jurisdiction; no foreign order can lawfully reach your data through it.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "The whole ownership chain of this party is EU-domiciled; foreign compulsion has no legal or technical path.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-3.key-custody",
+          "grain": "dimension",
+          "appliesTo": [
+            "compute"
+          ],
+          "text": "For this dimension, who holds the cryptographic keys that protect the data at rest?",
+          "why": "Whoever holds the keys decides under stress whether data is protected or merely stored.",
+          "role": "SEC",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "The provider generates, holds the keys; plaintext is technically reachable without your action.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "You hold the keys in a service under EU jurisdiction; a provider support path to plaintext remains.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-3",
+              "description": "Key generation, storage, use happen where no other party can touch them, by design.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        },
+        {
+          "id": "SOV-3.data-residency",
+          "grain": "dimension",
+          "appliesTo": [
+            "compute",
+            "network",
+            "aiml",
+            "edge"
+          ],
+          "text": "For this dimension, in which jurisdiction is data stored or processed under normal operation?",
+          "why": "Residency is the first control fact: law follows the place where the bytes actually sit.",
+          "role": "ARCH",
+          "defaultMateriality": "material",
+          "ladder": [
+            {
+              "id": "choice-1",
+              "description": "Data is stored or processed outside the EU/EEA at the provider's discretion; you cannot pin the location.",
+              "points": 0,
+              "seal": 0
+            },
+            {
+              "id": "choice-2",
+              "description": "The contract names EU regions, yet the provider can relocate workloads without your approval.",
+              "points": 25,
+              "seal": 1
+            },
+            {
+              "id": "choice-3",
+              "description": "Data stays in EU/EEA regions; support access or telemetry still flows to non-EU locations.",
+              "points": 50,
+              "seal": 2
+            },
+            {
+              "id": "choice-4",
+              "description": "Storage, processing, support access are confined to EU/EEA jurisdiction; the provider proves it on request.",
+              "points": 75,
+              "seal": 3
+            },
+            {
+              "id": "choice-5",
+              "description": "Every byte, backup, telemetry stream is confined to EU/EEA facilities you can enumerate.",
+              "points": 100,
+              "seal": 4
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "testEstates": [
+    {
+      "id": "teach-median",
+      "name": "Median EU institution",
+      "description": "An honest middle: EU regions on a foreign-parented provider, customer-held keys with a support path, a hand-kept inventory. Shows party fan-out over three declared parties and a floor set by compellability.",
+      "parties": [
+        {
+          "id": "inst",
+          "name": "The institution",
+          "type": "institution",
+          "serves": []
+        },
+        {
+          "id": "acme-cloud",
+          "name": "Acme Cloud EU",
+          "type": "primary-provider",
+          "serves": [
+            "compute",
+            "network"
+          ]
+        },
+        {
+          "id": "modelhouse",
+          "name": "Modelhouse AI",
+          "type": "subprocessor",
+          "serves": [
+            "aiml"
+          ]
+        }
+      ],
+      "answers": [
+        {
+          "questionId": "SOV-3.data-residency",
+          "rungId": "choice-3"
+        },
+        {
+          "questionId": "SOV-3.key-custody",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-3.provider-compellability",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-3.exit-inventory",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-3.ai-disclosure",
+          "rungId": "choice-2"
+        }
+      ]
+    },
+    {
+      "id": "teach-hyperscaler",
+      "name": "Hyperscaler tenancy, excellent paperwork",
+      "description": "Profile A in miniature: a non-EU hyperscaler with polished disclosure. Declares edge to show a default-undeclared dimension entering scope. The paperwork rungs cannot lift a floor set by custody plus compellability — ceiling-leak resistance.",
+      "parties": [
+        {
+          "id": "inst",
+          "name": "The institution",
+          "type": "institution",
+          "serves": []
+        },
+        {
+          "id": "hyper",
+          "name": "Hyperscale Inc.",
+          "type": "primary-provider",
+          "serves": [
+            "compute",
+            "network",
+            "edge"
+          ]
+        }
+      ],
+      "answers": [
+        {
+          "questionId": "SOV-3.data-residency",
+          "rungId": "choice-2"
+        },
+        {
+          "questionId": "SOV-3.key-custody",
+          "rungId": "choice-1"
+        },
+        {
+          "questionId": "SOV-3.provider-compellability",
+          "rungId": "choice-1"
+        },
+        {
+          "questionId": "SOV-3.exit-inventory",
+          "rungId": "choice-3"
+        },
+        {
+          "questionId": "SOV-3.ai-disclosure",
+          "rungId": "choice-3"
+        }
+      ]
+    },
+    {
+      "id": "teach-sovereign",
+      "name": "EU stack, thin paperwork",
+      "description": "Profile BASE in miniature: EU cooperative provider, exclusive key custody, trimmed profile with no AI/ML dimension declared. One weak inventory answer drags the floor — the case study for the floor-trap discussion.",
+      "parties": [
+        {
+          "id": "inst",
+          "name": "The institution",
+          "type": "institution",
+          "serves": []
+        },
+        {
+          "id": "coop",
+          "name": "EU Cloud Cooperative",
+          "type": "primary-provider",
+          "serves": [
+            "compute",
+            "network"
+          ]
+        }
+      ],
+      "answers": [
+        {
+          "questionId": "SOV-3.data-residency",
+          "rungId": "choice-4"
+        },
+        {
+          "questionId": "SOV-3.key-custody",
+          "rungId": "choice-3"
+        },
+        {
+          "questionId": "SOV-3.provider-compellability",
+          "rungId": "choice-4"
+        },
+        {
+          "questionId": "SOV-3.exit-inventory",
+          "rungId": "choice-2"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "name": "csf-self-assessment",
+  "version": "0.1.0-rc.16",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SUSE/csf-self-assessment"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=22",
+    "pnpm": ">=11"
+  },
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "11.24.0",
+      "onFail": "error"
+    }
+  },
+  "scripts": {
+    "dev": "pnpm --parallel --filter @csf/author --filter @csf/assessment run dev",
+    "build": "pnpm --filter @csf/assessment build && pnpm --filter @csf/author build && pnpm check:offline",
+    "test": "node --test tools/*.test.mjs packages/platform/scripts/*.node-tests.mjs && pnpm -r --if-present test",
+    "lint": "eslint .",
+    "typecheck": "pnpm -r --if-present typecheck",
+    "check:offline": "node tools/check-offline.mjs",
+    "tweakcn": "node tools/tweakcn-session.mjs",
+    "tweakcn:setup": "node tools/tweakcn.mjs setup",
+    "tweakcn:dev": "node tools/tweakcn.mjs dev",
+    "tweakcn:start": "node tools/tweakcn-session.mjs start",
+    "tweakcn:verify": "node tools/tweakcn-session.mjs verify-presets",
+    "theme:tweakcn:export": "node packages/platform/scripts/theme-palette-bridge.mjs export",
+    "theme:tweakcn:apply": "node packages/platform/scripts/theme-palette-bridge.mjs apply",
+    "theme:tweakcn:check": "node packages/platform/scripts/theme-palette-bridge.mjs check",
+    "verify": "pnpm lint && pnpm typecheck && pnpm test && pnpm theme:tweakcn:check && pnpm build"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.18.0",
+    "@types/node": "^22.10.7",
+    "eslint": "^9.18.0",
+    "eslint-plugin-svelte": "^3.0.0",
+    "globals": "^15.14.0",
+    "postcss": "^8.5.26",
+    "svelte": "^5.19.0",
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.20.0"
+  }
+}
