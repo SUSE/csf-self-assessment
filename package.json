@@ -1,6 +1,7 @@
 {
   "name": "csf-self-assessment",
-  "version": "0.1.0-rc.16",
+  "version": "0.0.0",
+  "license": "Apache-2.0",
   "private": true,
   "repository": {
     "type": "git",
