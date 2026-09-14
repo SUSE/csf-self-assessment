@@ -162,7 +162,7 @@ Ubuntu 24.04. See [verify.yml](./.github/workflows/verify.yml) for details.
 ├── docs/
 │   ├── guides/              Workshop manual and conceptual guides
 │   └── ...                  Scoring guide, authoring guide, and assessment flow
-├── tools/                   Offline checks, EC conversions, and theme tooling
+├── tools/                   Offline checks
 └── .github/workflows/       Source verification workflow
 ```
 
@@ -178,29 +178,6 @@ Important package areas:
   derived dashboard readings
 - `packages/platform/src/report/` — report document and appendix generation
 - `packages/platform/src/ui/` — shared components used by both applications
-
-## Local theme editor
-
-The optional tweakcn integration is repository-local and does not require auth,
-a database, Docker, or `.env.local`.
-
-```sh
-pnpm tweakcn:setup        # one-time network/install bootstrap
-pnpm tweakcn:start suse   # open the local editor at http://localhost:3000/
-pnpm tweakcn:verify       # verify all built-in palettes round-trip unchanged
-pnpm tweakcn status       # inspect or manage the local session
-```
-
-`.tools/tweakcn` and `.tools/tweakcn-runtime` are ignored, generated trees.
-Applying an exported palette to the authoritative theme is a separate explicit
-operation:
-
-```sh
-pnpm tweakcn apply suse --write
-```
-
-See `tools/tweakcn-session.mjs` for the managed workflow and pin-update
-procedure.
 
 ## Security
 

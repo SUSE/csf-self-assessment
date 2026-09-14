@@ -1,6 +1,0 @@
-{
-  "upstream": "https://github.com/jnsahaj/tweakcn.git",
-  "checkout": ".tools/tweakcn",
-  "runtime": ".tools/tweakcn-runtime",
-  "commit": "f89566aef1b6d71d0f72b998d16a5980bea10c98"
-}

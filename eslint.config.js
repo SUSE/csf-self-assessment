@@ -11,7 +11,6 @@ export default tseslint.config(
       '**/dist/**',
       '**/node_modules/**',
       '.claude/**',
-      '.tools/**',
       'docs/**',
       'samples/recommendations/**',
       'scripts/**',
