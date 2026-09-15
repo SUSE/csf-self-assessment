@@ -1,0 +1,940 @@
+{
+  "meta": {
+    "id": "wa-deep-analysis-demo",
+    "estate": "Layered estate — EU service on foreign technology",
+    "workbookId": "csf-teaching-deep-analysis",
+    "workbookVersion": "1.0.0",
+    "createdAt": "2026-08-04T00:00:00.000Z"
+  },
+  "workbook": {
+    "meta": {
+      "id": "csf-teaching-deep-analysis",
+      "version": "1.0.0",
+      "title": "Cloud Sovereignty Self-Assessment — Deep-Analysis Teaching Workbook"
+    },
+    "frontSheet": [
+      "This is the deep-analysis teaching workbook: it exists to prove that the technical-dimensions diagram in the EC implementation guidance (p.12, 'Depth of analysis') is fully expressible in this model. Every block on that diagram becomes a dimension, every layer box a stratum, and the Development block's Software Supplier / Service Provider boxes become party types on the second axis.",
+      "The two objectives mirror the EC's own split of its 43 deep-analysis questions: 9 target the legal entities in the chain (here DEEP-ENT, party grain — 'the evaluation must not stop at the level of the legal entity which applied to the tender'), 19 are asked per relevant entity across the technical dimensions (here DEEP-TEC, dimension grain over all nine diagram dimensions).",
+      "Nesting rule, taught twice: when a two-deep block shares one control fact across its leaves, it flattens into strata — Security becomes siem-service, siem-software, threat, xdr-edr under a single question. When sibling sub-blocks ask different facts, each gets its own question on a shared dimension — Containers, PaaS are two questions on the one platform dimension. No third structural level is ever needed.",
+      "The critical set is the EC's own foundation list — compute, storage, network, security, IAM, critical PaaS. Edge (the Advanced block), software supply (Development), facilities (Power, Estate) score without ever gating the floor.",
+      "Expected ceiling, per the EC lessons-learnt: SEAL-3+ stays out of reach while the hardware, chips strata depend on non-EU supply. The third test estate demonstrates it — an all-EU chain that still floors at SEAL-2.",
+      "Don't know is an honest answer. It never counts as zero; the floor is always reported together with its unknown count, so a guess is worse than an admission."
+    ],
+    "sealLevels": [
+      {
+        "seal": 0,
+        "name": "No Sovereignty",
+        "description": "Service, technology or operations under exclusive control of non-EU third parties, governed entirely by non-EU jurisdictions."
+      },
+      {
+        "seal": 1,
+        "name": "Jurisdictional Sovereignty",
+        "description": "EU law formally applies with limited practical enforceability; control can still be overridden from outside the EU."
+      },
+      {
+        "seal": 2,
+        "name": "Data Sovereignty",
+        "description": "EU jurisdictions apply and the EU controls the data even under stress; material dependencies on non-EU parties remain."
+      },
+      {
+        "seal": 3,
+        "name": "Technological Sovereignty",
+        "description": "EU actors exercise meaningful control over the technology and can keep operating if a foreign supplier withdraws."
+      },
+      {
+        "seal": 4,
+        "name": "Full Digital Sovereignty",
+        "description": "Technology and operations under complete EU control, subject only to EU jurisdiction, with no critical non-EU dependencies."
+      }
+    ],
+    "dimensions": [
+      {
+        "id": "compute",
+        "name": "Compute",
+        "strata": [
+          "service",
+          "software",
+          "hardware",
+          "chips"
+        ],
+        "critical": true
+      },
+      {
+        "id": "storage",
+        "name": "Storage",
+        "strata": [
+          "service",
+          "software",
+          "hardware",
+          "chips"
+        ],
+        "critical": true
+      },
+      {
+        "id": "network",
+        "name": "Network",
+        "strata": [
+          "service",
+          "software",
+          "hardware",
+          "chips"
+        ],
+        "critical": true
+      },
+      {
+        "id": "iam",
+        "name": "IAM",
+        "strata": [
+          "identity",
+          "access"
+        ],
+        "critical": true
+      },
+      {
+        "id": "platform",
+        "name": "Platform (Containers, PaaS)",
+        "strata": [
+          "service",
+          "software"
+        ],
+        "critical": true
+      },
+      {
+        "id": "security",
+        "name": "Security",
+        "strata": [
+          "siem-service",
+          "siem-software",
+          "threat",
+          "xdr-edr"
+        ],
+        "critical": true
+      },
+      {
+        "id": "software-supply",
+        "name": "Software supply (Development)",
+        "strata": [
+          "service",
+          "software"
+        ],
+        "critical": false
+      },
+      {
+        "id": "edge",
+        "name": "Edge (Advanced: DDoS, CDN)",
+        "strata": [
+          "ddos",
+          "cdn"
+        ],
+        "critical": false
+      },
+      {
+        "id": "facilities",
+        "name": "Facilities (Power, Estate)",
+        "strata": [
+          "power",
+          "cooling",
+          "building"
+        ],
+        "critical": false
+      }
+    ],
+    "roles": [
+      {
+        "id": "ARCH",
+        "name": "Architecture",
+        "description": "Designs the estate; owns topology and platform choices."
+      },
+      {
+        "id": "OPS",
+        "name": "Platform ops",
+        "description": "Runs the estate day to day."
+      },
+      {
+        "id": "SEC",
+        "name": "Security",
+        "description": "Owns controls, identity, and incident response."
+      },
+      {
+        "id": "LEG",
+        "name": "Legal",
+        "description": "Owns contracts, jurisdiction, and data-protection law."
+      },
+      {
+        "id": "PROC",
+        "name": "Procurement",
+        "description": "Owns supplier selection, exit, and commercial terms."
+      },
+      {
+        "id": "FAC",
+        "name": "Facilities",
+        "description": "Owns the physical estate: power, cooling, buildings, physical access."
+      }
+    ],
+    "parties": [
+      {
+        "id": "institution",
+        "name": "Institution",
+        "kind": "assessed",
+        "description": "The assessed party — the estate owner (EC: Contracting Authority)."
+      },
+      {
+        "id": "service-provider",
+        "name": "Service provider",
+        "kind": "third-party",
+        "description": "Delivers, operates cloud services for the estate — the diagram's Service Provider box."
+      },
+      {
+        "id": "subcontractor",
+        "name": "Sub-contractor",
+        "kind": "third-party",
+        "description": "A legal entity involved in the delivery of the contract, under the provider (EC footnote 1)."
+      },
+      {
+        "id": "supplier",
+        "name": "Supplier",
+        "kind": "third-party",
+        "description": "Delivers hardware or software without unsupervised access to the infrastructure — the diagram's Software Supplier box (EC footnote 2)."
+      }
+    ],
+    "objectives": [
+      {
+        "id": "DEEP-ENT",
+        "name": "Entity-chain analysis",
+        "weight": 30,
+        "questions": [
+          {
+            "id": "DEEP-ENT.chain-visibility",
+            "grain": "party",
+            "axis": "assessment",
+            "text": "Can the institution name every legal entity involved in delivering this estate, down to hardware, software suppliers?",
+            "why": "Deep analysis must not stop at the legal entity that signed the contract — the EC's own rule. The chain has to be enumerated before any of it can be assessed, so this single assessment-axis question is the precondition for every party-axis answer that follows.",
+            "role": "PROC",
+            "defaultMateriality": "material",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "Only the contract-signing entity is known; nobody could list who actually delivers the service.",
+                "points": 0,
+                "seal": 0
+              },
+              {
+                "id": "choice-2",
+                "description": "Sub-contractors named in the contract are known; the suppliers behind them are not.",
+                "points": 25,
+                "seal": 1
+              },
+              {
+                "id": "choice-3",
+                "description": "Every sub-contractor is enumerated; hardware, software suppliers are mapped for the critical dimensions.",
+                "points": 50,
+                "seal": 2
+              },
+              {
+                "id": "choice-4",
+                "description": "Every sub-contractor, supplier is enumerated per dimension; the map is refreshed at each contract change.",
+                "points": 75,
+                "seal": 3
+              },
+              {
+                "id": "choice-5",
+                "description": "The full chain is enumerated down to the layer it serves; audit rights reach every entity on it.",
+                "points": 100,
+                "seal": 4
+              }
+            ]
+          },
+          {
+            "id": "DEEP-ENT.entity-jurisdiction",
+            "grain": "party",
+            "axis": "party",
+            "text": "Under which jurisdiction does this party ultimately operate?",
+            "why": "The Development block draws Software Supplier, Service Provider as boxes inside the estate — but they are parties, not layers: the same jurisdiction question walks the whole chain on the party axis, because a sovereign service resting on a compellable supplier is not sovereign.",
+            "role": "LEG",
+            "defaultMateriality": "material",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "Non-EU jurisdiction reaches this party directly; disclosure or shutdown can be ordered today.",
+                "points": 0,
+                "seal": 0
+              },
+              {
+                "id": "choice-2",
+                "description": "An EU entity signs the contract; ultimate ownership answers to a non-EU jurisdiction.",
+                "points": 25,
+                "seal": 1
+              },
+              {
+                "id": "choice-3",
+                "description": "EU law governs this party; named non-EU dependencies remain inside its own supply chain.",
+                "points": 50,
+                "seal": 2
+              },
+              {
+                "id": "choice-4",
+                "description": "This party, including its controlling owners, sits wholly under EU/EEA jurisdiction.",
+                "points": 75,
+                "seal": 3
+              },
+              {
+                "id": "choice-5",
+                "description": "The whole ownership chain is EU-domiciled; no foreign order has a lawful path to this party.",
+                "points": 100,
+                "seal": 4
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "DEEP-TEC",
+        "name": "Technical-layer analysis",
+        "weight": 70,
+        "questions": [
+          {
+            "id": "DEEP-TEC.layer-control",
+            "grain": "dimension",
+            "appliesTo": [
+              "compute",
+              "storage",
+              "network"
+            ],
+            "text": "Who could keep this dimension running if every non-EU party withdrew tomorrow?",
+            "why": "The diagram gives Compute, Storage, Network the same four layer boxes — Service, Software, Hardware, Chips — because the honest answer differs by layer. One question fans over all three dimensions; a workshop splits any of them into strata the moment a sovereign-run service turns out to sit on foreign silicon.",
+            "role": "OPS",
+            "defaultMateriality": "material",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "Under exclusive non-EU control; a withdrawal stops this outright, no EU actor can step in.",
+                "points": 0,
+                "seal": 0
+              },
+              {
+                "id": "choice-2",
+                "description": "EU actors operate it under non-EU licences, support, updates that can be revoked from outside.",
+                "points": 25,
+                "seal": 1
+              },
+              {
+                "id": "choice-3",
+                "description": "EU-controlled operation; replacement or repair still needs named non-EU technology.",
+                "points": 50,
+                "seal": 2
+              },
+              {
+                "id": "choice-4",
+                "description": "EU actors control operation, source, deployment; a non-EU withdrawal is a planned, tested event.",
+                "points": 75,
+                "seal": 3
+              },
+              {
+                "id": "choice-5",
+                "description": "Built, run, replaceable entirely under EU control; no non-EU dependency remains.",
+                "points": 100,
+                "seal": 4
+              }
+            ]
+          },
+          {
+            "id": "DEEP-TEC.iam-control",
+            "grain": "dimension",
+            "appliesTo": [
+              "iam"
+            ],
+            "text": "Under whose control does this part of IAM operate?",
+            "why": "IAM's layer boxes are not the canonical four — the diagram names Identity, Access. Strata are author-named per dimension, so the split follows the diagram: the identity store can be sovereign while access decisions ride a foreign policy engine, or the reverse.",
+            "role": "SEC",
+            "defaultMateriality": "material",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "A non-EU provider's system is authoritative; it can lock the estate out or mint access on its own.",
+                "points": 0,
+                "seal": 0
+              },
+              {
+                "id": "choice-2",
+                "description": "The authoritative system runs under EU control; recovery or federation still routes through a non-EU provider.",
+                "points": 50,
+                "seal": 2
+              },
+              {
+                "id": "choice-3",
+                "description": "Identity records, access decisions run on EU-controlled systems; no outside party can grant or revoke anything.",
+                "points": 100,
+                "seal": 4
+              }
+            ]
+          },
+          {
+            "id": "DEEP-TEC.container-control",
+            "grain": "dimension",
+            "appliesTo": [
+              "platform"
+            ],
+            "text": "Who controls the container platform the estate's workloads run on?",
+            "why": "Platform Management holds three sub-blocks. IAM became its own dimension; Containers, PaaS stay in one platform dimension asking different facts — one question per sub-block, sharing the service, software strata. The alternative — flattening — is what the security dimension demonstrates.",
+            "role": "ARCH",
+            "defaultMateriality": "material",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "Workloads run only on a non-EU managed service; no self-hosted path exists.",
+                "points": 0,
+                "seal": 0
+              },
+              {
+                "id": "choice-2",
+                "description": "Self-hosted on a non-EU distribution; images, patches arrive solely from that vendor.",
+                "points": 25,
+                "seal": 1
+              },
+              {
+                "id": "choice-3",
+                "description": "EU-operated platform on foreign-governed open source; the estate builds its own images from source.",
+                "points": 50,
+                "seal": 2
+              },
+              {
+                "id": "choice-4",
+                "description": "EU-operated on an EU-maintained distribution; upstream is a contribution, not a dependency.",
+                "points": 75,
+                "seal": 3
+              },
+              {
+                "id": "choice-5",
+                "description": "Platform, distribution, build chain sit under EU control end to end.",
+                "points": 100,
+                "seal": 4
+              }
+            ]
+          },
+          {
+            "id": "DEEP-TEC.paas-control",
+            "grain": "dimension",
+            "appliesTo": [
+              "platform"
+            ],
+            "text": "Who controls the PaaS services — databases, queues, runtimes — the estate depends on?",
+            "why": "The EC's critical-services list ends with 'critical PaaS services': PaaS is the layer where proprietary APIs quietly re-attach an estate to a foreign stack after every layer below has been made sovereign.",
+            "role": "ARCH",
+            "defaultMateriality": "material",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "Proprietary non-EU PaaS APIs with no compatible alternative; the workloads cannot move.",
+                "points": 0,
+                "seal": 0
+              },
+              {
+                "id": "choice-2",
+                "description": "Non-EU PaaS behind open APIs; migration is asserted, never exercised.",
+                "points": 25,
+                "seal": 1
+              },
+              {
+                "id": "choice-3",
+                "description": "EU-operated PaaS on non-EU software under an open licence.",
+                "points": 50,
+                "seal": 2
+              },
+              {
+                "id": "choice-4",
+                "description": "EU-operated PaaS on EU-maintained software; a migration off it has been exercised.",
+                "points": 75,
+                "seal": 3
+              },
+              {
+                "id": "choice-5",
+                "description": "PaaS built, operated, evolved under EU control; no non-EU service sits in the path.",
+                "points": 100,
+                "seal": 4
+              }
+            ]
+          },
+          {
+            "id": "DEEP-TEC.secops-control",
+            "grain": "dimension",
+            "appliesTo": [
+              "security"
+            ],
+            "text": "Under whose effective control does this security capability operate?",
+            "why": "The Security block nests two deep — SIEM splits into Service, Software while Threat, XDR/EDR are single boxes. The model needs no third structural level: the block flattens into one honest stratum list (siem-service, siem-software, threat, xdr-edr), because a single control fact — who runs it, who sees the telemetry — spans all four leaves.",
+            "role": "SEC",
+            "defaultMateriality": "material",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "A non-EU party operates it; telemetry leaves EU jurisdiction; it can be disabled from outside.",
+                "points": 0,
+                "seal": 0
+              },
+              {
+                "id": "choice-2",
+                "description": "EU-operated on non-EU tooling whose vendor keeps remote access to the data it processes.",
+                "points": 25,
+                "seal": 1
+              },
+              {
+                "id": "choice-3",
+                "description": "EU-operated under EU jurisdiction; detection content, updates arrive from non-EU sources.",
+                "points": 50,
+                "seal": 2
+              },
+              {
+                "id": "choice-4",
+                "description": "EU-operated, EU-governed tooling; non-EU feeds are an input, never a dependency.",
+                "points": 75,
+                "seal": 3
+              },
+              {
+                "id": "choice-5",
+                "description": "Runs entirely under EU control; logs, alerts, response never leave EU jurisdiction.",
+                "points": 100,
+                "seal": 4
+              }
+            ]
+          },
+          {
+            "id": "DEEP-TEC.factory-control",
+            "grain": "dimension",
+            "appliesTo": [
+              "software-supply"
+            ],
+            "text": "Who controls the software factory that builds, signs, releases the estate's software?",
+            "why": "The Development block's Software Factory has its own Service, Software boxes — a hosted pipeline is a service dependency, the build tooling a software one. Whoever holds the pipeline, the signing keys decides what ships.",
+            "role": "OPS",
+            "defaultMateriality": "material",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "Builds run on a non-EU hosted service that also holds the signing keys.",
+                "points": 0,
+                "seal": 0
+              },
+              {
+                "id": "choice-2",
+                "description": "Builds run under EU control on non-EU tooling; signing keys never leave the estate.",
+                "points": 50,
+                "seal": 2
+              },
+              {
+                "id": "choice-3",
+                "description": "Pipeline, tooling, signing sit under EU control; a release needs no non-EU system.",
+                "points": 100,
+                "seal": 4
+              }
+            ]
+          },
+          {
+            "id": "DEEP-TEC.library-provenance",
+            "grain": "dimension",
+            "appliesTo": [
+              "software-supply"
+            ],
+            "text": "Could the estate keep building its software if access to upstream libraries, frameworks were cut?",
+            "why": "Libraries / Frameworks is the diagram's reminder that open source is also a supply chain: an estate that cannot build without foreign registries has a dependency no contract governs.",
+            "role": "ARCH",
+            "defaultMateriality": "material",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "Every build pulls straight from non-EU registries; a cut-off stops builds the same day.",
+                "points": 0,
+                "seal": 0
+              },
+              {
+                "id": "choice-2",
+                "description": "A local cache exists as a side effect; nobody has proven a build succeeds from it alone.",
+                "points": 25,
+                "seal": 1
+              },
+              {
+                "id": "choice-3",
+                "description": "A curated EU-hosted mirror serves every build; provenance is recorded for critical components.",
+                "points": 50,
+                "seal": 2
+              },
+              {
+                "id": "choice-4",
+                "description": "Dependencies are vendored or mirrored with verified provenance; an air-gapped build has been run.",
+                "points": 75,
+                "seal": 3
+              },
+              {
+                "id": "choice-5",
+                "description": "Every dependency is mirrored, provenance-verified, rebuildable from source under EU control.",
+                "points": 100,
+                "seal": 4
+              }
+            ]
+          },
+          {
+            "id": "DEEP-TEC.edge-control",
+            "grain": "dimension",
+            "appliesTo": [
+              "edge"
+            ],
+            "text": "Who controls the edge protection standing in front of the estate?",
+            "why": "The Advanced block's DDoS, CDN boxes are the strata here: one control fact — who stands in front of the front door — with truth that routinely differs, EU scrubbing behind a non-EU CDN being the classic split. Edge sits outside the EC's foundation list, so this dimension scores without ever gating.",
+            "role": "OPS",
+            "defaultMateriality": "material",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "A non-EU service terminates the estate's traffic; it can inspect or drop that traffic at will.",
+                "points": 0,
+                "seal": 0
+              },
+              {
+                "id": "choice-2",
+                "description": "A non-EU service fronts the estate under contract terms forbidding inspection; enforcement is contractual only.",
+                "points": 25,
+                "seal": 1
+              },
+              {
+                "id": "choice-3",
+                "description": "An EU-operated service fronts the estate; attack surge capacity is rented from a non-EU network.",
+                "points": 50,
+                "seal": 2
+              },
+              {
+                "id": "choice-4",
+                "description": "EU-operated, EU-owned capacity absorbs attack load; a non-EU fallback engages only on the institution's decision.",
+                "points": 75,
+                "seal": 3
+              },
+              {
+                "id": "choice-5",
+                "description": "Every point of presence runs on EU-controlled infrastructure.",
+                "points": 100,
+                "seal": 4
+              }
+            ]
+          },
+          {
+            "id": "DEEP-TEC.facilities-control",
+            "grain": "dimension",
+            "appliesTo": [
+              "facilities"
+            ],
+            "text": "Who controls this physical layer of the facilities the estate stands on?",
+            "why": "The diagram's bottom row — Power, the Estate's Cooling, Building — grounds the whole picture: deep analysis reaches the ground the racks stand on, so the physical world gets a dimension with three strata like any other.",
+            "role": "FAC",
+            "defaultMateriality": "material",
+            "ladder": [
+              {
+                "id": "choice-1",
+                "description": "Owned, operated by a non-EU party; physical access is theirs to grant.",
+                "points": 0,
+                "seal": 0
+              },
+              {
+                "id": "choice-2",
+                "description": "EU-operated; maintenance, spare parts for this layer come from non-EU suppliers.",
+                "points": 50,
+                "seal": 2
+              },
+              {
+                "id": "choice-3",
+                "description": "Owned, operated, maintainable under EU control; physical access is EU-decided end to end.",
+                "points": 100,
+                "seal": 4
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "testEstates": [
+      {
+        "id": "deep-one-roof",
+        "name": "Everything under one non-EU roof",
+        "description": "The diagram collapsed: one hyperscale provider serves all nine dimensions, so the exposure map shows a single party standing under the entire estate. Deep analysis finds nothing to split — every layer answers 0 or 1 and the floor is SEAL-0 across both objectives.",
+        "parties": [
+          {
+            "id": "inst",
+            "name": "The institution",
+            "type": "institution",
+            "serves": []
+          },
+          {
+            "id": "hyper",
+            "name": "Hyperscale Inc.",
+            "type": "service-provider",
+            "serves": [
+              "compute",
+              "storage",
+              "network",
+              "iam",
+              "platform",
+              "security",
+              "software-supply",
+              "edge",
+              "facilities"
+            ]
+          }
+        ],
+        "answers": [
+          {
+            "questionId": "DEEP-ENT.chain-visibility",
+            "rungId": "choice-2"
+          },
+          {
+            "questionId": "DEEP-ENT.entity-jurisdiction",
+            "rungId": "choice-1"
+          },
+          {
+            "questionId": "DEEP-TEC.layer-control",
+            "rungId": "choice-1"
+          },
+          {
+            "questionId": "DEEP-TEC.iam-control",
+            "rungId": "choice-1"
+          },
+          {
+            "questionId": "DEEP-TEC.container-control",
+            "rungId": "choice-2"
+          },
+          {
+            "questionId": "DEEP-TEC.paas-control",
+            "rungId": "choice-1"
+          },
+          {
+            "questionId": "DEEP-TEC.secops-control",
+            "rungId": "choice-2"
+          },
+          {
+            "questionId": "DEEP-TEC.factory-control",
+            "rungId": "choice-1"
+          },
+          {
+            "questionId": "DEEP-TEC.library-provenance",
+            "rungId": "choice-1"
+          },
+          {
+            "questionId": "DEEP-TEC.edge-control",
+            "rungId": "choice-1"
+          },
+          {
+            "questionId": "DEEP-TEC.facilities-control",
+            "rungId": "choice-1"
+          }
+        ]
+      },
+      {
+        "id": "deep-layered",
+        "name": "EU-run service on foreign technology",
+        "description": "The pattern deep analysis exists to expose: an EU provider runs the service layer while hardware, chips, edge, libraries stay foreign — with a hardware supplier and a security sub-contractor standing in the chain exactly the way the Development block draws them. All four party types appear. Whole-dimension answers throughout; a live workshop would split compute into strata instead of averaging down to 1.",
+        "parties": [
+          {
+            "id": "inst",
+            "name": "The institution",
+            "type": "institution",
+            "serves": []
+          },
+          {
+            "id": "europa-cloud",
+            "name": "Europa Cloud",
+            "type": "service-provider",
+            "serves": [
+              "compute",
+              "storage",
+              "network",
+              "iam",
+              "platform",
+              "security"
+            ]
+          },
+          {
+            "id": "secops-eu",
+            "name": "SecOps EU",
+            "type": "subcontractor",
+            "serves": [
+              "security"
+            ]
+          },
+          {
+            "id": "siliconware",
+            "name": "SiliconWare Corp.",
+            "type": "supplier",
+            "serves": [
+              "compute",
+              "storage",
+              "network"
+            ]
+          }
+        ],
+        "answers": [
+          {
+            "questionId": "DEEP-ENT.chain-visibility",
+            "rungId": "choice-3"
+          },
+          {
+            "questionId": "DEEP-ENT.entity-jurisdiction",
+            "rungId": "choice-3"
+          },
+          {
+            "questionId": "DEEP-TEC.layer-control",
+            "rungId": "choice-2"
+          },
+          {
+            "questionId": "DEEP-TEC.iam-control",
+            "rungId": "choice-2"
+          },
+          {
+            "questionId": "DEEP-TEC.container-control",
+            "rungId": "choice-3"
+          },
+          {
+            "questionId": "DEEP-TEC.paas-control",
+            "rungId": "choice-3"
+          },
+          {
+            "questionId": "DEEP-TEC.secops-control",
+            "rungId": "choice-3"
+          },
+          {
+            "questionId": "DEEP-TEC.factory-control",
+            "rungId": "choice-2"
+          },
+          {
+            "questionId": "DEEP-TEC.library-provenance",
+            "rungId": "choice-2"
+          },
+          {
+            "questionId": "DEEP-TEC.edge-control",
+            "rungId": "choice-2"
+          },
+          {
+            "questionId": "DEEP-TEC.facilities-control",
+            "rungId": "choice-2"
+          }
+        ]
+      },
+      {
+        "id": "deep-sovereign-ceiling",
+        "name": "EU chain, foreign silicon",
+        "description": "The lessons-learnt estate: an EU cooperative runs every layer, the factory signs its own releases, the whole chain answers at SEAL-3 — yet compute, storage, network answer 2 because the chips stratum is foreign, so the floor holds at SEAL-2. SEAL-3+ stays out of reach exactly as the EC's lessons-learnt predicts.",
+        "parties": [
+          {
+            "id": "inst",
+            "name": "The institution",
+            "type": "institution",
+            "serves": []
+          },
+          {
+            "id": "coop",
+            "name": "EU Cloud Cooperative",
+            "type": "service-provider",
+            "serves": [
+              "compute",
+              "storage",
+              "network",
+              "iam",
+              "platform",
+              "security",
+              "edge",
+              "facilities"
+            ]
+          },
+          {
+            "id": "libreforge",
+            "name": "LibreForge",
+            "type": "supplier",
+            "serves": [
+              "software-supply"
+            ]
+          }
+        ],
+        "answers": [
+          {
+            "questionId": "DEEP-ENT.chain-visibility",
+            "rungId": "choice-4"
+          },
+          {
+            "questionId": "DEEP-ENT.entity-jurisdiction",
+            "rungId": "choice-4"
+          },
+          {
+            "questionId": "DEEP-TEC.layer-control",
+            "rungId": "choice-3"
+          },
+          {
+            "questionId": "DEEP-TEC.iam-control",
+            "rungId": "choice-3"
+          },
+          {
+            "questionId": "DEEP-TEC.container-control",
+            "rungId": "choice-4"
+          },
+          {
+            "questionId": "DEEP-TEC.paas-control",
+            "rungId": "choice-4"
+          },
+          {
+            "questionId": "DEEP-TEC.secops-control",
+            "rungId": "choice-4"
+          },
+          {
+            "questionId": "DEEP-TEC.factory-control",
+            "rungId": "choice-3"
+          },
+          {
+            "questionId": "DEEP-TEC.library-provenance",
+            "rungId": "choice-4"
+          },
+          {
+            "questionId": "DEEP-TEC.edge-control",
+            "rungId": "choice-3"
+          },
+          {
+            "questionId": "DEEP-TEC.facilities-control",
+            "rungId": "choice-3"
+          }
+        ]
+      }
+    ]
+  },
+  "parties": [
+    {
+      "id": "inst",
+      "name": "The institution",
+      "type": "institution",
+      "serves": []
+    },
+    {
+      "id": "europa-cloud",
+      "name": "Europa Cloud",
+      "type": "service-provider",
+      "serves": [
+        "compute",
+        "storage",
+        "network",
+        "iam",
+        "platform",
+        "security"
+      ]
+    },
+    {
+      "id": "secops-eu",
+      "name": "SecOps EU",
+      "type": "subcontractor",
+      "serves": [
+        "security"
+      ]
+    },
+    {
+      "id": "siliconware",
+      "name": "SiliconWare Corp.",
+      "type": "supplier",
+      "serves": [
+        "compute",
+        "storage",
+        "network"
+      ]
+    }
+  ]
+}

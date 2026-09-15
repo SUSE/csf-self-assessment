@@ -1,0 +1,27 @@
+{
+  "//paths": "`$lib` is the shadcn-svelte CLI's import alias, pointing at the platform package. Declared here (and mirrored in each app's vite.config.ts `resolve.alias`) so freshly scaffolded components typecheck and build as-is. Committed platform components still use relative imports per the component recipe — this exists so an un-adapted scaffold fails review, not the build.",
+  "compilerOptions": {
+    "paths": {
+      "$lib": ["./packages/platform/src"],
+      "$lib/*": ["./packages/platform/src/*"]
+    },
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "exactOptionalPropertyTypes": true,
+    "verbatimModuleSyntax": true,
+    "isolatedModules": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "types": []
+  }
+}

@@ -1,0 +1,10 @@
+@import 'tailwindcss';
+@import '@csf/platform/theme.css';
+@import '@csf/platform/ui/report-page/print.css';
+
+/* Tailwind v4 auto-detects source files under this app only; it does not scan
+ * linked workspace packages in node_modules. Register the shared UI package so
+ * utilities used *inside* @csf/platform components (the app shell, Button
+ * variants, logo) are generated. Every app that consumes @csf/platform needs
+ * this line. */
+@source '../../../packages/platform/src';
