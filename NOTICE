@@ -1,10 +1,12 @@
 Cloud Sovereignty Self-Assessment
 Copyright 2026 SUSE LLC
 
-Source code is licensed under the Apache License, Version 2.0 (see LICENSE.md).
+Source code is licensed under the Apache License, Version 2.0 (see
+LICENSES/Apache-2.0.txt).
+
 Workbooks, sample data and documentation under samples/ and docs/ are
 licensed under the Creative Commons Attribution 4.0 International licence,
-https://creativecommons.org/licenses/by/4.0/.
+(see LICENSES/CC-BY-4.0.txt).
 
 This project contains material adapted from the European Commission's
 Cloud Sovereignty Framework:
