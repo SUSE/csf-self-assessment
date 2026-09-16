@@ -190,7 +190,8 @@ To contribute to this project, please read our [Contributing Guide](./CONTRIBUTI
 
 ## License
 
-This work is released under Apache 2.0 license, consult the [LICENSE file](/LICENSE.md).
+This work is released under Apache 2.0 and CC-BY-4.0 licenses, consult the
+[licenses files](./LICENSES).
 
 ---
 <sup>1</sup> European Commission documents this work adapts, reused under
