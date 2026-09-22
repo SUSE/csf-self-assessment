@@ -57,3 +57,40 @@ Define how the engine uses the answers:
 * **Material:** Answers earn points and gate the overall SEAL floor. (This is the default).
 * **Ranking:** Answers earn points but never gate the SEAL floor. Use this when the top rung is currently unreachable due to external blockers.
 * **Informational:** Answers are recorded but do not affect scores or gates.
+
+## Workbook Concepts Reference Guide
+
+A workbook author must configure several connected components to create an instrument. The sections below define each concept that the authoring application uses. Read these definitions to understand the schema and the rules for each component.
+
+### Workbook Configuration
+The workbook is the root file that defines the full scope of an assessment. It contains metadata, a front sheet, SEAL level definitions, dimensions, roles, party types, objectives, test estates, and optional recommendations. Authors create and edit this file in the Author application as a single self-contained document.
+
+### Objectives
+Objectives represent weighted themes inherited from the European Commission framework. Each objective has a unique id, a name, a description, and a numerical weight. The sum of all objective weights in a workbook must equal 100. Every question in the workbook must link to exactly one objective.
+
+### Questions
+Questions are the individual units that participants answer during an assessment. Each question has a unique id, a text stem, an explanation, an owner role, a grain, and an answer ladder. If a question uses dimension grain, you must set the appliesTo field with target dimension identifiers. The system validates that each question links to a valid role and objective.
+
+### Ladders and Rungs
+A rung is a single answer choice that describes an observable operational state. Each rung contains an id, a plain description, a point value, and a SEAL level from 0 to 4. A ladder groups these rungs in order from lowest to highest sovereignty. Participants select the rung that matches their facts, and the engine calculates points and gates from that selection.
+
+### Grains
+The grain controls how many times participants must answer a question. Assessment grain questions apply once to the whole estate for general policies and plans. Party grain questions repeat for each declared supplier to evaluate vendor risk. Dimension grain questions repeat across each technical layer to evaluate infrastructure controls.
+
+### Dimensions and Strata
+Dimensions represent the technical layers of the cloud estate, such as compute, storage, network, and security. Critical dimensions gate the overall SEAL floor, while non-critical dimensions contribute points without gating. Strata are sub-layers inside a dimension, such as service, software, hardware, and chips. If an answer differs across sub-layers, the application splits the dimension into strata so that participants answer each sub-layer.
+
+### Party Types
+Party types define the categories of organisations in the supply chain. Each workbook must define one assessed party type for the institution that owns the estate. The workbook also defines third-party types for contractors, subcontractors, and hardware or software suppliers. This taxonomy allows the assessment to trace dependencies past the primary contracting entity.
+
+### Roles
+Roles identify the domain experts who attend the assessment workshop. Common roles include ARCH for architecture, OPS for operations, SEC for security, LEG for legal, and PROC for procurement. Every question must name one owner role. The application groups questions by role so that the right people answer each item.
+
+### Materiality
+Materiality sets the effect that an answer has on points and floor gates. Material questions earn points and gate the SEAL floor for critical controls. Ranking questions earn points but never gate the SEAL floor, which helps when supply chains block the top rung. Informational questions collect environmental or regulatory data without changing scores or gates.
+
+### Test Estates
+Test estates are pre-set answer profiles that serve as a quality assurance test rig. When you edit an instrument, the engine re-evaluates all test estates immediately. This process reveals if a change allows a low-sovereignty estate to score too high. It also reveals if an edit causes an unexpected drop in a high-sovereignty estate score.
+
+### Recommendations
+Recommendations provide remediation guidance when an estate scores below a target level. The recommender section names the author organisation, provides a disclosure statement, and adds a contact link. Each recommendation defines an action, descriptive text, a time horizon, and a trigger level named whenAtOrBelow. If the evaluated floor for a linked objective falls at or below that trigger, the dashboard displays the recommendation.
