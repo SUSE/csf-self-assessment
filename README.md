@@ -1,4 +1,4 @@
-# Cloud Sovereignty Self-Assessment
+# Cloud Sovereignty Framework Self-Assessment
 
 [![Verify](https://github.com/SUSE/csf-self-assessment/actions/workflows/verify.yml/badge.svg)](https://github.com/SUSE/csf-self-assessment/actions/workflows/verify.yml)
 
