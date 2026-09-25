@@ -104,7 +104,7 @@ Readout (45 min). With everything landed, the Facilitator walks the dashboard: t
 
 ## 6. Phase 3 — After the workshop
 
-The record. The finalized assessment fileis the assessment of record: every answer, every piece of evidence, every merge decision, and who claimed what. Store and distribute it under your normal information-handling rules. Corrections discovered later are landed as new, append-only entries — history is never rewritten.
+The record. The finalized assessment file is the assessment of record: every answer, every piece of evidence, every merge decision, and who claimed what. Store and distribute it under your normal information-handling rules. Corrections discovered later are landed as new, append-only entries — history is never rewritten.
 
 Reading the results into action. Three outputs drive follow-up:
 
