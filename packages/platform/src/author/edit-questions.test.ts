@@ -5,6 +5,7 @@ import { removeDimension, setStrata, updateDimension } from './edit-dimensions';
 import {
   addQuestion,
   addRung,
+  moveQuestion,
   moveRung,
   removeRung,
   setGrain,
@@ -244,6 +245,48 @@ describe('setGrain', () => {
     expect('axis' in backToDimension).toBe(false);
 
     expect(firstQuestion(setGrain(wb, 'q-1', 'dimension'))).toBe(firstQuestion(wb));
+  });
+});
+
+describe('moveQuestion', () => {
+  it('moves a question between objectives preserving all its data', () => {
+    let wb = addQuestion(starterWorkbook(), 'SOV-6', 'party');
+    wb = updateQuestion(wb, 'q-1', { text: 'Question 1', why: 'Because reasons' });
+    wb = addRung(wb, 'q-1');
+
+    const moved = moveQuestion(wb, 'q-1', 'SOV-2');
+    const sov6After = moved.objectives.find((o) => o.id === 'SOV-6');
+    const sov2After = moved.objectives.find((o) => o.id === 'SOV-2');
+
+    expect(sov6After?.questions.map((q) => q.id)).not.toContain('q-1');
+    expect(sov2After?.questions.map((q) => q.id)).toContain('q-1');
+
+    const qMoved = sov2After?.questions.find((q) => q.id === 'q-1');
+    expect(qMoved).toEqual({
+      id: 'q-1',
+      grain: 'party',
+      axis: 'assessment',
+      text: 'Question 1',
+      why: 'Because reasons',
+      role: 'ARCH',
+      defaultMateriality: 'material',
+      ladder: [{ id: 'choice-1', description: '', points: 0, seal: 0 }],
+    });
+  });
+
+  it('no-ops if target objective is the same objective', () => {
+    const wb = addQuestion(starterWorkbook(), 'SOV-6', 'party');
+    expect(moveQuestion(wb, 'q-1', 'SOV-6')).toBe(wb);
+  });
+
+  it('no-ops if question does not exist', () => {
+    const wb = starterWorkbook();
+    expect(moveQuestion(wb, 'nonexistent', 'SOV-2')).toBe(wb);
+  });
+
+  it('no-ops if target objective does not exist', () => {
+    const wb = addQuestion(starterWorkbook(), 'SOV-6', 'party');
+    expect(moveQuestion(wb, 'q-1', 'SOV-999')).toBe(wb);
   });
 });
 

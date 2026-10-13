@@ -33,8 +33,7 @@
   let { draft, focus, issues, onFocus, onDraft, destinations }: Props = $props();
 
   // The objective the crumb is scoped to: the one owning the focused question, or
-  // the focused objective, else the first — instrument-section focuses default to
-  // the first objective so the crumb is never blank.
+  // the focused objective.
   const currentObjective = $derived.by((): Objective | undefined => {
     if (focus.kind === 'question') {
       return (
@@ -43,9 +42,9 @@
       );
     }
     if (focus.kind === 'objective') {
-      return draft.objectives.find((o) => o.id === focus.id) ?? draft.objectives[0];
+      return draft.objectives.find((o) => o.id === focus.id);
     }
-    return draft.objectives[0];
+    return undefined;
   });
 
   // Does any issue land on this target? Reuses focusForIssue so the red flag ticks
@@ -72,13 +71,17 @@
   );
 
   const activeId = $derived(
-    focus.kind === 'question' ? focus.id : (currentObjective?.questions[0]?.id ?? ''),
+    focus.kind === 'question'
+      ? focus.id
+      : focus.kind === 'objective'
+        ? (currentObjective?.questions[0]?.id ?? '')
+        : '',
   );
 
   // +Question appends a draft-blank question to the current objective and focuses
   // it (moved here from the retired QuestionStrip).
   function addQuestionAndFocus(): void {
-    const o = currentObjective;
+    const o = currentObjective ?? draft.objectives[0];
     if (!o) return;
     const next = addQuestion(draft, o.id, 'party');
     const objNext = next.objectives.find((x) => x.id === o.id);
@@ -101,7 +104,12 @@
 
     <div class="h-6 w-px bg-border"></div>
 
-    <QuestionNav {groups} {activeId} onSelect={(id) => onFocus({ kind: 'question', id })}>
+    <QuestionNav
+      {groups}
+      {activeId}
+      onSelect={(id) => onFocus({ kind: 'question', id })}
+      onSelectGroup={(id) => onFocus({ kind: 'objective', id })}
+    >
       <!-- The Questions index OPENS the group it belongs to: every question the
      workbook asks, in reading order, as the page behind the nav that walks
      them one at a time. It leads the nav rather than joining the instrument

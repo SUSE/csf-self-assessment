@@ -2,7 +2,8 @@
   import type { ZodIssue } from 'zod';
   import type { Objective, Workbook } from '../../schema';
   import { issuesUnder } from '../../schema';
-  import { removeObjective, updateObjective } from '../../author';
+  import { addQuestion, removeObjective, updateObjective } from '../../author';
+  import { Button } from '../button';
   import { Panel } from '../panel';
   import { ConfirmDelete } from '../confirm-delete';
   import { RecommendationLinksRow } from '../recommendations-editor';
@@ -93,9 +94,24 @@
   <IssueList issues={ownIssues} />
 
   <div class="space-y-1">
-    <h3 class="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Questions</h3>
+    <div class="flex items-center justify-between">
+      <h3 class="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Questions</h3>
+      <Button
+        variant="outline"
+        size="sm"
+        onclick={() => {
+          const next = addQuestion(draft, currentId, 'party');
+          onDraft(next);
+          const objNext = next.objectives.find((x) => x.id === currentId);
+          const created = objNext?.questions[objNext.questions.length - 1];
+          if (created) onOpenQuestion(created.id);
+        }}
+      >
+        + Question
+      </Button>
+    </div>
     {#if objective.questions.length === 0}
-      <p class="text-xs text-muted-foreground">No questions yet — add one from the header.</p>
+      <p class="text-xs text-muted-foreground">No questions yet — add one using the button above.</p>
     {:else}
       <ul class="space-y-1">
         {#each objective.questions as question, qi (question.id)}

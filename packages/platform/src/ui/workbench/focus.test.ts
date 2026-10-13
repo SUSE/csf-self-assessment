@@ -2,6 +2,7 @@ import type { ZodIssue } from 'zod';
 import { describe, expect, it } from 'vitest';
 import { WorkbookSchema } from '../../schema';
 import type { Objective, Question, Workbook } from '../../schema';
+import { moveQuestion } from '../../author';
 import {
   firstFocus,
   focusForIssue,
@@ -328,6 +329,15 @@ describe('questionSite / objectiveSite / recommendationSite', () => {
       questionIndex: 1,
     });
     expect(questionSite(STAGE_DRAFT, 'nope')).toBeNull();
+  });
+
+  it('questionSite locates a moved question in its new objective', () => {
+    const targetLength = objectiveAt(1).questions.length;
+    const moved = moveQuestion(STAGE_DRAFT, questionAt(0, 1).id, objectiveAt(1).id);
+    const site = questionSite(moved, questionAt(0, 1).id);
+    expect(site?.objective.id).toBe(objectiveAt(1).id);
+    expect(site?.objectiveIndex).toBe(1);
+    expect(site?.questionIndex).toBe(targetLength);
   });
 
   it('locates an objective by id', () => {

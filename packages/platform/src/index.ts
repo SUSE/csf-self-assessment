@@ -183,6 +183,7 @@ export {
   removeObjective,
   removeParty,
   removeQuestion,
+  moveQuestion,
   removeRole,
   removeTestEstate,
   setAssessedParty,

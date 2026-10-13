@@ -82,6 +82,7 @@ export {
   addObjective,
   addQuestion,
   addRung,
+  moveQuestion,
   moveRung,
   removeObjective,
   removeQuestion,

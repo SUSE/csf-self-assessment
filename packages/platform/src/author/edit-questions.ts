@@ -97,6 +97,41 @@ export function removeQuestion(wb: Workbook, questionId: string): Workbook {
   };
 }
 
+// Move a question from one objective to another, preserving all its properties
+// and references. Test-estate answers and recommendation links key by question id,
+// so they follow the question untouched.
+export function moveQuestion(
+  wb: Workbook,
+  questionId: string,
+  targetObjectiveId: string,
+): Workbook {
+  const currentObjective = wb.objectives.find((o) => o.questions.some((q) => q.id === questionId));
+  if (!currentObjective || currentObjective.id === targetObjectiveId) return wb;
+  const targetObjective = wb.objectives.find((o) => o.id === targetObjectiveId);
+  if (!targetObjective) return wb;
+  const question = currentObjective.questions.find((q) => q.id === questionId);
+  if (!question) return wb;
+
+  return {
+    ...wb,
+    objectives: wb.objectives.map((o) => {
+      if (o.id === currentObjective.id) {
+        return {
+          ...o,
+          questions: o.questions.filter((q) => q.id !== questionId),
+        };
+      }
+      if (o.id === targetObjectiveId) {
+        return {
+          ...o,
+          questions: [...o.questions, question],
+        };
+      }
+      return o;
+    }),
+  };
+}
+
 // Patch the fields common to both grains. Renaming the ID cascades into
 // every test estate's answers — a rename is not a removal.
 export function updateQuestion(
