@@ -10,6 +10,10 @@ export {
 } from './focus';
 export { activeAuthorMode, authorModeGates, type ModeGate } from './author-modes';
 export {
+  exportIssuesWarning,
+  type ExportIssuesWarning,
+} from './export-warning';
+export {
   AUTHOR_MODES,
   isAuthorScreen,
   sameAuthorScreen,
