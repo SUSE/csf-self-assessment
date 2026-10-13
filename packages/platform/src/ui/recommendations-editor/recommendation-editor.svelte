@@ -38,20 +38,42 @@
     /** Already scoped to this recommendation by the caller.*/
     issues: ZodIssue[];
     onDraft: (next: Workbook) => void;
+    onRename?: ((oldId: string, nextId: string) => void) | undefined;
     /** Back to the catalogue. Deleting from here goes back too — the page it
      * would return to no longer exists.*/
     onBack: () => void;
   };
-  let { draft, recommendation, issues, onDraft, onBack }: Props = $props();
+  let { draft, recommendation, issues, onDraft, onRename, onBack }: Props = $props();
+
+  let pendingId = $state<string | null>(null);
+  const currentId = $derived(pendingId ?? recommendation.id);
+
+  $effect(() => {
+    if (pendingId !== null && recommendation.id === pendingId) {
+      pendingId = null;
+    }
+  });
+
+  function handleIdChange(e: Event & { currentTarget: HTMLInputElement }): void {
+    const nextId = e.currentTarget.value;
+    if (nextId === currentId) return;
+    const oldId = currentId;
+    pendingId = nextId;
+    if (onRename) {
+      onRename(oldId, nextId);
+    } else {
+      onDraft(updateRecommendation(draft, oldId, { id: nextId }));
+    }
+  }
 
   function remove(): void {
-    onDraft(removeRecommendation(draft, recommendation.id));
+    onDraft(removeRecommendation(draft, currentId));
     onBack();
   }
 
   function chooseHorizon(value: string): void {
     const horizon = HorizonSchema.options.find((h) => h === value);
-    if (horizon) onDraft(updateRecommendation(draft, recommendation.id, { horizon }));
+    if (horizon) onDraft(updateRecommendation(draft, currentId, { horizon }));
   }
 </script>
 
@@ -84,7 +106,7 @@
           data-rule="3.8"
           value={recommendation.title}
           oninput={(e) =>
-            onDraft(updateRecommendation(draft, recommendation.id, { title: e.currentTarget.value }))}
+            onDraft(updateRecommendation(draft, currentId, { title: e.currentTarget.value }))}
         />
       </Field>
       <!-- The id grows too, at half the title's rate: these slugs run past 30
@@ -95,8 +117,7 @@
           density="compact"
           data-rule="3.8"
           value={recommendation.id}
-          onchange={(e) =>
-            onDraft(updateRecommendation(draft, recommendation.id, { id: e.currentTarget.value }))}
+          onchange={handleIdChange}
         />
       </Field>
 
@@ -119,7 +140,7 @@
             value={recommendation.whenAtOrBelow}
             onchange={(e) =>
               onDraft(
-                updateRecommendation(draft, recommendation.id, {
+                updateRecommendation(draft, currentId, {
                   whenAtOrBelow: SealSchema.parse(Number(e.currentTarget.value)),
                 }),
               )}
@@ -137,7 +158,7 @@
             value={String(recommendation.order)}
             onchange={(e) =>
               onDraft(
-                updateRecommendation(draft, recommendation.id, {
+                updateRecommendation(draft, currentId, {
                   order: Math.max(0, Math.trunc(Number(e.currentTarget.value) || 0)),
                 }),
               )}
@@ -166,7 +187,7 @@
               value={recommendation.action}
               oninput={(e) =>
                 onDraft(
-                  updateRecommendation(draft, recommendation.id, {
+                  updateRecommendation(draft, currentId, {
                     action: e.currentTarget.value.replace(/\n/g, ' '),
                   }),
                 )}
@@ -184,7 +205,7 @@
                 onDraft(
                   setRecommendationBody(
                     draft,
-                    recommendation.id,
+                    currentId,
                     e.currentTarget.value
                       .split('\n')
                       .map((l) => l.trim())

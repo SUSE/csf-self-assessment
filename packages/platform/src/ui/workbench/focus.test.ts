@@ -126,8 +126,38 @@ describe('resolveFocus', () => {
     expect(resolveFocus(draft, { kind: 'question', id: 'gone' })).toEqual({ kind: 'question', id: 'q-1' });
   });
 
+  it('preserves focus on a renamed question when focus is updated to the new id', () => {
+    const renamedDraft = draftOf([
+      { id: 'obj-1', questions: ['q-1', 'q-renamed'] },
+      { id: 'obj-2', questions: ['q-3'] },
+    ]);
+    expect(resolveFocus(renamedDraft, { kind: 'question', id: 'q-2' })).toEqual({
+      kind: 'question',
+      id: 'q-1',
+    });
+    expect(resolveFocus(renamedDraft, { kind: 'question', id: 'q-renamed' })).toEqual({
+      kind: 'question',
+      id: 'q-renamed',
+    });
+  });
+
   it('falls back to firstFocus when the focused objective was removed', () => {
     expect(resolveFocus(draft, { kind: 'objective', id: 'gone' })).toEqual({ kind: 'question', id: 'q-1' });
+  });
+
+  it('preserves focus on a renamed objective when focus is updated to the new id', () => {
+    const renamedDraft = draftOf([
+      { id: 'obj-1', questions: ['q-1', 'q-2'] },
+      { id: 'obj-renamed', questions: ['q-3'] },
+    ]);
+    expect(resolveFocus(renamedDraft, { kind: 'objective', id: 'obj-2' })).toEqual({
+      kind: 'question',
+      id: 'q-1',
+    });
+    expect(resolveFocus(renamedDraft, { kind: 'objective', id: 'obj-renamed' })).toEqual({
+      kind: 'objective',
+      id: 'obj-renamed',
+    });
   });
 
   it('passes a live recommendation through, and falls back to its LIST when removed', () => {
@@ -137,6 +167,20 @@ describe('resolveFocus', () => {
     });
     expect(resolveFocus(draft, { kind: 'recommendation', id: 'gone' })).toEqual({
       kind: 'recommendations',
+    });
+  });
+
+  it('preserves focus on a renamed recommendation when focus is updated to the new id', () => {
+    const renamedDraft = draftOf(
+      [{ id: 'obj-1', questions: ['q-1'] }],
+      ['rec-1', 'rec-renamed'],
+    );
+    expect(resolveFocus(renamedDraft, { kind: 'recommendation', id: 'rec-2' })).toEqual({
+      kind: 'recommendations',
+    });
+    expect(resolveFocus(renamedDraft, { kind: 'recommendation', id: 'rec-renamed' })).toEqual({
+      kind: 'recommendation',
+      id: 'rec-renamed',
     });
   });
 

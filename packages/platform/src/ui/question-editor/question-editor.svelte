@@ -50,10 +50,11 @@
     question: Question;
     issues: ZodIssue[]; // already scoped to this question by the caller
     onDraft: (next: Workbook) => void;
+    onRename?: ((oldId: string, nextId: string) => void) | undefined;
     /** Open a linked recommendation's own editor (the links row's titles).*/
     onOpenRecommendation?: ((recommendationId: string) => void) | undefined;
   };
-  let { draft, question, issues, onDraft, onOpenRecommendation }: Props = $props();
+  let { draft, question, issues, onDraft, onRename, onOpenRecommendation }: Props = $props();
 
   // Union narrowing via $derived (design rule 7).
   const dimensionQ = $derived(question.grain === 'dimension' ? question : null);
@@ -87,7 +88,7 @@
      while authoring, on the canvas above the real participant card while
      previewing — where nesting it would put a Panel inside a Panel. -->
 {#snippet metaStrip()}
-  <QuestionMetaStrip {draft} {question} {previewing} {previewable} onFlip={flip} {onDraft} />
+  <QuestionMetaStrip {draft} {question} {previewing} {previewable} onFlip={flip} {onDraft} {onRename} />
 {/snippet}
 
 {#if previewing}

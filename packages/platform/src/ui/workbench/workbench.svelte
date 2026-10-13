@@ -6,6 +6,11 @@
     RecommendationReadout,
     TestEstateReading,
   } from '../../author';
+  import {
+    updateObjective,
+    updateQuestion,
+    updateRecommendation,
+  } from '../../author';
   import { issuesUnder } from '../../schema';
   import { untrack, type Snippet } from 'svelte';
   import { QuestionEditor } from '../question-editor';
@@ -28,6 +33,7 @@
     questionSite,
     recommendationSite,
     resolveFocus,
+    sameFocus,
     stageOrder,
     type FocusRef,
   } from './focus';
@@ -144,14 +150,31 @@
   // steps through — and finally the app's own destinations, which close the row.
   // $effect.pre, so the {#key} block reads the direction as it swaps.
   const order = $derived(stageOrder(draft, stageIds));
+  const currentKey = $derived(stage ? `stage:${stageId}` : focusKey(activeFocus));
 
-  const stageKey = $derived(stage ? `stage:${stageId}` : focusKey(activeFocus));
+  let renameOverrideKey = $state<string | null>(null);
+  let renamedFocus = $state<FocusRef | null>(null);
+  const stageKey = $derived(renameOverrideKey ?? currentKey);
+
+  $effect(() => {
+    if (renamedFocus !== null && !sameFocus(focus, renamedFocus)) {
+      renameOverrideKey = null;
+      renamedFocus = null;
+    }
+  });
+
+  $effect(() => {
+    if (!sameFocus(focus, activeFocus)) {
+      onFocus(activeFocus);
+    }
+  });
+
   let slideDir = $state(1);
   let lastKey: string | null = null;
   let lastIndex = 0;
   $effect.pre(() => {
     const key = stageKey;
-    const found = order.indexOf(key);
+    const found = order.indexOf(currentKey);
     const index = found === -1 ? 0 : found;
     untrack(() => {
       if (lastKey !== null && key !== lastKey) slideDir = index < lastIndex ? -1 : 1;
@@ -159,6 +182,30 @@
       lastIndex = index;
     });
   });
+
+  function handleQuestionRename(oldId: string, nextId: string): void {
+    if (nextId === oldId) return;
+    renameOverrideKey = currentKey;
+    renamedFocus = { kind: 'question', id: nextId };
+    onDraft(updateQuestion(draft, oldId, { id: nextId }));
+    onFocus({ kind: 'question', id: nextId });
+  }
+
+  function handleObjectiveRename(oldId: string, nextId: string): void {
+    if (nextId === oldId) return;
+    renameOverrideKey = currentKey;
+    renamedFocus = { kind: 'objective', id: nextId };
+    onDraft(updateObjective(draft, oldId, { id: nextId }));
+    onFocus({ kind: 'objective', id: nextId });
+  }
+
+  function handleRecommendationRename(oldId: string, nextId: string): void {
+    if (nextId === oldId) return;
+    renameOverrideKey = currentKey;
+    renamedFocus = { kind: 'recommendation', id: nextId };
+    onDraft(updateRecommendation(draft, oldId, { id: nextId }));
+    onFocus({ kind: 'recommendation', id: nextId });
+  }
 
 </script>
 
@@ -218,6 +265,7 @@
           recommendation={site.recommendation}
           issues={issuesUnder(issues, ['recommendations', site.index])}
           {onDraft}
+          onRename={handleRecommendationRename}
           onBack={() => onFocus({ kind: 'recommendations' })}
         />
       {/if}
@@ -229,6 +277,7 @@
           {objective}
           {issues}
           {onDraft}
+          onRename={handleObjectiveRename}
           onOpenQuestion={(id) => onFocus({ kind: 'question', id })}
           onOpenRecommendation={(id) => onFocus({ kind: 'recommendation', id })}
         />
@@ -241,6 +290,7 @@
           question={site.question}
           issues={issuesUnder(issues, ['objectives', site.objectiveIndex, 'questions', site.questionIndex])}
           {onDraft}
+          onRename={handleQuestionRename}
           onOpenRecommendation={(id) => onFocus({ kind: 'recommendation', id })}
         />
       {/if}
