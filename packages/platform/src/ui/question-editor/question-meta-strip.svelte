@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { Question, Workbook } from '../../schema';
   import { MaterialitySchema } from '../../schema';
-  import { removeQuestion, setAxis, setGrain, updateQuestion } from '../../author';
+  import { moveQuestion, removeQuestion, setAxis, setGrain, updateQuestion } from '../../author';
   import { Button } from '../button';
   import { ConfirmDelete } from '../confirm-delete';
   import { Input, Select } from '../forms';
@@ -47,6 +47,12 @@
   let pendingId = $state<string | null>(null);
   const currentId = $derived(pendingId ?? question.id);
 
+  // The objective owning this question
+  const currentObjective = $derived(
+    draft.objectives.find((o) => o.questions.some((q) => q.id === question.id)),
+  );
+  const currentObjectiveId = $derived(currentObjective?.id ?? '');
+
   $effect(() => {
     if (pendingId !== null && question.id === pendingId) {
       pendingId = null;
@@ -75,6 +81,28 @@
     value={question.id}
     onchange={handleIdChange}
   />
+
+  <span aria-hidden="true" class="h-4 w-px shrink-0 bg-border"></span>
+
+  <label class="flex items-center gap-1.5" data-rule="3.5">
+    <span class={CAPTION}>objective</span>
+    <Select
+      density="compact"
+      class="w-auto max-w-[14rem] text-xs truncate"
+      aria-label="Question objective"
+      value={currentObjectiveId}
+      onchange={(e) => {
+        const targetId = e.currentTarget.value;
+        if (targetId && targetId !== currentObjectiveId) {
+          onDraft(moveQuestion(draft, currentId, targetId));
+        }
+      }}
+    >
+      {#each draft.objectives as o (o.id)}
+        <option value={o.id} title={o.name}>{o.id} — {o.name || '(unnamed)'}</option>
+      {/each}
+    </Select>
+  </label>
 
   <span aria-hidden="true" class="h-4 w-px shrink-0 bg-border"></span>
 

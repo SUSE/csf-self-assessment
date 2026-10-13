@@ -21,6 +21,8 @@
     groups: NavGroup[];
     activeId: string;
     onSelect: (id: string) => void;
+    /** Navigate to an objective — called when selecting an objective from the map.*/
+    onSelectGroup?: ((groupId: string) => void) | undefined;
     /** Assessment passes true → the `done` tick is green. author leaves it green-free.*/
     useGreen?: boolean;
     /** Coverage summary e.g. `12/28 answered`. presence also turns on the map's
@@ -40,6 +42,7 @@ section tabs, which are about the workbook's other sets.*/
     groups,
     activeId,
     onSelect,
+    onSelectGroup,
     useGreen = false,
     summary,
     showNextUnresolved = false,
@@ -51,10 +54,11 @@ section tabs, which are about the workbook's other sets.*/
   const flat = $derived<Flat[]>(
     groups.flatMap((g) => g.questions.map((q, i) => ({ q, group: g, indexInGroup: i }))),
   );
-  // The active row, defaulting to the first question when `activeId` is stale or
-  // points outside these groups (a linear order never leaves the crumb blank).
-  const activeIdx = $derived(Math.max(0, flat.findIndex((f) => f.q.id === activeId)));
-  const active = $derived<Flat | undefined>(flat[activeIdx]);
+  // The active row, resolved only when activeId matches a question in these groups.
+  // When activeId is empty or names no question, active is undefined and the select
+  // element disappears.
+  const activeIdx = $derived(activeId ? flat.findIndex((f) => f.q.id === activeId) : -1);
+  const active = $derived<Flat | undefined>(activeIdx >= 0 ? flat[activeIdx] : undefined);
 
   const canPrev = $derived(activeIdx > 0);
   const canNext = $derived(activeIdx < flat.length - 1);
@@ -83,6 +87,11 @@ section tabs, which are about the workbook's other sets.*/
   function pick(id: string): void {
     open = false;
     onSelect(id);
+  }
+
+  function pickGroup(groupId: string): void {
+    open = false;
+    onSelectGroup?.(groupId);
   }
 
   const controlFocus =
@@ -143,7 +152,14 @@ section tabs, which are about the workbook's other sets.*/
             <NavKey {groups} {useGreen} />
           </div>
           <div class="p-2 sm:p-3">
-            <NavMap {groups} {activeId} {useGreen} {showCounts} onSelect={pick} />
+            <NavMap
+              {groups}
+              {activeId}
+              {useGreen}
+              {showCounts}
+              onSelect={pick}
+              onSelectGroup={onSelectGroup ? pickGroup : undefined}
+            />
           </div>
         </Popover.Content>
       </Popover.Root>
