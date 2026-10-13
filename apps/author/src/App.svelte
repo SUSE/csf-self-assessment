@@ -283,6 +283,7 @@
     {/if}
     <ShellActions
       hasDraft={draft !== null}
+      issueCount={issues.length}
       onNew={() => draftFile.startFresh()}
       onImport={() => draftFile.importFile()}
       onExport={() => draftFile.exportFile()}
