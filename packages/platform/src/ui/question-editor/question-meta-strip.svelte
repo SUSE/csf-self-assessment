@@ -33,8 +33,9 @@
     previewable: boolean;
     onFlip: () => void;
     onDraft: (next: Workbook) => void;
+    onRename?: ((oldId: string, nextId: string) => void) | undefined;
   };
-  let { draft, question, previewing, previewable, onFlip, onDraft }: Props = $props();
+  let { draft, question, previewing, previewable, onFlip, onDraft, onRename }: Props = $props();
 
   // Union narrowing via $derived (design rule 7): the axis exists on party grain.
   const partyQ = $derived(question.grain === 'party' ? question : null);
@@ -42,6 +43,27 @@
   // A group's caption, in the label register — the one thing that turns a run of
   // controls into named groups.
   const CAPTION = eyebrowVariants({ weight: 'medium' });
+
+  let pendingId = $state<string | null>(null);
+  const currentId = $derived(pendingId ?? question.id);
+
+  $effect(() => {
+    if (pendingId !== null && question.id === pendingId) {
+      pendingId = null;
+    }
+  });
+
+  function handleIdChange(e: Event & { currentTarget: HTMLInputElement }): void {
+    const nextId = e.currentTarget.value;
+    if (nextId === currentId) return;
+    const oldId = currentId;
+    pendingId = nextId;
+    if (onRename) {
+      onRename(oldId, nextId);
+    } else {
+      onDraft(updateQuestion(draft, oldId, { id: nextId }));
+    }
+  }
 </script>
 
 <div class="flex flex-wrap items-center gap-x-3 gap-y-2">
@@ -51,7 +73,7 @@
     aria-label="Question id"
     data-rule="3.5"
     value={question.id}
-    onchange={(e) => onDraft(updateQuestion(draft, question.id, { id: e.currentTarget.value }))}
+    onchange={handleIdChange}
   />
 
   <span aria-hidden="true" class="h-4 w-px shrink-0 bg-border"></span>
@@ -66,7 +88,7 @@
     bind:value={
       () => question.grain,
       (v) => {
-        if (v === 'party' || v === 'dimension') onDraft(setGrain(draft, question.id, v));
+        if (v === 'party' || v === 'dimension') onDraft(setGrain(draft, currentId, v));
       }
     }
   >
@@ -80,7 +102,7 @@
       bind:value={
         () => partyQ.axis,
         (v) => {
-          if (v === 'assessment' || v === 'party') onDraft(setAxis(draft, question.id, v));
+          if (v === 'assessment' || v === 'party') onDraft(setAxis(draft, currentId, v));
         }
       }
     >
@@ -97,7 +119,7 @@
       density="compact"
       class="w-auto text-xs"
       value={question.role}
-      onchange={(e) => onDraft(updateQuestion(draft, question.id, { role: e.currentTarget.value }))}
+      onchange={(e) => onDraft(updateQuestion(draft, currentId, { role: e.currentTarget.value }))}
     >
       {#each draft.roles as r (r.id)}<option value={r.id} title={r.description ?? ''}
           >{r.id} — {r.name}</option
@@ -112,7 +134,7 @@
       value={question.defaultMateriality}
       onchange={(e) =>
         onDraft(
-          updateQuestion(draft, question.id, {
+          updateQuestion(draft, currentId, {
             defaultMateriality: MaterialitySchema.parse(e.currentTarget.value),
           }),
         )}
@@ -132,6 +154,6 @@
         : 'Fix this question’s issues to preview it'}
       onclick={onFlip}
     >{#if previewing}<SquarePen class="size-4" />{:else}<Eye class="size-4" />{/if}</Button>
-    <ConfirmDelete label="question" onconfirm={() => onDraft(removeQuestion(draft, question.id))} />
+    <ConfirmDelete label="question" onconfirm={() => onDraft(removeQuestion(draft, currentId))} />
   </span>
 </div>

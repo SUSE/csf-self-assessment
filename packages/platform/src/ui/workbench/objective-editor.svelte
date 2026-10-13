@@ -19,13 +19,35 @@
     /** The full strict-issue list — the editor scopes it by its own index.*/
     issues: ZodIssue[];
     onDraft: (next: Workbook) => void;
+    onRename?: ((oldId: string, nextId: string) => void) | undefined;
     /** Open one of this objective's questions in the QuestionEditor.*/
     onOpenQuestion: (id: string) => void;
     onOpenRecommendation: (id: string) => void;
   };
-  let { draft, objective, issues, onDraft, onOpenQuestion, onOpenRecommendation }: Props = $props();
+  let { draft, objective, issues, onDraft, onRename, onOpenQuestion, onOpenRecommendation }: Props = $props();
 
-  const oi = $derived(draft.objectives.findIndex((o) => o.id === objective.id));
+  let pendingId = $state<string | null>(null);
+  const currentId = $derived(pendingId ?? objective.id);
+
+  $effect(() => {
+    if (pendingId !== null && objective.id === pendingId) {
+      pendingId = null;
+    }
+  });
+
+  function handleIdChange(e: Event & { currentTarget: HTMLInputElement }): void {
+    const nextId = e.currentTarget.value;
+    if (nextId === currentId) return;
+    const oldId = currentId;
+    pendingId = nextId;
+    if (onRename) {
+      onRename(oldId, nextId);
+    } else {
+      onDraft(updateObjective(draft, oldId, { id: nextId }));
+    }
+  }
+
+  const oi = $derived(draft.objectives.findIndex((o) => o.id === currentId));
   // The objective's own issues, minus anything owned by a question below it.
   const ownIssues = $derived(
     issuesUnder(issues, ['objectives', oi]).filter((i) => i.path.length <= 3),
@@ -39,14 +61,14 @@
       class="w-24 font-mono text-xs"
       aria-label={`Objective id ${objective.id}`}
       value={objective.id}
-      onchange={(e) => onDraft(updateObjective(draft, objective.id, { id: e.currentTarget.value }))}
+      onchange={handleIdChange}
     />
     <Input
       density="compact"
       class="w-auto grow text-sm font-semibold"
       aria-label={`Objective name ${objective.id}`}
       value={objective.name}
-      oninput={(e) => onDraft(updateObjective(draft, objective.id, { name: e.currentTarget.value }))}
+      oninput={(e) => onDraft(updateObjective(draft, currentId, { name: e.currentTarget.value }))}
     />
     <label class="text-xs text-muted-foreground">
       weight
@@ -56,17 +78,17 @@
         type="number"
         step="1"
         value={String(objective.weight)}
-        onchange={(e) => onDraft(updateObjective(draft, objective.id, { weight: Math.trunc(Number(e.currentTarget.value) || 0) }))}
+        onchange={(e) => onDraft(updateObjective(draft, currentId, { weight: Math.trunc(Number(e.currentTarget.value) || 0) }))}
       />
     </label>
-    <ConfirmDelete label="objective" onconfirm={() => onDraft(removeObjective(draft, objective.id))} />
+    <ConfirmDelete label="objective" onconfirm={() => onDraft(removeObjective(draft, currentId))} />
   </div>
   <Textarea
     rows={2}
     placeholder="What this objective covers — optional"
     aria-label={`Objective description ${objective.id}`}
     value={objective.description ?? ''}
-    oninput={(e) => onDraft(updateObjective(draft, objective.id, { description: e.currentTarget.value }))}
+    oninput={(e) => onDraft(updateObjective(draft, currentId, { description: e.currentTarget.value }))}
   />
   <IssueList issues={ownIssues} />
 
@@ -100,7 +122,7 @@
 
   <RecommendationLinksRow
     {draft}
-    target={{ kind: 'objective', id: objective.id }}
+    target={{ kind: 'objective', id: currentId }}
     {onDraft}
     onOpen={onOpenRecommendation}
   />
