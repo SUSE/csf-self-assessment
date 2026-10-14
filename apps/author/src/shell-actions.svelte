@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { LucideIcon } from '@lucide/svelte';
-  import { buttonVariants } from '@csf/platform/ui/button';
+  import { Button, buttonVariants } from '@csf/platform/ui/button';
   import * as AlertDialog from '@csf/platform/ui/alert-dialog';
   import * as Tooltip from '@csf/platform/ui/tooltip';
   import { exportIssuesWarning } from '@csf/platform/ui/workbench';
@@ -18,8 +18,9 @@
     onNew: () => void;
     onImport: () => void | Promise<void>;
     onExport: () => void | Promise<void>;
+    onReviewIssues?: () => void;
   };
-  let { hasDraft, issueCount = 0, onNew, onImport, onExport }: Props = $props();
+  let { hasDraft, issueCount = 0, onNew, onImport, onExport, onReviewIssues }: Props = $props();
 
   let confirmReplaceOpen = $state(false);
   let confirmExportOpen = $state(false);
@@ -108,6 +109,17 @@
     </AlertDialog.Header>
     <AlertDialog.Footer>
       <AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
+      {#if onReviewIssues}
+        <Button
+          variant="outline"
+          onclick={() => {
+            confirmExportOpen = false;
+            onReviewIssues();
+          }}
+        >
+          Review issues
+        </Button>
+      {/if}
       <AlertDialog.Action onclick={confirmExport}>
         {exportWarning?.action ?? 'Export anyway'}
       </AlertDialog.Action>

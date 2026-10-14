@@ -107,6 +107,7 @@ export type {
   WorkbookMeta,
 } from './schema';
 export { issuesUnder } from './schema';
+export type { ZodIssue } from 'zod';
 
 export {
   answerFor,

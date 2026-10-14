@@ -5,7 +5,9 @@
     TestEstate,
     TestEstateEvaluation,
     Workbook,
+    ZodIssue,
   } from '@csf/platform';
+  import type { FocusRef } from '@csf/platform/ui/workbench';
   import { Hud } from '@csf/platform/ui/hud';
   import { QuestionInspector } from '@csf/platform/ui/question-inspector';
   import { SealLadder } from '@csf/platform/ui/workbook-facts';
@@ -14,6 +16,7 @@
   import {
     ChipInspection,
     InspectorPanel,
+    IssuesInspection,
     ObjectiveInspection,
     ReadingInspection,
     type InspectSelection,
@@ -39,12 +42,16 @@
     previewResult: EngineResult | null;
     selection: InspectSelection | null;
     page: InspectSubject | null;
+    /** The active draft's validation issues.*/
+    issues?: ZodIssue[];
     /** Switch to the workbench and open a question's editor.*/
     onOpenQuestion: (id: string) => void;
     /** Focus a question without leaving the current destination.*/
     onFocusQuestion: (id: string) => void;
     /** Focus the instrument section a chip or a reading manages.*/
     onManageSection: (section: InstrumentSection) => void;
+    /** Focus any target in the workbench.*/
+    onFocus?: (focus: FocusRef) => void;
   };
   let {
     draft,
@@ -54,9 +61,11 @@
     previewResult,
     selection,
     page,
+    issues = [],
     onOpenQuestion,
     onFocusQuestion,
     onManageSection,
+    onFocus,
   }: Props = $props();
 
   // The resolver seam: a selection carries ids only, so a chip whose dimension was
@@ -147,6 +156,14 @@
   <QaInspection {reading} {subject} />
 {/snippet}
 
+{#snippet issuesView()}
+  <IssuesInspection
+    {draft}
+    {issues}
+    onFocus={(target) => onFocus?.(target)}
+  />
+{/snippet}
+
 <InspectorPanel
   {selection}
   {page}
@@ -168,5 +185,6 @@
     evidence: qaView,
     recommendation: qaView,
     'estate-reading': floorView,
+    issues: issuesView,
   } satisfies InspectorViews}
 />

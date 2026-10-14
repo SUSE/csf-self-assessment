@@ -31,7 +31,6 @@
     activeAuthorMode,
     authorModeGates,
     firstFocus,
-    focusForIssue,
     isAuthorScreen,
     resolveFocus,
     sameAuthorScreen,
@@ -180,6 +179,7 @@
     'provenance-fact': 'dashboard',
     evidence: 'dashboard',
     recommendation: 'recommendations',
+    issues: 'workbench',
   };
   const railSelection = $derived.by(() => {
     const selection = inspector.selection;
@@ -230,11 +230,11 @@
     });
   });
 
-  // The issue badge is a jump: switch to the workbench and focus the editor that
-  // owns the topmost problem in path order — the stage brings it into view.
-  function goToFirstIssue(): void {
+  // The issue badge opens the centralized issues list in the right inspector rail.
+  function openIssuesRail(): void {
     goToMode('workbench');
-    if (draft && issues.length > 0) focus = focusForIssue(draft, issues[0]);
+    inspector.open = true;
+    inspector.show({ kind: 'issues' });
   }
 
   // Every way a workbook becomes the active one lands here: it resets the session
@@ -279,7 +279,7 @@
 >
   {#snippet actions()}
     {#if draft}
-      <ValidityStatus issueCount={issues.length} onGoToIssue={goToFirstIssue} />
+      <ValidityStatus issueCount={issues.length} onGoToIssue={openIssuesRail} />
     {/if}
     <ShellActions
       hasDraft={draft !== null}
@@ -287,6 +287,7 @@
       onNew={() => draftFile.startFresh()}
       onImport={() => draftFile.importFile()}
       onExport={() => draftFile.exportFile()}
+      onReviewIssues={openIssuesRail}
     />
   {/snippet}
 
@@ -299,9 +300,14 @@
       {previewResult}
       selection={railSelection}
       page={pageSubject}
+      {issues}
       onOpenQuestion={openQuestionInWorkbench}
       onFocusQuestion={(id) => (focus = { kind: 'question', id })}
       onManageSection={(section) => (focus = sectionFocus(section))}
+      onFocus={(f) => {
+        goToMode('workbench');
+        focus = f;
+      }}
     />
   {/snippet}
 
