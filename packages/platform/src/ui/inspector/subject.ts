@@ -92,7 +92,9 @@ export type InspectSelection =
       // Every gating answer with no document behind it, read as the questions they
       // answer — one objective's share of them, or null for all of it.
       objectiveId: string | null;
-    };
+    }
+  // The workbook's validation issues, read as a centralized triage list.
+  | { kind: 'issues' };
 
 export type AmbientSubject =
   | { kind: 'estate-reading'; title: string }
@@ -162,6 +164,7 @@ export const InspectSelectionSchema = z.discriminatedUnion('kind', [
   z.object({ kind: z.literal('contributor'), name: z.string().min(1) }),
   z.object({ kind: z.literal('provenance-fact'), fact: z.enum(['swept', 'disputed']) }),
   z.object({ kind: z.literal('evidence'), objectiveId: z.string().min(1).nullable() }),
+  z.object({ kind: z.literal('issues') }),
 ]);
 
 export function isInspectSelection(raw: unknown): raw is InspectSelection {
@@ -176,6 +179,7 @@ export function sameSelection(
 ): boolean {
   if (a === null || b === null) return a === b;
   if (a.kind !== b.kind) return false;
+  if (a.kind === 'issues' && b.kind === 'issues') return true;
   if (a.kind === 'instrument-chip' && b.kind === 'instrument-chip') {
     return a.chipKind === b.chipKind && a.key === b.key;
   }
@@ -213,6 +217,7 @@ export function sameSelection(
 // that declared it. a selection is always the Inspector, whatever it names.
 export function inspectorTitle(subject: InspectSubject | null): string {
   if (subject === null) return 'Inspector';
+  if (subject.kind === 'issues') return 'Validation issues';
   return subject.kind === 'estate-reading' || subject.kind === 'hint'
     ? subject.title
     : 'Inspector';

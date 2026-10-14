@@ -36,7 +36,7 @@
   )}
   title={ok
     ? 'The workbook passes strict validation — Preview and Dashboard are open'
-    : 'Jump to the first issue'}
+    : 'Review validation issues'}
   {...ok ? {} : { type: 'button', onclick: onGoToIssue }}
 >
   {#snippet icon()}

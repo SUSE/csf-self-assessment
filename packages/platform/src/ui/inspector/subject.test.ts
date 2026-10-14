@@ -48,6 +48,7 @@ describe('a selection as view state', () => {
     // The fieldless ones: the discriminator is the whole selection.
     expect(isInspectSelection({ kind: 'seal-ladder' })).toBe(true);
     expect(isInspectSelection({ kind: 'dont-know' })).toBe(true);
+    expect(isInspectSelection({ kind: 'issues' })).toBe(true);
     expect(isInspectSelection({ kind: 'evidence', objectiveId: null })).toBe(true);
     expect(isInspectSelection({ kind: 'evidence', objectiveId: 'SOV-2' })).toBe(true);
     expect(isInspectSelection({ kind: 'evidence' })).toBe(false);
@@ -162,14 +163,19 @@ describe('sameSelection', () => {
   it('treats each fieldless kind as one selection, never as each other', () => {
     const ladder: InspectSelection = { kind: 'seal-ladder' };
     const admitted: InspectSelection = { kind: 'dont-know' };
+    const issues: InspectSelection = { kind: 'issues' };
     const undefended: InspectSelection = { kind: 'evidence', objectiveId: null };
     expect(sameSelection(ladder, { kind: 'seal-ladder' })).toBe(true);
     expect(sameSelection(admitted, { kind: 'dont-know' })).toBe(true);
+    expect(sameSelection(issues, { kind: 'issues' })).toBe(true);
     expect(sameSelection(ladder, admitted)).toBe(false);
+    expect(sameSelection(ladder, issues)).toBe(false);
+    expect(sameSelection(issues, admitted)).toBe(false);
     expect(sameSelection(admitted, undefended)).toBe(false);
     expect(sameSelection(ladder, { kind: 'question', questionId: 'q1', target: null })).toBe(false);
     expect(sameSelection(ladder, null)).toBe(false);
     expect(sameSelection(admitted, null)).toBe(false);
+    expect(sameSelection(issues, null)).toBe(false);
   });
 
   it('separates the whole undefended set from one objective’s share of it', () => {
@@ -243,6 +249,7 @@ describe('inspectorTitle', () => {
     expect(inspectorTitle({ kind: 'question', questionId: 'q1', target: null })).toBe('Inspector');
     expect(inspectorTitle({ kind: 'objective', objectiveId: 'SOV-2' })).toBe('Inspector');
     expect(inspectorTitle({ kind: 'seal-ladder' })).toBe('Inspector');
+    expect(inspectorTitle({ kind: 'issues' })).toBe('Validation issues');
     expect(inspectorTitle({ kind: 'estate-reading', title: 'Live floor' })).toBe('Live floor');
     expect(inspectorTitle({ kind: 'hint', title: 'Merge', text: 'Add one partial…' })).toBe('Merge');
     expect(inspectorTitle(null)).toBe('Inspector');

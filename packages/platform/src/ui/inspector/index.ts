@@ -9,6 +9,7 @@ export { default as ObjectiveGroups } from './objective-groups.svelte';
 export { byObjective, type ObjectiveGroupView } from './question-blocks';
 export { default as OpenUnitsInspection } from './open-units-inspection.svelte';
 export { default as HeatMarkInspection } from './heat-mark-inspection.svelte';
+export { default as IssuesInspection } from './issues-inspection.svelte';
 export { default as ObjectiveInspection } from './objective-inspection.svelte';
 export { default as ProvenanceInspection } from './provenance-inspection.svelte';
 export { default as ReadingInspection } from './reading-inspection.svelte';
