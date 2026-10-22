@@ -26,7 +26,7 @@ export function updateDimension(
   if (patch.id === undefined || patch.id === dimensionId) return next;
   const renamed = patch.id;
   const requestioned = mapQuestions(next, (q) =>
-    q.grain === 'dimension'
+    q.scope === 'dimension'
       ? { ...q, appliesTo: q.appliesTo.map((d) => (d === dimensionId ? renamed : d)) }
       : q,
   );
@@ -63,7 +63,7 @@ export function setStrata(wb: Workbook, dimensionId: string, strata: string[]): 
 // call, not a cascade's.
 export function removeDimension(wb: Workbook, dimensionId: string): Workbook {
   const stripped = mapQuestions(wb, (q) =>
-    q.grain === 'dimension'
+    q.scope === 'dimension'
       ? { ...q, appliesTo: q.appliesTo.filter((d) => d !== dimensionId) }
       : q,
   );

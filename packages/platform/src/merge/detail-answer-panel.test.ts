@@ -49,12 +49,12 @@ describe('the action between', () => {
   it('the decision headline names the exact human action', () => {
     expect(headline({ kind: 'agreed', among: ['Alex', 'Jane'], kept: 'Alex' })).toBe('Agreed by Alex and Jane');
     expect(headline({ kind: 'sole-source', from: 'Alex' })).toBe('Only Alex answered');
-    const resolvedBy = (choice: Extract<AnswerLedgerRecord['decision'], { kind: 'resolved' }>['choice'], clash: 'divergence' | 'grain') =>
+    const resolvedBy = (choice: Extract<AnswerLedgerRecord['decision'], { kind: 'resolved' }>['choice'], clash: 'divergence' | 'depth') =>
       headline({ kind: 'resolved', clash, choice, by: 'facilitator', note: '' });
     expect(resolvedBy({ kind: 'take', from: 'Jane' }, 'divergence')).toBe('Took Jane’s answer');
     expect(resolvedBy({ kind: 'reanswer', rungId: 'choice-1' }, 'divergence')).toBe('Facilitator set “Documented.” (SEAL 2)');
-    expect(resolvedBy({ kind: 'grain', keep: 'strata' }, 'grain')).toBe('Kept the per-stratum answers');
-    expect(resolvedBy({ kind: 'grain', keep: 'roll-up' }, 'grain')).toBe('Kept the whole-dimension answer');
+    expect(resolvedBy({ kind: 'depth', keep: 'strata' }, 'depth')).toBe('Kept the per-stratum answers');
+    expect(resolvedBy({ kind: 'depth', keep: 'roll-up' }, 'depth')).toBe('Kept the whole-dimension answer');
   });
 });
 

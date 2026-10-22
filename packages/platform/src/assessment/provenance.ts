@@ -37,6 +37,7 @@ export function assessmentOf(
   switch (provenance.kind) {
     case 'partial':
       return {
+        schemaVersion: '2.0',
         meta: { ...meta, workbookAssessment: provenance.workbookAssessment, participant: provenance.participant },
         workbook,
         parties,
@@ -47,6 +48,7 @@ export function assessmentOf(
       };
     case 'finalized':
       return {
+        schemaVersion: '2.0',
         meta: { ...meta, workbookAssessment: provenance.workbookAssessment },
         workbook,
         parties,

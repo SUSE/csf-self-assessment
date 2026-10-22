@@ -1,3 +1,6 @@
+# Directory where interim docs are stored during working sessions
+.docs-interim/
+
 # Node / pnpm
 node_modules/
 

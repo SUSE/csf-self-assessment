@@ -47,7 +47,7 @@ const WB: Workbook = WorkbookSchema.parse({
       questions: [
         {
           id: 'SOV-1.pq',
-          grain: 'party',
+          scope: 'party',
           text: 'p?',
           why: 'b',
           role: 'SEC',

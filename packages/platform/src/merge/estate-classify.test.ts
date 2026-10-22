@@ -24,33 +24,33 @@ describe('the Alex/Jane fixture pair, classified', () => {
     expect(units.every((u) => u.kind === 'sole-source')).toBe(true);
   });
 
-  it('Jane’s 61 units split 19 agreed / 29 unit-clash / 9 sole-source / 1 grain-clash', () => {
+  it('Jane’s 61 units split 19 agreed / 29 unit-clash / 9 sole-source / 1 depth-clash', () => {
     const alex = landAlex();
     const units = classify(alex.base, alex.ledger, JANE);
     expect(units).toHaveLength(58);
     expect(units.filter((u) => u.kind === 'agreed')).toHaveLength(19);
     expect(units.filter((u) => u.kind === 'sole-source')).toHaveLength(9);
     expect(units.filter((u) => u.kind === 'unit-clash')).toHaveLength(29);
-    expect(units.filter((u) => u.kind === 'grain-clash')).toHaveLength(1);
+    expect(units.filter((u) => u.kind === 'depth-clash')).toHaveLength(1);
   });
 
-  it('the 30 clashes are 23 divergence, 4 gap, 2 scope, 1 grain', () => {
+  it('the 30 clashes are 23 divergence, 4 gap, 2 applicability, 1 depth', () => {
     const alex = landAlex();
     const clashes = classify(alex.base, alex.ledger, JANE).filter(isClash);
     expect(clashes).toHaveLength(30);
     expect(clashes.filter((c) => c.clash === 'divergence')).toHaveLength(23);
     expect(clashes.filter((c) => c.clash === 'gap')).toHaveLength(4);
-    expect(clashes.filter((c) => c.clash === 'scope')).toHaveLength(2);
-    expect(clashes.filter((c) => c.clash === 'grain')).toHaveLength(1);
+    expect(clashes.filter((c) => c.clash === 'applicability')).toHaveLength(2);
+    expect(clashes.filter((c) => c.clash === 'depth')).toHaveLength(1);
   });
 
-  it('the grain pair is one grain clash', () => {
+  it('the depth pair is one depth clash', () => {
     const alex = landAlex();
     const janeUnits = classify(alex.base, alex.ledger, JANE);
-    const grain = janeUnits.filter((u) => u.kind === 'grain-clash');
-    expect(grain).toHaveLength(1);
-    const [clash] = grain;
-    if (clash.kind !== 'grain-clash') throw new Error('expected a grain clash');
+    const depth = janeUnits.filter((u) => u.kind === 'depth-clash');
+    expect(depth).toHaveLength(1);
+    const [clash] = depth;
+    if (clash.kind !== 'depth-clash') throw new Error('expected a depth clash');
     expect(clash.questionId).toBe('SOV-4.withdrawal-survival');
     expect(clash.dimension).toBe('storage');
     expect(clash.rollUpSide).toBe('base');

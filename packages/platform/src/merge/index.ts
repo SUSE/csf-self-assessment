@@ -153,8 +153,8 @@ export type { Suggestion, SuggestionBasis, SuggestedChoice } from './suggest';
 export { classify, clashCandidates, isClash } from './clash-types';
 export type {
   AgreedUnit,
-  GrainClash,
-  GrainStratum,
+  DepthClash,
+  DepthStratum,
   LandingClash,
   LandingUnit,
   ReviewCandidate,

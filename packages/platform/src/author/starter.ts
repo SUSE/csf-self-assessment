@@ -10,6 +10,7 @@ import type { Workbook } from '../schema';
 // ship as test estates, answers empty.
 export function starterWorkbook(): Workbook {
   return {
+    schemaVersion: '2.0',
     meta: { id: 'my-workbook', version: '0.1.0', title: 'Untitled workbook' },
     frontSheet: [],
     sealLevels: [

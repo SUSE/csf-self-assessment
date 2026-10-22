@@ -4,14 +4,14 @@ import { EMPTY_BASE, STORAGE, answered, landedBase, partial, stratum } from './s
 
 const THREE_STRATA = [answered(stratum('service'), 2), answered(stratum('software'), 0), answered(stratum('hardware'), 1)];
 
-describe('the grain clash', () => {
-  it('a base roll-up under incoming strata is one grain clash', () => {
+describe('the depth clash', () => {
+  it('a base roll-up under incoming strata is one depth clash', () => {
     const { base, ledger } = landedBase([answered(STORAGE, 2)]);
     const units = classify(base, ledger, partial('Jane', THREE_STRATA));
     expect(units).toHaveLength(1);
     const [unit] = units;
-    if (unit.kind !== 'grain-clash') throw new Error('expected a grain clash');
-    expect(unit.clash).toBe('grain');
+    if (unit.kind !== 'depth-clash') throw new Error('expected a depth clash');
+    expect(unit.clash).toBe('depth');
     expect(unit.rollUpSide).toBe('base');
     expect(unit.target).toEqual(STORAGE);
     expect(unit.strata.map((s) => s.stratum)).toEqual(['service', 'software', 'hardware']);
@@ -22,7 +22,7 @@ describe('the grain clash', () => {
     const units = classify(base, ledger, partial('Jane', [answered(STORAGE, 2)]));
     expect(units).toHaveLength(1);
     const [unit] = units;
-    if (unit.kind !== 'grain-clash') throw new Error('expected a grain clash');
+    if (unit.kind !== 'depth-clash') throw new Error('expected a depth clash');
     expect(unit.rollUpSide).toBe('incoming');
     expect(unit.rollUp.from).toBe('Jane');
     expect(unit.strata.map((s) => s.candidate.from)).toEqual(['Alex', 'Alex', 'Alex']);
@@ -35,17 +35,17 @@ describe('the grain clash', () => {
       ledger,
       partial('Jane', [answered(stratum('service'), 2), answered(stratum('software'), 0), answered(stratum('hardware'), 3)]),
     );
-    expect(units.some((u) => u.kind === 'grain-clash')).toBe(false);
+    expect(units.some((u) => u.kind === 'depth-clash')).toBe(false);
     expect(units.filter((u) => u.kind === 'unit-clash')).toHaveLength(1);
   });
 
-  it('a roll-up and strata on the same side is not a grain clash', () => {
+  it('a roll-up and strata on the same side is not a depth clash', () => {
     const units = classify(
       EMPTY_BASE,
       [],
       partial('Jane', [answered(STORAGE, 2), answered(stratum('service'), 1), answered(stratum('software'), 0)]),
     );
-    expect(units.some((u) => u.kind === 'grain-clash')).toBe(false);
+    expect(units.some((u) => u.kind === 'depth-clash')).toBe(false);
     expect(units.filter((u) => u.kind === 'sole-source')).toHaveLength(3);
   });
 

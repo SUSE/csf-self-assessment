@@ -57,7 +57,7 @@ function resolveAll(
   return clashes.map((clash) => ({
     questionId: clash.questionId,
     target: clash.target,
-    choice: clash.kind === 'grain-clash' ? { kind: 'grain', keep } : { kind: 'take', from },
+    choice: clash.kind === 'depth-clash' ? { kind: 'depth', keep } : { kind: 'take', from },
     note: '',
   }));
 }
@@ -109,7 +109,7 @@ describe('the deep calculator fills', () => {
       counts[unit.kind] = (counts[unit.kind] ?? 0) + 1;
       return counts;
     }, {});
-    expect(kinds).toEqual({ agreed: 111, 'sole-source': 18, 'unit-clash': 12, 'grain-clash': 1 });
+    expect(kinds).toEqual({ agreed: 111, 'sole-source': 18, 'unit-clash': 12, 'depth-clash': 1 });
   });
 
   it('the 13 clashes cover all four classes', () => {
@@ -118,17 +118,17 @@ describe('the deep calculator fills', () => {
       counts[clash.clash] = (counts[clash.clash] ?? 0) + 1;
       return counts;
     }, {});
-    expect(classes).toEqual({ divergence: 6, gap: 4, scope: 2, grain: 1 });
+    expect(classes).toEqual({ divergence: 6, gap: 4, applicability: 2, depth: 1 });
   });
 
-  it('the grain clash is compute: Alex answered the block, Jane the four layers', () => {
+  it('the depth clash is compute: Alex answered the block, Jane the four layers', () => {
     const { review } = janeReview();
-    const grain = review.units.find((unit) => unit.kind === 'grain-clash');
-    if (grain?.kind !== 'grain-clash') throw new Error('no grain clash');
-    expect(grain.questionId).toBe('SOV-4.2');
-    expect(grain.dimension).toBe('compute');
-    expect(grain.rollUpSide).toBe('base');
-    expect(grain.strata.map((s) => s.stratum)).toEqual([
+    const depth = review.units.find((unit) => unit.kind === 'depth-clash');
+    if (depth?.kind !== 'depth-clash') throw new Error('no depth clash');
+    expect(depth.questionId).toBe('SOV-4.2');
+    expect(depth.dimension).toBe('compute');
+    expect(depth.rollUpSide).toBe('base');
+    expect(depth.strata.map((s) => s.stratum)).toEqual([
       'service',
       'software',
       'hardware',

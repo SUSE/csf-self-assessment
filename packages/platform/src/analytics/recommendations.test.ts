@@ -52,7 +52,7 @@ const RAW_BASE = {
       questions: [
         {
           id: 'A.compute',
-          grain: 'dimension',
+          scope: 'dimension',
           appliesTo: ['compute'],
           text: 'How is compute governed?',
           why: 'w',
@@ -62,7 +62,7 @@ const RAW_BASE = {
         },
         {
           id: 'A.storage',
-          grain: 'dimension',
+          scope: 'dimension',
           appliesTo: ['storage'],
           text: 'How is storage governed?',
           why: 'w',
@@ -79,7 +79,7 @@ const RAW_BASE = {
       questions: [
         {
           id: 'B.info',
-          grain: 'dimension',
+          scope: 'dimension',
           appliesTo: ['storage'],
           text: 'What does the storage inventory say?',
           why: 'w',

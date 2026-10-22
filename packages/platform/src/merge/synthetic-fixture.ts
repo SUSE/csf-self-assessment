@@ -53,7 +53,7 @@ export const WB: Workbook = WorkbookSchema.parse({
       questions: [
         {
           id: 'SOV-1.dq',
-          grain: 'dimension',
+          scope: 'dimension',
           appliesTo: ['storage', 'security'],
           text: 'q?',
           why: 'b',
@@ -63,7 +63,7 @@ export const WB: Workbook = WorkbookSchema.parse({
         },
         {
           id: 'SOV-1.pq',
-          grain: 'party',
+          scope: 'party',
           text: 'p?',
           why: 'b',
           role: 'SEC',
@@ -81,6 +81,7 @@ export const ACME_EU: Party = { id: 'acme-eu', name: 'Acme EU', type: 'subproces
 export const NORTHSTAR: Party = { id: 'northstar-edge', name: 'Northstar Edge', type: 'subprocessor', serves: ['edge'] };
 
 export const WA: WorkbookAssessment = {
+  schemaVersion: '2.0',
   meta: { id: 'wa-1', estate: 'E', workbookId: 'wb', workbookVersion: '1.0.0', createdAt: 'T0' },
   workbook: WB,
   parties: [INST],

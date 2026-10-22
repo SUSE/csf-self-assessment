@@ -26,7 +26,7 @@ export const takeJane = (clashes: LandingClash[]): ClashResolution[] =>
   clashes.map((clash) => ({
     questionId: clash.questionId,
     target: clash.target,
-    choice: clash.kind === 'grain-clash' ? { kind: 'grain', keep: 'strata' } : { kind: 'take', from: 'Jane' },
+    choice: clash.kind === 'depth-clash' ? { kind: 'depth', keep: 'strata' } : { kind: 'take', from: 'Jane' },
     note: '',
   }));
 

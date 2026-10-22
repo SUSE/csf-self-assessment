@@ -100,7 +100,7 @@ export function authorGauges(workbook: Workbook): AuthorGauges {
     for (const question of objective.questions) {
       questionCount += 1;
       const units =
-        question.grain === 'party'
+        question.scope === 'party'
           ? question.axis === 'party'
             ? DEFAULT_PARTY_COUNT
             : 1
@@ -114,11 +114,11 @@ export function authorGauges(workbook: Workbook): AuthorGauges {
         load.questionCount += 1;
         load.estimatedMinutes += minutes;
       }
-      if (question.grain === 'dimension') {
+      if (question.scope === 'dimension') {
         for (const d of question.appliesTo) row.set(d, (row.get(d) ?? 0) + 1);
       }
       if (gates(question.defaultMateriality)) {
-        if (question.grain === 'party') {
+        if (question.scope === 'party') {
           gateList.push({
             questionId: question.id,
             objectiveId: objective.id,

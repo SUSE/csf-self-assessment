@@ -17,6 +17,7 @@ import { reviewLanding } from './review';
 import { landingChecks } from './checks';
 
 const WB: Workbook = WorkbookSchema.parse({
+  schemaVersion: '2.0',
   meta: { id: 'wb', version: '1.0.0', title: 'T' },
   sealLevels: [0, 1, 2, 3, 4].map((seal) => ({ seal, name: `S${seal}`, description: `d${seal}` })),
   dimensions: [
@@ -36,7 +37,7 @@ const WB: Workbook = WorkbookSchema.parse({
       questions: [
         {
           id: 'SOV-1.dq',
-          grain: 'dimension',
+          scope: 'dimension',
           appliesTo: ['compute', 'edge'],
           text: 'q?',
           why: 'b',
@@ -53,7 +54,7 @@ const WB: Workbook = WorkbookSchema.parse({
       questions: [
         {
           id: 'SOV-2.pq',
-          grain: 'party',
+          scope: 'party',
           axis: 'party',
           text: 'p?',
           why: 'b',
@@ -71,6 +72,7 @@ const ACME: Party = { id: 'acme', name: 'Acme Cloud', type: 'provider', serves: 
 const NEW_PROVIDER: Party = { id: 'nordics', name: 'Nordics Datacenter AB', type: 'provider', serves: ['compute'] };
 
 const WA: WorkbookAssessment = {
+  schemaVersion: '2.0',
   meta: { id: 'wa-1', estate: 'E', workbookId: 'wb', workbookVersion: '1.0.0', createdAt: 'T0' },
   workbook: WB,
   parties: [INST, ACME],

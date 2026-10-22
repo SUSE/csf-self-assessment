@@ -9,8 +9,8 @@ import {
   criticalDimensions,
   dimensionCoverage,
   partyCoverage,
-  questionGrainLabel,
   questionLowestSeal,
+  questionScopeLabel,
   questionUnitSeals,
 } from './model';
 
@@ -44,7 +44,7 @@ const WB = WorkbookSchema.parse({
       questions: [
         {
           id: 'd1',
-          grain: 'dimension',
+          scope: 'dimension',
           appliesTo: ['compute', 'network'],
           text: 'q?',
           why: 'b',
@@ -58,7 +58,7 @@ const WB = WorkbookSchema.parse({
         },
         {
           id: 'p1',
-          grain: 'party',
+          scope: 'party',
           axis: 'party',
           text: 'q?',
           why: 'b',
@@ -139,15 +139,15 @@ describe('questionUnitSeals', () => {
   });
 });
 
-describe('questionGrainLabel', () => {
-  it('describes a dimension-grain question', () => {
-    expect(questionGrainLabel(dq)).toBe(
-      'Dimension grain · one answer per applicable dimension',
+describe('questionScopeLabel', () => {
+  it('describes a dimension-scope question', () => {
+    expect(questionScopeLabel(dq)).toBe(
+      'Dimension scope · one answer per applicable dimension',
     );
   });
 
   it('describes a party-axis question', () => {
-    expect(questionGrainLabel(pq)).toBe('Party grain · one answer per declared party');
+    expect(questionScopeLabel(pq)).toBe('Party scope · one answer per declared party');
   });
 });
 
@@ -229,7 +229,7 @@ describe('a resolved rung, not a stored SEAL (instrument-S1)', () => {
         questions: [
           {
             id: 'r1',
-            grain: 'party',
+            scope: 'party',
             axis: 'assessment',
             text: 'q?',
             why: 'b',
@@ -269,7 +269,7 @@ describe('answerLadder on a repeated-SEAL ladder', () => {
         questions: [
           {
             id: 'SOV-9.flat',
-            grain: 'party',
+            scope: 'party',
             axis: 'assessment',
             text: 'q?',
             why: 'b',

@@ -128,7 +128,7 @@ describe('evaluate() — the ladder prices its own rungs (instrument-S1)', () =>
     obj('O', 100, [
       {
         id: 'q1',
-        grain: 'party',
+        scope: 'party',
         text: 'q1',
         why: 'why',
         role: 'ARCH',

@@ -1,4 +1,5 @@
 {
+  "schemaVersion": "2.0",
   "meta": {
     "id": "csf-teaching-deep-analysis",
     "version": "1.0.0",
@@ -198,7 +199,6 @@
       "questions": [
         {
           "id": "DEEP-ENT.chain-visibility",
-          "grain": "party",
           "axis": "assessment",
           "text": "Can the institution name every legal entity involved in delivering this estate, down to hardware, software suppliers?",
           "why": "Deep analysis must not stop at the legal entity that signed the contract — the EC's own rule. The chain has to be enumerated before any of it can be assessed, so this single assessment-axis question is the precondition for every party-axis answer that follows.",
@@ -235,11 +235,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "party"
         },
         {
           "id": "DEEP-ENT.entity-jurisdiction",
-          "grain": "party",
           "axis": "party",
           "text": "Under which jurisdiction does this party ultimately operate?",
           "why": "The Development block draws Software Supplier, Service Provider as boxes inside the estate — but they are parties, not layers: the same jurisdiction question walks the whole chain on the party axis, because a sovereign service resting on a compellable supplier is not sovereign.",
@@ -276,7 +276,8 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "party"
         }
       ]
     },
@@ -287,7 +288,6 @@
       "questions": [
         {
           "id": "DEEP-TEC.layer-control",
-          "grain": "dimension",
           "appliesTo": [
             "compute",
             "storage",
@@ -328,11 +328,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "dimension"
         },
         {
           "id": "DEEP-TEC.iam-control",
-          "grain": "dimension",
           "appliesTo": [
             "iam"
           ],
@@ -359,11 +359,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "dimension"
         },
         {
           "id": "DEEP-TEC.container-control",
-          "grain": "dimension",
           "appliesTo": [
             "platform"
           ],
@@ -402,11 +402,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "dimension"
         },
         {
           "id": "DEEP-TEC.paas-control",
-          "grain": "dimension",
           "appliesTo": [
             "platform"
           ],
@@ -445,11 +445,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "dimension"
         },
         {
           "id": "DEEP-TEC.secops-control",
-          "grain": "dimension",
           "appliesTo": [
             "security"
           ],
@@ -488,11 +488,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "dimension"
         },
         {
           "id": "DEEP-TEC.factory-control",
-          "grain": "dimension",
           "appliesTo": [
             "software-supply"
           ],
@@ -519,11 +519,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "dimension"
         },
         {
           "id": "DEEP-TEC.library-provenance",
-          "grain": "dimension",
           "appliesTo": [
             "software-supply"
           ],
@@ -562,11 +562,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "dimension"
         },
         {
           "id": "DEEP-TEC.edge-control",
-          "grain": "dimension",
           "appliesTo": [
             "edge"
           ],
@@ -605,11 +605,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "dimension"
         },
         {
           "id": "DEEP-TEC.facilities-control",
-          "grain": "dimension",
           "appliesTo": [
             "facilities"
           ],
@@ -636,7 +636,8 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "dimension"
         }
       ]
     }

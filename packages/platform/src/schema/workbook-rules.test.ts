@@ -57,7 +57,7 @@ describe('WORKBOOK_RULES', () => {
     const clone = structuredClone(workbook({ dimensions: [DIM] }));
     clone.objectives[0].questions.push({
       id: 'SOV-2.d1',
-      grain: 'dimension',
+      scope: 'dimension',
       appliesTo: ['storage'],
       text: 'q?',
       why: 'b',

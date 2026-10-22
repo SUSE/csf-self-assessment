@@ -21,7 +21,8 @@
   },
   "scripts": {
     "dev": "pnpm --parallel --filter @csf/author --filter @csf/assessment run dev",
-    "build": "pnpm --filter @csf/assessment build && pnpm --filter @csf/author build && pnpm check:offline",
+    "build": "pnpm --filter @csf/assessment build && pnpm --filter @csf/author build && pnpm --filter @csf/migrator build && pnpm check:offline",
+    "build:migrator": "pnpm --filter @csf/migrator build",
     "test": "node --test packages/platform/scripts/*.node-tests.mjs && pnpm -r --if-present test",
     "lint": "eslint .",
     "typecheck": "pnpm -r --if-present typecheck",

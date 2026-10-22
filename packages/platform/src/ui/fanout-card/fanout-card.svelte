@@ -49,7 +49,7 @@
     coverage: QuestionCoverage;
     /** The unit noun for the tray count, e.g. { one: 'dimension', many: 'dimensions' }.*/
     unitNoun: UnitNoun;
-    grainLabel: string;
+    scopeLabel: string;
     onPlace: (target: Target, choice: LadderChoice) => void;
     onRetract: (target: Target) => void;
     /** Only ever invoked for splittable units (dimension strata). parties omit it.*/
@@ -69,7 +69,7 @@
     answers,
     coverage,
     unitNoun,
-    grainLabel,
+    scopeLabel,
     onPlace,
     onRetract,
     onMerge,
@@ -151,7 +151,7 @@
     text={question.text}
     why={question.why}
     {coverage}
-    {grainLabel}
+    {scopeLabel}
     {onReset}
     {canReset}
   />

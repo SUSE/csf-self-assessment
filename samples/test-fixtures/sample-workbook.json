@@ -1,4 +1,5 @@
 {
+  "schemaVersion": "2.0",
   "meta": {
     "id": "csf-sample",
     "version": "0.5.0",
@@ -156,7 +157,6 @@
       "questions": [
         {
           "id": "SOV-2.q1",
-          "grain": "party",
           "axis": "party",
           "text": "Under which jurisdiction's law can the primary provider be compelled to disclose or hand over your data?",
           "why": "If a foreign court can compel disclosure, no amount of encryption restores control — this is the kill-switch on legal sovereignty.",
@@ -181,11 +181,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "party"
         },
         {
           "id": "SOV-2.q2",
-          "grain": "party",
           "axis": "party",
           "text": "Who ultimately owns and controls the primary provider's parent company?",
           "why": "Ownership decides who can be pressured by a foreign state; an EU-operated subsidiary is only as sovereign as its parent allows.",
@@ -210,11 +210,11 @@
               "points": 75,
               "seal": 3
             }
-          ]
+          ],
+          "scope": "party"
         },
         {
           "id": "SOV-2.q3",
-          "grain": "party",
           "text": "If the provider were compelled by a foreign authority to suspend your service, could you keep operating?",
           "why": "Capability-under-stress: sovereignty is what still works when access breaks, not how well the programme runs on a good day.",
           "role": "ARCH",
@@ -244,11 +244,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "party"
         },
         {
           "id": "SOV-2.q4",
-          "grain": "party",
           "text": "Are the physical data-centre facilities (power, cooling, building access) run by an operator you can name and hold to EU jurisdiction?",
           "why": "Facilities sit beneath every other control; a foreign-operated building is a real gap the software layer cannot close — recorded as context, it informs the picture but does not by itself set the floor.",
           "role": "FAC",
@@ -272,7 +272,8 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "party"
         }
       ]
     },
@@ -283,7 +284,6 @@
       "questions": [
         {
           "id": "SOV-6.q5",
-          "grain": "dimension",
           "appliesTo": [
             "compute",
             "storage",
@@ -327,7 +327,8 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "dimension"
         }
       ]
     }

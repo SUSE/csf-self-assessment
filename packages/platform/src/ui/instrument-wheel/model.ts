@@ -58,10 +58,10 @@ export type InstrumentStats = {
   weightSum: number;
   questions: number;
   questionTarget: number;
-  // Party-grain question count (both axes).
-  partyGrain: number;
-  // Dimension-grain question count.
-  dimensionGrain: number;
+  // Party-scope question count (both axes).
+  partyScope: number;
+  // Dimension-scope question count.
+  dimensionScope: number;
   answerUnits: number;
   estimatedMinutes: number;
   minutesTarget: number;
@@ -95,21 +95,21 @@ export type InstrumentModel = {
 export function instrumentModel(workbook: Workbook): InstrumentModel {
   const gauges = authorGauges(workbook);
 
-  // Dimension-grain units per dimension, and the party/assessment tallies.
+  // Dimension-scope units per dimension, and the party/assessment tallies.
   const perDimension = new Map<string, number>(workbook.dimensions.map((d) => [d.id, 0]));
   let partyAxisQuestions = 0;
   let assessmentQuestions = 0;
-  let partyGrain = 0;
-  let dimensionGrain = 0;
+  let partyScope = 0;
+  let dimensionScope = 0;
 
   for (const objective of workbook.objectives) {
     for (const question of objective.questions) {
-      if (question.grain === 'party') {
-        partyGrain += 1;
+      if (question.scope === 'party') {
+        partyScope += 1;
         if (question.axis === 'party') partyAxisQuestions += 1;
         else assessmentQuestions += 1;
       } else {
-        dimensionGrain += 1;
+        dimensionScope += 1;
         for (const d of question.appliesTo) {
           if (perDimension.has(d)) perDimension.set(d, (perDimension.get(d) ?? 0) + 1);
         }
@@ -175,8 +175,8 @@ export function instrumentModel(workbook: Workbook): InstrumentModel {
     weightSum: workbook.objectives.reduce((sum, o) => sum + o.weight, 0),
     questions: gauges.budget.questionCount,
     questionTarget: gauges.budget.questionTarget,
-    partyGrain,
-    dimensionGrain,
+    partyScope,
+    dimensionScope,
     answerUnits: gauges.budget.answerUnits,
     estimatedMinutes: gauges.budget.estimatedMinutes,
     minutesTarget: gauges.budget.minutesTarget,
@@ -368,7 +368,7 @@ export function inspectChip(
       (dimension.critical ? 'critical dimension · gates the floor' : 'dimension · scores only') +
       (strata > 0 ? ` · ${strata} strata` : '');
     section = 'dimensions';
-    matches = (q) => q.grain === 'dimension' && q.appliesTo.includes(selection.key);
+    matches = (q) => q.scope === 'dimension' && q.appliesTo.includes(selection.key);
   } else if (selection.chipKind === 'party') {
     const party = workbook.parties.find((p) => p.id === selection.key);
     if (!party) return null;
@@ -377,12 +377,12 @@ export function inspectChip(
       (party.kind === 'assessed' ? 'assessed party' : 'third party') +
       ' · one answer per declared party';
     section = 'parties';
-    matches = (q) => q.grain === 'party' && q.axis === 'party';
+    matches = (q) => q.scope === 'party' && q.axis === 'party';
   } else {
     name = 'Whole estate';
     kindLabel = 'asked once for the estate';
     section = 'objectives';
-    matches = (q) => q.grain === 'party' && q.axis === 'assessment';
+    matches = (q) => q.scope === 'party' && q.axis === 'assessment';
   }
 
   const groups: InspectedGroup[] = [];

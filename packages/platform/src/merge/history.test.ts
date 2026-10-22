@@ -56,7 +56,7 @@ const WB = {
       questions: [
         {
           id: 'SOV-2.q1',
-          grain: 'party' as const,
+          scope: 'party' as const,
           axis: 'assessment' as const,
           text: 'Can the estate withdraw within 90 days?',
           why: 'Exit matters.',
@@ -69,7 +69,7 @@ const WB = {
         },
         {
           id: 'SOV-2.q2',
-          grain: 'dimension' as const,
+          scope: 'dimension' as const,
           appliesTo: ['storage'],
           text: 'Where does the estate hold data?',
           why: 'Location matters.',

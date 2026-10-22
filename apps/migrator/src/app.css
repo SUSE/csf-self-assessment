@@ -1,0 +1,4 @@
+@import 'tailwindcss';
+@import '@csf/platform/theme.css';
+
+@source '../../../packages/platform/src';

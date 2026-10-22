@@ -61,8 +61,8 @@ The facilitator merges participant files to build the estate record:
 4. **Resolve Clashes:** Resolve disagreements on each unit:
    * **Divergence:** Different rungs chosen for the same unit.
    * **Gap:** An answer conflicts with a "Nobody knows" state.
-   * **Scope:** An answer conflicts with a "Doesn't apply" state.
-   * **Grain:** A whole-dimension answer conflicts with stratum-specific answers.
+   * **Applicability:** An answer conflicts with a "Doesn't apply" state.
+   * **Depth:** A whole-dimension answer conflicts with stratum-specific answers.
 5. Click **Land** to save the partial to the append-only ledger.
 
 ## Step 4: Finalise and Report (Facilitator)

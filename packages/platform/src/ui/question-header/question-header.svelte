@@ -36,11 +36,11 @@
     text: string;            // the question
     why: string | undefined; // the rationale rail. absent renders nothing
     coverage: QuestionCoverage; // drives the top-right progress indicator
-    grainLabel?: string;     // "dimension grain — one answer per dimension", etc.
+    scopeLabel?: string;     // "dimension scope — one answer per dimension", etc.
     onReset?: () => void;    // clear every answer for this question (undefined → no reset control)
     canReset?: boolean;      // false → the reset control is present but disabled
   };
-  let { roleName, role, materiality, text, why, coverage, grainLabel, onReset, canReset = false }: Props = $props();
+  let { roleName, role, materiality, text, why, coverage, scopeLabel, onReset, canReset = false }: Props = $props();
 
   const PROGRESS_LABEL: Record<QuestionCoverage, string> = {
     answered: 'Complete',
@@ -62,9 +62,9 @@
       <span class="text-muted-foreground">answering as</span>
       <span class="font-semibold text-foreground">{roleName}</span>
       <span class="rounded bg-muted px-1.5 py-0.5 font-mono text-xs uppercase tracking-wide text-muted-foreground">{role}</span>
-      {#if grainLabel}
+      {#if scopeLabel}
         <span aria-hidden="true" class="text-muted-foreground/60">·</span>
-        <span class="text-muted-foreground">{grainLabel}</span>
+        <span class="text-muted-foreground">{scopeLabel}</span>
       {/if}
       {#if !gates(materiality)}
         <span class="rounded border border-border px-2 py-0.5 text-xs italic text-muted-foreground">

@@ -113,7 +113,7 @@ function decisionHeadline(decision: LedgerDecision, question: Pick<Question, 'la
           return `Took ${decision.choice.from}’s answer`;
         case 'reanswer':
           return `Facilitator set ${rungLabel(question, decision.choice.rungId)}`;
-        case 'grain':
+        case 'depth':
           return decision.choice.keep === 'strata'
             ? 'Kept the per-stratum answers'
             : 'Kept the whole-dimension answer';

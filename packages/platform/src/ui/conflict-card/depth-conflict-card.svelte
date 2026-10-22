@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { ClashChoice, ClashResolution, Question, WorkbookAssessment } from '../../schema';
-  import type { GrainClash } from '../../merge';
+  import type { DepthClash } from '../../merge';
   import { choiceKey, describeTarget, optionsFor, suggestedChoice } from '../../merge';
   import { targetKey } from '../../assessment';
   import { answerLabel } from '../../utils/answer-label';
@@ -12,7 +12,7 @@
   // The stratum side draws the grouped tray-chip silhouette locally: TrayChip
   // itself needs a DnD provider, and the merge screen has none.
   type Props = {
-    clash: GrainClash;
+    clash: DepthClash;
     question: Question;
     workbookAssessment: WorkbookAssessment;
     incomingName: string;

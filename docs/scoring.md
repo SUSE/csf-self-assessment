@@ -21,7 +21,7 @@ The **SEAL Floor** measures the absolute minimum level of sovereignty establishe
 * **The floor does not average.** A single material SEAL-0 answer takes the overall floor to SEAL-0.
 
 ### Critical Dimensions
-Questions on the dimension grain only gate the SEAL floor if they cover a **critical dimension** (for example, Compute or Storage, as marked by the author). Answers on non-critical dimensions do not affect the SEAL floor.
+Questions on the dimension scope only gate the SEAL floor if they cover a **critical dimension** (for example, Compute or Storage, as marked by the author). Answers on non-critical dimensions do not affect the SEAL floor.
 
 ## 2. Ranking: The Sovereignty Score (0–100)
 

@@ -11,7 +11,7 @@ export function questionUnits(
   answers: Answer[],
   question: Question,
 ): Target[] {
-  if (question.grain === 'dimension') {
+  if (question.scope === 'dimension') {
     return applicableDimensionsOf(question).flatMap((dimension): Target[] => {
       const strata = strataOf(workbook, dimension);
       const split = strata.some(

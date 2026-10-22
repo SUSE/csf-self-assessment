@@ -37,8 +37,8 @@ describe('the authority ladder over the Alex/Jane pair', () => {
     expect(incoming.filter((a) => a === 'owner')).toHaveLength(14);
     expect(incoming.filter((a) => a === 'blanket')).toHaveLength(15);
     expect(incoming.filter((a) => a === 'out-of-claim')).toHaveLength(0);
-    const grain = clashes.find((c) => c.kind === 'grain-clash');
-    expect(grain?.kind === 'grain-clash' ? grain.rollUp.authority : null).toBe('blanket');
+    const depth = clashes.find((c) => c.kind === 'depth-clash');
+    expect(depth?.kind === 'depth-clash' ? depth.rollUp.authority : null).toBe('blanket');
   });
 
   it('the ladder suggests 11 to Jane, 3 to Alex, and ties on 9', () => {

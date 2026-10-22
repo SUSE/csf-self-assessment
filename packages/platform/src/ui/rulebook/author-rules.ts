@@ -46,13 +46,13 @@ export const AUTHOR_RULES: RuleSection[] = [
     ],
   },
   {
-    id: 'grain',
+    id: 'scope',
     tag: '§ 3.3',
-    eyebrow: 'Grain',
+    eyebrow: 'Scope',
     title: 'Party or dimension',
     paras: [
-      'The grain decides what one question fans out over. Dimension grain is asked once per authored, applicable dimension — use it for anything that can differ between Compute and Network. Party grain interrogates a party.',
-      'On party grain the axis sets the reach — see the axis toggle. Arbitrary author-invented axes are rejected: two axes plus strata is the whole mechanism.',
+      'The scope decides what one question fans out over. Dimension scope is asked once per authored, applicable dimension — use it for anything that can differ between Compute and Network. Party scope interrogates a party.',
+      'On party scope the axis sets the reach — see the axis toggle. Arbitrary author-invented axes are rejected: two axes plus strata is the whole mechanism.',
     ],
   },
   {

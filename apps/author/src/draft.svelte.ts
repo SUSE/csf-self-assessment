@@ -1,7 +1,7 @@
 // The active workbook's whole file lifecycle: what is loaded, what went
 // wrong loading it, and the browser mirror that makes the copy in this tab the
 // workbook of record (product).
-import { DraftWorkbookSchema, starterWorkbook } from '@csf/platform';
+import { DraftWorkbookSchema, sniffPayload, starterWorkbook } from '@csf/platform';
 import type { Workbook } from '@csf/platform';
 import { openJsonFile, saveJsonFile } from '@csf/platform/file-io';
 import { authorDraft } from '@csf/platform/workbook-storage';
@@ -55,6 +55,11 @@ export class Draft {
     }
     const parsed = DraftWorkbookSchema.safeParse(data);
     if (!parsed.success) {
+      const sniff = sniffPayload(data);
+      if (sniff.hasLegacyGrain || sniff.version === '1.0') {
+        this.error = `Refusing “${opened.name}”: this file uses the legacy schema format (v1.0). Use migrator.html to upgrade it to “2.0”.`;
+        return;
+      }
       this.error = `“${opened.name}” is not a workbook definition: ${parsed.error.issues[0]?.message ?? 'schema error'}.`;
       return;
     }

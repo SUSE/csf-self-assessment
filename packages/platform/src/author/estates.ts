@@ -45,7 +45,7 @@ export function estateAnswers(workbook: Workbook, estate: TestEstate): Answer[] 
       if (rungId === undefined) continue;
       if (!question.ladder.some((candidate) => candidate.id === rungId)) continue;
       const targets: Target[] =
-        question.grain === 'party'
+        question.scope === 'party'
           ? question.axis === 'assessment'
             ? [{ kind: 'assessment' }]
             : estate.parties.map((p) => ({ kind: 'party', party: p.id }))

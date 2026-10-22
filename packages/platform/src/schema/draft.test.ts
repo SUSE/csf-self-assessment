@@ -21,7 +21,7 @@ const tinyValid = {
       questions: [
         {
           id: 'q-1',
-          grain: 'party',
+          scope: 'party',
           text: 't',
           why: 'w',
           role: 'ARCH',
@@ -65,9 +65,9 @@ describe('DraftWorkbookSchema', () => {
   });
 
   it('refuses structural malformation', () => {
-    const badGrain = structuredClone(tinyValid);
-    (badGrain.objectives[0].questions[0] as Record<string, unknown>).grain = 'bogus';
-    expect(DraftWorkbookSchema.safeParse(badGrain).success).toBe(false);
+    const badScope = structuredClone(tinyValid);
+    (badScope.objectives[0].questions[0] as Record<string, unknown>).scope = 'bogus';
+    expect(DraftWorkbookSchema.safeParse(badScope).success).toBe(false);
     const badSeal = structuredClone(tinyValid);
     (badSeal.objectives[0].questions[0].ladder[0] as Record<string, unknown>).seal = 7;
     expect(DraftWorkbookSchema.safeParse(badSeal).success).toBe(false);

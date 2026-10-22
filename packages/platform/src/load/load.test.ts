@@ -26,7 +26,7 @@ const wb = WorkbookSchema.parse({
       name: 'One',
       weight: 100,
       questions: [
-        { id: 'q1', grain: 'party', text: 't', why: 'w', role: 'LEG', defaultMateriality: 'material', ladder: [{ id: 'choice-1', description: 'r', points: 0, seal: 0 }] },
+        { id: 'q1', scope: 'party', text: 't', why: 'w', role: 'LEG', defaultMateriality: 'material', ladder: [{ id: 'choice-1', description: 'r', points: 0, seal: 0 }] },
       ],
     },
   ],
@@ -218,6 +218,37 @@ describe('decideLoad — the artifact + mode choose the action', () => {
 
     it('rejects an unrecognised object', () => {
       expect(decide({ hello: 'world' }, 'empty').kind).toBe('error');
+    });
+
+    it('refuses a legacy file using grain format with guidance to use migrator.html', () => {
+      const legacyWb = {
+        meta: { id: 'w', version: '1', title: 'W' },
+        sealLevels: [{ seal: 0, name: 'S0', description: 'd' }],
+        dimensions: [{ id: 'compute', name: 'Compute', critical: true }],
+        roles: [{ id: 'LEG', name: 'Legal' }],
+        parties: [{ id: 'institution', name: 'Institution', kind: 'assessed' }],
+        objectives: [
+          {
+            id: 'O1',
+            name: 'One',
+            weight: 100,
+            questions: [
+              { id: 'q1', grain: 'party', text: 't', role: 'LEG', defaultMateriality: 'material', ladder: [{ id: 'c1', description: 'r', points: 0, seal: 0 }] },
+            ],
+          },
+        ],
+      };
+      const out = decideLoad({
+        data: legacyWb,
+        name: 'legacy-workbook.json',
+        mode: 'empty',
+        now: '2026-08-02T00:00:00Z',
+        merge: { active: false, wa: null, incoming: null },
+      });
+      expect(out).toEqual({
+        kind: 'error',
+        message: 'Refusing “legacy-workbook.json”: this file uses the legacy schema format (v1.0). Use migrator.html to upgrade it to “2.0”.',
+      });
     });
   });
 });

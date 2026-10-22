@@ -22,8 +22,8 @@ export function resolveClash(
 ): ClashUnitOutcome[] | null {
   if (resolution === undefined) return null;
   const choice = resolution.choice;
-  if (clash.kind === 'grain-clash') {
-    if (choice.kind !== 'grain') return null;
+  if (clash.kind === 'depth-clash') {
+    if (choice.kind !== 'depth') return null;
     const keepStrata = choice.keep === 'strata';
     return [
       {
@@ -61,7 +61,7 @@ export function resolveClash(
           },
         },
       ];
-    case 'grain':
+    case 'depth':
       return null;
   }
 }

@@ -68,7 +68,7 @@
     text={question.text}
     why={question.why}
     {coverage}
-    grainLabel="asked once for the whole assessment"
+    scopeLabel="asked once for the whole assessment"
     {onReset}
     {canReset}
   />

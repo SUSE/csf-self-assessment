@@ -1,4 +1,5 @@
 {
+  "schemaVersion": "2.0",
   "meta": {
     "id": "csf",
     "version": "2.0.0",
@@ -167,7 +168,6 @@
       "questions": [
         {
           "id": "SOV-1.provider-authority",
-          "grain": "party",
           "axis": "party",
           "text": "Where does ultimate authority over this provider's decisions that affect your estate — pricing, roadmap, whether service continues — finally reside?",
           "why": "Under stress, the provider does what its controlling entity decides; sovereignty starts with where that decision would actually be made.",
@@ -204,11 +204,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "party"
         },
         {
           "id": "SOV-1.contract-survival",
-          "grain": "party",
           "axis": "party",
           "text": "If this provider were acquired, merged or made insolvent, which of your contractual protections — continuity clauses, escrow, assignment consent — would survive?",
           "why": "An acquisition can move your provider under foreign control overnight; only rights that survive the change of ownership still protect you the morning after.",
@@ -245,11 +245,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "party"
         },
         {
           "id": "SOV-1.suspension-continuity",
-          "grain": "party",
           "axis": "party",
           "text": "If a non-EU authority ordered this provider to suspend or degrade your service, what would still run — for how long?",
           "why": "The EC anchors sovereignty levels in what survives a break in access, not in how well the programme runs on a good day.",
@@ -286,7 +286,8 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "party"
         }
       ]
     },
@@ -297,7 +298,6 @@
       "questions": [
         {
           "id": "SOV-2.governing-law",
-          "grain": "party",
           "axis": "party",
           "text": "Which national legal system governs your contract with this provider — before which courts could you actually enforce a judgment?",
           "why": "When a dispute or compelled act lands, the governing law plus the practically reachable court decide whether your rights exist anywhere but on paper.",
@@ -334,11 +334,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "party"
         },
         {
           "id": "SOV-2.compellability",
-          "grain": "party",
           "axis": "party",
           "text": "Could a non-EU government compel this provider — or anyone in its corporate chain — to hand over your data?",
           "why": "Who can lawfully compel disclosure is the sovereignty fact itself; encryption and residency only matter within its reach.",
@@ -375,11 +375,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "party"
         },
         {
           "id": "SOV-2.standing-access",
-          "grain": "party",
           "axis": "party",
           "text": "Does this provider hold standing technical means — privileged accounts, remote support channels, escrowed keys, update push — that could reach your systems without your action?",
           "why": "A channel that works without you is the path a compelled provider would use, under a gag order you would never see.",
@@ -416,11 +416,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "party"
         },
         {
           "id": "SOV-2.sanctions-exposure",
-          "grain": "party",
           "axis": "party",
           "text": "Could a foreign export-control or sanctions decision lawfully revoke, suspend or restrict the licences or subscriptions this provider supplies you?",
           "why": "Sanctions exposure is a switch someone else holds; the question measures the reach of that switch, not your paperwork about it.",
@@ -457,11 +457,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "party"
         },
         {
           "id": "SOV-2.transparency",
-          "grain": "party",
           "axis": "party",
           "text": "Does this provider disclose — publicly or to you — the government demands for customer data it receives?",
           "why": "Disclosure practice never changes who can compel the provider, so it informs the picture without setting the floor; it is how you would learn the pressure exists.",
@@ -498,7 +498,8 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "party"
         }
       ]
     },
@@ -509,7 +510,6 @@
       "questions": [
         {
           "id": "SOV-3.key-custody",
-          "grain": "dimension",
           "appliesTo": [
             "storage",
             "network"
@@ -549,11 +549,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "dimension"
         },
         {
           "id": "SOV-3.residency",
-          "grain": "dimension",
           "appliesTo": [
             "storage",
             "compute"
@@ -593,11 +593,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "dimension"
         },
         {
           "id": "SOV-3.facility-operator",
-          "grain": "dimension",
           "appliesTo": [
             "facilities"
           ],
@@ -636,11 +636,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "dimension"
         },
         {
           "id": "SOV-3.ai-control",
-          "grain": "dimension",
           "appliesTo": [
             "aiml"
           ],
@@ -679,11 +679,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "dimension"
         },
         {
           "id": "SOV-3.ai-training-leakage",
-          "grain": "dimension",
           "appliesTo": [
             "aiml"
           ],
@@ -722,11 +722,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "dimension"
         },
         {
           "id": "SOV-3.deletion",
-          "grain": "dimension",
           "appliesTo": [
             "storage",
             "aiml"
@@ -766,7 +766,8 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "dimension"
         }
       ]
     },
@@ -777,7 +778,6 @@
       "questions": [
         {
           "id": "SOV-4.portability",
-          "grain": "dimension",
           "appliesTo": [
             "compute",
             "platform"
@@ -817,11 +817,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "dimension"
         },
         {
           "id": "SOV-4.source-access",
-          "grain": "dimension",
           "appliesTo": [
             "compute",
             "platform"
@@ -861,11 +861,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "dimension"
         },
         {
           "id": "SOV-4.eu-skills",
-          "grain": "party",
           "axis": "assessment",
           "text": "Could EU-resident, EU-employed staff operate, troubleshoot, evolve this estate without offshore engineers?",
           "why": "Support withdrawal is survivable exactly as far as the people inside EU jurisdiction can carry the stack alone.",
@@ -902,11 +902,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "party"
         },
         {
           "id": "SOV-4.patch-autonomy",
-          "grain": "dimension",
           "appliesTo": [
             "compute",
             "platform"
@@ -946,11 +946,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "dimension"
         },
         {
           "id": "SOV-4.support-jurisdiction",
-          "grain": "party",
           "axis": "party",
           "text": "Are this provider's support, escalation, managed-service personnel restricted to EU jurisdiction by contract?",
           "why": "Support sessions are privileged access by another name; the jurisdiction of the person on the other end is part of your attack surface.",
@@ -987,11 +987,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "party"
         },
         {
           "id": "SOV-4.kill-switch",
-          "grain": "dimension",
           "appliesTo": [
             "compute",
             "platform",
@@ -1032,11 +1032,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "dimension"
         },
         {
           "id": "SOV-4.continuity-plan",
-          "grain": "party",
           "axis": "assessment",
           "text": "Is there a documented continuity plan for loss of vendor support, key people or supply — how recently was it tested?",
           "why": "A plan is preparation, not control — it informs the picture without setting the floor; the suspension questions grade what would actually still run.",
@@ -1073,7 +1073,8 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "party"
         }
       ]
     },
@@ -1084,7 +1085,6 @@
       "questions": [
         {
           "id": "SOV-5.reliance",
-          "grain": "dimension",
           "appliesTo": [
             "compute",
             "storage",
@@ -1126,11 +1126,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "dimension"
         },
         {
           "id": "SOV-5.provenance",
-          "grain": "dimension",
           "appliesTo": [
             "compute",
             "storage"
@@ -1170,11 +1170,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "dimension"
         },
         {
           "id": "SOV-5.pipeline-jurisdiction",
-          "grain": "dimension",
           "appliesTo": [
             "software-supply"
           ],
@@ -1213,11 +1213,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "dimension"
         },
         {
           "id": "SOV-5.signing",
-          "grain": "dimension",
           "appliesTo": [
             "software-supply"
           ],
@@ -1256,11 +1256,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "dimension"
         },
         {
           "id": "SOV-5.supply-audit",
-          "grain": "party",
           "axis": "party",
           "text": "Do your contracts give you — or an EU auditor acting for you — an enforceable right to audit this provider's supply chain, sub-suppliers included?",
           "why": "Without an audit right, the supply chain is whatever the vendor says it is; the right to look is itself the control.",
@@ -1297,7 +1297,8 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "party"
         }
       ]
     },
@@ -1308,7 +1309,6 @@
       "questions": [
         {
           "id": "SOV-6.licence-rights",
-          "grain": "dimension",
           "appliesTo": [
             "compute",
             "platform",
@@ -1349,11 +1349,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "dimension"
         },
         {
           "id": "SOV-6.exit-tested",
-          "grain": "dimension",
           "appliesTo": [
             "compute",
             "platform"
@@ -1393,11 +1393,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "dimension"
         },
         {
           "id": "SOV-6.build-capability",
-          "grain": "dimension",
           "appliesTo": [
             "compute",
             "platform",
@@ -1438,11 +1438,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "dimension"
         },
         {
           "id": "SOV-6.upstream-influence",
-          "grain": "party",
           "axis": "assessment",
           "text": "Does the institution — directly or via EU bodies — carry weight in the communities that steward its critical dependencies?",
           "why": "Influence upstream is early warning plus a voice in the roadmap — leverage worth recording, though it changes nothing about who controls what is deployed, so it never sets the floor.",
@@ -1479,7 +1479,8 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "party"
         }
       ]
     },
@@ -1490,7 +1491,6 @@
       "questions": [
         {
           "id": "SOV-7.soc-jurisdiction",
-          "grain": "dimension",
           "appliesTo": [
             "security"
           ],
@@ -1529,11 +1529,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "dimension"
         },
         {
           "id": "SOV-7.telemetry",
-          "grain": "dimension",
           "appliesTo": [
             "security"
           ],
@@ -1572,11 +1572,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "dimension"
         },
         {
           "id": "SOV-7.identity-root",
-          "grain": "dimension",
           "appliesTo": [
             "iam"
           ],
@@ -1615,11 +1615,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "dimension"
         },
         {
           "id": "SOV-7.priv-access",
-          "grain": "dimension",
           "appliesTo": [
             "iam"
           ],
@@ -1658,11 +1658,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "dimension"
         },
         {
           "id": "SOV-7.audit-rights",
-          "grain": "party",
           "axis": "party",
           "text": "Can you — or an EU regulator acting for you — audit this provider's service to full depth, on demand, without vendor mediation?",
           "why": "A right to look, exercised at will, is enforceable control; certificates only report what someone else saw last year.",
@@ -1699,11 +1699,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "party"
         },
         {
           "id": "SOV-7.certifications",
-          "grain": "party",
           "axis": "party",
           "text": "Which security certifications cover this provider's operating entity — general schemes or EU sovereign ones?",
           "why": "A certificate attests controls, it is not the controls — recorded here as the most verifiable evidence in the file, never as the floor.",
@@ -1740,7 +1740,8 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "party"
         }
       ]
     },
@@ -1751,7 +1752,6 @@
       "questions": [
         {
           "id": "SOV-8.stewardship",
-          "grain": "party",
           "axis": "assessment",
           "text": "Does the institution measure, publish, improve the environmental footprint of this estate — energy, hardware lifecycle, efficiency?",
           "why": "Environmental facts move no sovereignty floor — the EC's own architecture — but an estate that measures nothing is flying blind on costs that will constrain it.",
@@ -1788,11 +1788,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "party"
         },
         {
           "id": "SOV-8.energy",
-          "grain": "party",
           "axis": "assessment",
           "text": "Do you know where the estate's power comes from — the renewable share, its origin, the certificates behind it?",
           "why": "Energy is a dependency like any other supply line; knowing its origin is the first step of the only sovereignty lever this objective holds.",
@@ -1829,11 +1829,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "party"
         },
         {
           "id": "SOV-8.supply-policy",
-          "grain": "party",
           "axis": "assessment",
           "text": "Does hardware procurement policy weigh supply-chain risk — multi-vendor sourcing, region diversification, scarce-material exposure?",
           "why": "Raw-material exposure is real but unmappable in a workshop; what procurement can honestly report is whether the buying policy takes the risk seriously.",
@@ -1870,7 +1870,8 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "party"
         }
       ]
     }

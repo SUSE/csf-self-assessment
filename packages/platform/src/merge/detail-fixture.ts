@@ -21,6 +21,7 @@ export const LADDER = [
 ];
 
 export const WORKBOOK: Workbook = {
+  schemaVersion: '2.0',
   meta: { id: 'csf-estate', version: '2', title: 'CSF estate workbook' },
   frontSheet: [],
   sealLevels: [
@@ -44,7 +45,7 @@ export const WORKBOOK: Workbook = {
       questions: [
         {
           id: 'SOV-1.q1',
-          grain: 'dimension',
+          scope: 'dimension',
           appliesTo: ['compute'],
           text: 'Which regions hold the workload?',
           why: 'Location matters.',
@@ -54,7 +55,7 @@ export const WORKBOOK: Workbook = {
         },
         {
           id: 'SOV-1.q2',
-          grain: 'dimension',
+          scope: 'dimension',
           appliesTo: ['security'],
           text: 'Who holds the encryption keys?',
           why: 'Control matters.',
@@ -71,7 +72,7 @@ export const WORKBOOK: Workbook = {
       questions: [
         {
           id: 'SOV-2.q1',
-          grain: 'party',
+          scope: 'party',
           axis: 'assessment',
           text: 'Can the estate withdraw within 90 days?',
           why: 'Exit matters.',
@@ -95,6 +96,7 @@ export const PARTIES: Party[] = [
 ];
 
 const WA: WorkbookAssessment = {
+  schemaVersion: '2.0',
   meta: {
     id: 'wa-1',
     estate: 'Northwind production estate',

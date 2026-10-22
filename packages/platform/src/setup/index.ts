@@ -15,6 +15,7 @@ export type WorkbookAssessmentParts = {
 
 export function workbookAssessmentOf(parts: WorkbookAssessmentParts): WorkbookAssessment {
   return {
+    schemaVersion: '2.0',
     meta: {
       id: parts.id,
       estate: parts.estate,

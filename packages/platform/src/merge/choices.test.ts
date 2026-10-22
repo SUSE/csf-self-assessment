@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import type { Answer, ClashResolution, Question, Seal, Target } from '../schema';
 import { QuestionSchema } from '../schema';
-import type { GrainClash, ReviewCandidate, UnitClash } from './clash-types';
+import type { DepthClash, ReviewCandidate, UnitClash } from './clash-types';
 import { choiceKey, optionsFor, reanswerCells, upsertResolution } from './choices';
 
 const STORAGE: Target = { kind: 'dimension', dimension: 'storage' };
@@ -9,7 +9,7 @@ const G = { groupId: 'g1', placement: 'individual' as const };
 
 const QUESTION: Question = QuestionSchema.parse({
   id: 'SOV-1.dq',
-  grain: 'dimension',
+  scope: 'dimension',
   appliesTo: ['storage'],
   text: 'q?',
   why: 'b',
@@ -40,9 +40,9 @@ const unitClash = (clash: UnitClash['clash'], base: Answer, incoming: Answer): U
   incoming: candidate('Jane', incoming),
 });
 
-const grainClash = (strata: string[]): GrainClash => ({
-  kind: 'grain-clash',
-  clash: 'grain',
+const depthClash = (strata: string[]): DepthClash => ({
+  kind: 'depth-clash',
+  clash: 'depth',
   questionId: 'SOV-1.dq',
   dimension: 'storage',
   target: { kind: 'dimension', dimension: 'storage' },
@@ -84,7 +84,7 @@ describe('choiceKey', () => {
   it('choiceKey is stable per choice', () => {
     expect(choiceKey({ kind: 'take', from: 'Jane' })).toBe('take:Jane');
     expect(choiceKey({ kind: 'reanswer', rungId: 'choice-4' })).toBe('reanswer:choice-4');
-    expect(choiceKey({ kind: 'grain', keep: 'roll-up' })).toBe('grain:roll-up');
+    expect(choiceKey({ kind: 'depth', keep: 'roll-up' })).toBe('depth:roll-up');
   });
 });
 
@@ -107,8 +107,8 @@ describe('optionsFor', () => {
     ]);
   });
 
-  it('a scope clash asks whether it applies', () => {
-    const options = optionsFor(unitClash('scope', answered(2), na()), QUESTION);
+  it('an applicability clash asks whether it applies', () => {
+    const options = optionsFor(unitClash('applicability', answered(2), na()), QUESTION);
     expect(options).toHaveLength(2);
     expect(options.map((o) => o.label)).toEqual([
       'It applies — take Alex’s “r2” (SEAL 2)',
@@ -116,21 +116,21 @@ describe('optionsFor', () => {
     ]);
   });
 
-  it('a grain clash names what each side destroys', () => {
-    const options = optionsFor(grainClash(['service', 'software', 'hardware', 'chips']), QUESTION);
+  it('a depth clash names what each side destroys', () => {
+    const options = optionsFor(depthClash(['service', 'software', 'hardware', 'chips']), QUESTION);
     expect(options).toHaveLength(2);
     expect(options[0]).toEqual({
-      key: 'grain:strata',
+      key: 'depth:strata',
       label: 'Keep the strata — 4 stratum answers stand, the roll-up is dropped',
-      choice: { kind: 'grain', keep: 'strata' },
+      choice: { kind: 'depth', keep: 'strata' },
     });
     expect(options[1]).toEqual({
-      key: 'grain:roll-up',
+      key: 'depth:roll-up',
       label: 'Keep the roll-up — deletes 4 stratum answers',
-      choice: { kind: 'grain', keep: 'roll-up' },
+      choice: { kind: 'depth', keep: 'roll-up' },
     });
 
-    const one = optionsFor(grainClash(['service']), QUESTION);
+    const one = optionsFor(depthClash(['service']), QUESTION);
     expect(one.map((o) => o.label)).toEqual([
       'Keep the strata — 1 stratum answer stands, the roll-up is dropped',
       'Keep the roll-up — deletes 1 stratum answer',

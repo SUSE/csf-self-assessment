@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { Question, Workbook } from '../../schema';
   import { MaterialitySchema } from '../../schema';
-  import { moveQuestion, removeQuestion, setAxis, setGrain, updateQuestion } from '../../author';
+  import { moveQuestion, removeQuestion, setAxis, setScope, updateQuestion } from '../../author';
   import { Button } from '../button';
   import { ConfirmDelete } from '../confirm-delete';
   import { Input, Select } from '../forms';
@@ -20,7 +20,7 @@
   // component rather than markup in the editor: one strip, wired twice.
   
   // Four concerns in three labelled groups, parted by two hairlines: identity (the
-  // id), structure (grain, and the axis that only party grain has), attribution
+  // id), structure (scope, and the axis that only party scope has), attribution
   // (who answers it, and whether it scores). Before this they were an
   // undifferentiated run of five controls at one gap — which is what made the two
   // segmented toggles read as four loose words.
@@ -37,8 +37,8 @@
   };
   let { draft, question, previewing, previewable, onFlip, onDraft, onRename }: Props = $props();
 
-  // Union narrowing via $derived (design rule 7): the axis exists on party grain.
-  const partyQ = $derived(question.grain === 'party' ? question : null);
+  // Union narrowing via $derived (design rule 7): the axis exists on party scope.
+  const partyQ = $derived(question.scope === 'party' ? question : null);
 
   // A group's caption, in the label register — the one thing that turns a run of
   // controls into named groups.
@@ -106,17 +106,17 @@
 
   <span aria-hidden="true" class="h-4 w-px shrink-0 bg-border"></span>
 
-  <span class={CAPTION}>grain</span>
+  <span class={CAPTION}>scope</span>
   <!-- Fully controlled via the function binding ui/toggle-group documents: the
      getter stays the source of truth, and the empty string bits-ui emits when
-     the lit item is re-pressed is dropped, so a grain is never unset. -->
+     the lit item is re-pressed is dropped, so a scope is never unset. -->
   <ToggleGroup.Root
-    aria-label="Grain"
-    data-rule="grain"
+    aria-label="Scope"
+    data-rule="scope"
     bind:value={
-      () => question.grain,
+      () => question.scope,
       (v) => {
-        if (v === 'party' || v === 'dimension') onDraft(setGrain(draft, currentId, v));
+        if (v === 'party' || v === 'dimension') onDraft(setScope(draft, currentId, v));
       }
     }
   >

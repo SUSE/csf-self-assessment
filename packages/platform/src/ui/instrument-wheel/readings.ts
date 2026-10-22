@@ -131,7 +131,7 @@ const READINGS: Record<ReadingId, ReadingEntry> = {
     row: (s) => ({
       label: 'Questions',
       value: String(s.questions),
-      note: `${s.dimensionGrain} dimension · ${s.partyGrain} party · target ${s.questionTarget}`,
+      note: `${s.dimensionScope} dimension · ${s.partyScope} party · target ${s.questionTarget}`,
       tone: s.questions > s.questionTarget ? 'advise' : undefined,
       section: 'objectives',
     }),
@@ -149,7 +149,7 @@ const READINGS: Record<ReadingId, ReadingEntry> = {
             text: question.text,
             chips: [
               roleName(workbook, question.role),
-              question.grain === 'party'
+              question.scope === 'party'
                 ? question.axis === 'party'
                   ? 'per party'
                   : 'whole estate'

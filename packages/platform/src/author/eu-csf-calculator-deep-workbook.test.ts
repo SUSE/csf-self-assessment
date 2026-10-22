@@ -27,19 +27,19 @@ describe('the deep-analysis EC calculator', () => {
   });
 
   it('asks 9 per party, 19 per dimension and 20 once for the estate', () => {
-    const grains = QUESTIONS.map((q) =>
-      q.grain === 'dimension' ? 'dimension' : q.axis === 'party' ? 'party' : 'assessment',
+    const scopes = QUESTIONS.map((q) =>
+      q.scope === 'dimension' ? 'dimension' : q.axis === 'party' ? 'party' : 'assessment',
     );
-    expect(grains.filter((g) => g === 'party')).toHaveLength(9);
-    expect(grains.filter((g) => g === 'dimension')).toHaveLength(19);
-    expect(grains.filter((g) => g === 'assessment')).toHaveLength(20);
+    expect(scopes.filter((g) => g === 'party')).toHaveLength(9);
+    expect(scopes.filter((g) => g === 'dimension')).toHaveLength(19);
+    expect(scopes.filter((g) => g === 'assessment')).toHaveLength(20);
   });
 
   it('applies every dimension question to declared dimensions only', () => {
     const declared = new Set(WB.dimensions.map((d) => d.id));
     expect(WB.dimensions).toHaveLength(9);
     for (const question of QUESTIONS) {
-      if (question.grain !== 'dimension') continue;
+      if (question.scope !== 'dimension') continue;
       expect(question.appliesTo.every((id) => declared.has(id))).toBe(true);
     }
   });

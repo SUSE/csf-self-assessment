@@ -159,7 +159,7 @@ describe('landing Alex then Jane', () => {
       ['SOV-1.1', 'divergence'],
       ['SOV-1.2', 'divergence'],
       ['SOV-2.1', 'gap'],
-      ['SOV-2.2', 'scope'],
+      ['SOV-2.2', 'applicability'],
     ]);
   });
 

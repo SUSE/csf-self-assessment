@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { Question, Workbook } from '../../schema';
   import { gates } from '../../score-engine';
-  import { questionGrainLabel } from './model';
+  import { questionScopeLabel } from './model';
 
   // The question's identity line: the answering role (name + its id token), the
   // materiality when it is anything but the default, and the grain — how the
@@ -25,5 +25,5 @@
       </span>
     {/if}
   </div>
-  <p class="text-xs text-muted-foreground">{questionGrainLabel(question)}</p>
+  <p class="text-xs text-muted-foreground">{questionScopeLabel(question)}</p>
 </div>

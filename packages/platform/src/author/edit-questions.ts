@@ -62,18 +62,18 @@ export function removeObjective(wb: Workbook, objectiveId: string): Workbook {
 // ladders are gaps), material by default, the workbook's first
 // authored role as a neutral default (empty string when the author has defined
 // no roles yet — the question then glows until a role exists to name). Dimension
-// grain starts applying to nothing — picking chips is authoring, not a default.
+// scope starts applying to nothing — picking chips is authoring, not a default.
 export function addQuestion(
   wb: Workbook,
   objectiveId: string,
-  grain: 'party' | 'dimension',
+  scope: 'party' | 'dimension',
 ): Workbook {
   const id = nextId(allQuestionIds(wb), 'q');
   const role = wb.roles[0]?.id ?? '';
   const question: Question =
-    grain === 'party'
-      ? { id, grain: 'party', axis: 'assessment', text: '', role, defaultMateriality: 'material', ladder: [] }
-      : { id, grain: 'dimension', appliesTo: [], text: '', role, defaultMateriality: 'material', ladder: [] };
+    scope === 'party'
+      ? { id, scope: 'party', axis: 'assessment', text: '', role, defaultMateriality: 'material', ladder: [] }
+      : { id, scope: 'dimension', appliesTo: [], text: '', role, defaultMateriality: 'material', ladder: [] };
   return {
     ...wb,
     objectives: wb.objectives.map((o) =>
@@ -162,15 +162,15 @@ export function updateQuestion(
   return renameLinks(reanswered, 'question', questionId, renamed);
 }
 
-// Flip a question's grain, preserving everything both grains share. party →
+// Flip a question's scope, preserving everything both scopes share. party →
 // dimension starts applying to nothing; dimension → party is asked once.
-export function setGrain(
+export function setScope(
   wb: Workbook,
   questionId: string,
-  grain: 'party' | 'dimension',
+  scope: 'party' | 'dimension',
 ): Workbook {
   return mapQuestions(wb, (q) => {
-    if (q.id !== questionId || q.grain === grain) return q;
+    if (q.id !== questionId || q.scope === scope) return q;
     // exactOptionalPropertyTypes: an absent `why` must stay an absent KEY, not
     // a key set to undefined.
     const { why } = q;
@@ -182,9 +182,9 @@ export function setGrain(
       ladder: q.ladder,
       ...(why === undefined ? {} : { why }),
     };
-    return grain === 'party'
-      ? { ...common, grain: 'party', axis: 'assessment' }
-      : { ...common, grain: 'dimension', appliesTo: [] };
+    return scope === 'party'
+      ? { ...common, scope: 'party', axis: 'assessment' }
+      : { ...common, scope: 'dimension', appliesTo: [] };
   });
 }
 
@@ -194,7 +194,7 @@ export function setAxis(
   axis: 'assessment' | 'party',
 ): Workbook {
   return mapQuestions(wb, (q) =>
-    q.id === questionId && q.grain === 'party' ? { ...q, axis } : q,
+    q.id === questionId && q.scope === 'party' ? { ...q, axis } : q,
   );
 }
 
@@ -204,7 +204,7 @@ export function toggleAppliesTo(
   dimensionId: string,
 ): Workbook {
   return mapQuestions(wb, (q) => {
-    if (q.id !== questionId || q.grain !== 'dimension') return q;
+    if (q.id !== questionId || q.scope !== 'dimension') return q;
     return q.appliesTo.includes(dimensionId)
       ? { ...q, appliesTo: q.appliesTo.filter((d) => d !== dimensionId) }
       : { ...q, appliesTo: [...q.appliesTo, dimensionId] };

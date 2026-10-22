@@ -184,7 +184,7 @@ describe('the Report appendix', () => {
           questions: [
             {
               id: 'SOV-9.flat',
-              grain: 'dimension',
+              scope: 'dimension',
               appliesTo: ['compute', 'network'],
               text: 'q?',
               why: 'b',

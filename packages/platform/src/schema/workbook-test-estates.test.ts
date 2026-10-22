@@ -19,7 +19,7 @@ const S9B_BASE = {
       questions: [
         {
           id: 'q-1',
-          grain: 'dimension',
+          scope: 'dimension',
           appliesTo: ['compute'],
           text: 'T?',
           why: 'w',

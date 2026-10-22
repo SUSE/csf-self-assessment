@@ -15,7 +15,7 @@ Therefore, every ladder rung must state a checkable **capability-under-stress fa
 ```mermaid
 graph TD
     Question --> Objective[Objective: e.g. SOV-3 Data & AI]
-    Question --> Grain[Grain: Dimension, Party-axis, or Assessment-axis]
+    Question --> Scope[Scope: Dimension, Party-axis, or Assessment-axis]
     Question --> Role[Owner Role: e.g. SEC, LEG, ARCH]
     Question --> Materiality[Materiality: Material, Ranking, or Informational]
     Question --> Ladder[Ladder of Rungs]
@@ -38,11 +38,11 @@ Write exactly one askable sentence. The stem must be answerable out loud in a wo
 Explain what the answer changes. The facilitator reads this sentence aloud to the room.
 *Example:* *"Whoever holds the keys decides under stress whether data is protected or merely stored."*
 
-### 4. Choose the Grain
+### 4. Choose the Scope
 Determine how the question fans out:
-* **Dimension Grain:** Asked once for every applicable dimension (for example, Compute, Storage, or IAM).
-* **Party Grain (Assessment-axis):** Asked once for the entire estate (for example, "Is there an exit strategy?").
-* **Party Grain (Party-axis):** Asked once for each concrete provider (for example, "Can this provider be compelled?").
+* **Dimension Scope:** Asked once for every applicable dimension (for example, Compute, Storage, or IAM).
+* **Party Scope (Assessment-axis):** Asked once for the entire estate (for example, "Is there an exit strategy?").
+* **Party Scope (Party-axis):** Asked once for each concrete provider (for example, "Can this provider be compelled?").
 
 ### 5. Build the Ladder
 A **Ladder** is an ordered set of rungs, worst to best. Going up, points and SEAL tags must never decrease.
@@ -69,13 +69,13 @@ The workbook is the root file that defines the full scope of an assessment. It c
 Objectives represent weighted themes inherited from the European Commission framework. Each objective has a unique id, a name, a description, and a numerical weight. The sum of all objective weights in a workbook must equal 100. Every question in the workbook must link to exactly one objective.
 
 ### Questions
-Questions are the individual units that participants answer during an assessment. Each question has a unique id, a text stem, an explanation, an owner role, a grain, and an answer ladder. If a question uses dimension grain, you must set the appliesTo field with target dimension identifiers. The system validates that each question links to a valid role and objective.
+Questions are the individual units that participants answer during an assessment. Each question has a unique id, a text stem, an explanation, an owner role, a scope (`scope: 'party' | 'dimension'`), and an answer ladder. If a question uses dimension scope, you must set the appliesTo field with target dimension identifiers. The system validates that each question links to a valid role and objective.
 
 ### Ladders and Rungs
 A rung is a single answer choice that describes an observable operational state. Each rung contains an id, a plain description, a point value, and a SEAL level from 0 to 4. A ladder groups these rungs in order from lowest to highest sovereignty. Participants select the rung that matches their facts, and the engine calculates points and gates from that selection.
 
-### Grains
-The grain controls how many times participants must answer a question. Assessment grain questions apply once to the whole estate for general policies and plans. Party grain questions repeat for each declared supplier to evaluate vendor risk. Dimension grain questions repeat across each technical layer to evaluate infrastructure controls.
+### Scope
+The scope controls how many times participants must answer a question. Party scope questions with assessment axis apply once to the whole estate for general policies and plans. Party scope questions with party axis repeat for each declared supplier to evaluate vendor risk. Dimension scope questions repeat across each technical layer to evaluate infrastructure controls.
 
 ### Dimensions and Strata
 Dimensions represent the technical layers of the cloud estate, such as compute, storage, network, and security. Critical dimensions gate the overall SEAL floor, while non-critical dimensions contribute points without gating. Strata are sub-layers inside a dimension, such as service, software, hardware, and chips. If an answer differs across sub-layers, the application splits the dimension into strata so that participants answer each sub-layer.

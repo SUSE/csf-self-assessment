@@ -30,6 +30,7 @@ const partialOf = (fields: Record<string, unknown>) =>
 describe('assessmentOf', () => {
   it('builds a self-contained finalized assessment (the Author-QA reading)', () => {
     expect(assessmentOf(BASE_WB, 'Acme', [INST], [], AUTHOR_QA_PROVENANCE)).toEqual({
+      schemaVersion: '2.0',
       meta: { workbookId: 'wb', workbookVersion: '1.0.0', estate: 'Acme', workbookAssessment: 'author-qa' },
       workbook: BASE_WB,
       parties: [INST],
@@ -155,6 +156,7 @@ describe('checkAssessmentIntegrity', () => {
   it('refuses a version mismatch', () => {
     expect(
       checkAssessmentIntegrity({
+        schemaVersion: '2.0',
         meta: { workbookId: 'wb', workbookVersion: '9.9.9', estate: 'E', workbookAssessment: 'wa-1' },
         workbook: BASE_WB,
         parties: [INST],

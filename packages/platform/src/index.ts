@@ -191,7 +191,7 @@ export {
   setAxis,
   setEstateAnswer,
   setFrontSheet,
-  setGrain,
+  setScope,
   addRung,
   updateRung,
   removeRung,
@@ -276,8 +276,8 @@ export type {
   ClashUnitOutcome,
   FloorBinding,
   FloorPreview,
-  GrainClash,
-  GrainStratum,
+  DepthClash,
+  DepthStratum,
   HistoryView,
   LandingChecks,
   LandingClash,
@@ -344,3 +344,18 @@ export { answerLabel, rungLabel } from './utils/answer-label';
 export { cn } from './utils/cn';
 export { sealSwatchClass } from './utils/seal-color';
 export { provenanceLensClass } from './utils/provenance-lens';
+
+export {
+  migrateV1ToV2,
+  sniffPayload,
+} from './migrate';
+export type {
+  DetectedFileType,
+  MigrationFailure,
+  MigrationResult,
+  MigrationStats,
+  MigrationSuccess,
+  SchemaVersion,
+  SniffResult,
+} from './migrate';
+

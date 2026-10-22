@@ -18,6 +18,7 @@ export const WorkbookAssessmentMetaSchema = z.object({
 });
 
 const WorkbookAssessmentFieldsSchema = z.object({
+  schemaVersion: z.literal('2.0').default('2.0'),
   meta: WorkbookAssessmentMetaSchema,
   workbook: WorkbookSchema,
   parties: z.array(PartySchema).default([]),

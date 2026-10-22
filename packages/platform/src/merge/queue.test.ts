@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { WorkbookSchema } from '../schema';
 import { questionOf } from '../assessment';
 import type { Answer, Authority, ClashResolution, Materiality, Seal, Target, Workbook } from '../schema';
-import type { GrainClash, LandingClash, ReviewCandidate, UnitClash } from './clash-types';
+import type { DepthClash, LandingClash, ReviewCandidate, UnitClash } from './clash-types';
 import {
   NO_FILTER,
   canMoveFloor,
@@ -41,7 +41,7 @@ const WB: Workbook = WorkbookSchema.parse({
       questions: [
         {
           id: 'SOV-1.dq',
-          grain: 'dimension',
+          scope: 'dimension',
           appliesTo: ['compute', 'edge'],
           text: 'q?',
           why: 'b',
@@ -51,7 +51,7 @@ const WB: Workbook = WorkbookSchema.parse({
         },
         {
           id: 'SOV-1.iq',
-          grain: 'dimension',
+          scope: 'dimension',
           appliesTo: ['compute'],
           text: 'i?',
           why: 'b',
@@ -61,7 +61,7 @@ const WB: Workbook = WorkbookSchema.parse({
         },
         {
           id: 'SOV-1.sparse',
-          grain: 'dimension',
+          scope: 'dimension',
           appliesTo: ['compute'],
           text: 's?',
           why: 'b',
@@ -78,7 +78,7 @@ const WB: Workbook = WorkbookSchema.parse({
       questions: [
         {
           id: 'SOV-2.pq',
-          grain: 'party',
+          scope: 'party',
           axis: 'party',
           text: 'p?',
           why: 'b',
@@ -145,9 +145,9 @@ const unitClash = (
   incoming: candidate('Jane', incoming),
 });
 
-const grainClash = (questionId: string, dimension: string, from: string): GrainClash => ({
-  kind: 'grain-clash',
-  clash: 'grain',
+const depthClash = (questionId: string, dimension: string, from: string): DepthClash => ({
+  kind: 'depth-clash',
+  clash: 'depth',
   questionId,
   dimension,
   target: { kind: 'dimension', dimension },
@@ -165,17 +165,17 @@ const divergence = (questionId: string, target: Target, baseSeal: Seal, incoming
 const COMPUTE_DIV = divergence('SOV-1.dq', COMPUTE, 2, 1);
 const EDGE_DIV = divergence('SOV-1.dq', EDGE, 2, 1);
 const COMPUTE_GAP = unitClash('gap', 'SOV-1.dq', CHIPS, dontKnow('SOV-1.dq', CHIPS), answered('SOV-1.dq', CHIPS, 1));
-const COMPUTE_SCOPE = unitClash(
-  'scope',
+const COMPUTE_APPLICABILITY = unitClash(
+  'applicability',
   'SOV-1.dq',
   { kind: 'dimension-stratum', dimension: 'compute', stratum: 'servers' },
   answered('SOV-1.dq', { kind: 'dimension-stratum', dimension: 'compute', stratum: 'servers' }, 1),
   na('SOV-1.dq', { kind: 'dimension-stratum', dimension: 'compute', stratum: 'servers' }),
 );
 const INFO_DIV = divergence('SOV-1.iq', COMPUTE, 2, 4);
-const GRAIN = grainClash('SOV-1.sparse', 'compute', 'Alex');
+const DEPTH = depthClash('SOV-1.sparse', 'compute', 'Alex');
 
-const SIX: LandingClash[] = [COMPUTE_DIV, EDGE_DIV, COMPUTE_GAP, COMPUTE_SCOPE, INFO_DIV, GRAIN];
+const SIX: LandingClash[] = [COMPUTE_DIV, EDGE_DIV, COMPUTE_GAP, COMPUTE_APPLICABILITY, INFO_DIV, DEPTH];
 
 const reauthored = (edits: Record<string, Materiality>): Workbook => {
   const copy = structuredClone(WB);
@@ -207,8 +207,8 @@ describe('canMoveFloor', () => {
     expect(canMoveFloor(divergence('ZZZ.q', COMPUTE, 2, 1), WB)).toBe(false);
   });
 
-  it('gates on a grain clash over a critical dimension', () => {
-    expect(canMoveFloor(GRAIN, WB)).toBe(true);
+  it('gates on a depth clash over a critical dimension', () => {
+    expect(canMoveFloor(DEPTH, WB)).toBe(true);
   });
 });
 
@@ -229,8 +229,8 @@ describe('isOneRungApart', () => {
 
   it('is false for every class but divergence, and for an unknown question', () => {
     expect(isOneRungApart(COMPUTE_GAP, WB)).toBe(false);
-    expect(isOneRungApart(COMPUTE_SCOPE, WB)).toBe(false);
-    expect(isOneRungApart(GRAIN, WB)).toBe(false);
+    expect(isOneRungApart(COMPUTE_APPLICABILITY, WB)).toBe(false);
+    expect(isOneRungApart(DEPTH, WB)).toBe(false);
     expect(isOneRungApart(divergence('ZZZ.q', COMPUTE, 2, 1), WB)).toBe(false);
   });
 });
@@ -238,7 +238,7 @@ describe('isOneRungApart', () => {
 describe('participantsOf', () => {
   it('collects every candidate name, alphabetical', () => {
     expect(
-      participantsOf([COMPUTE_DIV, unitClash('divergence', 'SOV-1.dq', EDGE, answered('SOV-1.dq', EDGE, 1), answered('SOV-1.dq', EDGE, 2)), GRAIN]),
+      participantsOf([COMPUTE_DIV, unitClash('divergence', 'SOV-1.dq', EDGE, answered('SOV-1.dq', EDGE, 1), answered('SOV-1.dq', EDGE, 2)), DEPTH]),
     ).toEqual(['Alex', 'Jane']);
   });
 });
@@ -268,8 +268,8 @@ describe('filterClashes', () => {
     expect(filterClashes(SIX, WB, { ...NO_FILTER, floorMoversOnly: true }, [])).toEqual([
       COMPUTE_DIV,
       COMPUTE_GAP,
-      COMPUTE_SCOPE,
-      GRAIN,
+      COMPUTE_APPLICABILITY,
+      DEPTH,
     ]);
   });
 
@@ -281,7 +281,7 @@ describe('filterClashes', () => {
     const wb = reauthored({ 'SOV-1.sparse': 'na', 'SOV-2.pq': 'ranking' });
     const RANK_DIV = divergence('SOV-2.pq', ACME, 2, 1);
     const shown = filterClashes([...SIX, RANK_DIV], wb, { ...NO_FILTER, hideNonScoring: true }, []);
-    expect(shown).not.toContain(GRAIN);
+    expect(shown).not.toContain(DEPTH);
     expect(shown).toContain(RANK_DIV);
   });
 
@@ -295,7 +295,7 @@ describe('filterClashes', () => {
       COMPUTE_DIV,
       EDGE_DIV,
       COMPUTE_GAP,
-      COMPUTE_SCOPE,
+      COMPUTE_APPLICABILITY,
       INFO_DIV,
     ]);
   });
@@ -307,9 +307,9 @@ describe('filterClashes', () => {
     expect(filterClashes(SIX, WB, { ...NO_FILTER, status: 'open' }, [TAKE_COMPUTE])).toEqual([
       EDGE_DIV,
       COMPUTE_GAP,
-      COMPUTE_SCOPE,
+      COMPUTE_APPLICABILITY,
       INFO_DIV,
-      GRAIN,
+      DEPTH,
     ]);
     // With nothing decided, `open` is the whole queue and `decided` is empty.
     expect(filterClashes(SIX, WB, { ...NO_FILTER, status: 'open' }, [])).toEqual(SIX);
@@ -317,7 +317,7 @@ describe('filterClashes', () => {
   });
 
   it('counts a resolution whose choice misfits the class as undecided', () => {
-    const misfit: ClashResolution = { ...TAKE_COMPUTE, choice: { kind: 'grain', keep: 'strata' } };
+    const misfit: ClashResolution = { ...TAKE_COMPUTE, choice: { kind: 'depth', keep: 'strata' } };
     expect(filterClashes(SIX, WB, { ...NO_FILTER, status: 'decided' }, [misfit])).toEqual([]);
   });
 
@@ -381,7 +381,7 @@ describe('queueGroups', () => {
     expect(decided[0].decided).toBe(1);
     expect(decided[1].decided).toBe(0);
 
-    const misfit: ClashResolution = { ...take, choice: { kind: 'grain', keep: 'strata' } };
+    const misfit: ClashResolution = { ...take, choice: { kind: 'depth', keep: 'strata' } };
     expect(queueGroups(IN_ORDER, WB, [misfit])[0].decided).toBe(0);
   });
 
@@ -410,8 +410,8 @@ describe('queueFacets', () => {
       { value: 'all', label: 'All', count: 6 },
       { value: 'divergence', label: 'Divergence', count: 3 },
       { value: 'gap', label: 'Gap', count: 1 },
-      { value: 'scope', label: 'Scope', count: 1 },
-      { value: 'grain', label: 'Grain', count: 1 },
+      { value: 'applicability', label: 'Applicability', count: 1 },
+      { value: 'depth', label: 'Depth', count: 1 },
     ]);
     expect(facets.participants).toEqual([
       { value: null, label: 'Anyone', count: 6 },
@@ -509,7 +509,7 @@ describe('filterSummary', () => {
 describe('optionName', () => {
   it('names an option by what it selects and what it would leave', () => {
     expect(optionName('Decided', 12)).toBe('Decided — 12 clashes');
-    expect(optionName('Grain', 1)).toBe('Grain — 1 clash');
+    expect(optionName('Depth', 1)).toBe('Depth — 1 clash');
     expect(optionName('One rung apart', 0)).toBe('One rung apart — 0 clashes');
   });
 });

@@ -51,14 +51,14 @@ export type SoleSourceUnit = {
 // One answer unit the base and the incoming partial answer differently.
 export type UnitClash = {
   kind: 'unit-clash';
-  clash: Exclude<ClashClass, 'grain'>;
+  clash: Exclude<ClashClass, 'depth'>;
   questionId: string;
   target: Target;
   base: ReviewCandidate;
   incoming: ReviewCandidate;
 };
 
-export type GrainStratum = {
+export type DepthStratum = {
   stratum: string;
   target: DimensionStratumTarget;
   candidate: ReviewCandidate;
@@ -68,24 +68,24 @@ export type GrainStratum = {
 // a whole-dimension roll-up on one side, stratum refinements on the other. It
 // spans the roll-up unit AND every stratum unit; its resolution is keyed by
 // the roll-up target.
-export type GrainClash = {
-  kind: 'grain-clash';
-  clash: 'grain';
+export type DepthClash = {
+  kind: 'depth-clash';
+  clash: 'depth';
   questionId: string;
   dimension: string;
   target: DimensionTarget;
   rollUp: ReviewCandidate;
   // In workbook stratum order.
-  strata: GrainStratum[];
+  strata: DepthStratum[];
   // Which side of this landing supplied the roll-up; the strata came from the other.
   rollUpSide: 'base' | 'incoming';
 };
 
-export type LandingClash = UnitClash | GrainClash;
+export type LandingClash = UnitClash | DepthClash;
 export type LandingUnit = AgreedUnit | SoleSourceUnit | LandingClash;
 
 export function isClash(unit: LandingUnit): unit is LandingClash {
-  return unit.kind === 'unit-clash' || unit.kind === 'grain-clash';
+  return unit.kind === 'unit-clash' || unit.kind === 'depth-clash';
 }
 
 // Every candidate answer a clash puts in play — the wheel's conflict markers.
@@ -97,8 +97,8 @@ export function clashCandidates(clash: LandingClash): ReviewCandidate[] {
 
 // A unit clash's class (Decision 3): either side n/a asks whether the question
 // applies at all, which outranks either side not knowing.
-function classOf(base: Answer, incoming: Answer): Exclude<ClashClass, 'grain'> {
-  if (base.state === 'na' || incoming.state === 'na') return 'scope';
+function classOf(base: Answer, incoming: Answer): Exclude<ClashClass, 'depth'> {
+  if (base.state === 'na' || incoming.state === 'na') return 'applicability';
   if (base.state === 'dont-know' || incoming.state === 'dont-know') return 'gap';
   return 'divergence';
 }
@@ -126,13 +126,13 @@ export function classify(
   const baseCandidateAt = (answer: Answer): ReviewCandidate =>
     baseCandidateOf(ledger, answer.questionId, answer.target, answer);
 
-  const grainGroups = grainGroupsOf(base, incoming, incomingCandidateOf, baseCandidateAt);
+  const depthGroups = depthGroupsOf(base, incoming, incomingCandidateOf, baseCandidateAt);
   const emitted = new Set<string>();
 
   return incoming.answers.flatMap((answer): LandingUnit[] => {
-    const group = grainGroups.get(grainKey(answer.questionId, dimensionOf(answer.target) ?? ''));
+    const group = depthGroups.get(depthKey(answer.questionId, dimensionOf(answer.target) ?? ''));
     if (group !== undefined) {
-      const key = grainKey(group.questionId, group.dimension);
+      const key = depthKey(group.questionId, group.dimension);
       if (emitted.has(key)) return [];
       emitted.add(key);
       return [group];
@@ -172,27 +172,27 @@ export function classify(
   });
 }
 
-const grainKey = (questionId: string, dimension: string): string => `${questionId} ${dimension}`;
+const depthKey = (questionId: string, dimension: string): string => `${questionId} ${dimension}`;
 
 const dimensionOf = (target: Target): string | null =>
   target.kind === 'dimension' || target.kind === 'dimension-stratum' ? target.dimension : null;
 
-// The grain groups this landing folds (Decision 2): for each (questionId,
+// The depth groups this landing folds (Decision 2): for each (questionId,
 // dimension) the incoming partial touches, the roll-up comes from whichever side
-// holds one and the strata from whichever side holds any — a grain clash only
+// holds one and the strata from whichever side holds any — a depth clash only
 // when both exist on OPPOSITE sides.
-function grainGroupsOf(
+function depthGroupsOf(
   base: EstateBase,
   incoming: Assessment,
   incomingCandidateOf: (answer: Answer) => ReviewCandidate,
   baseCandidateAt: (answer: Answer) => ReviewCandidate,
-): Map<string, GrainClash> {
-  const groups = new Map<string, GrainClash>();
+): Map<string, DepthClash> {
+  const groups = new Map<string, DepthClash>();
   const touched = new Map<string, { questionId: string; dimension: string }>();
   for (const answer of incoming.answers) {
     const dimension = dimensionOf(answer.target);
     if (dimension === null) continue;
-    touched.set(grainKey(answer.questionId, dimension), { questionId: answer.questionId, dimension });
+    touched.set(depthKey(answer.questionId, dimension), { questionId: answer.questionId, dimension });
   }
 
   for (const { questionId, dimension } of touched.values()) {
@@ -223,15 +223,15 @@ function grainGroupsOf(
       (a, b) => order.indexOf(stratumOf(a.target)) - order.indexOf(stratumOf(b.target)),
     );
     const candidateOn = strataSide === 'incoming' ? incomingCandidateOf : baseCandidateAt;
-    const strata: GrainStratum[] = ordered.flatMap((answer) =>
+    const strata: DepthStratum[] = ordered.flatMap((answer) =>
       answer.target.kind === 'dimension-stratum'
         ? [{ stratum: answer.target.stratum, target: answer.target, candidate: candidateOn(answer) }]
         : [],
     );
 
-    groups.set(grainKey(questionId, dimension), {
-      kind: 'grain-clash',
-      clash: 'grain',
+    groups.set(depthKey(questionId, dimension), {
+      kind: 'depth-clash',
+      clash: 'depth',
       questionId,
       dimension,
       target: { kind: 'dimension', dimension },
