@@ -34,8 +34,8 @@ const WORKBOOK: Workbook = WorkbookSchema.parse({
       name: 'O',
       weight: 100,
       questions: [
-        question('qd', 'ARCH', { grain: 'dimension', appliesTo: ['compute', 'storage'] }),
-        question('qp', 'SEC', { grain: 'party', axis: 'party' }),
+        question('qd', 'ARCH', { scope: 'dimension', appliesTo: ['compute', 'storage'] }),
+        question('qp', 'SEC', { scope: 'party', axis: 'party' }),
       ],
     },
   ],

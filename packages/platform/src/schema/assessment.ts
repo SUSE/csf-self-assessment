@@ -21,6 +21,7 @@ export const AssessmentMetaSchema = z.object({
 });
 
 const AssessmentFieldsSchema = z.object({
+  schemaVersion: z.literal('2.0').default('2.0'),
   meta: AssessmentMetaSchema,
   workbook: WorkbookSchema,
   // Concrete parties seeded in the workbook-assessment and embedded here

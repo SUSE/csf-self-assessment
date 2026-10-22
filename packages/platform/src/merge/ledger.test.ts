@@ -45,7 +45,7 @@ const WB = {
       weight: 100,
       questions: ['q1', 'q2'].map((id) => ({
         id,
-        grain: 'dimension' as const,
+        scope: 'dimension' as const,
         appliesTo: ['storage'],
         text: id,
         why: 'w',
@@ -302,7 +302,7 @@ describe('recordSentence', () => {
     ).toBe('Alex said “r2” (SEAL 2); Jane said “r1” (SEAL 1) → re-answered at “r3” (SEAL 3) — “r3” (SEAL 3)');
   });
 
-  it('reads an emptied grain unit', () => {
+  it('reads an emptied depth unit', () => {
     expect(
       recordSentence({
         ...A_SOLE,
@@ -310,8 +310,8 @@ describe('recordSentence', () => {
         after: null,
         decision: {
           kind: 'resolved',
-          clash: 'grain',
-          choice: { kind: 'grain', keep: 'strata' },
+          clash: 'depth',
+          choice: { kind: 'depth', keep: 'strata' },
           by: 'facilitator',
           note: '',
         },
@@ -511,15 +511,15 @@ describe('questionBlame', () => {
     expect(questionBlame(LEDGER, 'nope', WB, PARTIES)).toEqual([]);
   });
 
-  it('still reports a unit a grain decision emptied', () => {
+  it('still reports a unit a depth decision emptied', () => {
     const emptied: AnswerLedgerRecord = {
       ...A_AGREED,
       before: snap(2),
       after: null,
       decision: {
         kind: 'resolved',
-        clash: 'grain',
-        choice: { kind: 'grain', keep: 'strata' },
+        clash: 'depth',
+        choice: { kind: 'depth', keep: 'strata' },
         by: 'facilitator',
         note: '',
       },

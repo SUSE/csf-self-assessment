@@ -57,7 +57,7 @@
   let { draft, question, issues, onDraft, onRename, onOpenRecommendation }: Props = $props();
 
   // Union narrowing via $derived (design rule 7).
-  const dimensionQ = $derived(question.grain === 'dimension' ? question : null);
+  const dimensionQ = $derived(question.scope === 'dimension' ? question : null);
 
   let previewing = $state(false);
   let previewAnswers = $state<Answer[]>([]);

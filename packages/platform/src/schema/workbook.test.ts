@@ -22,8 +22,8 @@ describe('WorkbookSchema', () => {
     });
     expect(parsed.dimensions.map((d) => d.id)).toEqual(['compute']);
     const dq = parsed.objectives[0].questions.find((q) => q.id === 'SOV-2.d1');
-    expect(dq?.grain).toBe('dimension');
-    if (dq?.grain === 'dimension') expect(dq.appliesTo).toEqual(['compute']);
+    expect(dq?.scope).toBe('dimension');
+    if (dq?.scope === 'dimension') expect(dq.appliesTo).toEqual(['compute']);
   });
 
   it('carries a firm critical flag; unmarked defaults false, no defaultDeclared (SCHEMA-1)', () => {
@@ -206,12 +206,12 @@ describe('party-question axis', () => {
 
   it("defaults a party question's axis to 'assessment'", () => {
     const q = WorkbookSchema.parse(BASE).objectives[0].questions[0];
-    expect(q.grain === 'party' && q.axis).toBe('assessment');
+    expect(q.scope === 'party' && q.axis).toBe('assessment');
   });
 
   it("parses an explicit axis: 'party'", () => {
     const q = WorkbookSchema.parse(withAxis('party')).objectives[0].questions[0];
-    expect(q.grain === 'party' && q.axis).toBe('party');
+    expect(q.scope === 'party' && q.axis).toBe('party');
   });
 
   it('rejects an unknown axis', () => {
@@ -237,7 +237,7 @@ describe('workbook strata (S7 — R8)', () => {
         questions: [
           {
             id: 'O.q1',
-            grain: 'dimension',
+            scope: 'dimension',
             appliesTo: ['compute'],
             text: 't',
             why: 'w',

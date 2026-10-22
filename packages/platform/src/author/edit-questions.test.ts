@@ -8,7 +8,7 @@ import {
   moveQuestion,
   moveRung,
   removeRung,
-  setGrain,
+  setScope,
   updateQuestion,
   updateRung,
   toggleAppliesTo,
@@ -28,7 +28,7 @@ function withAppliesTo() {
 
 const appliesToOf = (wb: ReturnType<typeof starterWorkbook>) => {
   const q = firstQuestion(wb);
-  if (q?.grain !== 'dimension') throw new Error('expected a dimension question');
+  if (q?.scope !== 'dimension') throw new Error('expected a dimension question');
   return q.appliesTo;
 };
 
@@ -41,11 +41,11 @@ describe('nextId', () => {
 });
 
 describe('addQuestion', () => {
-  it('seeds a draft-blank question of the asked grain', () => {
+  it('seeds a draft-blank question of the asked scope', () => {
     expect(sov6(addQuestion(starterWorkbook(), 'SOV-6', 'dimension'))?.questions).toEqual([
       {
         id: 'q-1',
-        grain: 'dimension',
+        scope: 'dimension',
         appliesTo: [],
         text: '',
         role: 'ARCH',
@@ -57,7 +57,7 @@ describe('addQuestion', () => {
     const partyQ = firstQuestion(addQuestion(starterWorkbook(), 'SOV-6', 'party'));
     expect(partyQ).toEqual({
       id: 'q-1',
-      grain: 'party',
+      scope: 'party',
       axis: 'assessment',
       text: '',
       role: 'ARCH',
@@ -201,12 +201,12 @@ describe('optional prose keys', () => {
     expect(q && 'why' in q).toBe(false);
   });
 
-  it('setGrain carries a why across, and carries its absence across', () => {
+  it('setScope carries a why across, and carries its absence across', () => {
     const wb = addQuestion(starterWorkbook(), 'SOV-6', 'dimension');
-    const converted = firstQuestion(setGrain(wb, 'q-1', 'party'));
+    const converted = firstQuestion(setScope(wb, 'q-1', 'party'));
     expect(converted && 'why' in converted).toBe(false);
     const withWhy = updateQuestion(wb, 'q-1', { why: 'w' });
-    expect(firstQuestion(setGrain(withWhy, 'q-1', 'party'))?.why).toBe('w');
+    expect(firstQuestion(setScope(withWhy, 'q-1', 'party'))?.why).toBe('w');
   });
 
   it('updateObjective sets a description and drops an emptied one', () => {
@@ -219,18 +219,18 @@ describe('optional prose keys', () => {
   });
 });
 
-describe('setGrain', () => {
+describe('setScope', () => {
   it('converts and preserves the shared fields', () => {
     let wb = addQuestion(starterWorkbook(), 'SOV-6', 'dimension');
     wb = addRung(wb, 'q-1');
     wb = updateRung(wb, 'q-1', 'choice-1', { description: 'r0' });
 
-    const asParty = setGrain(wb, 'q-1', 'party');
+    const asParty = setScope(wb, 'q-1', 'party');
     const partyQ = firstQuestion(asParty);
-    if (partyQ?.grain !== 'party') throw new Error('expected a party question');
+    if (partyQ?.scope !== 'party') throw new Error('expected a party question');
     expect(partyQ).toEqual({
       id: 'q-1',
-      grain: 'party',
+      scope: 'party',
       axis: 'assessment',
       text: '',
       role: 'ARCH',
@@ -239,12 +239,12 @@ describe('setGrain', () => {
     });
     expect('appliesTo' in partyQ).toBe(false);
 
-    const backToDimension = firstQuestion(setGrain(asParty, 'q-1', 'dimension'));
-    if (backToDimension?.grain !== 'dimension') throw new Error('expected a dimension question');
+    const backToDimension = firstQuestion(setScope(asParty, 'q-1', 'dimension'));
+    if (backToDimension?.scope !== 'dimension') throw new Error('expected a dimension question');
     expect(backToDimension.appliesTo).toEqual([]);
     expect('axis' in backToDimension).toBe(false);
 
-    expect(firstQuestion(setGrain(wb, 'q-1', 'dimension'))).toBe(firstQuestion(wb));
+    expect(firstQuestion(setScope(wb, 'q-1', 'dimension'))).toBe(firstQuestion(wb));
   });
 });
 
@@ -264,7 +264,7 @@ describe('moveQuestion', () => {
     const qMoved = sov2After?.questions.find((q) => q.id === 'q-1');
     expect(qMoved).toEqual({
       id: 'q-1',
-      grain: 'party',
+      scope: 'party',
       axis: 'assessment',
       text: 'Question 1',
       why: 'Because reasons',

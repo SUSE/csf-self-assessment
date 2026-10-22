@@ -9,8 +9,8 @@ const takeSecurity = {
   partyDecisions: [] as PartyDecision[],
 };
 
-const grainDecisions = (keep: 'strata' | 'roll-up') => ({
-  resolutions: [{ questionId: 'SOV-1.dq', target: STORAGE, choice: { kind: 'grain' as const, keep }, note: '' }],
+const depthDecisions = (keep: 'strata' | 'roll-up') => ({
+  resolutions: [{ questionId: 'SOV-1.dq', target: STORAGE, choice: { kind: 'depth' as const, keep }, note: '' }],
   partyDecisions: [] as PartyDecision[],
 });
 
@@ -69,14 +69,14 @@ describe('landing a decided clash', () => {
   });
 });
 
-describe('landing a grain decision', () => {
+describe('landing a depth decision', () => {
   it('a decision that empties the roll-up records the loss', () => {
     const alex = afterAlex();
     const twoStrata = partial(
       'Jane',
       ['service', 'software'].map((name, index) => answered(stratum(name), index as Seal)),
     );
-    const outcome = land(alex.base, alex.ledger, twoStrata, grainDecisions('strata'), stamp(L2, 'T2'));
+    const outcome = land(alex.base, alex.ledger, twoStrata, depthDecisions('strata'), stamp(L2, 'T2'));
     if (!outcome.ok) throw new Error('expected a clean landing');
     const rollUp = outcome.ledger[1].records.find(
       (r) => r.kind === 'answer' && targetKey(r.target) === targetKey(STORAGE),
@@ -88,21 +88,21 @@ describe('landing a grain decision', () => {
 
   it('keeping the strata writes five records and drops the roll-up', () => {
     const alex = afterAlex();
-    const outcome = land(alex.base, alex.ledger, JANE_STRATA, grainDecisions('strata'), stamp(L2, 'T2'));
+    const outcome = land(alex.base, alex.ledger, JANE_STRATA, depthDecisions('strata'), stamp(L2, 'T2'));
     if (!outcome.ok) throw new Error('expected a clean landing');
     const fresh = outcome.ledger[1].records;
     expect(fresh).toHaveLength(5);
     const rollUpRecord = fresh.find((r) => r.kind === 'answer' && targetKey(r.target) === targetKey(STORAGE));
     if (rollUpRecord === undefined || rollUpRecord.kind !== 'answer') throw new Error('expected a roll-up record');
     expect(rollUpRecord.after).toBeNull();
-    expect(rollUpRecord.decision.kind === 'resolved' ? rollUpRecord.decision.clash : null).toBe('grain');
+    expect(rollUpRecord.decision.kind === 'resolved' ? rollUpRecord.decision.clash : null).toBe('depth');
     expect(stratumAnswersOf(outcome.base)).toHaveLength(4);
     expect(rollUpAnswerOf(outcome.base)).toBeUndefined();
   });
 
   it('keeping the roll-up deletes the stratum answers', () => {
     const alex = afterAlex();
-    const outcome = land(alex.base, alex.ledger, JANE_STRATA, grainDecisions('roll-up'), stamp(L2, 'T2'));
+    const outcome = land(alex.base, alex.ledger, JANE_STRATA, depthDecisions('roll-up'), stamp(L2, 'T2'));
     if (!outcome.ok) throw new Error('expected a clean landing');
     const fresh = outcome.ledger[1].records;
     expect(fresh).toHaveLength(5);
@@ -112,12 +112,12 @@ describe('landing a grain decision', () => {
     expect(stratumAnswersOf(outcome.base)).toHaveLength(0);
   });
 
-  it('an undecided grain clash blocks the landing', () => {
+  it('an undecided depth clash blocks the landing', () => {
     const alex = afterAlex();
     const outcome = land(alex.base, alex.ledger, JANE_STRATA, NO_DECISIONS, stamp(L2, 'T2'));
     if (outcome.ok) throw new Error('expected a refusal');
     if (outcome.refusal.kind !== 'undecided') throw new Error('expected undecided');
     expect(outcome.refusal.undecided).toHaveLength(1);
-    expect(outcome.refusal.undecided[0].kind).toBe('grain-clash');
+    expect(outcome.refusal.undecided[0].kind).toBe('depth-clash');
   });
 });

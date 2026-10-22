@@ -38,9 +38,9 @@ const MINIMAL: Workbook = WorkbookSchema.parse({
       name: 'O1',
       weight: 100,
       questions: [
-        { id: 'q1', grain: 'dimension', appliesTo: ['a'], text: 't', why: 'w', role: 'R1', defaultMateriality: 'material', ladder: [{ id: 'choice-1', description: 'd', points: 0, seal: 0 }] },
-        { id: 'q2', grain: 'party', axis: 'party', text: 't', why: 'w', role: 'R1', defaultMateriality: 'material', ladder: [{ id: 'choice-1', description: 'd', points: 0, seal: 0 }] },
-        { id: 'q3', grain: 'party', axis: 'assessment', text: 't', why: 'w', role: 'R1', defaultMateriality: 'material', ladder: [{ id: 'choice-1', description: 'd', points: 0, seal: 0 }] },
+        { id: 'q1', scope: 'dimension', appliesTo: ['a'], text: 't', why: 'w', role: 'R1', defaultMateriality: 'material', ladder: [{ id: 'choice-1', description: 'd', points: 0, seal: 0 }] },
+        { id: 'q2', scope: 'party', axis: 'party', text: 't', why: 'w', role: 'R1', defaultMateriality: 'material', ladder: [{ id: 'choice-1', description: 'd', points: 0, seal: 0 }] },
+        { id: 'q3', scope: 'party', axis: 'assessment', text: 't', why: 'w', role: 'R1', defaultMateriality: 'material', ladder: [{ id: 'choice-1', description: 'd', points: 0, seal: 0 }] },
       ],
     },
   ],
@@ -124,8 +124,8 @@ describe('instrumentModel stats', () => {
     expect(stats.objectives).toBe(8);
     expect(stats.weightSum).toBe(100);
     expect(stats.questions).toBe(39);
-    expect(stats.partyGrain).toBe(18);
-    expect(stats.dimensionGrain).toBe(21);
+    expect(stats.partyScope).toBe(18);
+    expect(stats.dimensionScope).toBe(21);
     expect(stats.dimensions).toBe(10);
     expect(stats.criticalDimensions).toBe(6);
     expect(stats.uncoveredDimensions).toBe(0);
@@ -209,7 +209,7 @@ describe('inspectChip', () => {
       expect(insp?.total).toBe(chip(model, 'dimension', key).count);
       // every listed question genuinely applies to this dimension...
       const dimQuestions = WB.objectives.flatMap((o) =>
-        o.questions.filter((q) => q.grain === 'dimension' && q.appliesTo.includes(key)),
+        o.questions.filter((q) => q.scope === 'dimension' && q.appliesTo.includes(key)),
       );
       expect(insp?.total).toBe(dimQuestions.length);
       // ...and the groups are a subsequence of the workbook's objective order.
@@ -244,9 +244,9 @@ const SEALED: Workbook = WorkbookSchema.parse({
       name: 'O1',
       weight: 100,
       questions: [
-        { id: 'd1', grain: 'dimension', appliesTo: ['compute', 'network'], text: 't', why: 'w', role: 'R1', defaultMateriality: 'material', ladder: [0, 1, 2, 3, 4].map((seal, i) => ({ id: `choice-${i + 1}`, description: 'd', points: seal * 25, seal })) },
-        { id: 'p1', grain: 'party', axis: 'party', text: 't', why: 'w', role: 'R1', defaultMateriality: 'material', ladder: [0, 1, 2, 3, 4].map((seal, i) => ({ id: `choice-${i + 1}`, description: 'd', points: seal * 25, seal })) },
-        { id: 'a1', grain: 'party', axis: 'assessment', text: 't', why: 'w', role: 'R1', defaultMateriality: 'material', ladder: [0, 1, 2, 3, 4].map((seal, i) => ({ id: `choice-${i + 1}`, description: 'd', points: seal * 25, seal })) },
+        { id: 'd1', scope: 'dimension', appliesTo: ['compute', 'network'], text: 't', why: 'w', role: 'R1', defaultMateriality: 'material', ladder: [0, 1, 2, 3, 4].map((seal, i) => ({ id: `choice-${i + 1}`, description: 'd', points: seal * 25, seal })) },
+        { id: 'p1', scope: 'party', axis: 'party', text: 't', why: 'w', role: 'R1', defaultMateriality: 'material', ladder: [0, 1, 2, 3, 4].map((seal, i) => ({ id: `choice-${i + 1}`, description: 'd', points: seal * 25, seal })) },
+        { id: 'a1', scope: 'party', axis: 'assessment', text: 't', why: 'w', role: 'R1', defaultMateriality: 'material', ladder: [0, 1, 2, 3, 4].map((seal, i) => ({ id: `choice-${i + 1}`, description: 'd', points: seal * 25, seal })) },
       ],
     },
   ],
@@ -362,8 +362,8 @@ describe('instrumentModel over the EC calculator (instrument-S5)', () => {
       uncoveredDimensions: 0,
       strata: 0,
       splitDimensions: 0,
-      dimensionGrain: 0,
-      partyGrain: 48,
+      dimensionScope: 0,
+      partyScope: 48,
       objectives: 8,
       weightSum: 100,
       roles: 1,

@@ -137,7 +137,7 @@ export function choiceSentence(choice: ClashChoice, question: Pick<Question, 'la
       return `kept ${choice.from}`;
     case 'reanswer':
       return `re-answered at ${rungLabel(question, choice.rungId)}`;
-    case 'grain':
+    case 'depth':
       return choice.keep === 'strata' ? 'kept the strata' : 'kept the roll-up';
   }
 }

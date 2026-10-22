@@ -22,8 +22,9 @@ import {
 import { checkWorkbookAssessmentIntegrity, workbookAssessmentOf } from '../setup';
 import { checkAssessmentIntegrity, type IntegrityResult } from '../assessment';
 import { checkPartial } from '../merge';
+import { sniffPayload } from '../migrate';
 
-export type LoadMode = 'empty' | 'facilitator' | 'fill';
+export type LoadMode = 'empty' | 'fill' | 'facilitator';
 
 // Copy for the confirm gate the shell raises before a destructive/ambiguous load.
 // `null` on an outcome means apply it straight through (nothing to lose / no
@@ -67,11 +68,22 @@ function integrityRefusal(name: string, integrity: Extract<IntegrityResult, { ok
   return `Refusing “${name}”: it records ${integrity.declared.id}@${integrity.declared.version} but carries a ${integrity.embedded.id}@${integrity.embedded.version} workbook. Version mismatches are not opened.`;
 }
 
+function legacyVersionRefusal(name: string): string {
+  return `Refusing “${name}”: this file uses the legacy schema format (v1.0). Use migrator.html to upgrade it to “2.0”.`;
+}
+
 export function decideLoad(input: LoadInput): LoadOutcome {
   const { data, name, mode } = input;
   const wa = WorkbookAssessmentSchema.safeParse(data);
   const assessment = AssessmentSchema.safeParse(data);
   const workbook = WorkbookSchema.safeParse(data);
+
+  if (!wa.success && !assessment.success && !workbook.success) {
+    const sniff = sniffPayload(data);
+    if (sniff.hasLegacyGrain || sniff.version === '1.0') {
+      return { kind: 'error', message: legacyVersionRefusal(name) };
+    }
+  }
 
   const replaceAssessment: ConfirmCopy = {
     title: 'Replace your assessment?',

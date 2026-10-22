@@ -7,7 +7,7 @@ import { FULL, G, obj, rungs, wb } from './fixtures';
 // A party-AXIS question: one unit per party on the roster.
 const partyQ = (id: string, materiality: string, seals: number[]) => ({
   id,
-  grain: 'party',
+  scope: 'party',
   axis: 'party',
   text: id,
   why: 'why',

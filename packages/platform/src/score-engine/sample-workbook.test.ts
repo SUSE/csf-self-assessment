@@ -18,7 +18,7 @@ const PARTIES: Party[] = [
 ];
 
 const q5raw = WB.objectives.find((o) => o.id === 'SOV-6')?.questions.find((x) => x.id === 'SOV-6.q5');
-if (!q5raw || q5raw.grain !== 'dimension') throw new Error('sample must carry the dimension question SOV-6.q5');
+if (!q5raw || q5raw.scope !== 'dimension') throw new Error('sample must carry the dimension question SOV-6.q5');
 const q5: DimensionQuestion = q5raw;
 
 const T: Target = { kind: 'assessment' };
@@ -52,7 +52,7 @@ describe('sample workbook — structure (S6+S7)', () => {
     const sov2 = WB.objectives.find((o) => o.id === 'SOV-2');
     const axisOf = (id: string): string | null => {
       const q = sov2?.questions.find((x) => x.id === id);
-      return q && q.grain === 'party' ? q.axis : null;
+      return q && q.scope === 'party' ? q.axis : null;
     };
     expect(axisOf('SOV-2.q1')).toBe('party');
     expect(axisOf('SOV-2.q2')).toBe('party');

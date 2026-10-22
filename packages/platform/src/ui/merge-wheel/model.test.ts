@@ -122,15 +122,15 @@ describe('mergeWheelModel', () => {
     expect(model.openConflicts).toBe(1);
   });
 
-  it('a grain clash marks its dimension chip once', () => {
+  it('a depth clash marks its dimension chip once', () => {
     const stratumTarget = (stratum: string): Target => ({
       kind: 'dimension-stratum',
       dimension: 'storage',
       stratum,
     });
     const clash: LandingClash = {
-      kind: 'grain-clash',
-      clash: 'grain',
+      kind: 'depth-clash',
+      clash: 'depth',
       questionId: 'SOV-4.kill-switch',
       dimension: 'storage',
       target: { kind: 'dimension', dimension: 'storage' },

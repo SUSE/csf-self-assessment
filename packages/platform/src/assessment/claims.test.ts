@@ -15,7 +15,7 @@ import { AWS, CLAIM_WB, G, INST, OKTA, P3, PARTY_WB } from './fixtures';
 const [q1, q2, q3] = CLAIM_WB.objectives[0].questions;
 const [qd, qp] = PARTY_WB.objectives[0].questions;
 const parties = [INST];
-if (q2.grain !== 'dimension' || qd.grain !== 'dimension') throw new Error('q2 and qd must be dimension questions');
+if (q2.scope !== 'dimension' || qd.scope !== 'dimension') throw new Error('q2 and qd must be dimension questions');
 
 const claim = (roles: string[], dimensions: string[] = [], partyIds: string[] = []) => ({
   roles,
@@ -98,7 +98,7 @@ describe('claim scope over the dimension axis (delivery-S6)', () => {
     expect(arch[0].objectiveId).toBe('O1');
     expect(arch[0].questions.map((q) => q.id)).toEqual(['q2']);
     const [only] = arch[0].questions;
-    expect(only.grain === 'dimension' && only.appliesTo).toEqual(['compute']);
+    expect(only.scope === 'dimension' && only.appliesTo).toEqual(['compute']);
     expect(walkIds(CLAIM_WB, parties, claim(['ARCH', 'SEC'], ['compute']))).toEqual(['q2']);
   });
 

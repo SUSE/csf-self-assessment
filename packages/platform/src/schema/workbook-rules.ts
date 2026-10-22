@@ -125,7 +125,7 @@ export const WORKBOOK_RULES: WorkbookRule[] = [
     check(wb, ctx) {
       const dimIds = dimensionIds(wb);
       eachQuestion(wb, (q, path) => {
-        if (q.grain !== 'dimension') return;
+        if (q.scope !== 'dimension') return;
         q.appliesTo.forEach((dimId, di) => {
           if (!dimIds.has(dimId)) {
             reject(

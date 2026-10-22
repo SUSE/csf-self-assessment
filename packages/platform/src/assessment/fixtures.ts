@@ -39,7 +39,7 @@ export const BASE = {
       questions: [
         {
           id: 'SOV-2.q1',
-          grain: 'party',
+          scope: 'party',
           text: 'q?',
           why: 'because',
           role: 'LEG',
@@ -67,7 +67,7 @@ const DIM_BASE = {
       questions: [
         {
           id: 'SOV-6.d1',
-          grain: 'dimension',
+          scope: 'dimension',
           appliesTo: ['compute', 'network'],
           text: 'q?',
           why: 'b',
@@ -91,7 +91,7 @@ const STRAT_BASE = {
 
 const dimensionQuestionOf = (workbook: Workbook): DimensionQuestion => {
   const [question] = workbook.objectives[0].questions;
-  if (question.grain !== 'dimension') throw new Error('fixture must lead with a dimension question');
+  if (question.scope !== 'dimension') throw new Error('fixture must lead with a dimension question');
   return question;
 };
 
@@ -120,9 +120,9 @@ export const CLAIM_WB = WorkbookSchema.parse({
       name: 'Objective One',
       weight: 100,
       questions: [
-        { id: 'q1', grain: 'party', text: 'q1?', why: 'w', role: 'LEG', defaultMateriality: 'material', ladder: rungs([0, 2, 4]) },
-        { id: 'q2', grain: 'dimension', appliesTo: ['compute', 'storage'], text: 'q2?', why: 'w', role: 'ARCH', defaultMateriality: 'material', ladder: rungs([0, 3, 4]) },
-        { id: 'q3', grain: 'dimension', appliesTo: ['network'], text: 'q3?', why: 'w', role: 'SEC', defaultMateriality: 'material', ladder: rungs([0, 4]) },
+        { id: 'q1', scope: 'party', text: 'q1?', why: 'w', role: 'LEG', defaultMateriality: 'material', ladder: rungs([0, 2, 4]) },
+        { id: 'q2', scope: 'dimension', appliesTo: ['compute', 'storage'], text: 'q2?', why: 'w', role: 'ARCH', defaultMateriality: 'material', ladder: rungs([0, 3, 4]) },
+        { id: 'q3', scope: 'dimension', appliesTo: ['network'], text: 'q3?', why: 'w', role: 'SEC', defaultMateriality: 'material', ladder: rungs([0, 4]) },
       ],
     },
   ],
@@ -144,8 +144,8 @@ export const PARTY_WB = WorkbookSchema.parse({
       name: 'O',
       weight: 100,
       questions: [
-        { id: 'qd', grain: 'dimension', appliesTo: ['compute', 'storage'], role: 'SEC', text: 'qd?', why: 'w', defaultMateriality: 'material', ladder: rungs([0, 4]) },
-        { id: 'qp', grain: 'party', axis: 'party', role: 'SEC', text: 'qp?', why: 'w', defaultMateriality: 'material', ladder: rungs([0, 4]) },
+        { id: 'qd', scope: 'dimension', appliesTo: ['compute', 'storage'], role: 'SEC', text: 'qd?', why: 'w', defaultMateriality: 'material', ladder: rungs([0, 4]) },
+        { id: 'qp', scope: 'party', axis: 'party', role: 'SEC', text: 'qp?', why: 'w', defaultMateriality: 'material', ladder: rungs([0, 4]) },
       ],
     },
   ],

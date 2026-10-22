@@ -33,8 +33,8 @@ export function choiceKey(choice: ClashChoice): string {
       return `take:${choice.from}`;
     case 'reanswer':
       return `reanswer:${choice.rungId}`;
-    case 'grain':
-      return `grain:${choice.keep}`;
+    case 'depth':
+      return `depth:${choice.keep}`;
   }
 }
 
@@ -47,28 +47,28 @@ const take = (candidate: ReviewCandidate, label: string): ClashOption => ({
 // The choices this clash offers, in presentation order. A resolution the engine
 // would override is never among them.
 export function optionsFor(clash: LandingClash, question: Question): ClashOption[] {
-  if (clash.kind === 'grain-clash') {
+  if (clash.kind === 'depth-clash') {
     const count = clash.strata.length;
     const answers = count === 1 ? '1 stratum answer' : `${count} stratum answers`;
     const stands = count === 1 ? 'stands' : 'stand';
     return [
       {
-        key: 'grain:strata',
+        key: 'depth:strata',
         label: `Keep the strata — ${answers} ${stands}, the roll-up is dropped`,
-        choice: { kind: 'grain', keep: 'strata' },
+        choice: { kind: 'depth', keep: 'strata' },
       },
       {
-        key: 'grain:roll-up',
+        key: 'depth:roll-up',
         label: `Keep the roll-up — deletes ${answers}`,
-        choice: { kind: 'grain', keep: 'roll-up' },
+        choice: { kind: 'depth', keep: 'roll-up' },
       },
     ];
   }
   switch (clash.clash) {
     case 'gap':
       return gapOptions(clash, question);
-    case 'scope':
-      return scopeOptions(clash, question);
+    case 'applicability':
+      return applicabilityOptions(clash, question);
     case 'divergence':
       return [
         take(clash.base, `Take ${clash.base.from}’s ${answerLabel(question, clash.base.answer)}`),
@@ -91,7 +91,7 @@ function gapOptions(clash: UnitClash, question: Question): ClashOption[] {
   ];
 }
 
-function scopeOptions(clash: UnitClash, question: Question): ClashOption[] {
+function applicabilityOptions(clash: UnitClash, question: Question): ClashOption[] {
   const [applying, excluded] =
     clash.base.answer.state === 'na' ? [clash.incoming, clash.base] : [clash.base, clash.incoming];
   return [

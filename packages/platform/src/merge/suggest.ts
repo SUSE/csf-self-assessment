@@ -15,8 +15,8 @@ export type SuggestionBasis =
   | { kind: 'authority'; tier: 'owner' | 'blanket'; winner: string; loser: string }
   | { kind: 'evidence'; winner: string }
   | { kind: 'knowledge'; knew: string; didNot: string }
-  | { kind: 'scope'; excludedBy: string }
-  | { kind: 'grain' };
+  | { kind: 'applicability'; excludedBy: string }
+  | { kind: 'depth' };
 
 // The pre-selected choice on a clash. `key` matches the `key` of the
 // `ClashOption` it suggests, so a component compares keys and computes
@@ -35,9 +35,9 @@ const takeFrom = (candidate: ReviewCandidate, basis: SuggestionBasis): Suggestio
 // The suggested choice, or null on a full tie (merge.md §2.3.1). Never
 // applied — `land` still counts an unclicked clash undecided.
 export function suggest(clash: LandingClash): Suggestion | null {
-  if (clash.kind === 'grain-clash') {
-    const choice: ClashChoice = { kind: 'grain', keep: 'strata' };
-    return { key: choiceKey(choice), choice, basis: { kind: 'grain' } };
+  if (clash.kind === 'depth-clash') {
+    const choice: ClashChoice = { kind: 'depth', keep: 'strata' };
+    return { key: choiceKey(choice), choice, basis: { kind: 'depth' } };
   }
   switch (clash.clash) {
     case 'gap': {
@@ -45,9 +45,9 @@ export function suggest(clash: LandingClash): Suggestion | null {
         clash.base.answer.state === 'dont-know' ? [clash.incoming, clash.base] : [clash.base, clash.incoming];
       return takeFrom(knew, { kind: 'knowledge', knew: knew.from, didNot: didNot.from });
     }
-    case 'scope': {
+    case 'applicability': {
       const excluded = clash.base.answer.state === 'na' ? clash.base : clash.incoming;
-      return takeFrom(excluded, { kind: 'scope', excludedBy: excluded.from });
+      return takeFrom(excluded, { kind: 'applicability', excludedBy: excluded.from });
     }
     case 'divergence':
       return ladder(clash);
@@ -94,9 +94,9 @@ function reasonFor(basis: SuggestionBasis, clash: LandingClash, wa: WorkbookAsse
       return `${basis.winner} attached evidence`;
     case 'knowledge':
       return `${basis.knew} knew; ${basis.didNot} did not`;
-    case 'scope':
+    case 'applicability':
       return `${basis.excludedBy} marked it not applicable`;
-    case 'grain':
-      return 'the strata are the finer grain — the engine supersedes a roll-up under a split';
+    case 'depth':
+      return 'the strata are the finer depth — the engine supersedes a roll-up under a split';
   }
 }

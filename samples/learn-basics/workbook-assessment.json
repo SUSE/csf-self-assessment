@@ -1,4 +1,5 @@
 {
+  "schemaVersion": "2.0",
   "meta": {
     "id": "wa-teaching-demo",
     "estate": "Teaching estate — demo",
@@ -7,6 +8,7 @@
     "createdAt": "2026-08-03T00:00:00.000Z"
   },
   "workbook": {
+    "schemaVersion": "2.0",
     "meta": {
       "id": "csf-teaching",
       "version": "1.0.0",
@@ -134,7 +136,6 @@
         "questions": [
           {
             "id": "SOV-3.exit-inventory",
-            "grain": "party",
             "axis": "assessment",
             "text": "Does a maintained inventory map every dataset to its location, format, egress path?",
             "why": "An exit is only real if you know what would have to move; the inventory is the fact the exit plan stands on.",
@@ -171,11 +172,11 @@
                 "points": 100,
                 "seal": 4
               }
-            ]
+            ],
+            "scope": "party"
           },
           {
             "id": "SOV-3.ai-disclosure",
-            "grain": "party",
             "axis": "assessment",
             "text": "Does the provider publish where its AI models are trained, hosted, governed?",
             "why": "Disclosure moves the score, never the floor: it signals transparency but is not itself a control fact — which is exactly why this question ships informational.",
@@ -200,11 +201,11 @@
                 "points": 100,
                 "seal": 4
               }
-            ]
+            ],
+            "scope": "party"
           },
           {
             "id": "SOV-3.provider-compellability",
-            "grain": "party",
             "axis": "party",
             "text": "Could a non-EU authority lawfully compel this party to disclose your data or suspend your service?",
             "why": "Compellability is the kill-switch fact: encryption paperwork means nothing if a foreign court can order the party holding access.",
@@ -241,11 +242,11 @@
                 "points": 100,
                 "seal": 4
               }
-            ]
+            ],
+            "scope": "party"
           },
           {
             "id": "SOV-3.key-custody",
-            "grain": "dimension",
             "appliesTo": [
               "compute"
             ],
@@ -272,11 +273,11 @@
                 "points": 100,
                 "seal": 4
               }
-            ]
+            ],
+            "scope": "dimension"
           },
           {
             "id": "SOV-3.data-residency",
-            "grain": "dimension",
             "appliesTo": [
               "compute",
               "network",
@@ -318,7 +319,8 @@
                 "points": 100,
                 "seal": 4
               }
-            ]
+            ],
+            "scope": "dimension"
           }
         ]
       }

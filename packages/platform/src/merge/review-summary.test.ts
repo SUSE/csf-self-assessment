@@ -47,14 +47,14 @@ describe('reviewSummary', () => {
     expect(reviewSummary(review, [take('c', 'Nobody')]).decided).toBe(0);
   });
 
-  it('counts incoming answers, not units — a grain clash carries one per stratum', () => {
+  it('counts incoming answers, not units — a depth clash carries one per stratum', () => {
     const { base, ledger } = landedBase([answered(STORAGE, 2)]);
-    const [grain] = classify(
+    const [depth] = classify(
       base,
       ledger,
       partial('Jane', [answered(stratum('service'), 2), answered(stratum('software'), 0), answered(stratum('hardware'), 1)]),
     );
-    if (!isClash(grain)) throw new Error('expected a grain clash');
+    if (!isClash(depth)) throw new Error('expected a depth clash');
     const units: LandingUnit[] = [
       {
         kind: 'agreed',
@@ -68,7 +68,7 @@ describe('reviewSummary', () => {
         answer: answered(SECURITY, 2),
       },
       soleSource('SOV-1.pq'),
-      grain,
+      depth,
     ];
     expect(reviewSummary(reviewOf(units), [])).toEqual({
       answers: 5,
@@ -78,9 +78,9 @@ describe('reviewSummary', () => {
       collisions: 0,
     });
     const decided: ClashResolution = {
-      questionId: grain.questionId,
-      target: grain.target,
-      choice: { kind: 'grain', keep: 'strata' },
+      questionId: depth.questionId,
+      target: depth.target,
+      choice: { kind: 'depth', keep: 'strata' },
       note: '',
     };
     expect(reviewSummary(reviewOf(units), [decided]).decided).toBe(1);

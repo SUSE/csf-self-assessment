@@ -6,7 +6,7 @@
   import { questionOf, targetKey } from '../../assessment';
   import { Button } from '../button';
   import { Panel, PanelHeader } from '../panel';
-  import { ConflictCard, GrainConflictCard } from '../conflict-card';
+  import { ConflictCard, DepthConflictCard } from '../conflict-card';
   import QueueFilterBar from './queue-filter-bar.svelte';
   import QueueGroupShell from './queue-group.svelte';
 
@@ -117,8 +117,8 @@
         {@const question = questionOf(workbook, clash.questionId)}
         {#if question !== undefined}
           <li data-clash-key={key}>
-            {#if clash.kind === 'grain-clash'}
-              <GrainConflictCard
+            {#if clash.kind === 'depth-clash'}
+              <DepthConflictCard
                 {clash}
                 {question}
                 {workbookAssessment}

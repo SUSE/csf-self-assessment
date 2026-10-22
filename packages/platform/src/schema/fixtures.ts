@@ -21,6 +21,7 @@ export const INST = { id: 'inst', name: 'Institution', type: 'institution', serv
 // One valid base workbook; each case clones it (structuredClone, Node 22) and
 // breaks exactly one thing, so a failure isolates the refinement under test.
 export const BASE = {
+  schemaVersion: '2.0' as const,
   meta: { id: 'wb', version: '1.0.0', title: 'T' },
   sealLevels: [
     { seal: 0, name: 'S0', description: 'd0' },
@@ -38,7 +39,7 @@ export const BASE = {
       questions: [
         {
           id: 'SOV-2.q1',
-          grain: 'party',
+          scope: 'party',
           text: 'q?',
           why: 'because',
           role: 'LEG',
@@ -57,7 +58,7 @@ export const BASE = {
 export const DIM = { id: 'compute', name: 'Compute', critical: true };
 export const DIM_Q = {
   id: 'SOV-2.d1',
-  grain: 'dimension',
+  scope: 'dimension',
   appliesTo: ['compute'],
   text: 'q?',
   why: 'b',

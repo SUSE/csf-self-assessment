@@ -131,13 +131,13 @@ describe('the clash classes', () => {
     expect(classOf(dontKnow(STORAGE), answered(STORAGE, 2))).toBe('gap');
   });
 
-  it('answered against n/a is a scope clash', () => {
-    expect(classOf(answered(STORAGE, 2), na(STORAGE))).toBe('scope');
-    expect(classOf(na(STORAGE), answered(STORAGE, 2))).toBe('scope');
+  it('answered against n/a is an applicability clash', () => {
+    expect(classOf(answered(STORAGE, 2), na(STORAGE))).toBe('applicability');
+    expect(classOf(na(STORAGE), answered(STORAGE, 2))).toBe('applicability');
   });
 
   it('n/a outranks don’t-know', () => {
-    expect(classOf(dontKnow(STORAGE), na(STORAGE))).toBe('scope');
+    expect(classOf(dontKnow(STORAGE), na(STORAGE))).toBe('applicability');
   });
 
   it('isClash finds every clash and no agreement', () => {

@@ -31,7 +31,7 @@ const wb = WorkbookSchema.parse({
       name: 'One',
       weight: 100,
       questions: [
-        { id: 'q1', grain: 'party', text: 't', why: 'w', role: 'LEG', defaultMateriality: 'material', ladder: [{ id: 'choice-1', description: 'r', points: 0, seal: 0 }] },
+        { id: 'q1', scope: 'party', text: 't', why: 'w', role: 'LEG', defaultMateriality: 'material', ladder: [{ id: 'choice-1', description: 'r', points: 0, seal: 0 }] },
       ],
     },
   ],

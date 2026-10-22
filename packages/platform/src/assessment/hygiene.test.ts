@@ -30,14 +30,14 @@ const S5_WB = WorkbookSchema.parse({
       name: 'One',
       weight: 100,
       questions: [
-        question('qp', { grain: 'party', axis: 'party' }),
+        question('qp', { scope: 'party', axis: 'party' }),
         question('qd', {
-          grain: 'dimension',
+          scope: 'dimension',
           appliesTo: ['compute', 'storage'],
           role: 'ARCH',
           ladder: rungs([0, 3, 4]),
         }),
-        question('qi', { grain: 'party', axis: 'party', defaultMateriality: 'informational' }),
+        question('qi', { scope: 'party', axis: 'party', defaultMateriality: 'informational' }),
       ],
     },
   ],
@@ -81,7 +81,7 @@ describe('bindingPotential (delivery-S5)', () => {
           id: 'O1',
           name: 'One',
           weight: 100,
-          questions: [question('qi', { grain: 'party', axis: 'party', defaultMateriality: 'ranking' })],
+          questions: [question('qi', { scope: 'party', axis: 'party', defaultMateriality: 'ranking' })],
         },
       ],
     });

@@ -32,7 +32,7 @@ const rungIdFor = (id: string, seal: Seal): string => {
 // An assessment-axis party question.
 export const q = (id: string, materiality: string, seals: number[]) => ({
   id,
-  grain: 'party',
+  scope: 'party',
   text: id,
   why: 'why',
   role: 'ARCH',
@@ -43,7 +43,7 @@ export const q = (id: string, materiality: string, seals: number[]) => ({
 // A dimension question over the named dimensions.
 export const dimensionQ = (id: string, appliesTo: string[], materiality = 'material') => ({
   id,
-  grain: 'dimension',
+  scope: 'dimension',
   appliesTo,
   text: id,
   why: 'why',

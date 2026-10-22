@@ -76,8 +76,8 @@ describe('the clash queue over the Alex/Jane pair', () => {
       { value: 'all', label: 'All', count: 30 },
       { value: 'divergence', label: 'Divergence', count: 23 },
       { value: 'gap', label: 'Gap', count: 4 },
-      { value: 'scope', label: 'Scope', count: 2 },
-      { value: 'grain', label: 'Grain', count: 1 },
+      { value: 'applicability', label: 'Applicability', count: 2 },
+      { value: 'depth', label: 'Depth', count: 1 },
     ]);
     expect(facets.switches).toEqual([
       { value: 'floorMoversOnly', label: 'Can move the floor', count: 26, on: false },

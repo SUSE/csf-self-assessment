@@ -18,7 +18,7 @@ const DraftRungSchema = z.object({
 
 const DraftPartyQuestionSchema = z.object({
   id: z.string(),
-  grain: z.literal('party'),
+  scope: z.literal('party'),
   axis: z.enum(['assessment', 'party']).default('assessment'),
   text: z.string(),
   why: z.string().optional(),
@@ -29,7 +29,7 @@ const DraftPartyQuestionSchema = z.object({
 
 const DraftDimensionQuestionSchema = z.object({
   id: z.string(),
-  grain: z.literal('dimension'),
+  scope: z.literal('dimension'),
   appliesTo: z.array(z.string()),
   text: z.string(),
   why: z.string().optional(),
@@ -38,7 +38,7 @@ const DraftDimensionQuestionSchema = z.object({
   ladder: z.array(DraftRungSchema),
 });
 
-const DraftQuestionSchema = z.discriminatedUnion('grain', [
+const DraftQuestionSchema = z.discriminatedUnion('scope', [
   DraftPartyQuestionSchema,
   DraftDimensionQuestionSchema,
 ]);
@@ -84,6 +84,7 @@ const DraftRecommendationSchema = z.object({
 });
 
 export const DraftWorkbookSchema = z.object({
+  schemaVersion: z.literal('2.0').default('2.0'),
   meta: z.object({
     id: z.string(),
     version: z.string(),

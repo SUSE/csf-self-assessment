@@ -225,8 +225,8 @@ const CLASS_LABELS: { value: ClashClassFilter; label: string }[] = [
   { value: 'all', label: 'All' },
   { value: 'divergence', label: 'Divergence' },
   { value: 'gap', label: 'Gap' },
-  { value: 'scope', label: 'Scope' },
-  { value: 'grain', label: 'Grain' },
+  { value: 'applicability', label: 'Applicability' },
+  { value: 'depth', label: 'Depth' },
 ];
 
 const STATUS_LABELS: { value: ClashStatusFilter; label: string }[] = [

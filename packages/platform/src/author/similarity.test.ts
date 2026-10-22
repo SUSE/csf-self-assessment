@@ -4,6 +4,7 @@ import { estateWorkbook } from './estate-workbook-fixture';
 import { DUPLICATE_PAIR_CAP, duplicateRadar, jaccard, questionTokens } from './similarity';
 
 const wbOf = (questions: { id: string; text: string; rungs: string[] }[]): Workbook => ({
+  schemaVersion: '2.0',
   meta: { id: 'wb', version: '1.0.0', title: 'T' },
   frontSheet: [],
   sealLevels: [
@@ -20,7 +21,7 @@ const wbOf = (questions: { id: string; text: string; rungs: string[] }[]): Workb
       weight: 100,
       questions: questions.map((q) => ({
         id: q.id,
-        grain: 'party' as const,
+        scope: 'party' as const,
         axis: 'assessment' as const,
         text: q.text,
         why: 'w',

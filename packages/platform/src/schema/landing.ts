@@ -24,13 +24,13 @@ export const LedgerCandidateSchema = z.object({
 });
 
 // The four clash classes. No fifth.
-export const ClashClassSchema = z.enum(['divergence', 'gap', 'scope', 'grain']);
+export const ClashClassSchema = z.enum(['divergence', 'gap', 'applicability', 'depth']);
 
 export const ClashChoiceSchema = z.discriminatedUnion('kind', [
   z.object({ kind: z.literal('take'), from: z.string().min(1) }),
   z.object({ kind: z.literal('reanswer'), rungId: z.string().min(1) }),
-  // A grain decision keeps ONE depth and empties the other.
-  z.object({ kind: z.literal('grain'), keep: z.enum(['strata', 'roll-up']) }),
+  // A depth decision keeps ONE depth and empties the other.
+  z.object({ kind: z.literal('depth'), keep: z.enum(['strata', 'roll-up']) }),
 ]);
 
 export const LedgerDecisionSchema = z.discriminatedUnion('kind', [

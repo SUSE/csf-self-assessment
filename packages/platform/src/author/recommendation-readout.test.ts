@@ -16,6 +16,7 @@ const rungIdFor = (seal: Seal): string => {
 };
 
 const fixture = (recommendations: Recommendation[], testEstates: TestEstate[]): Workbook => ({
+  schemaVersion: '2.0',
   meta: { id: 'wb', version: '1.0.0', title: 'T' },
   frontSheet: [],
   sealLevels: [
@@ -34,7 +35,7 @@ const fixture = (recommendations: Recommendation[], testEstates: TestEstate[]): 
       questions: [
         {
           id: 'A.compute',
-          grain: 'dimension',
+          scope: 'dimension',
           appliesTo: ['compute'],
           text: 'How is compute governed?',
           why: 'w',

@@ -45,7 +45,7 @@
 
   const scope = $derived(
     scopeOverride ??
-      (question.grain === 'dimension' ? `${question.appliesTo.length} dim` : question.axis),
+      (question.scope === 'dimension' ? `${question.appliesTo.length} dim` : question.axis),
   );
 
   const interactive = $derived(

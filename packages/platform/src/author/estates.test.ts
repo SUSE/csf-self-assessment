@@ -33,6 +33,7 @@ const estateOf = (id: string, overrides: Partial<TestEstate> = {}): TestEstate =
 
 describe('estateAnswers (S9b)', () => {
   const dimWb: Workbook = {
+    schemaVersion: '2.0',
     meta: { id: 'wb', version: '1.0.0', title: 'T' },
     frontSheet: [],
     sealLevels: SEALS,
@@ -47,7 +48,7 @@ describe('estateAnswers (S9b)', () => {
         questions: [
           {
             id: 'q-1',
-            grain: 'dimension',
+            scope: 'dimension',
             appliesTo: ['compute', 'storage', 'edge'],
             text: 'T?',
             why: 'w',
@@ -79,6 +80,7 @@ describe('estateAnswers (S9b)', () => {
   });
 
   const partyWb = (axis: 'assessment' | 'party'): Workbook => ({
+    schemaVersion: '2.0',
     meta: { id: 'wb', version: '1.0.0', title: 'T' },
     frontSheet: [],
     roles: [],
@@ -93,7 +95,7 @@ describe('estateAnswers (S9b)', () => {
         questions: [
           {
             id: 'q-1',
-            grain: 'party',
+            scope: 'party',
             axis,
             text: 'T?',
             why: 'w',
@@ -141,6 +143,7 @@ describe('estateAnswers (S9b)', () => {
 
 describe('testEstateReadings (S9b)', () => {
   const readingWb = (questionIds: string[], testEstates: TestEstate[]): Workbook => ({
+    schemaVersion: '2.0',
     meta: { id: 'wb', version: '1.0.0', title: 'T' },
     frontSheet: [],
     sealLevels: SEALS,
@@ -154,7 +157,7 @@ describe('testEstateReadings (S9b)', () => {
         weight: 100,
         questions: questionIds.map((id) => ({
           id,
-          grain: 'party' as const,
+          scope: 'party' as const,
           axis: 'assessment' as const,
           text: 'T?',
           why: 'w',
@@ -197,6 +200,7 @@ describe('testEstateReadings (S9b)', () => {
 
 describe('evaluateTestEstate (analytics-S7)', () => {
   const readingWb = (questionIds: string[], testEstates: TestEstate[]): Workbook => ({
+    schemaVersion: '2.0',
     meta: { id: 'wb', version: '1.0.0', title: 'T' },
     frontSheet: [],
     sealLevels: SEALS,
@@ -210,7 +214,7 @@ describe('evaluateTestEstate (analytics-S7)', () => {
         weight: 100,
         questions: questionIds.map((id) => ({
           id,
-          grain: 'party' as const,
+          scope: 'party' as const,
           axis: 'assessment' as const,
           text: 'T?',
           why: 'w',

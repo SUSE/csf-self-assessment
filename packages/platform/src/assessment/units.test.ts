@@ -18,7 +18,7 @@ describe('questionUnits — scope from the workbook', () => {
 
   it('a party-axis question fans over the parties; an assessment-axis question the single target', () => {
     const partyQ = BASE_WB.objectives[0].questions[0];
-    if (partyQ.grain !== 'party') throw new Error('fixture must be a party question');
+    if (partyQ.scope !== 'party') throw new Error('fixture must be a party question');
     const parties: Party[] = [INST, { id: 'hyper', name: 'Hyper', type: 'primary-provider', serves: [] }];
     expect(questionUnits(BASE_WB, parties, [], { ...partyQ, axis: 'party' })).toEqual([
       { kind: 'party', party: 'institution' },

@@ -58,7 +58,7 @@ const wbFixture = (): Workbook => ({
       questions: [
         {
           id: 'q-1',
-          grain: 'dimension',
+          scope: 'dimension',
           appliesTo: ['compute', 'storage'],
           text: 'T?',
           why: 'w',
@@ -68,7 +68,7 @@ const wbFixture = (): Workbook => ({
         },
         {
           id: 'q-2',
-          grain: 'party',
+          scope: 'party',
           axis: 'assessment',
           text: 'T2?',
           why: 'w',

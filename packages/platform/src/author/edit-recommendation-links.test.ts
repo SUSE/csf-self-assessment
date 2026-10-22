@@ -10,7 +10,7 @@ const linkedWb = (links: RecommendationLink[]): Workbook => {
   const base = linkableWorkbook();
   const [alpha] = base.objectives;
   const [computeQ] = alpha.questions;
-  if (computeQ.grain !== 'dimension') throw new Error('the fixture question must be a dimension question');
+  if (computeQ.scope !== 'dimension') throw new Error('the fixture question must be a dimension question');
   return {
     ...base,
     objectives: [

@@ -46,11 +46,11 @@ export const RungSchema = z.object({
 
 const LADDER_MIN = { message: 'Add at least one rung — a SEAL level with a description.' };
 
-// Party grain: asked about parties, not per dimension. `axis` decides the fan-out
+// Party scope: asked about parties, not per dimension. `axis` decides the fan-out
 // — `assessment` = once for the estate, `party` = one answer per declared party.
 export const PartyQuestionSchema = z.object({
   id: z.string().min(1),
-  grain: z.literal('party'),
+  scope: z.literal('party'),
   axis: z.enum(['assessment', 'party']).default('assessment'),
   text: z.string().min(1),
   why: z.string().min(1).optional(),
@@ -59,11 +59,11 @@ export const PartyQuestionSchema = z.object({
   ladder: z.array(RungSchema).min(1, LADDER_MIN),
 });
 
-// Dimension grain: answered once per applicable dimension, which `appliesTo`
-// names (grain↔appliesTo consistency, ).
+// Dimension scope: answered once per applicable dimension, which `appliesTo`
+// names (scope↔appliesTo consistency).
 export const DimensionQuestionSchema = z.object({
   id: z.string().min(1),
-  grain: z.literal('dimension'),
+  scope: z.literal('dimension'),
   appliesTo: z.array(z.string().min(1)).min(1, {
     message: 'Pick at least one dimension this question applies to.',
   }),
@@ -74,7 +74,7 @@ export const DimensionQuestionSchema = z.object({
   ladder: z.array(RungSchema).min(1, LADDER_MIN),
 });
 
-export const QuestionSchema = z.discriminatedUnion('grain', [
+export const QuestionSchema = z.discriminatedUnion('scope', [
   PartyQuestionSchema,
   DimensionQuestionSchema,
 ]);
@@ -155,6 +155,7 @@ export const RecommenderSchema = z.object({
 // --- the workbook --------------------------------------------------------
 
 const WorkbookFieldsSchema = z.object({
+  schemaVersion: z.literal('2.0').default('2.0'),
   meta: WorkbookMetaSchema,
   // The instrument's front sheet (audit R-7): opening declarations rendered
   // before answering starts. Workbook data, not schema constants; [] = none.

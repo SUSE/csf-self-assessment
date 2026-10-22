@@ -93,7 +93,7 @@
 
     <!-- Breakdown: what the question fans over, each with its selected seal. -->
     <section class="space-y-1.5">
-      {#if question.grain === 'dimension'}
+      {#if question.scope === 'dimension'}
         <h4 class="text-2xs font-semibold uppercase tracking-wide text-muted-foreground">
           Applies to {dims.length} dimension{dims.length === 1 ? '' : 's'}
         </h4>

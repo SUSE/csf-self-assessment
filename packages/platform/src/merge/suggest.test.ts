@@ -9,7 +9,7 @@ import type {
   WorkbookAssessment,
 } from '../schema';
 import { WorkbookSchema } from '../schema';
-import type { GrainClash, LandingClash, ReviewCandidate, UnitClash } from './clash-types';
+import type { DepthClash, LandingClash, ReviewCandidate, UnitClash } from './clash-types';
 import { optionsFor } from './choices';
 import { suggest, suggestedChoice } from './suggest';
 
@@ -27,7 +27,7 @@ const WB: Workbook = WorkbookSchema.parse({
       questions: [
         {
           id: 'SOV-1.dq',
-          grain: 'dimension',
+          scope: 'dimension',
           appliesTo: ['compute'],
           text: 'q?',
           why: 'b',
@@ -43,6 +43,7 @@ const WB: Workbook = WorkbookSchema.parse({
 const QUESTION: Question = WB.objectives[0].questions[0];
 
 const WA: WorkbookAssessment = {
+  schemaVersion: '2.0',
   meta: { id: 'wa-1', workbookId: 'wb', workbookVersion: '1.0.0', estate: 'E', createdAt: 'T0' },
   workbook: WB,
   parties: [{ id: 'inst', name: 'Institution', type: 'institution', serves: [] }],
@@ -76,9 +77,9 @@ const unitClash = (
   incoming: ReviewCandidate,
 ): UnitClash => ({ kind: 'unit-clash', clash, questionId: 'SOV-1.dq', target: COMPUTE, base, incoming });
 
-const grainClash = (): GrainClash => ({
-  kind: 'grain-clash',
-  clash: 'grain',
+const depthClash = (): DepthClash => ({
+  kind: 'depth-clash',
+  clash: 'depth',
   questionId: 'SOV-1.dq',
   dimension: 'compute',
   target: COMPUTE,
@@ -168,28 +169,28 @@ describe('suggest', () => {
     expect(offered(clash)).toContain('take:Alex');
   });
 
-  it('a scope clash takes the exclusion', () => {
+  it('an applicability clash takes the exclusion', () => {
     const clash = unitClash(
-      'scope',
+      'applicability',
       candidate('Alex', answered(2), 'owner'),
       candidate('Jane', na(), 'owner'),
     );
     expect(suggest(clash)?.key).toBe('take:Jane');
-    expect(suggest(clash)?.basis).toEqual({ kind: 'scope', excludedBy: 'Jane' });
+    expect(suggest(clash)?.basis).toEqual({ kind: 'applicability', excludedBy: 'Jane' });
     expect(suggestedChoice(clash, WA)?.reason).toBe('Jane marked it not applicable');
     expect(offered(clash)).toContain('take:Jane');
   });
 
-  it('a grain clash keeps the strata', () => {
-    const clash = grainClash();
+  it('a depth clash keeps the strata', () => {
+    const clash = depthClash();
     expect(suggest(clash)).toEqual({
-      key: 'grain:strata',
-      choice: { kind: 'grain', keep: 'strata' },
-      basis: { kind: 'grain' },
+      key: 'depth:strata',
+      choice: { kind: 'depth', keep: 'strata' },
+      basis: { kind: 'depth' },
     });
     expect(suggestedChoice(clash, WA)?.reason).toBe(
-      'the strata are the finer grain — the engine supersedes a roll-up under a split',
+      'the strata are the finer depth — the engine supersedes a roll-up under a split',
     );
-    expect(offered(clash)).toContain('grain:strata');
+    expect(offered(clash)).toContain('depth:strata');
   });
 });

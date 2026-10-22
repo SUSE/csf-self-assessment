@@ -88,7 +88,7 @@ export {
   removeQuestion,
   removeRung,
   setAxis,
-  setGrain,
+  setScope,
   toggleAppliesTo,
   updateObjective,
   updateQuestion,

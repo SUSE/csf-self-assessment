@@ -70,12 +70,12 @@ describe('the party axis of the Alex/Jane pair', () => {
     expect(decided.units.filter((u) => u.kind === 'agreed')).toHaveLength(20);
     expect(decided.units.filter((u) => u.kind === 'sole-source')).toHaveLength(3);
     expect(decided.units.filter((u) => u.kind === 'unit-clash')).toHaveLength(34);
-    expect(decided.units.filter((u) => u.kind === 'grain-clash')).toHaveLength(1);
+    expect(decided.units.filter((u) => u.kind === 'depth-clash')).toHaveLength(1);
     const clashes = decided.units.filter(isClash);
     expect(clashes.filter((c) => c.clash === 'divergence')).toHaveLength(27);
     expect(clashes.filter((c) => c.clash === 'gap')).toHaveLength(5);
-    expect(clashes.filter((c) => c.clash === 'scope')).toHaveLength(2);
-    expect(clashes.filter((c) => c.clash === 'grain')).toHaveLength(1);
+    expect(clashes.filter((c) => c.clash === 'applicability')).toHaveLength(2);
+    expect(clashes.filter((c) => c.clash === 'depth')).toHaveLength(1);
   });
 
   it('Land is gated on the collision, not only on the clashes', () => {

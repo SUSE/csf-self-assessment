@@ -65,15 +65,15 @@ export function answeredUnitCount(unitSeals: UnitSeal[]): number {
   return unitSeals.filter((u) => u.state === 'answered').length;
 }
 
-// How a question fans out, in words: dimension grain → one answer per applicable
+// How a question fans out, in words: dimension scope → one answer per applicable
 // dimension; party axis → one per declared party; assessment axis → asked once for
-// the whole estate. The grain line under the question's identity.
-export function questionGrainLabel(question: Question): string {
-  return question.grain === 'dimension'
-    ? 'Dimension grain · one answer per applicable dimension'
+// the whole estate. The scope line under the question's identity.
+export function questionScopeLabel(question: Question): string {
+  return question.scope === 'dimension'
+    ? 'Dimension scope · one answer per applicable dimension'
     : question.axis === 'party'
-      ? 'Party grain · one answer per declared party'
-      : 'Party grain · asked once for the whole estate';
+      ? 'Party scope · one answer per declared party'
+      : 'Party scope · asked once for the whole estate';
 }
 
 // One stratum of a split dimension, with the seal selected for it (null when that
@@ -92,7 +92,7 @@ export type DimensionCoverage = {
   strataSeals: StratumSeal[];
 };
 
-// The dimensions a dimension-grain question fans over, each with its selected
+// The dimensions a dimension-scope question fans over, each with its selected
 // seal(s): the whole-dimension answer, or — when split — one seal per stratum (with
 // the dimension's lowest shown on the row). [] for any non-dimension question.
 export function dimensionCoverage(
@@ -100,7 +100,7 @@ export function dimensionCoverage(
   question: Question,
   unitSeals: UnitSeal[],
 ): DimensionCoverage[] {
-  if (question.grain !== 'dimension') return [];
+  if (question.scope !== 'dimension') return [];
   const critical = criticalDimensions(workbook);
   return question.appliesTo.map((id): DimensionCoverage => {
     const d = workbook.dimensions.find((x) => x.id === id);
@@ -140,7 +140,7 @@ export function partyCoverage(
   question: Question,
   unitSeals: UnitSeal[],
 ): PartyCoverage[] {
-  if (!(question.grain === 'party' && question.axis === 'party')) return [];
+  if (!(question.scope === 'party' && question.axis === 'party')) return [];
   return parties.map((p): PartyCoverage => {
     const u = unitSeals.find((x) => x.target.kind === 'party' && x.target.party === p.id);
     return {
@@ -155,7 +155,7 @@ export function partyCoverage(
 // The single whole-estate answer of an assessment-axis question, or null (for any
 // other question, or when the estate answer is not selected yet).
 export function assessmentSeal(question: Question, unitSeals: UnitSeal[]): Seal | null {
-  if (!(question.grain === 'party' && question.axis === 'assessment')) return null;
+  if (!(question.scope === 'party' && question.axis === 'assessment')) return null;
   const u = unitSeals.find((x) => x.target.kind === 'assessment');
   return u !== undefined && u.state === 'answered' ? u.seal : null;
 }

@@ -2,6 +2,7 @@ import type { Recommendation, Workbook } from '../schema';
 
 // Two dimensions, one objective, one question — the smallest workbook a link can point into.
 export const linkableWorkbook = (): Workbook => ({
+  schemaVersion: '2.0',
   meta: { id: 'wb', version: '1.0.0', title: 'T' },
   frontSheet: [],
   sealLevels: [
@@ -22,7 +23,7 @@ export const linkableWorkbook = (): Workbook => ({
       questions: [
         {
           id: 'A.compute',
-          grain: 'dimension',
+          scope: 'dimension',
           appliesTo: ['compute'],
           text: 'How is compute governed?',
           why: 'w',

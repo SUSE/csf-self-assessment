@@ -1,4 +1,5 @@
 {
+  "schemaVersion": "2.0",
   "meta": {
     "id": "csf-estate",
     "version": "1.0.0",
@@ -208,7 +209,6 @@
       "questions": [
         {
           "id": "SOV-1.decisive-authority",
-          "grain": "party",
           "axis": "party",
           "text": "Where does ultimate decisive authority over this party's strategic, financial, operational decisions reside?",
           "why": "A contract with an entity whose parent holds the veto is a contract with the parent; the seat of decisive authority is the fact every other strategic answer stands on.",
@@ -245,11 +245,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "party"
         },
         {
           "id": "SOV-1.change-of-control",
-          "grain": "party",
           "axis": "party",
           "text": "Would the institution's contractual protections with this party survive its sale, merger, or insolvency?",
           "why": "A provider is one acquisition away from being a different provider; only rights that survive the change of owner are rights at all.",
@@ -286,11 +286,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "party"
         },
         {
           "id": "SOV-1.concentration",
-          "grain": "party",
           "axis": "assessment",
           "text": "How many critical dimensions of this estate stand on a single non-EU-controlled provider?",
           "why": "Concentrated sovereignty risk fails all at once: one foreign decision, one court order, one insolvency takes every dependent dimension down together.",
@@ -327,7 +327,8 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "party"
         }
       ]
     },
@@ -338,7 +339,6 @@
       "questions": [
         {
           "id": "SOV-2.compellability",
-          "grain": "party",
           "axis": "party",
           "text": "Could a non-EU authority lawfully compel this party to disclose your data or suspend your service?",
           "why": "Compellability is the kill-switch fact: encryption paperwork means nothing if a foreign court can order the party holding access.",
@@ -375,11 +375,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "party"
         },
         {
           "id": "SOV-2.enforceability",
-          "grain": "party",
           "axis": "party",
           "text": "Could the institution practically enforce an EU court judgment against this party?",
           "why": "A right you cannot enforce is a hope: the venue on the contract matters less than whether assets exist inside the reach of an EU court.",
@@ -416,11 +416,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "party"
         },
         {
           "id": "SOV-2.export-control",
-          "grain": "party",
           "axis": "assessment",
           "text": "Could a non-EU export-control or sanctions decision lawfully revoke a licence or subscription this estate runs on?",
           "why": "Export control is compulsion aimed at the supplier instead of the data: a foreign government decision that revokes a licence stops the estate as surely as a disclosure order breaches it.",
@@ -457,7 +457,8 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "party"
         }
       ]
     },
@@ -468,7 +469,6 @@
       "questions": [
         {
           "id": "SOV-3.key-custody",
-          "grain": "dimension",
           "appliesTo": [
             "compute",
             "storage"
@@ -496,11 +496,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "dimension"
         },
         {
           "id": "SOV-3.data-residency",
-          "grain": "dimension",
           "appliesTo": [
             "compute",
             "storage",
@@ -543,11 +543,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "dimension"
         },
         {
           "id": "SOV-3.ai-hosting",
-          "grain": "dimension",
           "appliesTo": [
             "aiml"
           ],
@@ -586,11 +586,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "dimension"
         },
         {
           "id": "SOV-3.model-portability",
-          "grain": "dimension",
           "appliesTo": [
             "aiml"
           ],
@@ -629,11 +629,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "dimension"
         },
         {
           "id": "SOV-3.training-use",
-          "grain": "dimension",
           "appliesTo": [
             "aiml"
           ],
@@ -672,11 +672,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "dimension"
         },
         {
           "id": "SOV-3.verified-deletion",
-          "grain": "dimension",
           "appliesTo": [
             "storage",
             "aiml"
@@ -716,7 +716,8 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "dimension"
         }
       ]
     },
@@ -727,7 +728,6 @@
       "questions": [
         {
           "id": "SOV-4.withdrawal-survival",
-          "grain": "dimension",
           "appliesTo": [
             "compute",
             "storage",
@@ -771,11 +771,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "dimension"
         },
         {
           "id": "SOV-4.workload-portability",
-          "grain": "dimension",
           "appliesTo": [
             "compute",
             "platform"
@@ -815,11 +815,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "dimension"
         },
         {
           "id": "SOV-4.eu-operations-staff",
-          "grain": "party",
           "axis": "assessment",
           "text": "Could EU-resident, EU-employed staff run the estate's full stack without escalating outside the EU?",
           "why": "Skills are the sovereignty nobody can escrow: a stack only EU-external engineers understand is controlled by them, whatever the contracts say.",
@@ -856,11 +856,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "party"
         },
         {
           "id": "SOV-4.patch-autonomy",
-          "grain": "dimension",
           "appliesTo": [
             "compute",
             "platform",
@@ -901,11 +901,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "dimension"
         },
         {
           "id": "SOV-4.licence-tether",
-          "grain": "dimension",
           "appliesTo": [
             "compute",
             "platform",
@@ -946,11 +946,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "dimension"
         },
         {
           "id": "SOV-4.facilities-control",
-          "grain": "dimension",
           "appliesTo": [
             "facilities"
           ],
@@ -977,7 +977,8 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "dimension"
         }
       ]
     },
@@ -988,7 +989,6 @@
       "questions": [
         {
           "id": "SOV-5.chain-visibility",
-          "grain": "party",
           "axis": "assessment",
           "text": "Can the institution name every legal entity involved in delivering this estate, down to hardware, software suppliers?",
           "why": "The chain has to be enumerated before any of it can be assessed — the EC's own rule that deep analysis must not stop at the entity that signed the contract.",
@@ -1025,11 +1025,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "party"
         },
         {
           "id": "SOV-5.audit-rights",
-          "grain": "party",
           "axis": "party",
           "text": "Could the institution, or an EU auditor acting for it, audit this party's delivery without the party's discretionary mediation?",
           "why": "Self-attestation is the supply chain grading its own homework; an audit right the party can schedule, scope, or veto is its permission, not your right.",
@@ -1066,11 +1066,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "party"
         },
         {
           "id": "SOV-5.hardware-provenance",
-          "grain": "dimension",
           "appliesTo": [
             "compute",
             "storage",
@@ -1111,11 +1111,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "dimension"
         },
         {
           "id": "SOV-5.factory-control",
-          "grain": "dimension",
           "appliesTo": [
             "software-supply"
           ],
@@ -1142,11 +1142,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "dimension"
         },
         {
           "id": "SOV-5.upstream-cutoff",
-          "grain": "dimension",
           "appliesTo": [
             "software-supply"
           ],
@@ -1185,7 +1185,8 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "dimension"
         }
       ]
     },
@@ -1196,7 +1197,6 @@
       "questions": [
         {
           "id": "SOV-6.licence-rights",
-          "grain": "dimension",
           "appliesTo": [
             "compute",
             "platform",
@@ -1237,11 +1237,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "dimension"
         },
         {
           "id": "SOV-6.fork-continuation",
-          "grain": "party",
           "axis": "assessment",
           "text": "If the vendor behind a critical platform exited, could an EU actor lawfully continue or fork the technology?",
           "why": "The fork right is the ultimate exit: a technology EU actors can lawfully continue without its originator can never be fully withdrawn.",
@@ -1278,11 +1278,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "party"
         },
         {
           "id": "SOV-6.exit-rehearsal",
-          "grain": "party",
           "axis": "assessment",
           "text": "Has a migration off a critical non-EU-controlled component been exercised, with its cost, duration recorded?",
           "why": "An exit that has never been rehearsed is a theory; the drill is what converts a contractual right to leave into an operational ability to leave.",
@@ -1319,11 +1319,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "party"
         },
         {
           "id": "SOV-6.independent-build",
-          "grain": "dimension",
           "appliesTo": [
             "compute",
             "platform",
@@ -1364,7 +1364,8 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "dimension"
         }
       ]
     },
@@ -1375,7 +1376,6 @@
       "questions": [
         {
           "id": "SOV-7.secops-control",
-          "grain": "dimension",
           "appliesTo": [
             "security"
           ],
@@ -1414,11 +1414,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "dimension"
         },
         {
           "id": "SOV-7.privileged-access",
-          "grain": "party",
           "axis": "party",
           "text": "Could this party's personnel obtain privileged access to the estate's systems without the institution's per-case approval?",
           "why": "A standing access path is a standing compulsion path: whatever a party's engineers can reach, its home jurisdiction can order reached — silently, under a gag order.",
@@ -1455,11 +1455,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "party"
         },
         {
           "id": "SOV-7.iam-authority",
-          "grain": "dimension",
           "appliesTo": [
             "iam"
           ],
@@ -1486,11 +1486,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "dimension"
         },
         {
           "id": "SOV-7.edge-front",
-          "grain": "dimension",
           "appliesTo": [
             "edge"
           ],
@@ -1529,11 +1529,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "dimension"
         },
         {
           "id": "SOV-7.sovereign-certification",
-          "grain": "party",
           "axis": "assessment",
           "text": "Which EU sovereign cloud certifications cover the entities that actually operate this estate?",
           "why": "Certification signals scrutiny but is not itself a control fact — a compellable operator with a certificate is still compellable — which is exactly why this question ships informational.",
@@ -1570,7 +1570,8 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "party"
         }
       ]
     },
@@ -1581,7 +1582,6 @@
       "questions": [
         {
           "id": "SOV-8.energy-origin",
-          "grain": "dimension",
           "appliesTo": [
             "facilities"
           ],
@@ -1620,11 +1620,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "dimension"
         },
         {
           "id": "SOV-8.hardware-circularity",
-          "grain": "party",
           "axis": "assessment",
           "text": "How is the estate's hardware fleet managed across its lifecycle, through to end of life?",
           "why": "Circularity reduces the estate's draw on the same scarce, foreign-sourced materials its supply chain depends on — an environmental fact with a sovereignty shadow.",
@@ -1661,11 +1661,11 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "party"
         },
         {
           "id": "SOV-8.sustainability-disclosure",
-          "grain": "party",
           "axis": "assessment",
           "text": "How are the estate's environmental indicators measured, disclosed?",
           "why": "Disclosure under the EU reporting obligations is the transparency floor for everything else in this objective; it moves the score, never the SEAL.",
@@ -1702,7 +1702,8 @@
               "points": 100,
               "seal": 4
             }
-          ]
+          ],
+          "scope": "party"
         }
       ]
     }

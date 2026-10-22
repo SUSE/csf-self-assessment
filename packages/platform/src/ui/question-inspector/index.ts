@@ -6,7 +6,7 @@ export {
   questionUnitSeals,
   questionLowestSeal,
   answeredUnitCount,
-  questionGrainLabel,
+  questionScopeLabel,
   dimensionCoverage,
   partyCoverage,
   assessmentSeal,

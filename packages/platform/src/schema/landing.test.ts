@@ -111,8 +111,8 @@ describe('answer records and their snapshots', () => {
     const parsed = AnswerLedgerRecordSchema.parse({
       ...record([{ ...JANE_CAND, from: 'Alex' }], {
         kind: 'resolved',
-        clash: 'grain',
-        choice: { kind: 'grain', keep: 'strata' },
+        clash: 'depth',
+        choice: { kind: 'depth', keep: 'strata' },
         by: 'facilitator',
         note: '',
       }),
@@ -178,15 +178,18 @@ describe('the decision on an answer record', () => {
     };
     expect(resolved().success).toBe(false);
     expect(resolved('chatter').success).toBe(false);
-    expect(resolved('grain').success).toBe(true);
+    expect(resolved('grain').success).toBe(false);
+    expect(resolved('scope').success).toBe(false);
+    expect(resolved('applicability').success).toBe(true);
+    expect(resolved('depth').success).toBe(true);
   });
 
-  it('a grain choice keeps one depth', () => {
+  it('a depth choice keeps one depth', () => {
     const kept = (keep: string) =>
       decided({
         kind: 'resolved',
-        clash: 'grain',
-        choice: { kind: 'grain', keep },
+        clash: 'depth',
+        choice: { kind: 'depth', keep },
         by: 'facilitator',
         note: '',
       });

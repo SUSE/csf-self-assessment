@@ -11,6 +11,7 @@ const wbOf = (
     rungs: [0 | 1 | 2 | 3 | 4, number, string][];
   }[],
 ): Workbook => ({
+  schemaVersion: '2.0',
   meta: { id: 'wb', version: '1.0.0', title: 'T' },
   frontSheet: [],
   sealLevels: [
@@ -30,7 +31,7 @@ const wbOf = (
       weight: 100,
       questions: questions.map((q) => ({
         id: q.id,
-        grain: 'party' as const,
+        scope: 'party' as const,
         axis: 'assessment' as const,
         text: q.text,
         ...(q.why === undefined ? {} : { why: q.why }),

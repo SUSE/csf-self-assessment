@@ -27,17 +27,17 @@ describe('the landing checks over the Alex/Jane pair', () => {
     });
   });
 
-  it('deciding the grain clash moves the floor’s binding answer', () => {
+  it('deciding the depth clash moves the floor’s binding answer', () => {
     const alex = landAlex();
     const review = reviewLanding(alex.base, alex.ledger, JANE, []);
-    const grainResolution = (keep: 'strata' | 'roll-up'): ClashResolution => ({
+    const depthResolution = (keep: 'strata' | 'roll-up'): ClashResolution => ({
       questionId: 'SOV-4.withdrawal-survival',
       target: { kind: 'dimension', dimension: 'storage' },
-      choice: { kind: 'grain', keep },
+      choice: { kind: 'depth', keep },
       note: '',
     });
 
-    const strata = landingChecks(WA, alex.base, review, [grainResolution('strata')]);
+    const strata = landingChecks(WA, alex.base, review, [depthResolution('strata')]);
     expect(strata.floor.seal).toBe(0);
     expect(strata.undecided).toBe(29);
     expect(strata.floor.binding).toEqual([
@@ -51,7 +51,7 @@ describe('the landing checks over the Alex/Jane pair', () => {
       },
     ]);
 
-    const rollUp = landingChecks(WA, alex.base, review, [grainResolution('roll-up')]);
+    const rollUp = landingChecks(WA, alex.base, review, [depthResolution('roll-up')]);
     expect(rollUp.floor.binding).toEqual([
       { questionId: 'SOV-1.decisive-authority', label: 'Acme Cloud Europe SAS', ...ACME_FLOOR },
       { questionId: 'SOV-2.compellability', label: 'Acme Cloud Europe SAS', ...ACME_FLOOR },

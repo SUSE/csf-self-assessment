@@ -24,7 +24,7 @@ function sectionsOf(workbook: Workbook, keep: (q: Question) => boolean): WalkSec
 export function claimCoversQuestion(parties: Party[], claim: Claim, question: Question): boolean {
   if (!claim.roles.includes(question.role)) return false;
   if (claim.dimensions.length === 0 && claim.parties.length === 0) return true;
-  if (question.grain === 'dimension') {
+  if (question.scope === 'dimension') {
     const dims = new Set(claim.dimensions);
     return question.appliesTo.some((d) => dims.has(d));
   }
@@ -87,7 +87,7 @@ export function claimWalk(workbook: Workbook, parties: Party[], claim: Claim): W
   return sectionsOf(workbook, (q) => claimCoversQuestion(parties, claim, q)).map((section) => ({
     ...section,
     questions: section.questions.map((q) =>
-      q.grain === 'dimension' ? { ...q, appliesTo: claimVisibleDimensions(claim, q) } : q,
+      q.scope === 'dimension' ? { ...q, appliesTo: claimVisibleDimensions(claim, q) } : q,
     ),
   }));
 }

@@ -52,7 +52,7 @@ const sample: Workbook = WorkbookSchema.parse({
       questions: [
         {
           id: 'SOV-2.q1',
-          grain: 'party',
+          scope: 'party',
           axis: 'party',
           text: "Under which jurisdiction's law can the primary provider be compelled to disclose or hand over your data?",
           why: 'If a foreign court can compel disclosure, no amount of encryption restores control — this is the kill-switch on legal sovereignty.',
@@ -66,7 +66,7 @@ const sample: Workbook = WorkbookSchema.parse({
         },
         {
           id: 'SOV-2.q2',
-          grain: 'party',
+          scope: 'party',
           axis: 'party',
           text: "Who ultimately owns and controls the primary provider's parent company?",
           why: 'Ownership decides who can be pressured by a foreign state; an EU-operated subsidiary is only as sovereign as its parent allows.',
@@ -80,7 +80,7 @@ const sample: Workbook = WorkbookSchema.parse({
         },
         {
           id: 'SOV-2.q3',
-          grain: 'party',
+          scope: 'party',
           text: 'If the provider were compelled by a foreign authority to suspend your service, could you keep operating?',
           why: 'Capability-under-stress: sovereignty is what still works when access breaks, not how well the programme runs on a good day.',
           role: 'ARCH',
@@ -94,7 +94,7 @@ const sample: Workbook = WorkbookSchema.parse({
         },
         {
           id: 'SOV-2.q4',
-          grain: 'party',
+          scope: 'party',
           text: 'Are the physical data-centre facilities (power, cooling, building access) run by an operator you can name and hold to EU jurisdiction?',
           why: 'Facilities sit beneath every other control; a foreign-operated building is a real gap the software layer cannot close — recorded as context, it informs the picture but does not by itself set the floor.',
           role: 'FAC',
@@ -114,7 +114,7 @@ const sample: Workbook = WorkbookSchema.parse({
       questions: [
         {
           id: 'SOV-6.q5',
-          grain: 'dimension',
+          scope: 'dimension',
           appliesTo: ['compute', 'storage', 'network', 'iam', 'platform', 'security'],
           text: 'For this technical dimension, who controls the technology, and could you keep operating if a foreign supplier withdrew support?',
           why: 'Capability-under-stress, per dimension: a dimension is only as sovereign as its ability to run without a supplier who can be compelled from outside the EU.',
@@ -220,7 +220,7 @@ describe('authorGauges', () => {
       ...sample,
       objectives: sample.objectives.map((o) => ({
         ...o,
-        questions: o.questions.map((q) => (q.grain === 'dimension' ? { ...q, appliesTo: [] } : q)),
+        questions: o.questions.map((q) => (q.scope === 'dimension' ? { ...q, appliesTo: [] } : q)),
       })),
     });
     expect(authorGauges(empty).budget.answerUnits).toBe(6); // 2+2+1+1+0

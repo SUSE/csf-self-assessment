@@ -41,8 +41,8 @@
 
   // Union narrowing via $derived (design rule 7) — template {#if} blocks do
   // not reliably narrow a reassignable prop.
-  const partyQ = $derived(question.grain === 'party' ? question : null);
-  const dimensionQ = $derived(question.grain === 'dimension' ? question : null);
+  const partyQ = $derived(question.scope === 'party' ? question : null);
+  const dimensionQ = $derived(question.scope === 'dimension' ? question : null);
 
   // One source of truth for "is this question complete" — every in-scope unit
   // dealt with (answered / don't-know / n-a). Drives the footer's complete
@@ -147,7 +147,7 @@
       {answers}
       {coverage}
       unitNoun={{ one: 'provider', many: 'providers' }}
-      grainLabel="party grain — one answer per provider"
+      scopeLabel="party scope — one answer per provider"
       onPlace={placeUnit}
       onRetract={retract}
       onEvidence={setGroupEvidence}
@@ -180,7 +180,7 @@
     {answers}
     {coverage}
     unitNoun={{ one: 'dimension', many: 'dimensions' }}
-    grainLabel="dimension grain — one answer per dimension"
+    scopeLabel="dimension scope — one answer per dimension"
     onPlace={placeUnit}
     onRetract={retract}
     onMerge={merge}

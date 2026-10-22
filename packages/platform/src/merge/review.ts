@@ -213,4 +213,4 @@ export function canLand(summary: ReviewSummary): boolean {
 }
 
 const incomingAnswerCount = (unit: LandingUnit): number =>
-  unit.kind !== 'grain-clash' || unit.rollUpSide === 'incoming' ? 1 : unit.strata.length;
+  unit.kind !== 'depth-clash' || unit.rollUpSide === 'incoming' ? 1 : unit.strata.length;

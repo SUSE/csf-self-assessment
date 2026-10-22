@@ -38,7 +38,7 @@ describe('landingOutcomes', () => {
     });
   });
 
-  it('a grain decision writes one outcome per unit in the group', () => {
+  it('a depth decision writes one outcome per unit in the group', () => {
     const alex = afterAlex();
     const jane = partial(
       'Jane',
@@ -46,7 +46,7 @@ describe('landingOutcomes', () => {
     );
     const review = reviewLanding(alex.base, alex.ledger, jane, []);
     const { outcomes } = landingOutcomes(review.units, [
-      { questionId: 'SOV-1.dq', target: STORAGE, choice: { kind: 'grain', keep: 'strata' }, note: '' },
+      { questionId: 'SOV-1.dq', target: STORAGE, choice: { kind: 'depth', keep: 'strata' }, note: '' },
     ]);
     expect(outcomes).toHaveLength(3);
     expect(outcomes.find((o) => targetKey(o.target) === targetKey(STORAGE))?.answer).toBeNull();

@@ -38,7 +38,7 @@ export function bindingPotential(workbook: Workbook, answers: Answer[]): Binding
       for (const a of answers) {
         if (a.questionId !== question.id || a.state !== 'answered') continue;
         const gating =
-          question.grain === 'party' ||
+          question.scope === 'party' ||
           ((a.target.kind === 'dimension' || a.target.kind === 'dimension-stratum') &&
             critical.has(a.target.dimension));
         if (!gating) continue;

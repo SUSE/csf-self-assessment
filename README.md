@@ -22,7 +22,7 @@ Landing, SEAL, and related terms—see [Overview](./docs/overview.md) and
 
 ## What is included
 
-The platform has two primary, standalone HTML applications:
+The platform has three standalone HTML applications:
 
 - **Author** creates and edits workbooks. Its workbench covers objectives,
   questions and ladders, dimensions and strata, roles, party types,
@@ -33,6 +33,9 @@ The platform has two primary, standalone HTML applications:
   returned participant files, inspect analytics and recommendations, and print
   reports. Participants declare the roles, dimensions, and parties they can
   speak for, answer that scope, and export their contribution.
+- **Migrator** upgrades legacy v1 (`grain`) workbooks, workbook-assessments,
+  and assessment files to the canonical v2 (`scope`) format completely offline
+  in the browser.
 
 There is no server, account system, database, telemetry, or runtime network
 dependency. JSON files are the interchange format, and in-progress work is kept
@@ -120,7 +123,7 @@ pnpm dev
 - Author: http://localhost:5173/
 - Assessment: http://localhost:5174/
 
-Build the two offline, single-file applications:
+Build the three offline, single-file applications:
 
 ```sh
 pnpm build
@@ -130,19 +133,22 @@ The outputs are:
 
 - `apps/author/dist/author.html`
 - `apps/assessment/dist/assessment.html`
+- `apps/migrator/dist/migrator.html`
 
 They can be opened directly from disk or distributed on an internal share. The
 build runs the offline gate, which rejects runtime URLs, remote fonts, external
 scripts, and other network dependencies.
 
-Useful checks:
+Useful checks and tools:
 
 ```sh
-pnpm lint            # ESLint across the workspace
-pnpm typecheck       # TypeScript and Svelte checks in every package
-pnpm test            # Tool and platform unit tests
-pnpm check:offline   # Verify built HTML is self-contained
-pnpm verify          # Full CI-equivalent validation and build
+pnpm lint                       # ESLint across the workspace
+pnpm typecheck                  # TypeScript and Svelte checks in every package
+pnpm test                       # Tool and platform unit tests
+pnpm check:offline              # Verify built HTML is self-contained
+node tools/migrate.mjs samples/ # Batch migrate files from v1 grain to v2 scope
+node tools/migrate.mjs --check  # Verify files use canonical v2 scope
+pnpm verify                     # Full CI-equivalent validation and build
 ```
 
 The standard pull-request and `main` workflow runs on Node 22 and
@@ -154,15 +160,16 @@ Ubuntu 24.04. See [verify.yml](./.github/workflows/verify.yml) for details.
 .
 ├── apps/
 │   ├── author/              Svelte authoring application
-│   └── assessment/          Svelte participant and facilitator application
+│   ├── assessment/          Svelte participant and facilitator application
+│   └── migrator/            Svelte standalone file migration tool (v1 grain → v2 scope)
 ├── packages/
 │   └── platform/            Schemas, assessment/merge logic, scoring, analytics,
-│                            reports, storage utilities, and shared Svelte UI
+│                            migration engine, reports, storage utilities, and shared Svelte UI
 ├── samples/                 Teaching, recommendations, and EC calculator fixtures
 ├── docs/
 │   ├── guides/              Workshop manual and conceptual guides
 │   └── ...                  Scoring guide, authoring guide, and assessment flow
-├── tools/                   Offline checks
+├── tools/                   Offline checks and batch migration CLI
 └── .github/workflows/       Source verification workflow
 ```
 
@@ -174,10 +181,12 @@ Important package areas:
   completeness, provenance, and participant walk order
 - `packages/platform/src/merge/` — sequential landing, conflict resolution,
   party reconciliation, snapshots, history, and ledger construction
+- `packages/platform/src/migrate/` — payload sniffer, schema detection, and
+  pure v1-to-v2 transformation engine
 - `packages/platform/src/score-engine/` and `analytics/` — evaluation and
   derived dashboard readings
 - `packages/platform/src/report/` — report document and appendix generation
-- `packages/platform/src/ui/` — shared components used by both applications
+- `packages/platform/src/ui/` — shared components used by all applications
 
 ## Security
 

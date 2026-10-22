@@ -36,7 +36,7 @@ const TWO_OBJECTIVES = WorkbookSchema.parse({
       questions: [
         {
           id: 'SOV-1.dq',
-          grain: 'dimension',
+          scope: 'dimension',
           appliesTo: ['compute'],
           role: 'ARCH',
           text: 'dq?',
@@ -291,7 +291,7 @@ describe('the one rung resolver (instrument-S1)', () => {
         questions: [
           {
             id: 'SOV-2.q1',
-            grain: 'party',
+            scope: 'party',
             text: 'q?',
             why: 'because',
             role: 'LEG',
@@ -337,7 +337,7 @@ describe('the one rung resolver (instrument-S1)', () => {
           questions: [
             {
               id: 'SOV-2.q1',
-              grain: 'party',
+              scope: 'party',
               text: 'q?',
               why: 'because',
               role: 'LEG',

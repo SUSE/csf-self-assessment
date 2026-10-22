@@ -45,6 +45,7 @@ const PARTIES: Party[] = [
 
 function workbookOf(objectives: number, perObjective: number): Workbook {
   return {
+    schemaVersion: '2.0',
     meta: { id: 'csf-estate', version: '2', title: 'CSF estate workbook' },
     frontSheet: [],
     sealLevels: [0, 1, 2, 3, 4].map((seal) => ({
@@ -67,7 +68,7 @@ function workbookOf(objectives: number, perObjective: number): Workbook {
       weight: 100 / objectives,
       questions: Array.from({ length: perObjective }, (_q, q) => ({
         id: `SOV-${o + 1}.q${q + 1}`,
-        grain: 'dimension' as const,
+        scope: 'dimension' as const,
         appliesTo: ['compute'],
         text: `What does the estate do about topic ${o + 1}-${q + 1}?`,
         why: 'It matters.',
@@ -82,6 +83,7 @@ function workbookOf(objectives: number, perObjective: number): Workbook {
 }
 
 const waOf = (workbook: Workbook): WorkbookAssessment => ({
+  schemaVersion: '2.0',
   meta: {
     id: 'wa-1',
     estate: 'Northwind production estate',
@@ -276,7 +278,7 @@ describe('the detail reading across every state it can be in', () => {
 
   it('all four clash classes stand side by side', () => {
     const workbook = workbookOf(1, 4);
-    const classes: ClashClass[] = ['divergence', 'gap', 'scope', 'grain'];
+    const classes: ClashClass[] = ['divergence', 'gap', 'applicability', 'depth'];
     const landing = landingOf({
       id: uuid(1),
       at: '2026-08-10T09:00:00.000Z',
@@ -290,8 +292,8 @@ describe('the detail reading across every state it can be in', () => {
             kind: 'resolved',
             clash,
             choice:
-              clash === 'grain'
-                ? { kind: 'grain', keep: 'strata' }
+              clash === 'depth'
+                ? { kind: 'depth', keep: 'strata' }
                 : { kind: 'take', from: 'Jane' },
             by: 'facilitator',
             note: '',
@@ -302,7 +304,7 @@ describe('the detail reading across every state it can be in', () => {
     const detail = landingDetail(landing, [landing], ctxOf(workbook));
     const panels = detail.groups.flatMap((group) => group.panels);
     expect(panels.map((panel) => (panel.kind === 'answer' ? panel.clash : null))).toEqual(classes);
-    expect(filterDetail(detail, 'grain').recordCount).toBe(1);
+    expect(filterDetail(detail, 'depth').recordCount).toBe(1);
     expect(landingSummary(landing).resolvedClashes).toBe(4);
   });
 
