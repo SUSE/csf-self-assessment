@@ -96,3 +96,51 @@ Approved types:
 3. We do not allow merge commits. We require a linear git history. Rebase your branch on `main` before you push your changes.
 4. Run `pnpm verify` and `pnpm verify:license` to make sure all checks pass.
 5. Push your branch and open a pull request.
+
+## Release Process
+
+We publish releases automatically with GitHub Actions. The release workflow builds the standalone single-file HTML applications and attaches them to a new GitHub release.
+
+### Tag Naming Convention
+
+Release tags must follow semantic versioning and start with `v` (for example, `v1.0.0` or `v2.1.0`).
+
+### How to Create a Release
+
+1. Make sure all quality checks pass on the `main` branch:
+   ```sh
+   pnpm verify
+   pnpm verify:license
+   ```
+2. Create an annotated git tag for the version on `main`:
+   ```sh
+   git tag -a v1.0.0 -m "Release v1.0.0"
+   ```
+3. Push the tag to GitHub:
+   ```sh
+   git push origin v1.0.0
+   ```
+
+### Automated Release Workflow
+
+When you push a version tag, the Release workflow runs automatically. It executes these steps:
+1. Validates the code quality and licences.
+2. Builds the three offline applications with `pnpm build`:
+   - `apps/assessment/dist/assessment.html`
+   - `apps/author/dist/author.html`
+   - `apps/migrator/dist/migrator.html`
+3. Checks that all built files contain zero external network requests with `pnpm check:offline`.
+4. Creates a new GitHub release with generated release notes.
+5. Attaches the three standalone HTML applications to the release.
+
+### Manual Execution (workflow_dispatch)
+
+You can run the release workflow manually for an existing tag:
+
+- **Using GitHub Web UI:** Go to **Actions** > **Release** > **Run workflow**. Enter the tag name (for example, `v1.0.0`) in the input field.
+- **Using GitHub CLI:**
+  ```sh
+  gh workflow run release.yml -f tag=v1.0.0
+  ```
+
+

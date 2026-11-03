@@ -153,6 +153,9 @@ pnpm verify                     # Full CI-equivalent validation and build
 
 The standard pull-request and `main` workflow runs on Node 22 and
 Ubuntu 24.04. See [verify.yml](./.github/workflows/verify.yml) for details.
+Releases publish automatically when pushing a version tag. See
+[release.yml](./.github/workflows/release.yml) and the
+[Contributing Guide](./CONTRIBUTING.md#release-process) for details.
 
 ## Repository layout
 
@@ -170,7 +173,7 @@ Ubuntu 24.04. See [verify.yml](./.github/workflows/verify.yml) for details.
 │   ├── guides/              Workshop manual and conceptual guides
 │   └── ...                  Scoring guide, authoring guide, and assessment flow
 ├── tools/                   Offline checks and batch migration CLI
-└── .github/workflows/       Source verification workflow
+└── .github/workflows/       Verification and release workflows
 ```
 
 Important package areas:

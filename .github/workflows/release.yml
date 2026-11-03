@@ -1,0 +1,82 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Git tag to release (leave empty to release the current tag)'
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build and publish release
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check out source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ inputs.tag || github.ref }}
+          fetch-depth: 0
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Set up Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Verify implementation
+        run: pnpm verify
+
+      - name: Verify licenses
+        uses: fsfe/reuse-action@v6
+
+      - name: Publish GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG="${{ inputs.tag }}"
+          if [[ -z "$TAG" ]]; then
+            TAG="${GITHUB_REF_NAME}"
+          fi
+
+          if [[ "$TAG" != v* ]]; then
+            echo "Error: Tag '$TAG' must start with 'v' (for example: v1.0.0)." >&2
+            exit 1
+          fi
+
+          ASSETS=(
+            "apps/assessment/dist/assessment.html"
+            "apps/author/dist/author.html"
+            "apps/migrator/dist/migrator.html"
+          )
+
+          for asset in "${ASSETS[@]}"; do
+            if [[ ! -f "$asset" ]]; then
+              echo "Error: required release asset '$asset' not found." >&2
+              exit 1
+            fi
+          done
+
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "Release '$TAG' already exists. Uploading assets..."
+            gh release upload "$TAG" "${ASSETS[@]}" --clobber
+          else
+            echo "Creating release '$TAG' and uploading assets..."
+            gh release create "$TAG" "${ASSETS[@]}" \
+              --title "$TAG" \
+              --generate-notes \
+              --verify-tag
+          fi
