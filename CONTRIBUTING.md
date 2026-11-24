@@ -34,7 +34,7 @@ Use the **Feature Request or Improvement** template. Please include:
 
 You need these tools on your local machine:
 - Node.js (version 22 or later)
-- pnpm (version 11 or later)
+- pnpm (version 12 or later)
 - Python 3 (version 3.8 or later)
 - pipx (to run the licence compliance tool)
 
@@ -45,7 +45,7 @@ You need these tools on your local machine:
    git clone https://github.com/SUSE/csf-self-assessment.git
    cd csf-self-assessment-tools
    ```
-2. Install dependencies (we pin pnpm to version 11.24.0):
+2. Install dependencies (we pin pnpm to version 12.23.0):
    ```sh
    pnpm install --frozen-lockfile
    ```
