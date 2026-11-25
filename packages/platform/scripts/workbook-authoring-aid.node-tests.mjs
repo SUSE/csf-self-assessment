@@ -151,16 +151,28 @@ test('tools/validate-workbook.mjs accurately diagnoses R1-R23 rule violations', 
   }
 });
 
-test('starter workbook in tools/skill/SKILL.md is valid according to validateWorkbook', async () => {
-  const content = readFileSync(SKILL_FILE, 'utf8');
-  const jsonMatch = content.match(/```json\n([\s\S]*?)\n```/);
-  assert.ok(jsonMatch, 'SKILL.md must contain starter json');
-  const res = await validateWorkbook(jsonMatch[1]);
-  assert.ok(res.ok, `Starter workbook in SKILL.md failed validation: ${JSON.stringify(res.issues)}`);
+test('tools/skill/assets/starter-workbook.json is valid according to validateWorkbook', async () => {
+  const assetPath = join(ROOT, 'tools/skill/assets/starter-workbook.json');
+  assert.ok(existsSync(assetPath), 'starter-workbook.json must exist in assets');
+  const raw = readFileSync(assetPath, 'utf8');
+  const res = await validateWorkbook(raw);
+  assert.ok(res.ok, `Starter workbook asset failed validation: ${JSON.stringify(res.issues)}`);
   assert.equal(res.issues.length, 0);
   assert.equal(res.summary.objectives, 2);
   assert.equal(res.summary.questions, 2);
   assert.equal(res.summary.dimensions, 2);
+});
+
+test('starter skeleton in tools/skill/SKILL.md is valid according to validateWorkbook', async () => {
+  const content = readFileSync(SKILL_FILE, 'utf8');
+  const jsonMatch = content.match(/```json\n([\s\S]*?)\n```/);
+  assert.ok(jsonMatch, 'SKILL.md must contain starter skeleton json');
+  const res = await validateWorkbook(jsonMatch[1]);
+  assert.ok(res.ok, `Starter skeleton in SKILL.md failed validation: ${JSON.stringify(res.issues)}`);
+  assert.equal(res.issues.length, 0);
+  assert.equal(res.summary.objectives, 1);
+  assert.equal(res.summary.questions, 1);
+  assert.equal(res.summary.dimensions, 1);
 });
 
 test('tools/skill/scripts/validate-workbook.mjs is self-contained and validates all sample workbooks', async () => {
