@@ -53,6 +53,7 @@ The project includes guided and technical documentation structured for different
 - [Authoring Guide](./docs/authoring.md) — Explains the detailed mechanics of workbook schemas, answer ladders, and question design.
 - [Workshop Flow Guide](./docs/assessment-flow.md) — Outlines sequential landing, merge ledgers, and conflict resolution rules.
 - [Scoring Analysis](./docs/scoring.md) — Compares our scoring engine against the original European Commission reference calculator.
+- [Agent & Developer Guide](./AGENTS.md) — Concise invariants, rules, and task-driven file routing for AI agents and developers.
 
 ## Workshop flow
 
@@ -190,6 +191,8 @@ Important package areas:
   derived dashboard readings
 - `packages/platform/src/report/` — report document and appendix generation
 - `packages/platform/src/ui/` — shared components used by all applications
+
+For a detailed task-based file routing table and architectural invariants, see [AGENTS.md](./AGENTS.md).
 
 ## Security
 
