@@ -100,10 +100,10 @@ reference calculator.
 
 ## Requirements
 
-- Node.js 22 or newer
-- pnpm 11.24.0. The repository pins this version in `devEngines.packageManager`.
+- Node.js 26 or newer
+- pnpm 12.23.0. The repository pins this version in `devEngines.packageManager`.
 
-Use pnpm. Do not use npm, yarn, or any other package manger in this workspace.
+Use pnpm. Do not use npm, yarn, or any other package manager in this workspace.
 
 ```sh
 pnpm install --frozen-lockfile
