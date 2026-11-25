@@ -1,6 +1,6 @@
 ---
 name: csf-authoring
-description: Author, refine, and validate Cloud Sovereignty Framework (CSF) Self-Assessment instruments (workbooks) adhering to schemaVersion 2.0. Use whenever creating or modifying CSF workbook JSON files, designing questions, ladders, dimensions, roles, or running automated validation for cross-record relational invariants (R1-R23).
+description: Author, refine, and validate Cloud Sovereignty Framework (CSF) Self-Assessment instruments (workbooks) adhering to schemaVersion 2.0. Make sure to use this skill whenever the user mentions sovereignty questions, creating or editing workbook JSON files, designing assessment ladders or rungs, defining sovereignty dimensions, roles, or objectives, or validating workbook files against relational rules (R1-R23), even if they do not explicitly mention "CSF" or "instruments".
 ---
 
 # CSF Instrument Authoring Skill
@@ -18,11 +18,11 @@ Every sovereignty question must answer one simple, decisive enquiry:
 
 > **If things go wrong, do you still control your resources? Or can an outside party read your data, or stop your service?**
 
-### Non-Negotiable Authoring Rules:
-- **Write Control Facts:** State observable, checkable **capabilities under stress** (e.g. *"Keys are held exclusively by the customer in a dedicated HSM"*).
-- **Avoid Vague Maturity Language:** Never use subjective maturity words like *"ad-hoc"*, *"managed"*, *"mature"*, *"good policies"*, or *"industry best practices"*.
-- **One Question, One Fact:** Exactly one askable sentence. Never join two independent capabilities with "and" (e.g. do not ask *"Are backups encrypted and stored in the EU?"* — split into two questions).
-- **Audible "Why":** The `why` field must be an intelligible sentence the workshop facilitator reads aloud to explain why this control fact matters.
+### Core Drafting Standards
+- **Focus on Control Facts:** State observable, checkable **capabilities under stress** (e.g. *"Keys are held exclusively by the customer in a dedicated HSM"*). Technical control boundaries can be audited and tested during a crisis.
+- **Anchor on Concrete Reality Rather Than Maturity:** Avoid subjective maturity adjectives like *"ad-hoc"*, *"managed"*, *"mature"*, *"good policies"*, or *"industry best practices"*. In a sovereignty dispute or vendor outage, documented policies provide zero technical protection if the external provider retains operational control.
+- **Single Observable Fact per Question:** Phrase each question stem as exactly one askable sentence. Splitting compound concepts ensures answers are unambiguous (for example, evaluate data encryption and EU storage location as two distinct questions so partial compliance is measurable).
+- **Audible Rationale:** Provide a clear, audible sentence in `why`. The workshop facilitator reads this explanation aloud to communicate why this operational capability changes risk.
 
 ---
 
@@ -88,8 +88,8 @@ A ladder is an ordered sequence of choices (`ladder`) from worst to best soverei
   - `EXEC`: Executive & Risk Leadership
 
 ### Decision 7: Choose Default Materiality
-- `material`: Answers earn points and **gate the overall SEAL floor** (default). A low answer on a material question pulls down the entire estate floor.
-- `ranking`: Answers earn points (0–100) but **never gate the SEAL floor**. Use this when the top rung is unachievable due to global supply chain limits (e.g. EU-native GPU hardware).
+- `material`: Answers earn points and gate the overall SEAL floor (default). A low answer on a material question pulls down the entire estate floor.
+- `ranking`: Answers earn points (0–100) without gating the overall SEAL floor. Use this when the top rung is currently unreachable due to global market realities (such as EU-native GPU hardware manufacturing), allowing high performers to score points without penalizing the entire estate's certification floor.
 - `informational`: Answers are recorded for documentation only; neither score nor gate.
 
 ---
@@ -229,4 +229,10 @@ node <skill-directory>/scripts/validate-workbook.mjs path/to/generated-workbook.
      ```
      ✓ path/to/workbook.json — valid CSF Workbook (v2.0)
      ```
-- **If validation passes:** Provide the verified JSON document to the user and explain that it can be imported directly into the Author application.
+
+### Step 4: Delivery Format
+When delivering the validated workbook, provide a structured response with:
+1. **Workbook Overview:** Title, ID, version, and inventory counts (objectives, questions, dimensions, roles, parties).
+2. **Validation Confirmation:** Explicit confirmation that automated validation passed with 0 issues (`R1`–`R23` verified).
+3. **Artifact:** The saved workbook JSON file path or formatted JSON document.
+4. **Author UI Next Steps:** Remind the user they can click **Import workbook** in `author.html` (or the Author web application) to load, inspect, and evaluate the instrument immediately.

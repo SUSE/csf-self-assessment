@@ -204,4 +204,11 @@ test('tools/skill/scripts/validate-workbook.mjs is self-contained and validates 
   const skillContent = readFileSync(SKILL_FILE, 'utf8');
   assert.ok(skillContent.includes('node -v'), 'SKILL.md must instruct node -v check');
   assert.ok(skillContent.includes('scripts/validate-workbook.mjs'), 'SKILL.md must reference scripts/validate-workbook.mjs');
+
+  // Verify evals/evals.json exists and adheres to skill-creator schema
+  const evalsPath = join(ROOT, 'tools/skill/evals/evals.json');
+  assert.ok(existsSync(evalsPath), 'evals/evals.json must exist');
+  const evalsData = JSON.parse(readFileSync(evalsPath, 'utf8'));
+  assert.equal(evalsData.skill_name, 'csf-authoring');
+  assert.ok(Array.isArray(evalsData.evals) && evalsData.evals.length >= 3);
 });

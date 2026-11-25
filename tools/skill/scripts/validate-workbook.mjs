@@ -292,10 +292,10 @@ function validateWorkbook(wb) {
 function main() {
   const args = process.argv.slice(2);
   const jsonOutput = args.includes('--json');
-  const files = args.filter(a => !a.startsWith('-'));
+  const files = args.filter(a => a === '-' || !a.startsWith('-'));
 
   if (files.length === 0) {
-    console.error('Usage: node validate-workbook.cjs [--json] <path-to-workbook.json>...');
+    console.error('Usage: node scripts/validate-workbook.mjs [--json] <path-to-workbook.json | ->...');
     process.exit(1);
   }
 
@@ -303,23 +303,38 @@ function main() {
   const results = [];
 
   for (const file of files) {
-    if (!fs.existsSync(file)) {
-      anyFailed = true;
-      const res = { file, ok: false, issues: [{ path: '', message: `File not found: ${file}`, ruleId: 'io' }] };
-      results.push(res);
-      if (!jsonOutput) console.error(`✗ ${file} — file not found`);
-      continue;
-    }
-
+    const isStdin = file === '-';
+    const label = isStdin ? 'stdin' : file;
     let raw;
-    try {
-      raw = fs.readFileSync(file, 'utf8');
-    } catch (err) {
-      anyFailed = true;
-      const res = { file, ok: false, issues: [{ path: '', message: `Read error: ${err.message}`, ruleId: 'io' }] };
-      results.push(res);
-      if (!jsonOutput) console.error(`✗ ${file} — cannot read file: ${err.message}`);
-      continue;
+
+    if (isStdin) {
+      try {
+        raw = fs.readFileSync(0, 'utf8');
+      } catch (err) {
+        anyFailed = true;
+        const res = { file: label, ok: false, issues: [{ path: '', message: `Read error: ${err.message}`, ruleId: 'io' }] };
+        results.push(res);
+        if (!jsonOutput) console.error(`✗ ${label} — cannot read stdin: ${err.message}`);
+        continue;
+      }
+    } else {
+      if (!fs.existsSync(file)) {
+        anyFailed = true;
+        const res = { file: label, ok: false, issues: [{ path: '', message: `File not found: ${file}`, ruleId: 'io' }] };
+        results.push(res);
+        if (!jsonOutput) console.error(`✗ ${label} — file not found`);
+        continue;
+      }
+
+      try {
+        raw = fs.readFileSync(file, 'utf8');
+      } catch (err) {
+        anyFailed = true;
+        const res = { file: label, ok: false, issues: [{ path: '', message: `Read error: ${err.message}`, ruleId: 'io' }] };
+        results.push(res);
+        if (!jsonOutput) console.error(`✗ ${label} — cannot read file: ${err.message}`);
+        continue;
+      }
     }
 
     let parsed;
@@ -327,19 +342,19 @@ function main() {
       parsed = JSON.parse(raw);
     } catch (err) {
       anyFailed = true;
-      const res = { file, ok: false, issues: [{ path: '', message: `Invalid JSON syntax: ${err.message}`, ruleId: 'syntax' }] };
+      const res = { file: label, ok: false, issues: [{ path: '', message: `Invalid JSON syntax: ${err.message}`, ruleId: 'syntax' }] };
       results.push(res);
-      if (!jsonOutput) console.error(`✗ ${file} — invalid JSON syntax: ${err.message}`);
+      if (!jsonOutput) console.error(`✗ ${label} — invalid JSON syntax: ${err.message}`);
       continue;
     }
 
     const res = validateWorkbook(parsed);
-    results.push({ file, ...res });
+    results.push({ file: label, ...res });
 
     if (!res.ok) {
       anyFailed = true;
       if (!jsonOutput) {
-        console.error(`\n✗ ${file} — FAILED validation with ${res.issues.length} issue(s):`);
+        console.error(`\n✗ ${label} — FAILED validation with ${res.issues.length} issue(s):`);
         res.issues.forEach((issue, idx) => {
           const loc = issue.path ? ` path: ${issue.path}` : '';
           console.error(`  ${idx + 1}. [${issue.ruleId}]${loc}`);
@@ -348,7 +363,7 @@ function main() {
       }
     } else if (!jsonOutput) {
       const s = res.summary;
-      console.log(`\n✓ ${file} — valid CSF Workbook (v2.0)`);
+      console.log(`\n✓ ${label} — valid CSF Workbook (v2.0)`);
       console.log(`  "${s.title}" (id: ${s.id}, v${s.version})`);
       console.log(`  ${s.objectives} objectives | ${s.questions} questions | ${s.dimensions} dimensions | ${s.roles} roles | ${s.parties} parties | ${s.testEstates} test estates | ${s.recommendations} recommendations`);
     }
