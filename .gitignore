@@ -1,6 +1,11 @@
 # Directory where interim docs are stored during working sessions
 .docs-interim/
 
+# AI and Development tools
+.agents
+.claude
+.gemini
+
 # Node / pnpm
 node_modules/
 
