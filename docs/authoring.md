@@ -107,6 +107,9 @@ The Author application includes an **AI prompt helper** button in the top toolba
 
 Copy the generated prompt into your AI assistant. Then copy the resulting JSON response and click **Import workbook** in the toolbar to load and inspect your instrument immediately.
 
+### CSF Authoring Agent Skill
+The repository includes a dedicated agent skill in `tools/skill/SKILL.md` (named `csf-authoring`). The skill provides instructions for AI agents to act as expert CSF instrument authors. It guides agents through the seven authoring decisions, details all 23 cross-record rules, and provides a valid starter workbook.
+
 ### Validator CLI
 Authors can validate workbook JSON files from the terminal:
 

@@ -160,6 +160,7 @@ pnpm verify                     # Full CI-equivalent validation and build
 Creating a valid CSF workbook requires following strict structural schemas and 23 relational rules (such as objective weights that total 100, monotonic ladders, and valid role assignments). This project provides several tools to help humans and AI agents author valid instruments:
 
 - **AI Prompt Helper in Author:** In the Author application toolbar, click the **AI prompt helper** button (sparkles icon) to generate a tailored prompt. Choose between a self-contained prompt with the JSON schema embedded, or a compact prompt with a downloadable schema file (`tools/csf-workbook.schema.json`). Copy the prompt into any AI assistant (such as ChatGPT, Claude, or Gemini), and import the resulting JSON directly into Author.
+- **Agent Skill (`tools/skill/SKILL.md`):** A dedicated agent skill (`csf-authoring`) that guides AI agents through the seven core authoring decisions, the relational invariant rules (R1 to R23), and starter workbook templates.
 - **Standalone Validator CLI (`tools/validate-workbook.mjs`):** Run `node tools/validate-workbook.mjs <file.json>` to validate any workbook. It reports exact rule identifiers (such as `R1: weightsTotal100` or `R22: pointsNeverFall`) and JSON paths for fast iteration.
 - **JSON Schema (`tools/csf-workbook.schema.json`):** Standard JSON Schema (Draft 7) generated directly from the platform schema. You can attach this file directly to AI conversations or reference it in automated tooling.
 
@@ -184,7 +185,7 @@ Releases publish automatically when pushing a version tag. See
 ├── docs/
 │   ├── guides/              Workshop manual and conceptual guides
 │   └── ...                  Scoring guide, authoring guide, and assessment flow
-├── tools/                   Offline checks, migration CLI, validator, and schema
+├── tools/                   Offline checks, migration CLI, validator, AI skill, and schema
 └── .github/workflows/       Verification and release workflows
 ```
 
