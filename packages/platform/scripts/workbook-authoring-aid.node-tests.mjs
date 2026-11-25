@@ -6,14 +6,27 @@ import { test } from 'node:test';
 
 import '../../../tools/ts-loader.mjs';
 import { generateWorkbookSchema, serializeSchema } from '../../../tools/export-schema.mjs';
-import { validateWorkbook } from '../../../tools/validate-workbook.mjs';
+import { validateWorkbook as validatePlatform } from '../../../tools/validate-workbook.mjs';
 
 const ROOT = resolve(import.meta.dirname, '../../..');
 const SCHEMA_FILE = join(ROOT, 'tools/csf-workbook.schema.json');
 const SAMPLES_DIR = join(ROOT, 'samples');
 const SKILL_FILE = join(ROOT, 'tools/skill/SKILL.md');
+const STANDALONE_VALIDATOR_PATH = join(ROOT, 'tools/skill/scripts/validate-workbook.mjs');
 
-test('tools/csf-workbook.schema.json matches generated schema exactly (schema parity)', async () => {
+function findWorkbooks(dir, out = []) {
+  for (const entry of readdirSync(dir)) {
+    const full = join(dir, entry);
+    if (statSync(full).isDirectory()) {
+      findWorkbooks(full, out);
+    } else if (entry === 'workbook.json') {
+      out.push(full);
+    }
+  }
+  return out;
+}
+
+test('schema parity: tools/csf-workbook.schema.json matches platform WorkbookSchema', async () => {
   assert.ok(existsSync(SCHEMA_FILE), 'tools/csf-workbook.schema.json must exist');
   const onDisk = readFileSync(SCHEMA_FILE, 'utf8');
   const generated = await generateWorkbookSchema();
@@ -30,182 +43,178 @@ test('tools/csf-workbook.schema.json matches generated schema exactly (schema pa
   assert.ok(generated.properties.sealLevels);
 });
 
-test('all sample workbooks validate cleanly against WorkbookSchema and R1-R23', async () => {
-  function findWorkbooks(dir, out = []) {
-    for (const entry of readdirSync(dir)) {
-      const full = join(dir, entry);
-      if (statSync(full).isDirectory()) {
-        findWorkbooks(full, out);
-      } else if (entry === 'workbook.json') {
-        out.push(full);
-      }
-    }
-    return out;
-  }
-
+// Verification 1: Differential Testing on All Fixtures (Input/Output Parity)
+test('1. Differential Testing: both validators produce identical results on all sample workbooks', async () => {
   const sampleFiles = findWorkbooks(SAMPLES_DIR);
   assert.ok(sampleFiles.length > 0, 'Found sample workbooks');
 
+  const { validateWorkbook: validateStandalone } = await import(pathToFileURL(STANDALONE_VALIDATOR_PATH).href);
+
   for (const sampleFile of sampleFiles) {
     const raw = readFileSync(sampleFile, 'utf8');
-    const res = await validateWorkbook(raw);
-    assert.ok(res.ok, `Sample ${sampleFile} failed validation: ${JSON.stringify(res.issues)}`);
-    assert.equal(res.issues.length, 0);
-    assert.ok(res.summary);
-    assert.ok(res.summary.objectives > 0);
-    assert.ok(res.summary.questions > 0);
+    const parsed = JSON.parse(raw);
+
+    const [resPlatform, resStandalone] = await Promise.all([
+      validatePlatform(raw),
+      validateStandalone(parsed),
+    ]);
+
+    assert.equal(resPlatform.ok, true, `Platform validator failed on ${sampleFile}: ${JSON.stringify(resPlatform.issues)}`);
+    assert.equal(resStandalone.ok, true, `Standalone validator failed on ${sampleFile}: ${JSON.stringify(resStandalone.issues)}`);
+    assert.equal(resPlatform.issues.length, 0);
+    assert.equal(resStandalone.issues.length, 0);
+
+    // Verify inventory summary counts match field-for-field
+    assert.deepEqual(resStandalone.summary, resPlatform.summary, `Summary mismatch on ${sampleFile}`);
   }
 });
 
-test('tools/validate-workbook.mjs accurately diagnoses R1-R23 rule violations', async () => {
-  const baseRaw = readFileSync(join(SAMPLES_DIR, 'learn-basics/workbook.json'), 'utf8');
-  const base = JSON.parse(baseRaw);
+// Verification 2: Platform Rule Matrix Coverage (Zero Missing Rules)
+test('2. Rule Matrix Coverage: standalone validator implements every active platform rule ID', async () => {
+  const { WORKBOOK_RULES } = await import('../../../packages/platform/src/schema/workbook-rules.ts');
+  const activeRuleIds = WORKBOOK_RULES.map((r) => r.id);
+  assert.equal(activeRuleIds.length, 22, 'Expected 22 active platform rules (R1-R23, R12 retired)');
 
-  // R1: weightsTotal100
-  {
-    const broken = structuredClone(base);
-    broken.objectives[0].weight = 75; // was 100
-    const res = await validateWorkbook(broken);
-    assert.equal(res.ok, false);
-    const r1 = res.issues.find((i) => i.ruleId === 'R1');
-    assert.ok(r1, 'Should find R1 issue');
-    assert.equal(r1.ruleName, 'weightsTotal100');
-    assert.equal(r1.path, 'objectives');
-    assert.match(r1.message, /weights must sum to 100/i);
-  }
+  const standaloneSource = readFileSync(STANDALONE_VALIDATOR_PATH, 'utf8');
 
-  // R6: appliesToNamesDeclaredDimension
-  {
-    const broken = structuredClone(base);
-    const dimQ = broken.objectives[0].questions.find((q) => q.scope === 'dimension');
-    assert.ok(dimQ, 'Has dimension question');
-    dimQ.appliesTo.push('non-existent-dim');
-    const res = await validateWorkbook(broken);
-    assert.equal(res.ok, false);
-    const r6 = res.issues.find((i) => i.ruleId === 'R6');
-    assert.ok(r6, 'Should find R6 issue');
-    assert.equal(r6.ruleName, 'appliesToNamesDeclaredDimension');
-    assert.match(r6.message, /unknown dimension "non-existent-dim"/);
-  }
-
-  // R7: dimensionIdsUnique
-  {
-    const broken = structuredClone(base);
-    broken.dimensions.push({ id: broken.dimensions[0].id, name: 'Duplicate' });
-    const res = await validateWorkbook(broken);
-    assert.equal(res.ok, false);
-    const r7 = res.issues.find((i) => i.ruleId === 'R7');
-    assert.ok(r7, 'Should find R7 issue');
-    assert.equal(r7.ruleName, 'dimensionIdsUnique');
-  }
-
-  // R14: questionRoleIsDeclared
-  {
-    const broken = structuredClone(base);
-    broken.objectives[0].questions[0].role = 'UNKNOWN-ROLE';
-    const res = await validateWorkbook(broken);
-    assert.equal(res.ok, false);
-    const r14 = res.issues.find((i) => i.ruleId === 'R14');
-    assert.ok(r14, 'Should find R14 issue');
-    assert.equal(r14.ruleName, 'questionRoleIsDeclared');
-    assert.match(r14.message, /names unknown role "UNKNOWN-ROLE"/);
-  }
-
-  // R16: exactlyOneAssessedPartyType
-  {
-    const broken = structuredClone(base);
-    broken.parties[0].kind = 'third-party'; // now 0 assessed parties
-    const res = await validateWorkbook(broken);
-    assert.equal(res.ok, false);
-    const r16 = res.issues.find((i) => i.ruleId === 'R16');
-    assert.ok(r16, 'Should find R16 issue');
-    assert.equal(r16.ruleName, 'exactlyOneAssessedPartyType');
-  }
-
-  // R22: pointsNeverFall
-  {
-    const broken = structuredClone(base);
-    const ladder = broken.objectives[0].questions[0].ladder;
-    ladder[0].points = 50;
-    ladder[1].points = 10;
-    const res = await validateWorkbook(broken);
-    assert.equal(res.ok, false);
-    const r22 = res.issues.find((i) => i.ruleId === 'R22');
-    assert.ok(r22, 'Should find R22 issue');
-    assert.equal(r22.ruleName, 'pointsNeverFall');
-    assert.match(r22.message, /drops in points/);
-  }
-
-  // R23: sealNeverFalls
-  {
-    const broken = structuredClone(base);
-    const ladder = broken.objectives[0].questions[0].ladder;
-    ladder[0].seal = 3;
-    ladder[1].seal = 1;
-    const res = await validateWorkbook(broken);
-    assert.equal(res.ok, false);
-    const r23 = res.issues.find((i) => i.ruleId === 'R23');
-    assert.ok(r23, 'Should find R23 issue');
-    assert.equal(r23.ruleName, 'sealNeverFalls');
-    assert.match(r23.message, /drops in SEAL/);
+  for (const rule of WORKBOOK_RULES) {
+    const pattern = new RegExp(`['"\`]${rule.id}[: '"\`]`);
+    assert.ok(
+      pattern.test(standaloneSource),
+      `standalone validator (${STANDALONE_VALIDATOR_PATH}) is missing implementation for platform rule ${rule.id} (${rule.name})`,
+    );
   }
 });
 
-test('tools/skill/assets/starter-workbook.json is valid according to validateWorkbook', async () => {
+// Verification 3: Adversarial Rule Mutation Parity (Semantic Parity on Failures)
+test('3. Adversarial Rule Mutation Parity: both validators catch all active rules with identical rule IDs', async () => {
+  const { WORKBOOK_RULES } = await import('../../../packages/platform/src/schema/workbook-rules.ts');
+  const { validateWorkbook: validateStandalone } = await import(pathToFileURL(STANDALONE_VALIDATOR_PATH).href);
+
+  const base1 = JSON.parse(readFileSync(join(SAMPLES_DIR, 'learn-basics/workbook.json'), 'utf8'));
+  const baseRec = JSON.parse(readFileSync(join(SAMPLES_DIR, 'recommendations/workbook.json'), 'utf8'));
+
+  const mutations = {
+    R1: (wb) => { wb.objectives[0].weight = 50; },
+    R2: (wb) => {
+      const o = structuredClone(wb.objectives[0]);
+      wb.objectives[0].weight = 50;
+      o.weight = 50;
+      o.questions.forEach((q, i) => { q.id = `extra-${i}`; });
+      wb.objectives.push(o);
+    },
+    R3: (wb) => { wb.objectives[0].questions[1].id = wb.objectives[0].questions[0].id; },
+    R4: (wb) => { wb.sealLevels[1].seal = wb.sealLevels[0].seal; },
+    R5: (wb) => { wb.objectives[0].questions[0].ladder[1].id = wb.objectives[0].questions[0].ladder[0].id; },
+    R6: (wb) => {
+      const q = wb.objectives[0].questions.find((x) => x.scope === 'dimension');
+      q.appliesTo.push('non-existent-dimension-id');
+    },
+    R7: (wb) => { wb.dimensions.push({ id: wb.dimensions[0].id, name: 'Duplicate' }); },
+    R8: (wb) => { wb.dimensions[0].strata = ['only-one-stratum']; },
+    R9: (wb) => { wb.testEstates.push(structuredClone(wb.testEstates[0])); },
+    R10: (wb) => { wb.testEstates[0].answers.push({ questionId: 'unknown-question-id', rungId: 'r0' }); },
+    R11: (wb) => { wb.testEstates[0].answers[0].rungId = 'unknown-rung-id'; },
+    R13: (wb) => { wb.roles.push({ id: wb.roles[0].id, name: 'Duplicate' }); },
+    R14: (wb) => { wb.objectives[0].questions[0].role = 'UNKNOWN-ROLE'; },
+    R15: (wb) => { wb.parties.push({ id: wb.parties[0].id, name: 'Duplicate', kind: 'third-party' }); },
+    R16: (wb) => { wb.parties[0].kind = 'third-party'; },
+    R17: (wb) => { wb.testEstates[0].parties[0].type = 'unknown-party-type'; },
+    R18: (wb) => { wb.recommendations.push(structuredClone(wb.recommendations[0])); },
+    R19: (wb) => { wb.recommendations[0].links.push({ kind: 'question', id: 'unknown-question-link' }); },
+    R20: (wb) => {
+      wb.recommendations[0].whenAtOrBelow = 4;
+      wb.sealLevels = wb.sealLevels.filter((s) => s.seal !== 4);
+    },
+    R21: (wb) => { delete wb.recommender; },
+    R22: (wb) => {
+      wb.objectives[0].questions[0].ladder[0].points = 90;
+      wb.objectives[0].questions[0].ladder[1].points = 10;
+    },
+    R23: (wb) => {
+      wb.objectives[0].questions[0].ladder[0].seal = 3;
+      wb.objectives[0].questions[0].ladder[1].seal = 1;
+    },
+  };
+
+  for (const rule of WORKBOOK_RULES) {
+    const mutator = mutations[rule.id];
+    assert.ok(mutator, `Missing mutation definition for active rule ${rule.id}`);
+
+    const isRecRule = ['R18', 'R19', 'R20', 'R21'].includes(rule.id);
+    const mutated = structuredClone(isRecRule ? baseRec : base1);
+    mutator(mutated);
+
+    const [resPlatform, resStandalone] = await Promise.all([
+      validatePlatform(mutated),
+      validateStandalone(mutated),
+    ]);
+
+    assert.equal(resPlatform.ok, false, `Platform validator should reject mutation for ${rule.id}`);
+    assert.equal(resStandalone.ok, false, `Standalone validator should reject mutation for ${rule.id}`);
+
+    const platformHasRule = resPlatform.issues.some((i) => i.ruleId === rule.id);
+    const standaloneHasRule = resStandalone.issues.some(
+      (i) => (i.ruleId || '').startsWith(`${rule.id}:`) || i.ruleId === rule.id,
+    );
+
+    assert.ok(
+      platformHasRule,
+      `Platform validator did not report ${rule.id}. Reported: ${resPlatform.issues.map((i) => i.ruleId).join(', ')}`,
+    );
+    assert.ok(
+      standaloneHasRule,
+      `Standalone validator did not report ${rule.id}. Reported: ${resStandalone.issues.map((i) => i.ruleId).join(', ')}`,
+    );
+  }
+});
+
+test('tools/skill/assets/starter-workbook.json is valid according to both validators', async () => {
   const assetPath = join(ROOT, 'tools/skill/assets/starter-workbook.json');
   assert.ok(existsSync(assetPath), 'starter-workbook.json must exist in assets');
   const raw = readFileSync(assetPath, 'utf8');
-  const res = await validateWorkbook(raw);
-  assert.ok(res.ok, `Starter workbook asset failed validation: ${JSON.stringify(res.issues)}`);
-  assert.equal(res.issues.length, 0);
-  assert.equal(res.summary.objectives, 2);
-  assert.equal(res.summary.questions, 2);
-  assert.equal(res.summary.dimensions, 2);
+  const parsed = JSON.parse(raw);
+
+  const { validateWorkbook: validateStandalone } = await import(pathToFileURL(STANDALONE_VALIDATOR_PATH).href);
+
+  const [resPlatform, resStandalone] = await Promise.all([
+    validatePlatform(raw),
+    validateStandalone(parsed),
+  ]);
+
+  assert.ok(resPlatform.ok, `Starter asset failed platform validation: ${JSON.stringify(resPlatform.issues)}`);
+  assert.ok(resStandalone.ok, `Starter asset failed standalone validation: ${JSON.stringify(resStandalone.issues)}`);
+  assert.deepEqual(resStandalone.summary, resPlatform.summary);
+  assert.equal(resPlatform.summary.objectives, 2);
+  assert.equal(resPlatform.summary.questions, 2);
 });
 
-test('starter skeleton in tools/skill/SKILL.md is valid according to validateWorkbook', async () => {
+test('starter skeleton in tools/skill/SKILL.md is valid according to both validators', async () => {
   const content = readFileSync(SKILL_FILE, 'utf8');
   const jsonMatch = content.match(/```json\n([\s\S]*?)\n```/);
   assert.ok(jsonMatch, 'SKILL.md must contain starter skeleton json');
-  const res = await validateWorkbook(jsonMatch[1]);
-  assert.ok(res.ok, `Starter skeleton in SKILL.md failed validation: ${JSON.stringify(res.issues)}`);
-  assert.equal(res.issues.length, 0);
-  assert.equal(res.summary.objectives, 1);
-  assert.equal(res.summary.questions, 1);
-  assert.equal(res.summary.dimensions, 1);
+  const parsed = JSON.parse(jsonMatch[1]);
+
+  const { validateWorkbook: validateStandalone } = await import(pathToFileURL(STANDALONE_VALIDATOR_PATH).href);
+
+  const [resPlatform, resStandalone] = await Promise.all([
+    validatePlatform(jsonMatch[1]),
+    validateStandalone(parsed),
+  ]);
+
+  assert.ok(resPlatform.ok, `Starter skeleton failed platform validation: ${JSON.stringify(resPlatform.issues)}`);
+  assert.ok(resStandalone.ok, `Starter skeleton failed standalone validation: ${JSON.stringify(resStandalone.issues)}`);
+  assert.deepEqual(resStandalone.summary, resPlatform.summary);
+  assert.equal(resPlatform.summary.objectives, 1);
+  assert.equal(resPlatform.summary.questions, 1);
 });
 
-test('tools/skill/scripts/validate-workbook.mjs is self-contained and validates all sample workbooks', async () => {
-  const standalonePath = join(ROOT, 'tools/skill/scripts/validate-workbook.mjs');
-  assert.ok(existsSync(standalonePath), 'validate-workbook.mjs must exist in tools/skill/scripts');
-
-  const { validateWorkbook: validateStandalone } = await import(pathToFileURL(standalonePath).href);
-
-  // Validate learn-basics
-  const sample1 = JSON.parse(readFileSync(join(SAMPLES_DIR, 'learn-basics/workbook.json'), 'utf8'));
-  const res1 = validateStandalone(sample1);
-  assert.equal(res1.ok, true, 'learn-basics must pass');
-  assert.equal(res1.issues.length, 0);
-
-  // Validate recommendations
-  const sample2 = JSON.parse(readFileSync(join(SAMPLES_DIR, 'recommendations/workbook.json'), 'utf8'));
-  const res2 = validateStandalone(sample2);
-  assert.equal(res2.ok, true, 'recommendations must pass');
-  assert.equal(res2.issues.length, 0);
-
-  // Validate rule detection
-  const broken = structuredClone(sample1);
-  broken.objectives[0].weight = 90;
-  const resBroken = validateStandalone(broken);
-  assert.equal(resBroken.ok, false, 'broken sample must fail');
-  assert.ok(resBroken.issues.some((i) => i.ruleId.startsWith('R1')), 'must catch R1');
-
-  // Verify SKILL.md references scripts/validate-workbook.mjs and node -v check
+test('tools/skill metadata, scripts reference, and evals are configured', () => {
   const skillContent = readFileSync(SKILL_FILE, 'utf8');
   assert.ok(skillContent.includes('node -v'), 'SKILL.md must instruct node -v check');
   assert.ok(skillContent.includes('scripts/validate-workbook.mjs'), 'SKILL.md must reference scripts/validate-workbook.mjs');
+  assert.ok(skillContent.includes('assets/starter-workbook.json'), 'SKILL.md must reference assets/starter-workbook.json');
 
-  // Verify evals/evals.json exists and adheres to skill-creator schema
   const evalsPath = join(ROOT, 'tools/skill/evals/evals.json');
   assert.ok(existsSync(evalsPath), 'evals/evals.json must exist');
   const evalsData = JSON.parse(readFileSync(evalsPath, 'utf8'));
