@@ -163,9 +163,9 @@ test('starter workbook in tools/skill/SKILL.md is valid according to validateWor
   assert.equal(res.summary.dimensions, 2);
 });
 
-test('tools/skill/validate-workbook.mjs is self-contained and validates all sample workbooks', async () => {
-  const standalonePath = join(ROOT, 'tools/skill/validate-workbook.mjs');
-  assert.ok(existsSync(standalonePath), 'validate-workbook.mjs must exist in tools/skill');
+test('tools/skill/scripts/validate-workbook.mjs is self-contained and validates all sample workbooks', async () => {
+  const standalonePath = join(ROOT, 'tools/skill/scripts/validate-workbook.mjs');
+  assert.ok(existsSync(standalonePath), 'validate-workbook.mjs must exist in tools/skill/scripts');
 
   const { validateWorkbook: validateStandalone } = await import(pathToFileURL(standalonePath).href);
 
@@ -188,8 +188,8 @@ test('tools/skill/validate-workbook.mjs is self-contained and validates all samp
   assert.equal(resBroken.ok, false, 'broken sample must fail');
   assert.ok(resBroken.issues.some((i) => i.ruleId.startsWith('R1')), 'must catch R1');
 
-  // Verify SKILL.md has node check and script embedded
+  // Verify SKILL.md references scripts/validate-workbook.mjs and node -v check
   const skillContent = readFileSync(SKILL_FILE, 'utf8');
   assert.ok(skillContent.includes('node -v'), 'SKILL.md must instruct node -v check');
-  assert.ok(skillContent.includes('validateWorkbook(wb)'), 'SKILL.md must embed validation script');
+  assert.ok(skillContent.includes('scripts/validate-workbook.mjs'), 'SKILL.md must reference scripts/validate-workbook.mjs');
 });

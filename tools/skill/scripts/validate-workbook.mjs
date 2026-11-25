@@ -4,8 +4,8 @@
  * Validates structural schema requirements and all 23 relational invariants (R1-R23).
  *
  * Usage:
- *   node validate-workbook.mjs path/to/workbook.json
- *   node validate-workbook.mjs --json path/to/workbook.json
+ *   node scripts/validate-workbook.mjs path/to/workbook.json
+ *   node scripts/validate-workbook.mjs --json path/to/workbook.json
  */
 
 import fs from 'node:fs';
