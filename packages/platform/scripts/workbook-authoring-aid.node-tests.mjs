@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { spawnSync } from 'node:child_process';
 import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -12,6 +13,7 @@ const ROOT = resolve(import.meta.dirname, '../../..');
 const SCHEMA_FILE = join(ROOT, 'tools/csf-workbook.schema.json');
 const SAMPLES_DIR = join(ROOT, 'samples');
 const SKILL_FILE = join(ROOT, 'tools/skill/SKILL.md');
+const PLATFORM_VALIDATOR_PATH = join(ROOT, 'tools/validate-workbook.mjs');
 const STANDALONE_VALIDATOR_PATH = join(ROOT, 'tools/skill/scripts/validate-workbook.mjs');
 
 function findWorkbooks(dir, out = []) {
@@ -220,4 +222,82 @@ test('tools/skill metadata, scripts reference, and evals are configured', () => 
   const evalsData = JSON.parse(readFileSync(evalsPath, 'utf8'));
   assert.equal(evalsData.skill_name, 'csf-authoring');
   assert.ok(Array.isArray(evalsData.evals) && evalsData.evals.length >= 3);
+});
+
+// Verification 4: Structural Schema & Type Deformity Parity
+test('4. Structural Deformity Parity: both validators reject malformed shapes and report identical paths', async () => {
+  const { validateWorkbook: validateStandalone } = await import(pathToFileURL(STANDALONE_VALIDATOR_PATH).href);
+  const base = JSON.parse(readFileSync(join(SAMPLES_DIR, 'learn-basics/workbook.json'), 'utf8'));
+
+  const deformities = [
+    { name: 'Non-object root', make: () => 'not-an-object', path: '' },
+    { name: 'Invalid schemaVersion', make: (w) => { w.schemaVersion = '1.0'; }, path: 'schemaVersion' },
+    { name: 'Missing meta', make: (w) => { delete w.meta; }, path: 'meta' },
+    { name: 'Missing meta.title', make: (w) => { delete w.meta.title; }, path: 'meta.title' },
+    { name: 'Missing meta.id', make: (w) => { delete w.meta.id; }, path: 'meta.id' },
+    { name: 'Missing meta.version', make: (w) => { delete w.meta.version; }, path: 'meta.version' },
+    { name: 'Invalid weight type', make: (w) => { w.objectives[0].weight = 'invalid'; }, path: 'objectives.0.weight' },
+    { name: 'Negative ladder points', make: (w) => { w.objectives[0].questions[0].ladder[0].points = -5; }, path: 'objectives.0.questions.0.ladder.0.points' },
+    { name: 'Empty questions array', make: (w) => { w.objectives[0].questions = []; }, path: 'objectives.0.questions' },
+    { name: 'Missing question text', make: (w) => { delete w.objectives[0].questions[0].text; }, path: 'objectives.0.questions.0.text' },
+    { name: 'Empty question why', make: (w) => { w.objectives[0].questions[0].why = ''; }, path: 'objectives.0.questions.0.why' },
+    { name: 'Invalid question scope', make: (w) => { w.objectives[0].questions[0].scope = 'unknown-scope'; }, path: 'objectives.0.questions.0.scope' },
+    { name: 'Empty sealLevels', make: (w) => { w.sealLevels = []; }, path: 'sealLevels' },
+  ];
+
+  for (const item of deformities) {
+    const wb = structuredClone(base);
+    const target = item.make(wb) ?? wb;
+
+    const [resPlatform, resStandalone] = await Promise.all([
+      validatePlatform(target),
+      validateStandalone(target),
+    ]);
+
+    assert.equal(resPlatform.ok, false, `Platform validator should reject ${item.name}`);
+    assert.equal(resStandalone.ok, false, `Standalone validator should reject ${item.name}`);
+
+    const pHasPath = resPlatform.issues.some((i) => i.path === item.path || i.path.startsWith(item.path));
+    const sHasPath = resStandalone.issues.some((i) => i.path === item.path || i.path.startsWith(item.path));
+
+    assert.ok(pHasPath, `Platform validator missed expected path "${item.path}" for ${item.name}`);
+    assert.ok(sHasPath, `Standalone validator missed expected path "${item.path}" for ${item.name}`);
+  }
+});
+
+// Verification 5: CLI Process & Exit Code Parity
+test('5. CLI Process Parity: both CLI tools match in exit codes, JSON reporting, and stdin support', () => {
+  const pCLI = PLATFORM_VALIDATOR_PATH;
+  const sCLI = STANDALONE_VALIDATOR_PATH;
+  const samplePath = join(SAMPLES_DIR, 'learn-basics/workbook.json');
+  const sampleContent = readFileSync(samplePath);
+
+  // 1. Valid file -> both exit with 0
+  const p1 = spawnSync(process.execPath, [pCLI, samplePath]);
+  const s1 = spawnSync(process.execPath, [sCLI, samplePath]);
+  assert.equal(p1.status, 0, 'Platform CLI should exit 0 on valid file');
+  assert.equal(s1.status, 0, 'Standalone CLI should exit 0 on valid file');
+
+  // 2. Missing file -> both exit with 1
+  const p2 = spawnSync(process.execPath, [pCLI, 'non-existent-workbook.json']);
+  const s2 = spawnSync(process.execPath, [sCLI, 'non-existent-workbook.json']);
+  assert.equal(p2.status, 1, 'Platform CLI should exit 1 on missing file');
+  assert.equal(s2.status, 1, 'Standalone CLI should exit 1 on missing file');
+
+  // 3. Output as JSON (--json) -> both produce parseable JSON array with matching summaries
+  const p3 = spawnSync(process.execPath, [pCLI, '--json', samplePath]);
+  const s3 = spawnSync(process.execPath, [sCLI, '--json', samplePath]);
+  assert.equal(p3.status, 0);
+  assert.equal(s3.status, 0);
+  const pJson = JSON.parse(p3.stdout.toString());
+  const sJson = JSON.parse(s3.stdout.toString());
+  assert.equal(pJson[0].ok, true);
+  assert.equal(sJson[0].ok, true);
+  assert.deepEqual(sJson[0].summary, pJson[0].summary, 'JSON summary mismatch between CLIs');
+
+  // 4. Stdin support via '-' -> both accept piped input and exit with 0
+  const p4 = spawnSync(process.execPath, [pCLI, '-'], { input: sampleContent });
+  const s4 = spawnSync(process.execPath, [sCLI, '-'], { input: sampleContent });
+  assert.equal(p4.status, 0, 'Platform CLI should exit 0 when reading stdin');
+  assert.equal(s4.status, 0, 'Standalone CLI should exit 0 when reading stdin');
 });

@@ -112,13 +112,13 @@ async function main() {
       jsonOutput = true;
     } else if (arg === '--quiet') {
       quiet = true;
-    } else if (!arg.startsWith('-')) {
+    } else if (arg === '-' || !arg.startsWith('-')) {
       files.push(arg);
     }
   }
 
   if (files.length === 0) {
-    console.error('Usage: node tools/validate-workbook.mjs [--json] [--quiet] <path-to-workbook.json>...');
+    console.error('Usage: node tools/validate-workbook.mjs [--json] [--quiet] <path-to-workbook.json | ->...');
     process.exit(1);
   }
 
@@ -126,44 +126,65 @@ async function main() {
   const results = [];
 
   for (const file of files) {
-    if (!existsSync(file)) {
-      anyFailed = true;
-      const res = {
-        file,
-        ok: false,
-        issues: [{ kind: 'io', path: '', message: `File not found: ${file}` }],
-      };
-      results.push(res);
-      if (!jsonOutput) {
-        console.error(`✗ ${file} — file not found`);
-      }
-      continue;
-    }
-
+    const isStdin = file === '-';
+    const label = isStdin ? 'stdin' : file;
     let content;
-    try {
-      content = readFileSync(file, 'utf8');
-    } catch (err) {
-      anyFailed = true;
-      const res = {
-        file,
-        ok: false,
-        issues: [{ kind: 'io', path: '', message: `Could not read file: ${err.message}` }],
-      };
-      results.push(res);
-      if (!jsonOutput) {
-        console.error(`✗ ${file} — could not read file: ${err.message}`);
+
+    if (isStdin) {
+      try {
+        content = readFileSync(0, 'utf8');
+      } catch (err) {
+        anyFailed = true;
+        const res = {
+          file: label,
+          ok: false,
+          issues: [{ kind: 'io', path: '', message: `Could not read stdin: ${err.message}` }],
+        };
+        results.push(res);
+        if (!jsonOutput) {
+          console.error(`✗ ${label} — could not read stdin: ${err.message}`);
+        }
+        continue;
       }
-      continue;
+    } else {
+      if (!existsSync(file)) {
+        anyFailed = true;
+        const res = {
+          file: label,
+          ok: false,
+          issues: [{ kind: 'io', path: '', message: `File not found: ${file}` }],
+        };
+        results.push(res);
+        if (!jsonOutput) {
+          console.error(`✗ ${label} — file not found`);
+        }
+        continue;
+      }
+
+      try {
+        content = readFileSync(file, 'utf8');
+      } catch (err) {
+        anyFailed = true;
+        const res = {
+          file: label,
+          ok: false,
+          issues: [{ kind: 'io', path: '', message: `Could not read file: ${err.message}` }],
+        };
+        results.push(res);
+        if (!jsonOutput) {
+          console.error(`✗ ${label} — could not read file: ${err.message}`);
+        }
+        continue;
+      }
     }
 
     const res = await validateWorkbook(content);
-    results.push({ file, ...res });
+    results.push({ file: label, ...res });
 
     if (!res.ok) {
       anyFailed = true;
       if (!jsonOutput) {
-        console.error(`\n✗ ${file} — FAILED validation with ${res.issues.length} issue(s):`);
+        console.error(`\n✗ ${label} — FAILED validation with ${res.issues.length} issue(s):`);
         res.issues.forEach((issue, idx) => {
           const prefix = issue.ruleId ? `[${issue.ruleId}: ${issue.ruleName}]` : `[${issue.kind}]`;
           const location = issue.path ? ` path: ${issue.path}` : '';
@@ -173,7 +194,7 @@ async function main() {
       }
     } else if (!quiet && !jsonOutput) {
       const s = res.summary;
-      console.log(`\n✓ ${file} — valid CSF Workbook (v2.0)`);
+      console.log(`\n✓ ${label} — valid CSF Workbook (v2.0)`);
       console.log(`  "${s.title}" (id: ${s.id}, v${s.version})`);
       console.log(
         `  ${s.objectives} objectives | ${s.questions} questions | ${s.dimensions} dimensions | ${s.roles} roles | ${s.parties} parties | ${s.testEstates} test estates | ${s.recommendations} recommendations`,

@@ -134,6 +134,18 @@ function validateWorkbook(wb) {
         }
         questionMap.set(q.id, q);
 
+        if (typeof q.text !== 'string' || q.text.length === 0) {
+          add(['objectives', oi, 'questions', qi, 'text'], 'Question text must be a non-empty string.', 'schema');
+        }
+
+        if (q.why !== undefined && (typeof q.why !== 'string' || q.why.length === 0)) {
+          add(['objectives', oi, 'questions', qi, 'why'], 'Question why must be a non-empty string when provided.', 'schema');
+        }
+
+        if (q.scope !== 'dimension' && q.scope !== 'party') {
+          add(['objectives', oi, 'questions', qi, 'scope'], 'Question scope must be "dimension" or "party".', 'schema');
+        }
+
         if (!roleIds.has(q.role)) {
           add(['objectives', oi, 'questions', qi, 'role'], `Question "${q.id}" names unknown role "${q.role}".`, 'R14: questionRoleIsDeclared');
         }
