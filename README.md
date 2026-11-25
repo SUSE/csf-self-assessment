@@ -160,7 +160,11 @@ pnpm verify                     # Full CI-equivalent validation and build
 Creating a valid CSF workbook requires following strict structural schemas and 23 relational rules (such as objective weights that total 100, monotonic ladders, and valid role assignments). This project provides several tools to help humans and AI agents author valid instruments:
 
 - **AI Prompt Helper in Author:** In the Author application toolbar, click the **AI prompt helper** button (sparkles icon) to generate a tailored prompt. Choose between a self-contained prompt with the JSON schema embedded, or a compact prompt with a downloadable schema file (`tools/csf-workbook.schema.json`). Copy the prompt into any AI assistant (such as ChatGPT, Claude, or Gemini), and import the resulting JSON directly into Author.
-- **Agent Skill (`tools/skill/SKILL.md`):** A dedicated agent skill (`csf-authoring`) that guides AI agents through the seven core authoring decisions, the relational invariant rules (R1 to R23), and starter workbook templates.
+- **Agent Skill (`tools/skill/`):** The canonical source package for the `csf-authoring` agent skill. It is maintained and verified in this repository to keep it synchronized with application schema rules. To use the skill with an AI coding assistant (such as Gemini CLI, Claude Code, or Cursor), copy or install the `tools/skill/` folder into your agent's skills directory (for example `.agents/skills/csf-authoring/` or `~/.agents/skills/csf-authoring/`). It bundles:
+  - `SKILL.md`: Guidance on the seven core authoring decisions and 23 relational invariants.
+  - `scripts/validate-workbook.mjs`: Standalone, zero-dependency validation script.
+  - `assets/starter-workbook.json`: Full starter workbook template for bootstrapping instruments.
+  - `evals/evals.json`: Standardized evaluation test cases.
 - **Standalone Validator CLI (`tools/validate-workbook.mjs`):** Run `node tools/validate-workbook.mjs <file.json>` to validate any workbook. It reports exact rule identifiers (such as `R1: weightsTotal100` or `R22: pointsNeverFall`) and JSON paths for fast iteration.
 - **JSON Schema (`tools/csf-workbook.schema.json`):** Standard JSON Schema (Draft 7) generated directly from the platform schema. You can attach this file directly to AI conversations or reference it in automated tooling.
 
@@ -185,7 +189,7 @@ Releases publish automatically when pushing a version tag. See
 ├── docs/
 │   ├── guides/              Workshop manual and conceptual guides
 │   └── ...                  Scoring guide, authoring guide, and assessment flow
-├── tools/                   Offline checks, migration CLI, validator, AI skill, and schema
+├── tools/                   Offline checks, migration CLI, validator, AI skill package, and schema
 └── .github/workflows/       Verification and release workflows
 ```
 
