@@ -42,4 +42,4 @@ Do NOT load unnecessary files or whole directories. Match the user's intent to t
 - `packages/platform`: Schemas, domain engines (scoring, merge, author, analytics), and shared UI.
 - `docs/`: Conceptual guides, technical references, and workshop manuals.
 - `samples/`: Reference workbooks and test fixtures.
-- `tools/`: Offline bundle verification (`check-offline.mjs`) and batch migration CLI (`migrate.mjs`).
+- `tools/`: Offline bundle verification (`check-offline.mjs`), batch migration CLI (`migrate.mjs`), JSON schema exporter (`export-schema.mjs`), workbook validator (`validate-workbook.mjs`), and JSON schema (`csf-workbook.schema.json`).
