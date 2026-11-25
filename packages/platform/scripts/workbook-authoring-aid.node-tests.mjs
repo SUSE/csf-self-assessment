@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs';
 import { join, resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
 import { test } from 'node:test';
 
 import '../../../tools/ts-loader.mjs';
@@ -160,4 +161,35 @@ test('starter workbook in tools/skill/SKILL.md is valid according to validateWor
   assert.equal(res.summary.objectives, 2);
   assert.equal(res.summary.questions, 2);
   assert.equal(res.summary.dimensions, 2);
+});
+
+test('tools/skill/validate-workbook.mjs is self-contained and validates all sample workbooks', async () => {
+  const standalonePath = join(ROOT, 'tools/skill/validate-workbook.mjs');
+  assert.ok(existsSync(standalonePath), 'validate-workbook.mjs must exist in tools/skill');
+
+  const { validateWorkbook: validateStandalone } = await import(pathToFileURL(standalonePath).href);
+
+  // Validate learn-basics
+  const sample1 = JSON.parse(readFileSync(join(SAMPLES_DIR, 'learn-basics/workbook.json'), 'utf8'));
+  const res1 = validateStandalone(sample1);
+  assert.equal(res1.ok, true, 'learn-basics must pass');
+  assert.equal(res1.issues.length, 0);
+
+  // Validate recommendations
+  const sample2 = JSON.parse(readFileSync(join(SAMPLES_DIR, 'recommendations/workbook.json'), 'utf8'));
+  const res2 = validateStandalone(sample2);
+  assert.equal(res2.ok, true, 'recommendations must pass');
+  assert.equal(res2.issues.length, 0);
+
+  // Validate rule detection
+  const broken = structuredClone(sample1);
+  broken.objectives[0].weight = 90;
+  const resBroken = validateStandalone(broken);
+  assert.equal(resBroken.ok, false, 'broken sample must fail');
+  assert.ok(resBroken.issues.some((i) => i.ruleId.startsWith('R1')), 'must catch R1');
+
+  // Verify SKILL.md has node check and script embedded
+  const skillContent = readFileSync(SKILL_FILE, 'utf8');
+  assert.ok(skillContent.includes('node -v'), 'SKILL.md must instruct node -v check');
+  assert.ok(skillContent.includes('validateWorkbook(wb)'), 'SKILL.md must embed validation script');
 });
