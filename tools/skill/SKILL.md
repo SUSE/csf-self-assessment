@@ -243,10 +243,9 @@ All valid CSF workbooks must satisfy the 23 relational rules enforced by `Workbo
 
 ## 5. Deterministic Validation & Self-Healing Workflow
 
-### Skill Placement & Bundled Resources
-This skill is located at `tools/skill/` in this repository (with a discovery mirror at `.agents/skills/csf-authoring/`). When installed into an external agent environment, all files in the skill directory are preserved:
-- `SKILL.md`: Authoring rules, schema definitions, and agent instructions.
-- `scripts/validate-workbook.mjs`: Standalone, zero-dependency validator for structural schema rules and relational invariants (R1–R23).
+### Bundled Resources
+This skill includes a standalone, zero-dependency validation script in its `scripts/` subdirectory:
+- `scripts/validate-workbook.mjs`: Standalone validator for structural schema rules and relational invariants (R1–R23).
 
 ### Step 1: Verify Node.js Availability
 Before running automated validation, verify that Node.js is available in your execution environment:
@@ -262,18 +261,13 @@ node -v
 
 ### Step 2: Execute the Bundled Validator Script
 Run the bundled script in the `scripts/` subdirectory of this skill against the produced JSON workbook:
-- In this repository:
-  ```bash
-  node tools/skill/scripts/validate-workbook.mjs path/to/generated-workbook.json
-  ```
-- In an installed agent skill environment (such as `.agents/skills/csf-authoring/`):
-  ```bash
-  node .agents/skills/csf-authoring/scripts/validate-workbook.mjs path/to/generated-workbook.json
-  ```
-- Or dynamically referencing the script relative to this skill's directory:
-  ```bash
-  node "$(dirname "$SKILL_PATH")/scripts/validate-workbook.mjs" path/to/generated-workbook.json
-  ```
+```bash
+node .agents/skills/csf-authoring/scripts/validate-workbook.mjs path/to/generated-workbook.json
+```
+Or dynamically referencing the script relative to this skill's installation directory:
+```bash
+node "$(dirname "$SKILL_PATH")/scripts/validate-workbook.mjs" path/to/generated-workbook.json
+```
 
 ### Step 3: Self-Healing Loop
 - **If validation fails:** The validator outputs specific rule identifiers (such as `[R1: weightsTotal100]`, `[R6: appliesToNamesDeclaredDimension]`, or `[R22: pointsNeverFall]`) and the failing JSON property path.
