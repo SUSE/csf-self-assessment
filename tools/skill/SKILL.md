@@ -260,14 +260,11 @@ node -v
   Proceed to Step 2.
 
 ### Step 2: Execute the Bundled Validator Script
-Run the bundled script in the `scripts/` subdirectory of this skill against the produced JSON workbook:
+Run the bundled script in this skill's `scripts/` directory against the produced JSON workbook:
 ```bash
-node .agents/skills/csf-authoring/scripts/validate-workbook.mjs path/to/generated-workbook.json
+node <skill-directory>/scripts/validate-workbook.mjs path/to/generated-workbook.json
 ```
-Or dynamically referencing the script relative to this skill's installation directory:
-```bash
-node "$(dirname "$SKILL_PATH")/scripts/validate-workbook.mjs" path/to/generated-workbook.json
-```
+*(Resolve `<skill-directory>` to the directory containing this `SKILL.md` file, regardless of your current working directory).*
 
 ### Step 3: Self-Healing Loop
 - **If validation fails:** The validator outputs specific rule identifiers (such as `[R1: weightsTotal100]`, `[R6: appliesToNamesDeclaredDimension]`, or `[R22: pointsNeverFall]`) and the failing JSON property path.
