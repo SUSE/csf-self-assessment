@@ -107,6 +107,15 @@ The Author application includes an **AI prompt helper** button in the top toolba
 
 Copy the generated prompt into your AI assistant. Then copy the resulting JSON response and click **Import workbook** in the toolbar to load and inspect your instrument immediately.
 
+### CSF Authoring Agent Skill
+The canonical package for the `csf-authoring` agent skill is maintained in `tools/skill/` to keep it synchronized with the platform schema and authoring rules. To use the skill with an AI coding assistant (such as Gemini CLI, Claude Code, or Cursor), copy or install the `tools/skill/` directory into your agent's skills location (such as `.agents/skills/csf-authoring/` in your workspace or user home directory).
+
+The skill package includes:
+- `SKILL.md`: Core authoring philosophy (capability under stress), the seven authoring decisions, and the full 23-rule invariant checklist.
+- `scripts/validate-workbook.mjs`: Standalone, zero-dependency validation script that agents execute to verify workbooks deterministically.
+- `assets/starter-workbook.json`: Minimal valid starter workbook template for bootstrapping instruments on demand.
+- `evals/evals.json`: Standardized test cases for generating, refining, and repairing instruments.
+
 ### Validator CLI
 Authors can validate workbook JSON files from the terminal:
 

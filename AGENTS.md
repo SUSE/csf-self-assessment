@@ -26,6 +26,7 @@ Do NOT load unnecessary files or whole directories. Match the user's intent to t
 |---|---|---|
 | **High-level concepts & terminology** (Estate, Claim, Partial, Rung, SEAL Floor) | `docs/overview.md` | `README.md` |
 | **Workbook authoring & schema** (questions, ladders, rungs, dimensions, strata, roles, materiality) | `docs/authoring.md` | `packages/platform/src/schema/workbook.ts`<br>`packages/platform/src/schema/workbook-rules.ts`<br>`packages/platform/src/author/` |
+| **AI authoring & workbook validation** (canonical agent skill source, validator CLI, JSON schema, prompt helper) | `tools/skill/SKILL.md` | `tools/skill/scripts/validate-workbook.mjs`<br>`tools/validate-workbook.mjs`<br>`tools/export-schema.mjs`<br>`tools/csf-workbook.schema.json`<br>`apps/author/src/shell-actions.svelte` |
 | **Scoring engine & analytics** (SEAL floor min calculation, Sovereignty Score 0–100, unknown counts) | `docs/scoring.md` | `packages/platform/src/score-engine/types.ts`<br>`packages/platform/src/score-engine/objectives.ts`<br>`packages/platform/src/analytics/` |
 | **Assessment & Participant workflow** (claims, units, answering, nobody-knows, doesn't-apply) | `docs/assessment-flow.md` | `packages/platform/src/assessment/`<br>`packages/platform/src/schema/assessment.ts`<br>`apps/assessment/src/fill/` |
 | **Merge, landing & clash resolution** (divergence, gap, depth, applicability, append-only ledger) | `docs/assessment-flow.md` (Step 3) | `packages/platform/src/merge/clash-types.ts`<br>`packages/platform/src/merge/ledger.ts`<br>`packages/platform/src/merge/land.ts`<br>`apps/assessment/src/facilitator/` |
@@ -42,4 +43,4 @@ Do NOT load unnecessary files or whole directories. Match the user's intent to t
 - `packages/platform`: Schemas, domain engines (scoring, merge, author, analytics), and shared UI.
 - `docs/`: Conceptual guides, technical references, and workshop manuals.
 - `samples/`: Reference workbooks and test fixtures.
-- `tools/`: Offline bundle verification (`check-offline.mjs`), batch migration CLI (`migrate.mjs`), JSON schema exporter (`export-schema.mjs`), workbook validator (`validate-workbook.mjs`), and JSON schema (`csf-workbook.schema.json`).
+- `tools/`: Offline bundle verification (`check-offline.mjs`), batch migration CLI (`migrate.mjs`), JSON schema exporter (`export-schema.mjs`), workbook validator (`validate-workbook.mjs`), JSON schema (`csf-workbook.schema.json`), and canonical source for the AI authoring skill package (`tools/skill/`).
