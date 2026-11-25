@@ -1,0 +1,26 @@
+{
+  "skill_name": "csf-authoring",
+  "evals": [
+    {
+      "id": 1,
+      "name": "generate-sovereign-ai-workbook",
+      "prompt": "Create a complete, valid CSF workbook JSON document for an assessment of Sovereign Generative AI infrastructure. Cover confidential GPU computing, private model weight protection, and regional model inference hosting.",
+      "expected_output": "A valid CSF workbook JSON adhering to schemaVersion 2.0 with objective weights summing to exactly 100 (R1), declared roles, monotonic ladders (R22/R23), and passing all R1-R23 relational invariants.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "add-party-scoped-question",
+      "prompt": "Add a new party-scoped question to the legal jurisdiction objective in this workbook that evaluates whether cloud providers are subject to extraterritorial CLOUD Act warrants.",
+      "expected_output": "An updated workbook containing the new question with scope 'party', axis 'party', monotonically ascending ladder points and SEAL tags, valid declared role LEG, and passing validation.",
+      "files": ["starter-workbook.json"]
+    },
+    {
+      "id": 3,
+      "name": "diagnose-and-fix-broken-workbook",
+      "prompt": "This workbook fails validation because objective weights total 90 instead of 100 and a question ladder drops in points at rung 2. Diagnose and fix the violations.",
+      "expected_output": "A repaired workbook where objective weights sum to exactly 100 (R1) and ladder points are monotonically non-decreasing (R22), passing validate-workbook.mjs with 0 issues.",
+      "files": []
+    }
+  ]
+}

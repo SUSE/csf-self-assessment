@@ -79,6 +79,20 @@ To validate any sample or custom workbook JSON file against all platform schema 
 pnpm validate:workbook path/to/workbook.json
 ```
 
+### AI Authoring Skill and Validator Parity
+
+This repository maintains the canonical `csf-authoring` skill package under `tools/skill/` so that AI agent authoring tools stay synchronised with application changes.
+
+The standalone validator script in `tools/skill/scripts/validate-workbook.mjs` is the zero-dependency twin of `tools/validate-workbook.mjs`. When you modify `packages/platform/src/schema/workbook.ts` or `workbook-rules.ts`:
+- Re-export the JSON schema with `pnpm schema:export`.
+- Update `tools/skill/scripts/validate-workbook.mjs` if you add or modify relational rules or structural requirements.
+- Run `pnpm test` to execute the automated parity test suite. The test suite verifies:
+  1. Differential testing across all sample fixtures.
+  2. Platform rule matrix coverage across all 22 active rules.
+  3. Adversarial rule mutations verifying identical failure detection.
+  4. Structural schema deformity tests.
+  5. CLI process and exit-code parity.
+
 ## Commit Message Guidelines
 
 This repository requires Conventional Commits. Your commit messages must follow the [Conventional Commits specification](https://www.conventionalcommits.org/).
