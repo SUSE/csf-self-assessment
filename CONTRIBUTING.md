@@ -62,8 +62,21 @@ Before you submit a pull request, make sure all checks pass:
 pnpm lint            # Runs ESLint across the workspace
 pnpm typecheck       # Runs Svelte and TypeScript checks
 pnpm test            # Runs unit tests
+pnpm schema:check    # Verifies tools/csf-workbook.schema.json matches platform schema
 pnpm verify          # Runs all quality checks and builds the project
 pnpm verify:license  # Checks REUSE licence compliance
+```
+
+If you modify `packages/platform/src/schema/workbook.ts`, you must regenerate the exported JSON schema:
+
+```sh
+pnpm schema:export
+```
+
+To validate any sample or custom workbook JSON file against all platform schema rules and relational invariants:
+
+```sh
+pnpm validate:workbook path/to/workbook.json
 ```
 
 ## Commit Message Guidelines

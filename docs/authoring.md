@@ -1,6 +1,6 @@
 # Workbook Authoring Guide
 
-An **Instrument** (or **Workbook**) is a self-assessment configuration file. Authors build and edit workbooks in the **Author** application. 
+An **Instrument** (or **Workbook**) is a self-assessment configuration file. Authors build and edit workbooks in the **Author** application.
 
 This guide describes how to author a sovereignty question and configure a valid instrument.
 
@@ -94,3 +94,27 @@ Test estates are pre-set answer profiles that serve as a quality assurance test 
 
 ### Recommendations
 Recommendations provide remediation guidance when an estate scores below a target level. The recommender section names the author organisation, provides a disclosure statement, and adds a contact link. Each recommendation defines an action, descriptive text, a time horizon, and a trigger level named whenAtOrBelow. If the evaluated floor for a linked objective falls at or below that trigger, the dashboard displays the recommendation.
+
+## AI-Assisted Authoring
+
+Writing a complete workbook requires valid cross-record references, 100-point weight balances, and monotonic ladders. This project includes several tools to assist authors with AI workflows:
+
+### Author Application AI Prompt Helper
+The Author application includes an **AI prompt helper** button in the top toolbar. Click the sparkles icon to configure and generate your prompt through a two-step flow:
+
+1. **Choose prompt format:** Select whether to embed the schema inline (recommended for web chat assistants such as Claude, ChatGPT, or Gemini) or attach `csf-workbook.schema.json` separately (with a direct download button).
+2. **AI prompt workspace:** Click **Generate prompt** to open the full workspace. Here you can enter specific domain requirements (such as Kubernetes infrastructure, bare-metal clusters, or regulated health data), review the highlighted prompt preview in real time, and copy it to your clipboard. If no domain requirements are entered, the placeholder is highlighted in red, and a confirmation dialogue warns you to fill in your domain before generation.
+
+Copy the generated prompt into your AI assistant. Then copy the resulting JSON response and click **Import workbook** in the toolbar to load and inspect your instrument immediately.
+
+### Validator CLI
+Authors can validate workbook JSON files from the terminal:
+
+```sh
+node tools/validate-workbook.mjs path/to/workbook.json
+```
+
+The validator checks structural Zod schema requirements and all 23 cross-record rules (R1 to R23). If errors exist, the output reports the exact rule identifier (such as `[R1: weightsTotal100]` or `[R22: pointsNeverFall]`) and the JSON path so you can correct them quickly.
+
+### JSON Schema
+The file `tools/csf-workbook.schema.json` defines the standard Draft 7 JSON schema for workbooks. It is exported directly from `packages/platform/src/schema/workbook.ts`. You can attach this file directly to AI conversations or reference it in automated tooling.
