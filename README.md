@@ -163,7 +163,7 @@ Creating a valid CSF workbook requires following strict structural schemas and 2
 - **Standalone Validator CLI (`tools/validate-workbook.mjs`):** Run `node tools/validate-workbook.mjs <file.json>` to validate any workbook. It reports exact rule identifiers (such as `R1: weightsTotal100` or `R22: pointsNeverFall`) and JSON paths for fast iteration.
 - **JSON Schema (`tools/csf-workbook.schema.json`):** Standard JSON Schema (Draft 7) generated directly from the platform schema. You can attach this file directly to AI conversations or reference it in automated tooling.
 
-The standard pull-request and `main` workflow runs on Node 22 and
+The standard pull-request and `main` workflow runs on Node 26 and
 Ubuntu 24.04. See [verify.yml](./.github/workflows/verify.yml) for details.
 Releases publish automatically when pushing a version tag. See
 [release.yml](./.github/workflows/release.yml) and the
