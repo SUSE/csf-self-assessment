@@ -61,6 +61,7 @@ jobs:
             "apps/assessment/dist/assessment.html"
             "apps/author/dist/author.html"
             "apps/migrator/dist/migrator.html"
+            "tools/csf-workbook.schema.json"
           )
 
           for asset in "${ASSETS[@]}"; do
