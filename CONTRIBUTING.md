@@ -144,7 +144,7 @@ When you push a version tag, the Release workflow runs automatically. It execute
    - `apps/migrator/dist/migrator.html`
 3. Checks that all built files contain zero external network requests with `pnpm check:offline`.
 4. Creates a new GitHub release with generated release notes from merged PRs and commit messages.
-5. Attaches the three standalone HTML applications to the release.
+5. Attaches the three standalone HTML applications and the canonical JSON schema (`tools/csf-workbook.schema.json`) to the release.
 
 ### Manual Execution (workflow_dispatch)
 
@@ -156,4 +156,4 @@ You can run the release workflow manually for an existing tag:
   gh workflow run release.yml -f tag=v1.0.0
   ```
 
-If the release already exists for the existing tag, it attaches or updates the 3 HTML files, otherwise it creates a release as the automated workflow described above.
+If the release already exists for the existing tag, it attaches or updates the release assets, otherwise it creates a release as the automated workflow described above.
